@@ -12,5 +12,6 @@ target_link_libraries(run PUBLIC chm)
 target_include_directories(
 	run PUBLIC
 	"${PROJECT_BINARY_DIR}"
+	"${PROJECT_SOURCE_DIR}"
 	"${PROJECT_SOURCE_DIR}/chm"
 )
