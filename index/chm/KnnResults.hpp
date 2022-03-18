@@ -14,6 +14,11 @@ namespace chm {
 		using NumpyArray = py::array_t<T, py::array::c_style | py::array::forcecast>;
 
 		template<typename T>
+		void freeWhenDone(T* a) {
+			delete[] a;
+		}
+
+		template<typename T>
 		const T* const getNumpyPtr(const NumpyArray<T>& a) {
 			return (const T* const)a.request().ptr;
 		}
@@ -44,13 +49,14 @@ namespace chm {
 		const size_t count;
 		float* const distances;
 		const size_t k;
-		size_t* const labels;
+		uint* const labels;
 		bool owningData;
 
 	public:
 		~KnnResults();
+		const uint* const getLabels() const;
 		KnnResults(const size_t count, const size_t k);
-		void setData(const size_t queryIdx, const size_t neighborIdx, const float distance, const size_t label);
+		void setData(const size_t queryIdx, const size_t neighborIdx, const float distance, const uint label);
 
 		#ifdef PYBIND_INCLUDED
 			py::tuple makeTuple() const;

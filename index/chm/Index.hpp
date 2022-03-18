@@ -1,4 +1,5 @@
 #pragma once
+#include <memory>
 #include "Configuration.hpp"
 #include "Connections.hpp"
 #include "HeapPair.hpp"
@@ -51,6 +52,8 @@ namespace chm {
 
 		#endif
 	};
+
+	using IndexPtr = std::shared_ptr<Index>;
 
 	template<bool searching>
 	inline void Index::searchLowerLayer(
