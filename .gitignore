@@ -1,2 +1,4 @@
+__pycache__
 /.vscode
+/index/apps/data
 /index/build
