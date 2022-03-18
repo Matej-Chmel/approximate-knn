@@ -5,10 +5,7 @@ namespace chm {
 	constexpr auto WRONG_DIM = "Data must be 1D or 2D array.";
 	constexpr auto WRONG_FEATURES = "Number of features doesn't equal to number of dimensions.";
 
-	FloatArray::FloatArray(const float* const data, const uint count, const size_t dim) : data(data), count(count) {
-		if(this->count % dim)
-			throw std::runtime_error(WRONG_FEATURES);
-	}
+	FloatArray::FloatArray(const float* const data, const uint count) : data(data), count(count) {}
 
 	KnnResults::~KnnResults() {
 		if(this->owningData) {
@@ -19,6 +16,12 @@ namespace chm {
 
 	const uint* const KnnResults::getLabels() const {
 		return this->labels;
+	}
+
+	KnnResults::KnnResults(KnnResults&& o) noexcept
+		: count(o.count), distances(o.distances), k(o.k), labels(o.labels), owningData(o.owningData) {
+
+		o.owningData = false;
 	}
 
 	KnnResults::KnnResults(const size_t count, const size_t k)

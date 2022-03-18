@@ -51,6 +51,11 @@ namespace chm {
 	long long convert(chr::microseconds& t) {
 		const auto res = chr::duration_cast<T>(t);
 		t -= res;
-		return res;
+		return res.count();
+	}
+
+	template<typename T>
+	void printField(const T& field, std::ostream& s, const std::streamsize width) {
+		s << std::right << std::setw(width) << field;
 	}
 }

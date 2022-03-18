@@ -210,11 +210,11 @@ namespace chm {
 		heaps(efConstruction, this->cfg.mMax), space(dim, spaceKind, maxCount), visited(maxCount) {}
 
 	void Index::push(const float* const data, const uint count) {
-		this->push(FloatArray(data, count, this->space.dim));
+		this->push(FloatArray(data, count));
 	}
 
 	KnnResults Index::query(const float* const data, const uint count, const uint k) {
-		return this->query(FloatArray(data, count, this->space.dim), k);
+		return this->query(FloatArray(data, count), k);
 	}
 
 	void Index::setEfSearch(const uint efSearch) {
@@ -224,11 +224,11 @@ namespace chm {
 	#ifdef PYBIND_INCLUDED
 
 		void Index::push(const NumpyArray<float> data) {
-			this->push(DataInfo(data, this->space.dim));
+			this->push(FloatArray(data, this->space.dim));
 		}
 
 		py::tuple Index::query(const NumpyArray<float> data, const uint k) {
-			return this->query(DataInfo(data, this->space.dim), k).makeTuple();
+			return this->query(FloatArray(data, this->space.dim), k).makeTuple();
 		}
 
 	#endif

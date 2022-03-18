@@ -62,12 +62,16 @@ class Dataset:
 		self.generate()
 		outputDir.mkdir(exist_ok=True)
 		path = outputDir / name
+		binaryPath = path.with_suffix(".bin")
+		hdfPath = path.with_suffix(".hdf5")
 
-		with path.with_suffix(".bin").open("wb") as f:
+		with binaryPath.open("wb") as f:
 			self.writeBinary(f)
+		print(f"Wrote binary dataset to {binaryPath}.")
 
-		with hdf.File(path.with_suffix(".hdf5"), "w") as f:
+		with hdf.File(hdfPath, "w") as f:
 			self.writeHDF(f)
+		print(f"Wrote HDF dataset to {hdfPath}.")
 
 	def getDescription(self):
 		return "\n".join([

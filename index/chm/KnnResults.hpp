@@ -38,7 +38,7 @@ namespace chm {
 		const uint count;
 		const float* const data;
 
-		FloatArray(const float* const data, const uint count, const size_t dim);
+		FloatArray(const float* const data, const uint count);
 
 		#ifdef PYBIND_INCLUDED
 			FloatArray(const NumpyArray<float>& data, const size_t dim);
@@ -55,7 +55,11 @@ namespace chm {
 	public:
 		~KnnResults();
 		const uint* const getLabels() const;
+		KnnResults(const KnnResults& o) = delete;
+		KnnResults(KnnResults&& o) noexcept;
 		KnnResults(const size_t count, const size_t k);
+		KnnResults& operator=(const KnnResults&) = delete;
+		KnnResults& operator=(KnnResults&& o) noexcept = delete;
 		void setData(const size_t queryIdx, const size_t neighborIdx, const float distance, const uint label);
 
 		#ifdef PYBIND_INCLUDED

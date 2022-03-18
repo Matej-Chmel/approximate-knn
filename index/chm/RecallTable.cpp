@@ -1,8 +1,9 @@
+#include <sstream>
 #include "RecallTable.hpp"
 
 namespace chm {
 	constexpr std::streamsize EF_SEARCH_WIDTH = 8;
-	constexpr std::streamsize ELAPSED_PRETTY_WIDTH = 16;
+	constexpr std::streamsize ELAPSED_PRETTY_WIDTH = 40;
 	constexpr std::streamsize ELAPSED_WIDTH = 20;
 	constexpr std::streamsize RECALL_WIDTH = 20;
 
@@ -15,7 +16,9 @@ namespace chm {
 	}
 
 	void QueryBenchmark::prettyPrintElapsed(std::ostream& s) const {
-		prettyPrint(this->elapsed, s);
+		std::stringstream strStream;
+		prettyPrint(this->elapsed, strStream);
+		s << strStream.str();
 	}
 
 	QueryBenchmark::QueryBenchmark(const uint efSearch) : efSearch(efSearch), elapsed(0), recall(0.f) {}
@@ -47,18 +50,20 @@ namespace chm {
 		prettyPrint(this->buildElapsed, s);
 		s << "], " << this->buildElapsed.count() << " us\n\n";
 
-		s << std::setw(EF_SEARCH_WIDTH) << "EfSearch"
-			<< std::setw(RECALL_WIDTH) << "Recall"
-			<< std::setw(ELAPSED_PRETTY_WIDTH) << "Elapsed (pretty)"
-			<< std::setw(ELAPSED_WIDTH) << "Elapsed (us)"
-			<< std::setw(1) << '\n';
+		printField("EfSearch", s, EF_SEARCH_WIDTH);
+		printField("Recall", s, RECALL_WIDTH);
+		printField("Elapsed (pretty)", s, ELAPSED_PRETTY_WIDTH);
+		printField("Elapsed (us)", s, ELAPSED_WIDTH);
+		printField("\n", s, 1);
 
 		for(const auto& benchmark : this->benchmarks) {
-			s << std::setw(EF_SEARCH_WIDTH) << benchmark.efSearch << std::setw(RECALL_WIDTH);
+			printField(benchmark.efSearch, s, EF_SEARCH_WIDTH);
+			s << std::right << std::setw(RECALL_WIDTH);
 			chm::print(benchmark.getRecall(), s, 3);
-			s << std::setw(ELAPSED_PRETTY_WIDTH);
+			s << std::right << std::setw(ELAPSED_PRETTY_WIDTH);
 			benchmark.prettyPrintElapsed(s);
-			s << std::setw(ELAPSED_WIDTH) << benchmark.getElapsedNum() << std::setw(1) << '\n';
+			printField(benchmark.getElapsedNum(), s, ELAPSED_WIDTH);
+			printField("\n", s, 1);
 		}
 
 		s.copyfmt(streamState);
@@ -129,21 +134,21 @@ namespace chm {
 		s << ':';
 		print(secs, s);
 		s << '.';
-		print(ms, s);
+		print(ms, s, 3);
 		s << '.';
-		print(elapsedCopy.count(), s);
+		print(elapsedCopy.count(), s, 3);
 
 		s.copyfmt(streamState);
 	}
 
-	void print(const float number, std::ostream& s, const std::streamsize places = 2) {
+	void print(const float number, std::ostream& s, const std::streamsize places) {
 		std::ios streamState(nullptr);
 		streamState.copyfmt(s);
 		s << std::fixed << std::showpoint << std::setprecision(places) << number;
 		s.copyfmt(streamState);
 	}
 
-	void print(const long long number, std::ostream& s, const std::streamsize places = 2) {
+	void print(const long long number, std::ostream& s, const std::streamsize places) {
 		s << std::setfill('0') << std::setw(places) << number;
 	}
 }
