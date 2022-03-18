@@ -16,3 +16,13 @@ target_include_directories(
 	"${PROJECT_SOURCE_DIR}/chm"
 )
 target_link_libraries(checkDataset PUBLIC chm)
+
+add_executable(recallTable apps/recallTable.cpp)
+target_compile_definitions(recallTable PRIVATE INDEX_PATH="${CMAKE_SOURCE_DIR}")
+target_include_directories(
+	recallTable PUBLIC
+	"${PROJECT_BINARY_DIR}"
+	"${PROJECT_SOURCE_DIR}"
+	"${PROJECT_SOURCE_DIR}/chm"
+)
+target_link_libraries(recallTable PUBLIC chm)

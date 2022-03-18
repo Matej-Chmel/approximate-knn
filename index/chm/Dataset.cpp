@@ -9,7 +9,7 @@ namespace chm {
 		index->push(this->train.data(), this->trainCount);
 	}
 
-	Dataset::Dataset(const fs::path& p) {
+	Dataset::Dataset(const fs::path& p) : name(p.stem().string()) {
 		std::ifstream file(p, std::ios::binary);
 
 		if (!file.is_open()) {
@@ -40,18 +40,29 @@ namespace chm {
 		return chm::getRecall(this->neighbors.data(), results.getLabels(), this->testCount, this->k);
 	}
 
+	bool Dataset::isAngular() const {
+		switch(this->space) {
+			case SpaceKind::ANGULAR:
+				return true;
+			case SpaceKind::EUCLIDEAN:
+				return false;
+			default:
+				throw std::runtime_error("Invalid space.");
+		}
+	}
+
 	KnnResults Dataset::query(const IndexPtr& index, const uint efSearch) const {
 		index->setEfSearch(efSearch);
 		return index->query(this->test.data(), this->testCount, this->k);
 	}
 
-	void Dataset::writeDescription(const fs::path& p) const {
+	void Dataset::writeLongDescription(const fs::path& p) const {
 		std::ofstream s(p);
-		this->writeDescription(s);
+		this->writeLongDescription(s);
 	}
 
-	void Dataset::writeDescription(std::ostream& s) const {
-		s << "angular: " << (this->space == SpaceKind::ANGULAR ? "True" : "False") << '\n'
+	void Dataset::writeLongDescription(std::ostream& s) const {
+		s << "angular: " << (this->isAngular() ? "True" : "False") << '\n'
 			<< "dim: " << dim << '\n'
 			<< "k: " << k << '\n'
 			<< "testCount: " << testCount << '\n'
@@ -59,5 +70,11 @@ namespace chm {
 		chm::writeDescription(s, this->neighbors, "neighbors");
 		chm::writeDescription(s, this->test, "test", 6);
 		chm::writeDescription(s, this->train, "train", 6);
+	}
+
+	void Dataset::writeShortDescription(std::ostream& s) const {
+		s << "Dataset " << this->name << ": " << (this->isAngular() ? "angular" : "euclidean")
+			<< " space, dimension = " << this->dim << ", trainCount = " << this->trainCount
+			<< ", testCount = " << this->testCount << ", k = " << this->k << '\n';
 	}
 }

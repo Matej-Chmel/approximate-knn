@@ -11,6 +11,7 @@ namespace chm {
 	class Dataset {
 		size_t dim;
 		uint k;
+		std::string name;
 		SpaceKind space;
 		uint testCount;
 		uint trainCount;
@@ -22,10 +23,14 @@ namespace chm {
 		Dataset(const fs::path& p);
 		IndexPtr getIndex(const uint efConstruction, const uint mMax, const uint seed) const;
 		float getRecall(const KnnResults& results) const;
+		bool isAngular() const;
 		KnnResults query(const IndexPtr& index, const uint efSearch) const;
-		void writeDescription(const fs::path& p) const;
-		void writeDescription(std::ostream& s) const;
+		void writeLongDescription(const fs::path& p) const;
+		void writeLongDescription(std::ostream& s) const;
+		void writeShortDescription(std::ostream& s) const;
 	};
+
+	using DatasetPtr = std::shared_ptr<const Dataset>;
 
 	template<typename T>
 	void readBinary(std::ifstream& s, T& value) {

@@ -1,6 +1,6 @@
 #include <cstdlib>
 #include <iostream>
-#include "chm/Dataset.hpp"
+#include "chm/RecallTable.hpp"
 namespace fs = chm::fs;
 
 #ifndef INDEX_PATH
@@ -10,14 +10,14 @@ namespace fs = chm::fs;
 int main() {
 	try {
 		const auto dataDir = fs::path(INDEX_PATH) / "apps" / "data";
-		const auto datasetPath = dataDir / "test.bin";
-		const auto descPath = dataDir / "testCpp.txt";
-		chm::Dataset(datasetPath).writeLongDescription(descPath);
-		std::cout << "Description of dataset " << datasetPath << " written to " << descPath << ".\n";
+		chm::RecallTable table(dataDir / "test.bin", {3, 4, 6});
+		table.run(10, 5, 100, std::cout);
+		table.print(std::cout);
 
 	} catch(const std::exception& e) {
 		std::cerr << e.what() << '\n';
 		return EXIT_FAILURE;
 	}
+
 	return EXIT_SUCCESS;
 }
