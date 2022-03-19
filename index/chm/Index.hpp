@@ -60,7 +60,7 @@ namespace chm {
 		const float* const query, const uint ef, const uint lc, FarHeap& W, const uint countBeforeQuery
 	) {
 		this->heaps.prepareLowerSearch(this->ep, W);
-		this->visited.prepare(countBeforeQuery, this->entryID);
+		this->visited.prepare(countBeforeQuery, this->ep.id);
 		auto& C = this->heaps.near;
 
 		while(C.len()) {

@@ -9,10 +9,10 @@ namespace chm {
 		return true;
 	}
 
-	void VisitedSet::prepare(const uint count, const uint entryID) {
+	void VisitedSet::prepare(const uint count, const uint epID) {
 		this->v.clear();
 		this->v.assign(count, false);
-		this->v[entryID] = true;
+		this->v[epID] = true;
 	}
 
 	VisitedSet::VisitedSet(const uint maxCount) {

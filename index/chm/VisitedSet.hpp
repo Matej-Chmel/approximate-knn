@@ -8,7 +8,7 @@ namespace chm {
 
 	public:
 		bool insert(const uint id);
-		void prepare(const uint count, const uint entryID);
+		void prepare(const uint count, const uint epID);
 		VisitedSet(const uint maxCount);
 	};
 }
