@@ -1,0 +1,4 @@
+FROM ann-benchmarks
+
+RUN python -m pip install hnswlib==0.6.2
+RUN python -c 'import hnswlib'

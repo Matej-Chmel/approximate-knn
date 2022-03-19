@@ -11,7 +11,7 @@ import tempfile
 
 MSVC_QUOTE = r'\\"'
 
-def addPreprocessorMacro(name: str, compilerType: str, opts: list[str], val: str | None = None):
+def addPreprocessorMacro(name: str, compilerType: str, opts: list[str], val: str = None):
 	if compilerType == "msvc":
 		cmd = f"/D{name}"
 
