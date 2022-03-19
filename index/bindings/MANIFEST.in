@@ -1,0 +1,3 @@
+include ../chm/*.hpp
+include ../LICENSE_hnswlib
+include ../../LICENSE

@@ -34,7 +34,13 @@ namespace chm {
 	}
 
 	#ifdef PYBIND_INCLUDED
-		DataInfo::DataInfo(const NumpyArray<float>& data, const size_t dim) : data(getNumpyPtr(data)), count(getNumpyXDim(data)) {
+		void freeWhenDone(void* d) {
+			delete[] d;
+		}
+
+		FloatArray::FloatArray(const NumpyArray<float>& data, const size_t dim)
+			: data(getNumpyPtr(data)), count(uint(getNumpyXDim(data))) {
+
 			const auto buf = data.request();
 
 			if (buf.ndim == 2) {
@@ -45,20 +51,20 @@ namespace chm {
 				throw std::runtime_error(WRONG_DIM);
 		}
 
-		py::tuple KnnResults::makeTuple() const {
+		py::tuple KnnResults::makeTuple() {
 			this->owningData = false;
 			return py::make_tuple(
 				py::array_t<uint>(
 					{this->count, this->k},
 					{this->k * sizeof(uint), sizeof(uint)},
 					this->labels,
-					py::capsule(this->labels, freeWhenDone<uint>)
+					py::capsule(this->labels, freeWhenDone)
 				),
 				py::array_t<float>(
 					{this->count, this->k},
 					{this->k * sizeof(float), sizeof(float)},
 					this->distances,
-					py::capsule(this->distances, freeWhenDone<float>)
+					py::capsule(this->distances, freeWhenDone)
 				)
 			);
 		}

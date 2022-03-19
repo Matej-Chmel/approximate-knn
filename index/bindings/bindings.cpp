@@ -1,10 +1,17 @@
+#ifndef PYBIND_INCLUDED
+	#define PYBIND_INCLUDED
+#endif
+
 #include "chm/Index.hpp"
 #include "chm/recall.hpp"
 
 namespace chm {
 	PYBIND11_MODULE(chm_hnsw, m) {
-		m.def("getRecall", getRecall, py::arg("correctLabels"), py::arg("testedLabels"));
-		m.doc() = "Python bindings for Matej-Chmel/hnsw-index.";
+		m.def(
+			"getRecall", py::overload_cast<const NumpyArray<uint>, const NumpyArray<uint>>(getRecall),
+			py::arg("correctLabels"), py::arg("testedLabels")
+		);
+		m.doc() = "Python bindings for HNSW index from Matej-Chmel/approximate-knn.";
 
 		py::enum_<SpaceKind>(m, "Space")
 			.value("ANGULAR", SpaceKind::ANGULAR)
