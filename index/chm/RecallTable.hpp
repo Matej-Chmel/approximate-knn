@@ -6,7 +6,7 @@ namespace chm {
 	namespace chr = std::chrono;
 
 	class QueryBenchmark {
-		chr::microseconds elapsed;
+		chr::nanoseconds elapsed;
 		float recall;
 
 	public:
@@ -16,13 +16,13 @@ namespace chm {
 		float getRecall() const;
 		void prettyPrintElapsed(std::ostream& s) const;
 		QueryBenchmark(const uint efSearch);
-		void setElapsed(const chr::microseconds& elapsed);
+		void setElapsed(const chr::nanoseconds& elapsed);
 		void setRecall(const float recall);
 	};
 
 	class RecallTable {
 		std::vector<QueryBenchmark> benchmarks;
-		chr::microseconds buildElapsed;
+		chr::nanoseconds buildElapsed;
 		const DatasetPtr dataset;
 		std::vector<uint> efSearchValues;
 		IndexPtr index;
@@ -38,17 +38,17 @@ namespace chm {
 		chr::steady_clock::time_point start;
 
 	public:
-		chr::microseconds getElapsed() const;
+		chr::nanoseconds getElapsed() const;
 		void reset();
 		Timer();
 	};
 
-	void prettyPrint(const chr::microseconds& elapsed, std::ostream& s);
+	void prettyPrint(const chr::nanoseconds& elapsed, std::ostream& s);
 	void print(const float number, std::ostream& s, const std::streamsize places = 2);
 	void print(const long long number, std::ostream& s, const std::streamsize places = 2);
 
 	template<typename T>
-	long long convert(chr::microseconds& t) {
+	long long convert(chr::nanoseconds& t) {
 		const auto res = chr::duration_cast<T>(t);
 		t -= res;
 		return res.count();

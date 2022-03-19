@@ -3,9 +3,9 @@
 
 namespace chm {
 	constexpr std::streamsize EF_SEARCH_WIDTH = 8;
-	constexpr std::streamsize ELAPSED_PRETTY_WIDTH = 40;
-	constexpr std::streamsize ELAPSED_WIDTH = 20;
-	constexpr std::streamsize RECALL_WIDTH = 20;
+	constexpr std::streamsize ELAPSED_PRETTY_WIDTH = 29;
+	constexpr std::streamsize ELAPSED_WIDTH = 16;
+	constexpr std::streamsize RECALL_WIDTH = 12;
 
 	long long QueryBenchmark::getElapsedNum() const {
 		return this->elapsed.count();
@@ -23,7 +23,7 @@ namespace chm {
 
 	QueryBenchmark::QueryBenchmark(const uint efSearch) : efSearch(efSearch), elapsed(0), recall(0.f) {}
 
-	void QueryBenchmark::setElapsed(const chr::microseconds& elapsed) {
+	void QueryBenchmark::setElapsed(const chr::nanoseconds& elapsed) {
 		this->elapsed = elapsed;
 	}
 
@@ -48,12 +48,12 @@ namespace chm {
 		s << this->index->getString() << '\n';
 		s << "Build time: [";
 		prettyPrint(this->buildElapsed, s);
-		s << "], " << this->buildElapsed.count() << " us\n\n";
+		s << "], " << this->buildElapsed.count() << " ns\n\n";
 
 		printField("EfSearch", s, EF_SEARCH_WIDTH);
 		printField("Recall", s, RECALL_WIDTH);
 		printField("Elapsed (pretty)", s, ELAPSED_PRETTY_WIDTH);
-		printField("Elapsed (us)", s, ELAPSED_WIDTH);
+		printField("Elapsed (ns)", s, ELAPSED_WIDTH);
 		printField("\n", s, 1);
 
 		for(const auto& benchmark : this->benchmarks) {
@@ -106,8 +106,8 @@ namespace chm {
 		}
 	}
 
-	chr::microseconds Timer::getElapsed() const {
-		return chr::duration_cast<chr::microseconds>(chr::steady_clock::now() - this->start);
+	chr::nanoseconds Timer::getElapsed() const {
+		return chr::duration_cast<chr::nanoseconds>(chr::steady_clock::now() - this->start);
 	}
 
 	void Timer::reset() {
@@ -118,23 +118,20 @@ namespace chm {
 		this->reset();
 	}
 
-	void prettyPrint(const chr::microseconds& elapsed, std::ostream& s) {
-		chr::microseconds elapsedCopy = elapsed;
-		const auto hours = convert<chr::hours>(elapsedCopy);
-		const auto mins = convert<chr::minutes>(elapsedCopy);
-		const auto secs = convert<chr::seconds>(elapsedCopy);
-		const auto ms = convert<chr::milliseconds>(elapsedCopy);
-
+	void prettyPrint(const chr::nanoseconds& elapsed, std::ostream& s) {
+		chr::nanoseconds elapsedCopy = elapsed;
 		std::ios streamState(nullptr);
 		streamState.copyfmt(s);
 
-		print(hours, s);
+		print(convert<chr::hours>(elapsedCopy), s);
 		s << ':';
-		print(mins, s);
+		print(convert<chr::minutes>(elapsedCopy), s);
 		s << ':';
-		print(secs, s);
+		print(convert<chr::seconds>(elapsedCopy), s);
 		s << '.';
-		print(ms, s, 3);
+		print(convert<chr::milliseconds>(elapsedCopy), s, 3);
+		s << '.';
+		print(convert<chr::microseconds>(elapsedCopy), s, 3);
 		s << '.';
 		print(elapsedCopy.count(), s, 3);
 
