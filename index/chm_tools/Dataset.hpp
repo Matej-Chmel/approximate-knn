@@ -3,7 +3,7 @@
 #include <iomanip>
 #include <ios>
 #include <ostream>
-#include "Index.hpp"
+#include "chm/Index.hpp"
 
 namespace chm {
 	namespace fs = std::filesystem;

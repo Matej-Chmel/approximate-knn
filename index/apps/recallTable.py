@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from helpers.RecallTable import RecallTable
+from tools.RecallTable import RecallTable
 import json
 from pathlib import Path
 

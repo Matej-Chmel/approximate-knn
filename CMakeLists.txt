@@ -5,7 +5,7 @@ project(approximate-knn-index)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
-add_subdirectory(index/chm)
+add_subdirectory(index)
 
 add_executable(checkDataset index/apps/checkDataset.cpp)
 target_compile_definitions(checkDataset PRIVATE INDEX_PATH="${CMAKE_SOURCE_DIR}/index")

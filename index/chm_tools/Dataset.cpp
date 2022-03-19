@@ -1,8 +1,8 @@
 #include <fstream>
 #include <sstream>
 #include <stdexcept>
+#include "chm/recall.hpp"
 #include "Dataset.hpp"
-#include "recall.hpp"
 
 namespace chm {
 	void Dataset::build(const IndexPtr& index) const {
