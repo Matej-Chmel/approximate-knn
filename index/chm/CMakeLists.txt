@@ -1,2 +1,2 @@
 file(GLOB sources *.cpp)
-add_library(chm ${sources})
+add_library(chmLib ${sources})

@@ -90,11 +90,11 @@ def main():
 		ext_modules=[
 			Extension(
 				"chm_hnsw",
-				[*glob("../chm/*.cpp"), "./bindings.cpp"],
+				[*glob("./index/chm/*.cpp"), "./index/bindings.cpp"],
 				include_dirs=[
 					pybind11.get_include(),
 					np.get_include(),
-					"./../"
+					"./index/"
 				],
 				language="c++"
 			)

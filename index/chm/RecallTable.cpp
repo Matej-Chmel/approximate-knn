@@ -4,7 +4,7 @@
 namespace chm {
 	constexpr std::streamsize EF_SEARCH_WIDTH = 8;
 	constexpr std::streamsize ELAPSED_PRETTY_WIDTH = 29;
-	constexpr std::streamsize ELAPSED_WIDTH = 16;
+	constexpr std::streamsize ELAPSED_WIDTH = 29;
 	constexpr std::streamsize RECALL_WIDTH = 12;
 
 	long long QueryBenchmark::getElapsedNum() const {

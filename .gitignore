@@ -1,7 +1,8 @@
 __pycache__
+/*.egg-info
 /.vscode
-/index/.venv
+/.venv
+/build
+/cmakeBuild
+/dist
 /index/apps/data
-/index/bindings/build
-/index/bindings/*.egg-info
-/index/build
