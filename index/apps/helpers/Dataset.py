@@ -36,9 +36,16 @@ class Dataset:
 
 	def __post_init__(self):
 		self.generated = False
+		self.name: str = None
+
+	def __str__(self):
+		return (
+			f"Dataset {self.name}: {'angular' if self.angular else 'euclidean'} space, "
+			f"dimension = {self.dim}, trainCount = {self.trainCount}, testCount = {self.testCount}, k = {self.k}"
+		)
 
 	@classmethod
-	def fromHDF(self, p: Path):
+	def fromHDF(cls, p: Path):
 		with hdf.File(p, "r") as f:
 			d = Dataset(
 				f.attrs["distance"] == "angular", f["train"].shape[1], f["neighbors"].shape[1],
@@ -47,6 +54,8 @@ class Dataset:
 			d.neighbors = f["neighbors"][:]
 			d.test = f["test"][:]
 			d.train = f["train"][:]
+			d.generated = True
+			d.name = p.name
 			return d
 
 	def generate(self):
