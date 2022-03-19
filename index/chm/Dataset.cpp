@@ -12,11 +12,8 @@ namespace chm {
 	Dataset::Dataset(const fs::path& p) : name(p.stem().string()) {
 		std::ifstream file(p, std::ios::binary);
 
-		if (!file.is_open()) {
-			std::stringstream s;
-			s << "Could not open dataset file " << p << '.';
-			throw std::runtime_error(s.str());
-		}
+		if (!file.is_open())
+			throwCouldNotOpen(p);
 
 		bool angular;
 		uint dim;
@@ -76,5 +73,11 @@ namespace chm {
 		s << "Dataset " << this->name << ": " << (this->isAngular() ? "angular" : "euclidean")
 			<< " space, dimension = " << this->dim << ", trainCount = " << this->trainCount
 			<< ", testCount = " << this->testCount << ", k = " << this->k << '\n';
+	}
+
+	void throwCouldNotOpen(const fs::path& p) {
+		std::stringstream s;
+		s << "Could not open file " << p << '.';
+		throw std::runtime_error(s.str());
 	}
 }

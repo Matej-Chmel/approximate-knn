@@ -1,0 +1,7 @@
+{
+	"dataset": "angular-20000",
+	"efConstruction": 200,
+	"efSearch": [10, 50, 100, 500, 1000],
+	"mMax": 16,
+	"seed": 200
+}

@@ -32,6 +32,8 @@ namespace chm {
 
 	using DatasetPtr = std::shared_ptr<const Dataset>;
 
+	void throwCouldNotOpen(const fs::path& p);
+
 	template<typename T>
 	void readBinary(std::ifstream& s, T& value) {
 		s.read(reinterpret_cast<std::ifstream::char_type*>(&value), sizeof(T));

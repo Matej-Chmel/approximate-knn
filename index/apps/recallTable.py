@@ -1,15 +1,36 @@
-from argparse import ArgumentParser
+from dataclasses import dataclass
 from helpers.RecallTable import RecallTable
+import json
 from pathlib import Path
 
+@dataclass
+class Config:
+	dataset: str
+	efConstruction: int
+	efSearch: list[int]
+	mMax: int
+	seed: int
+
+	@classmethod
+	def fromJSON(cls, p: Path):
+		with p.open("r", encoding="utf-8") as f:
+			obj = json.load(f)
+			return Config(obj["dataset"], obj["efConstruction"], obj["efSearch"], obj["mMax"], obj["seed"])
+
 def main():
-	parser = ArgumentParser("RECALL TABLE", "Prints recall table of chm_hnsw.Index for given dataset.")
-	parser.add_argument("-d", "--dataset", default="angular-10000", help="Dataset name.", required=False)
-	args = parser.parse_args()
+	scriptDir = Path(__file__).parent
 
 	try:
-		table = RecallTable.fromHDF(Path(__file__).parent / "data" / f"{args.dataset}.hdf5", [10, 50, 100, 500])
-		table.run(200, 16, 200)
+		configPath = scriptDir / "config" / "recallTableConfig.json"
+		config = Config.fromJSON(configPath)
+	except FileNotFoundError:
+		return print(f"No configuration file found at {configPath}.")
+	except KeyError as e:
+		return print(f"Configuration file is missing key {e.args[0]}.")
+
+	try:
+		table = RecallTable.fromHDF(Path(__file__).parent / "data" / f"{config.dataset}.hdf5", config.efSearch)
+		table.run(config.efConstruction, config.mMax, config.seed)
 		print(table)
 
 	except FileNotFoundError:

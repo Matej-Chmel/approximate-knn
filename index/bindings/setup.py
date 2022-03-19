@@ -30,26 +30,21 @@ def addPreprocessorMacro(name: str, compilerType: str, opts: list[str], val: str
 class BuildExt(build_ext):
 	"""A custom build extension for adding compiler-specific options."""
 	c_opts = {
-		"msvc": ["/EHsc", "/openmp", "/O2"],
+		"msvc": ["/EHsc", "/O2"],
 		"unix": ["-O3"]
 	}
-
-	if not os.environ.get("CHM_HNSW_NO_NATIVE"):
-		c_opts["unix"].append("-march=native")
-
 	link_opts = {
-		"unix": [],
-		"msvc": []
+		"msvc": [],
+		"unix": []
 	}
+
+	c_opts["unix"].append("-march=native")
 
 	if sys.platform == "darwin":
 		if platform.machine() == "arm64":
 			c_opts["unix"].remove("-march=native")
 		c_opts["unix"] += ["-stdlib=libc++", "-mmacosx-version-min=10.7"]
 		link_opts["unix"] += ["-stdlib=libc++", "-mmacosx-version-min=10.7"]
-	else:
-		c_opts["unix"].append("-fopenmp")
-		link_opts["unix"].extend(["-fopenmp", "-pthread"])
 
 	def build_extensions(self):
 		ct = self.compiler.compiler_type

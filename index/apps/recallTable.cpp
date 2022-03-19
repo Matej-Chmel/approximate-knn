@@ -1,25 +1,51 @@
 #include <cstdlib>
+#include <fstream>
 #include <iostream>
+#include <streambuf>
 #include "chm/RecallTable.hpp"
+#include "libs/json.hpp"
 namespace fs = chm::fs;
 
 #ifndef INDEX_PATH
 	constexpr auto INDEX_PATH = "";
 #endif
 
-constexpr auto DEFAULT_DATASET_NAME = "angular-10000";
+struct Config {
+	std::string dataset;
+	chm::uint efConstruction;
+	std::vector<chm::uint> efSearch;
+	chm::uint mMax;
+	chm::uint seed;
 
-int main(const int argsLen, const char* const * const args) {
-	const std::string datasetName = argsLen > 1 ? args[1] : DEFAULT_DATASET_NAME;
+	Config(const fs::path& p) {
+		std::ifstream stream(p);
 
+		if(!stream.is_open())
+			chm::throwCouldNotOpen(p);
+
+		auto obj = nlohmann::json::parse(std::string(
+			std::istreambuf_iterator(stream), std::istreambuf_iterator<char>())
+		);
+		this->dataset = obj["dataset"];
+		this->efConstruction = obj["efConstruction"];
+		this->mMax = obj["mMax"];
+		this->seed = obj["seed"];
+
+		for(const auto& item : obj["efSearch"])
+			this->efSearch.push_back(item.get<chm::uint>());
+	}
+};
+
+int main() {
 	try {
-		const auto dataDir = fs::path(INDEX_PATH) / "apps" / "data";
-		chm::RecallTable table(dataDir / (datasetName + ".bin"), {10, 50, 100, 500});
-		table.run(200, 16, 200, std::cout);
+		const auto appsDir = fs::path(INDEX_PATH) / "apps";
+		Config cfg(appsDir / "config" / "recallTableConfig.json");
+		chm::RecallTable table(appsDir / "data" / (cfg.dataset + ".bin"), cfg.efSearch);
+		table.run(cfg.efConstruction, cfg.mMax, cfg.seed, std::cout);
 		table.print(std::cout);
 
 	} catch(const std::exception& e) {
-		std::cerr << e.what() << '\n';
+		std::cerr << "[ERROR] " << e.what() << '\n';
 		return EXIT_FAILURE;
 	}
 
