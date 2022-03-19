@@ -1,0 +1,47 @@
+[
+	{
+		"name": "test",
+		"angular": false,
+		"dim": 4,
+		"k": 3,
+		"testCount": 5,
+		"trainCount": 20,
+		"seed": 100
+	},
+	{
+		"name": "angular-10000",
+		"angular": true,
+		"dim": 4,
+		"k": 10,
+		"testCount": 100,
+		"trainCount": 10000,
+		"seed": 100
+	},
+	{
+		"name": "angular-20000",
+		"angular": true,
+		"dim": 16,
+		"k": 10,
+		"testCount": 200,
+		"trainCount": 20000,
+		"seed": 150
+	},
+	{
+		"name": "euclidean-10000",
+		"angular": false,
+		"dim": 4,
+		"k": 10,
+		"testCount": 100,
+		"trainCount": 10000,
+		"seed": 100
+	},
+	{
+		"name": "euclidean-20000",
+		"angular": false,
+		"dim": 16,
+		"k": 10,
+		"testCount": 200,
+		"trainCount": 20000,
+		"seed": 150
+	}
+]

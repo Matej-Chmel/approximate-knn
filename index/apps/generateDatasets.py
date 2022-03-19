@@ -1,14 +1,29 @@
-from tools.Dataset import Dataset
+import json
 from pathlib import Path
+from tools.Dataset import Dataset
+
+def run():
+	scriptDir = Path(__file__).parent
+	dataDir = scriptDir / "data"
+
+	with (scriptDir / "config" / "datasetGeneratorConfig.json").open("r", encoding="utf-8") as f:
+		arr = json.load(f)
+
+	for obj in arr:
+		writeDataset(obj, dataDir)
+
+def writeDataset(obj: dict, dataDir: Path):
+	Dataset(
+		obj["angular"], obj["dim"], obj["k"], obj["testCount"], obj["trainCount"], obj["seed"]
+	).generateAndWrite(obj["name"], dataDir)
 
 def main():
-	dataDir = Path(__file__).parent / "data"
-
-	Dataset(False, 4, 3, 5, 20, 100).generateAndWrite("test", dataDir)
-	Dataset(True, 4, 10, 100, 10000, 100).generateAndWrite("angular-10000", dataDir)
-	Dataset(True, 16, 10, 200, 20000, 150).generateAndWrite("angular-20000", dataDir)
-	Dataset(False, 4, 10, 100, 10000, 100).generateAndWrite("euclidean-10000", dataDir)
-	Dataset(False, 16, 10, 200, 20000, 150).generateAndWrite("euclidean-20000", dataDir)
+	try:
+		run()
+	except FileNotFoundError:
+		print("Could not open configuration file.")
+	except KeyError as e:
+		print(f"Missing key {e.args[0]}")
 
 if __name__ == "__main__":
 	main()
