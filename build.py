@@ -2,6 +2,7 @@ from argparse import ArgumentParser
 from dataclasses import dataclass
 import clean
 from pathlib import Path
+import platform
 import subprocess
 import sys
 
@@ -16,7 +17,9 @@ class Args:
 def buildBindings(executable: Path, repoDir: Path):
 	print("Building bindings.")
 	subprocess.call([executable, "-m", "pip", "install", "."], cwd=repoDir)
-	output = subprocess.check_output([executable, "-c", "import chm_hnsw as h; print(h.__doc__)"]).decode("utf-8")
+	output = subprocess.check_output(
+		[executable, "-c", "import chm_hnsw as h; print(h.__doc__)"]
+	).decode("utf-8")
 	print(f"Module docstring: {output}")
 	print("Bindings built.")
 
@@ -25,12 +28,12 @@ def buildNativeLib(repoDir: Path):
 	cmakeBuildDir = repoDir / "cmakeBuild"
 	cmakeBuildDir.mkdir(exist_ok=True)
 	subprocess.call(["cmake", "./.."], cwd=cmakeBuildDir)
-	print("CMake target built.")
+	print("Build system for native library built.")
 
 def buildVirtualEnv(repoDir: Path):
 	print("Building virtual environment.")
 	subprocess.call([sys.executable, "-m", "venv", ".venv"], cwd=repoDir)
-	executable = repoDir / ".venv" / "Scripts" / "python"
+	executable = getVirtualEnvExecutable(repoDir)
 
 	if not executable.exists():
 		raise AppError("Python virtual environment executable not found.")
@@ -75,10 +78,21 @@ def getArgs():
 	)
 	p.add_argument(
 		"-i", "--ignorePythonVersion", action="store_true",
-		help="Ignores the Python version check."
+		help="Skips Python version check."
 	)
 	args = p.parse_args()
 	return Args(args.clean, args.ignorePythonVersion)
+
+def getVirtualEnvExecutable(repoDir: Path):
+	p = repoDir / ".venv" / "Scripts" / "python"
+
+	if onWindows():
+		p = p.with_suffix(".exe")
+
+	return p
+
+def onWindows():
+	return platform.system().strip().lower() == "windows"
 
 def run():
 	args = getArgs()

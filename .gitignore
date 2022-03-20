@@ -10,5 +10,5 @@ __pycache__
 !/benchmarks/website/.gitkeep
 /build
 /cmakeBuild
+/data
 /dist
-/index/apps/data
