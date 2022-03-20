@@ -6,8 +6,8 @@
 #include "libs/json.hpp"
 namespace fs = chm::fs;
 
-#ifndef INDEX_PATH
-	constexpr auto INDEX_PATH = "";
+#ifndef REPO_DIR
+	constexpr auto REPO_DIR = "";
 #endif
 
 struct Config {
@@ -38,9 +38,9 @@ struct Config {
 
 int main() {
 	try {
-		const auto appsDir = fs::path(INDEX_PATH) / "apps";
-		Config cfg(appsDir / "config" / "recallTableConfig.json");
-		chm::RecallTable table(appsDir / "data" / (cfg.dataset + ".bin"), cfg.efSearch);
+		const auto repoDir = fs::path(REPO_DIR);
+		Config cfg(repoDir / "config" / "recallTableConfig.json");
+		chm::RecallTable table(repoDir / "data" / (cfg.dataset + ".bin"), cfg.efSearch);
 		table.run(cfg.efConstruction, cfg.mMax, cfg.seed, std::cout);
 		table.print(std::cout);
 

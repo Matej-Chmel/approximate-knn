@@ -1,5 +1,5 @@
-from tools.Dataset import Dataset
 from pathlib import Path
+from tools.Dataset import Dataset
 
 N = "\n"
 
@@ -12,7 +12,7 @@ def main():
 		print(f"Description of dataset {datasetPath} written to {descPath}.")
 
 	except FileNotFoundError:
-		print("HDF5 dataset not found.")
+		print("HDF5 dataset not found. Run datasetGenerator.py first.")
 
 if __name__ == "__main__":
 	main()

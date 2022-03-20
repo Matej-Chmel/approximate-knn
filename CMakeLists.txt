@@ -7,8 +7,8 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 add_subdirectory(index)
 
-add_executable(checkDataset index/apps/checkDataset.cpp)
-target_compile_definitions(checkDataset PRIVATE INDEX_PATH="${CMAKE_SOURCE_DIR}/index")
+add_executable(checkDataset executables/checkDataset.cpp)
+target_compile_definitions(checkDataset PRIVATE REPO_DIR="${CMAKE_SOURCE_DIR}")
 target_include_directories(
 	checkDataset PUBLIC
 	"${PROJECT_BINARY_DIR}"
@@ -16,8 +16,8 @@ target_include_directories(
 )
 target_link_libraries(checkDataset PUBLIC chmLib)
 
-add_executable(recallTable index/apps/recallTable.cpp)
-target_compile_definitions(recallTable PRIVATE INDEX_PATH="${CMAKE_SOURCE_DIR}/index")
+add_executable(recallTable executables/recallTable.cpp)
+target_compile_definitions(recallTable PRIVATE REPO_DIR="${CMAKE_SOURCE_DIR}")
 target_include_directories(
 	recallTable PUBLIC
 	"${PROJECT_BINARY_DIR}"

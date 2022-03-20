@@ -1,7 +1,7 @@
 from dataclasses import dataclass
-from tools.RecallTable import RecallTable
 import json
 from pathlib import Path
+from tools.RecallTable import RecallTable
 
 @dataclass
 class Config:
@@ -18,10 +18,10 @@ class Config:
 			return Config(obj["dataset"], obj["efConstruction"], obj["efSearch"], obj["mMax"], obj["seed"])
 
 def main():
-	scriptDir = Path(__file__).parent
+	repoDir = Path(__file__).parent.parent
 
 	try:
-		configPath = scriptDir / "config" / "recallTableConfig.json"
+		configPath = repoDir / "config" / "recallTableConfig.json"
 		config = Config.fromJSON(configPath)
 	except FileNotFoundError:
 		return print(f"No configuration file found at {configPath}.")
@@ -29,7 +29,7 @@ def main():
 		return print(f"Configuration file is missing key {e.args[0]}.")
 
 	try:
-		table = RecallTable.fromHDF(Path(__file__).parent / "data" / f"{config.dataset}.hdf5", config.efSearch)
+		table = RecallTable.fromHDF(repoDir / "data" / f"{config.dataset}.hdf5", config.efSearch)
 		table.run(config.efConstruction, config.mMax, config.seed)
 		print(table)
 

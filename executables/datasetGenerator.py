@@ -3,10 +3,10 @@ from pathlib import Path
 from tools.Dataset import Dataset
 
 def run():
-	scriptDir = Path(__file__).parent
-	dataDir = scriptDir / "data"
+	repoDir = Path(__file__).parent.parent
+	dataDir = repoDir / "data"
 
-	with (scriptDir / "config" / "datasetGeneratorConfig.json").open("r", encoding="utf-8") as f:
+	with (repoDir / "config" / "datasetGeneratorConfig.json").open("r", encoding="utf-8") as f:
 		arr = json.load(f)
 
 	for obj in arr:

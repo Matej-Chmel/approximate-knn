@@ -2,13 +2,17 @@ from pathlib import Path
 import shutil
 
 def cleanProject():
-	scriptDir = Path(__file__).parent
+	repoDir = Path(__file__).parent
+	benchmarksDir = Path("benchmarks")
+	annBenchmarks = benchmarksDir / "ann_benchmarks"
 
 	for path in [
-		".venv", "build", "chm_hnsw.egg-info", "cmakeBuild", "dist",
-		Path("index") / "apps" / "tools" / "__pycache__"
+		"__pycache__", ".venv", "build", "chm_hnsw.egg-info", "cmakeBuild", "data", "dist",
+		benchmarksDir / "__pycache__", annBenchmarks / "__pycache__",
+		annBenchmarks / "algorithms" / "__pycache__", annBenchmarks / "plotting" / "__pycache__",
+		Path("executables", "tools", "__pycache__")
 	]:
-		deleteDir(scriptDir / path)
+		deleteDir(repoDir / path)
 
 def deleteDir(p: Path):
 	pathStr = f"[{p}] "

@@ -1,106 +1,109 @@
 from argparse import ArgumentParser
-from clean import deleteDir
 from dataclasses import dataclass
+import clean
 from pathlib import Path
-import platform
 import subprocess
 import sys
 
+class AppError(Exception):
+	pass
+
 @dataclass
 class Args:
-	buildCmake: bool
-	buildBenchmarks: bool
-	buildBindings: bool
+	clean: bool
 	ignorePythonVersion: bool
-	rebuild: bool
 
-	def __post_init__(self):
-		self.scriptDir = Path(__file__).parent
+def buildBindings(executable: Path, repoDir: Path):
+	print("Building bindings.")
+	subprocess.call([executable, "-m", "pip", "install", "."], cwd=repoDir)
+	output = subprocess.check_output([executable, "-c", "import chm_hnsw as h; print(h.__doc__)"]).decode("utf-8")
+	print(f"Module docstring: {output}")
+	print("Bindings built.")
 
-	def getVirtualEnvExecutable(self):
-		args.scriptDir / ".venv"
-
-	def shouldSkip(self, p: Path):
-		return not self.rebuild and p.exists() and containsAnyFile(p)
-
-def buildCmake(args: Args):
-	cmakeBuildDir = args.scriptDir / "cmakeBuild"
-
-	if args.shouldSkip(cmakeBuildDir):
-		return print("Skipping CMake build.")
-
-	if cmakeBuildDir.exists():
-		deleteDir(cmakeBuildDir)
-		print("Delete cmakeBuild.")
-
+def buildNativeLib(repoDir: Path):
+	print("Building build system for native library.")
+	cmakeBuildDir = repoDir / "cmakeBuild"
 	cmakeBuildDir.mkdir(exist_ok=True)
 	subprocess.call(["cmake", "./.."], cwd=cmakeBuildDir)
 	print("CMake target built.")
 
-def buildVirtualEnv(args: Args):
-	venvDir = args.scriptDir / ".venv"
+def buildVirtualEnv(repoDir: Path):
+	print("Building virtual environment.")
+	subprocess.call([sys.executable, "-m", "venv", ".venv"], cwd=repoDir)
+	executable = repoDir / ".venv" / "Scripts" / "python"
 
-	if args.shouldSkip(venvDir):
-		print("Skipping virtual environment.")
-		return True
+	if not executable.exists():
+		raise AppError("Python virtual environment executable not found.")
 
-	if not isPython39():
-		print(f"Current Python version is {pythonVersionStr()}. Tested only with Python 3.9.")
-
-		if not args.ignorePythonVersion:
-			print("Skipping virtual environment.")
-			return False
-
-		print("Ignoring Python version.")
-
-	subprocess.call([sys.executable, "-m", "venv", ".venv"], cwd=args.scriptDir)
-	executable = venvDir / "Scripts" / "python"
-
-	if isWindows():
-		executable = executable.with_suffix(".exe")
-
-	subprocess.call([executable, "-m", "pip", "install", "--upgrade", "pip"], cwd=args.scriptDir)
+	subprocess.call([executable, "-m", "pip", "install", "--upgrade", "pip"], cwd=repoDir)
+	subprocess.call([executable, "-m", "pip", "install", "-r", "requirements.txt"], cwd=repoDir)
+	subprocess.call([executable, "-m", "pip", "install", "-r", "benchmarks/requirements.txt"], cwd=repoDir)
 	print("Virtual environment built.")
+	return executable
 
-def containsAnyFile(p: Path):
-	return any(f.is_file() for f in p.rglob("*"))
+def checkPythonVersion(args: Args):
+	if not args.ignorePythonVersion and (sys.version_info.major != 3 or sys.version_info.minor != 9):
+		raise AppError("Python 3.9 is required to build the project.")
+
+def cleanProject(args: Args):
+	if args.clean:
+		print("Cleaning.")
+		clean.main()
+
+def generateDatasets(executable: Path, repoDir: Path):
+	print("Generating datasets.")
+	subprocess.call([executable, "datasetGenerator.py"], cwd=repoDir / "executables")
+	dataDir = repoDir / "data"
+
+	if not dataDir.exists():
+		raise AppError("Data directory wasn't created.")
+	if not list(dataDir.glob("*.bin")):
+		raise AppError("No binary datasets were generated.")
+	if not list(dataDir.glob("*.hdf5")):
+		raise AppError("No HDF5 datasets were generated.")
+
+	print("Datasets generated.")
 
 def getArgs():
-	p = ArgumentParser(prog="BUILD", description="Builds the project.")
-	p.register("type", "bool", lambda v: v.lower() in ["1", "true", "y", "yes"])
-	p.add_argument(
-		"--buildCmake", type="bool", default=True,
-		help="Build CMake target in cmakeBuild directory."
+	p = ArgumentParser(
+		"BUILD",
+		"Builds Python virtual environment, bindings and build system for native library."
 	)
 	p.add_argument(
-		"--buildBenchmarks", type="bool", default=True,
-		help="Build virtual environment with requirements from benchmarks directory."
+		"-c", "--clean", action="store_true",
+		help="Cleans the project before the build."
 	)
 	p.add_argument(
-		"--buildBindings", type="bool", default=True,
-		help="Build virtual environment and install Python bindings."
+		"-i", "--ignorePythonVersion", action="store_true",
+		help="Ignores the Python version check."
 	)
-	p.add_argument(
-		"--ignorePythonVersion", action="store_true", default=False,
-		help="Don't check Python version to be equal to 3.9."
-	)
-	p.add_argument("-r", "--rebuild", action="store_true", default=False, help="Rebuild all targets.")
 	args = p.parse_args()
-	return Args(args.buildCmake, args.buildBenchmarks, args.buildBindings, args.ignorePythonVersion, args.rebuild)
+	return Args(args.clean, args.ignorePythonVersion)
 
-def isPython39():
-	return sys.version_info.major == 3 and sys.version_info.minor == 9
+def run():
+	args = getArgs()
+	cleanProject(args)
+	checkPythonVersion(args)
+	repoDir = Path(__file__).parent
+	executable = buildVirtualEnv(repoDir)
+	generateDatasets(executable, repoDir)
+	buildNativeLib(repoDir)
+	buildBindings(executable, repoDir)
+	runRecallTable(executable, repoDir)
+	print("Completed.")
 
-def isWindows():
-	return platform.system() == "Windows"
-
-def pythonVersionStr():
-	return f"{sys.version_info.major}.{sys.version_info.minor}"
+def runRecallTable(executable: Path, repoDir: Path):
+	print("Running recall table Python program.")
+	subprocess.call([executable, "recallTable.py"], cwd=repoDir / "executables")
+	print("Recall table run successfully.")
 
 def main():
-	args = getArgs()
-	buildCmake(args)
-	buildVirtualEnv(args)
+	try:
+		run()
+	except AppError as e:
+		print(f"[APP ERROR] {e}")
+	except subprocess.SubprocessError as e:
+		print(f"[SUBPROCESS ERROR] {e}")
 
 if __name__ == "__main__":
 	main()
