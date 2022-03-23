@@ -3,6 +3,7 @@ __pycache__
 /.venv
 /.vscode
 /benchmarks/*.log
+/benchmarks/benchmarks_time.txt
 /benchmarks/data
 /benchmarks/results/*
 !/benchmarks/results/.gitkeep

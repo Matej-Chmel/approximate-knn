@@ -10,18 +10,18 @@ float:
           arg-groups:
             - {"efConstruction": 100, "mMax": 4}
           query-args: [[10, 50, 100, 500, 1000, 1500]]
-        # efConstruction-100-mMax-16:
-        #   arg-groups:
-        #     - {"efConstruction": 100, "mMax": 16}
-        #   query-args: [[10, 50, 100, 500, 1000, 1500]]
-        # efConstruction-200-mMax-4:
-        #   arg-groups:
-        #     - {"efConstruction": 200, "mMax": 4}
-        #   query-args: [[10, 50, 100, 500, 1000, 1500]]
-        # efConstruction-200-mMax-16:
-        #   arg-groups:
-        #     - {"efConstruction": 200, "mMax": 16}
-        #   query-args: [[10, 50, 100, 500, 1000, 1500]]
+        efConstruction-100-mMax-16:
+          arg-groups:
+            - {"efConstruction": 100, "mMax": 16}
+          query-args: [[10, 50, 100, 500, 1000, 1500]]
+        efConstruction-200-mMax-4:
+          arg-groups:
+            - {"efConstruction": 200, "mMax": 4}
+          query-args: [[10, 50, 100, 500, 1000, 1500]]
+        efConstruction-200-mMax-16:
+          arg-groups:
+            - {"efConstruction": 200, "mMax": 16}
+          query-args: [[10, 50, 100, 500, 1000, 1500]]
     hnswlib:
       docker-tag: ann-benchmarks-hnswlib
       module: ann_benchmarks.algorithms.hnswlib
@@ -32,18 +32,18 @@ float:
           arg-groups:
             - {"efConstruction": 100, "M": 4}
           query-args: [[10, 50, 100, 500, 1000, 1500]]
-        # efConstruction-100-M-16:
-        #   arg-groups:
-        #     - {"efConstruction": 100, "M": 16}
-        #   query-args: [[10, 50, 100, 500, 1000, 1500]]
-        # efConstruction-200-M-4:
-        #   arg-groups:
-        #     - {"efConstruction": 200, "M": 4}
-        #   query-args: [[10, 50, 100, 500, 1000, 1500]]
-        # efConstruction-200-M-16:
-        #   arg-groups:
-        #     - {"efConstruction": 200, "M": 16}
-        #   query-args: [[10, 50, 100, 500, 1000, 1500]]
+        efConstruction-100-M-16:
+          arg-groups:
+            - {"efConstruction": 100, "M": 16}
+          query-args: [[10, 50, 100, 500, 1000, 1500]]
+        efConstruction-200-M-4:
+          arg-groups:
+            - {"efConstruction": 200, "M": 4}
+          query-args: [[10, 50, 100, 500, 1000, 1500]]
+        efConstruction-200-M-16:
+          arg-groups:
+            - {"efConstruction": 200, "M": 16}
+          query-args: [[10, 50, 100, 500, 1000, 1500]]
   euclidean: []
   angular: []
 bit:

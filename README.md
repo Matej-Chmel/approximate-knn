@@ -61,7 +61,6 @@ Konfigurace je JSON soubor s polem objektů, kde každý objekt popisuje jednu d
 |trainCount|int|Počet prvků použitých k sestavení indexu.|
 |seed|int|Nastavení generátoru náhodných čísel.|
 
-
 ## Nastavení programů *Recall table*
 Pro změnu datové kolekce nebo nastavení indexu v programech [executables/recallTable.cpp](executables/recallTable.cpp) a [executables/recallTable.py](executables/recallTable.py) upravte soubor [config/recallTableConfig.json](config/recallTableConfig.json).
 
