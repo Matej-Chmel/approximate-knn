@@ -120,7 +120,7 @@ all_metrics = {
         "worst": float("inf")
     },
     "qps": {
-        "description": "Queries per second (1/s)",
+        "description": "Dotazy za sekundu (1/s)",
         "function": lambda true_distances, run_distances, metrics, run_attrs: queries_per_second(true_distances, run_attrs),  # noqa
         "worst": float("-inf")
     },
@@ -130,7 +130,7 @@ all_metrics = {
         "worst": float("inf")
     },
     "build": {
-        "description": "Build time (s)",
+        "description": "Čas stavby (s)",
         "function": lambda true_distances, run_distances, metrics, run_attrs: build_time(true_distances, run_attrs), # noqa
         "worst": float("inf")
     },
@@ -145,7 +145,7 @@ all_metrics = {
         "worst": float("inf")
     },
     "queriessize": {
-        "description": "Index size (kB)/Queries per second (s)",
+        "description": "Velikost indexu (kB) / Dotazy za sekundu (s)",
         "function": lambda true_distances, run_distances, metrics, run_attrs: index_size(true_distances, run_attrs) / queries_per_second(true_distances, run_attrs), # noqa
         "worst": float("inf")
     }

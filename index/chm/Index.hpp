@@ -28,7 +28,7 @@ namespace chm {
 		void resetEp(const float* const query);
 
 		template<bool searching>
-		void searchLowerLayer(const float* const query, const uint ef, const uint lc, FarHeap& W, const uint countBeforeQuery);
+		void searchLowerLayer(const float* const query, const uint ef, const uint lc, const uint countBeforeQuery);
 
 		void searchUpperLayer(const float* const query, const uint lc);
 		Neighbors selectNewNeighbors(const uint queryID, const uint lc);
@@ -57,11 +57,12 @@ namespace chm {
 
 	template<bool searching>
 	inline void Index::searchLowerLayer(
-		const float* const query, const uint ef, const uint lc, FarHeap& W, const uint countBeforeQuery
+		const float* const query, const uint ef, const uint lc, const uint countBeforeQuery
 	) {
-		this->heaps.prepareLowerSearch(this->ep, W);
+		this->heaps.prepareLowerSearch(this->ep);
 		this->visited.prepare(countBeforeQuery, this->ep.id);
 		auto& C = this->heaps.near;
+		auto& W = this->heaps.far;
 
 		while(C.len()) {
 			uint cand{};
@@ -96,7 +97,7 @@ namespace chm {
 					}
 
 					if(shouldAdd) {
-						this->heaps.push(distance, id, W);
+						this->heaps.push(distance, id);
 
 						if(W.len() > ef)
 							W.pop();

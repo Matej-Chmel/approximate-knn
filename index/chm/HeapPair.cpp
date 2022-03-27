@@ -11,20 +11,20 @@ namespace chm {
 		this->near.loadFrom(this->far);
 	}
 
-	void HeapPair::prepareLowerSearch(const Node& ep, FarHeap& W) {
+	void HeapPair::prepareLowerSearch(const Node& ep) {
+		this->far.clear();
+		this->far.push(ep);
 		this->near.clear();
 		this->near.push(ep);
-		W.clear();
-		W.push(ep);
 	}
 
-	void HeapPair::push(const float distance, const uint id, FarHeap& W) {
+	void HeapPair::push(const float distance, const uint id) {
+		this->far.push(distance, id);
 		this->near.push(distance, id);
-		W.push(distance, id);
 	}
 
-	void HeapPair::reserve(const uint maxLen, FarHeap& W) {
+	void HeapPair::reserve(const uint maxLen) {
+		this->far.reserve(maxLen);
 		this->near.reserve(maxLen);
-		W.reserve(maxLen);
 	}
 }

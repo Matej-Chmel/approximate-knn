@@ -24,7 +24,7 @@ namespace chm {
 			this->searchUpperLayer(queryData, lc);
 
 		for(auto lc = std::min(L, l);; lc--) {
-			this->searchLowerLayer<false>(queryData, this->cfg.efConstruction, lc, this->heaps.far, queryID);
+			this->searchLowerLayer<false>(queryData, this->cfg.efConstruction, lc, queryID);
 			const auto W = this->selectNewNeighbors(queryID, lc);
 
 			const auto mLayer = !lc ? this->cfg.mMax0 : this->cfg.mMax;
@@ -64,20 +64,19 @@ namespace chm {
 
 	FarHeap Index::query(const float* const data, const uint k) {
 		const auto maxEf = std::max(this->cfg.getEfSearch(), k);
-		FarHeap W{};
-		this->heaps.reserve(std::max(maxEf, this->cfg.mMax0), W);
+		this->heaps.reserve(std::max(maxEf, this->cfg.mMax0));
 		this->resetEp(data);
 		const auto L = this->entryLevel;
 
 		for(auto lc = L; lc > 0; lc--)
 			this->searchUpperLayer(data, lc);
 
-		this->searchLowerLayer<true>(data, maxEf, 0, W, this->space.getCount());
+		this->searchLowerLayer<true>(data, maxEf, 0, this->space.getCount());
 
-		while(W.len() > k)
-			W.pop();
+		while(this->heaps.far.len() > k)
+			this->heaps.far.pop();
 
-		return W;
+		return this->heaps.far;
 	}
 
 	KnnResults Index::query(const FloatArray& arr, const uint k) {

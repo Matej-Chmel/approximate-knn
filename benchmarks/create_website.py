@@ -134,14 +134,13 @@ def get_lines(all_data, xn, yn, render_all_points):
     return plot_data
 
 
-def create_plot(all_data, xn, yn, linestyle, j2_env, additional_label="",
-                plottype="line"):
+def create_plot(all_data, xn, yn, linestyle, j2_env, dataset_name: str, additional_label="", plottype="line"):
     xm, ym = (metrics[xn], metrics[yn])
     render_all_points = plottype == "bubble"
     plot_data = get_lines(all_data, xn, yn, render_all_points)
     latex_code = j2_env.get_template("latex.template").\
-        render(plot_data=plot_data, caption=get_plot_label(xm, ym),
-               xlabel=xm["description"], ylabel=ym["description"])
+        render(plot_data=plot_data, caption=get_plot_label(xm, ym), dataset_name=dataset_name,
+               xlabel=xm["description"], ylabel=ym["description"]).encode("utf-8").decode("utf-8")
     plot_data = get_lines(all_data, xn, yn, render_all_points)
     button_label = hashlib.sha224((get_plot_label(xm, ym) + additional_label)
                                   .encode("utf-8")).hexdigest()
@@ -151,7 +150,7 @@ def create_plot(all_data, xn, yn, linestyle, j2_env, additional_label="",
                xlabel=xm["description"], ylabel=ym["description"],
                plottype=plottype, plot_label=get_plot_label(xm, ym),
                label=additional_label, linestyle=linestyle,
-               render_all_points=render_all_points)
+               render_all_points=render_all_points).encode("utf-8").decode("utf-8")
 
 
 def build_detail_site(data, label_func, j2_env, linestyles, batch=False):
@@ -164,11 +163,11 @@ def build_detail_site(data, label_func, j2_env, linestyles, batch=False):
         for plottype in args.plottype:
             xn, yn = plot_variants[plottype]
             data["normal"].append(create_plot(
-                runs, xn, yn, convert_linestyle(linestyles), j2_env))
+                runs, xn, yn, convert_linestyle(linestyles), j2_env, name))
             if args.scatter:
                 data["scatter"].append(
                     create_plot(runs, xn, yn, convert_linestyle(linestyles),
-                                j2_env, "Scatterplot ", "bubble"))
+                                j2_env, name, "Scatterplot ", "bubble"))
 
         # create svg plot for summary page
         data_for_plot = {}
@@ -181,10 +180,14 @@ def build_detail_site(data, label_func, j2_env, linestyles, batch=False):
             linestyles, batch)
         output_path = \
             args.outputdir + name + '.html'
-        with open(output_path, "w") as text_file:
-            text_file.write(j2_env.get_template("detail_page.html").
-                            render(title=label, plot_data=data,
-                                   args=args, batch=batch))
+        with open(output_path, "w", encoding="utf-8") as text_file:
+            text_file.write(
+				j2_env.get_template(
+					"detail_page.html"
+				).render(
+					title=label, plot_data=data, args=args, batch=batch
+				).encode("utf-8").decode("utf-8")
+			)
 
 
 def build_index_site(datasets, algorithms, j2_env, file_name):
@@ -209,11 +212,16 @@ def build_index_site(datasets, algorithms, j2_env, file_name):
                         {"name": idd, "desc": get_dataset_label(idd)})
             dataset_data[mode].append(d)
 
-    with open(args.outputdir + "index.html", "w") as text_file:
-        text_file.write(j2_env.get_template("summary.html").
-                        render(title="ANN-Benchmarks",
-                               dataset_with_distances=dataset_data,
-                               algorithms=algorithms))
+    with open(args.outputdir + "index.html", "w", encoding="utf-8") as text_file:
+        text_file.write(
+			j2_env.get_template(
+				"summary.html"
+			).render(
+				title="ANN-Benchmarks",
+				dataset_with_distances=dataset_data,
+				algorithms=algorithms
+			).encode("utf-8").decode("utf-8")
+		)
 
 
 def load_all_results():

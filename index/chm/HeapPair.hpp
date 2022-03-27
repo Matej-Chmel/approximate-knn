@@ -8,8 +8,8 @@ namespace chm {
 
 		HeapPair(const uint efConstruction, const uint mMax0);
 		void prepareHeuristic();
-		void prepareLowerSearch(const Node& ep, FarHeap& W);
-		void push(const float distance, const uint id, FarHeap& W);
-		void reserve(const uint maxLen, FarHeap& W);
+		void prepareLowerSearch(const Node& ep);
+		void push(const float distance, const uint id);
+		void reserve(const uint maxLen);
 	};
 }
