@@ -14,6 +14,19 @@ namespace chm {
 		return this->endIter;
 	}
 
+	void Neighbors::fillFrom(const FarHeap& h) {
+		std::vector<uint>::iterator iter = this->count + 1;
+		const auto len = h.len();
+		*this->count = uint(len);
+		this->endIter = iter + len;
+		*iter = h[0].id;
+
+		for(size_t i = 1; i < len; i++) {
+			iter++;
+			*iter = h[i].id;
+		}
+	}
+
 	void Neighbors::fillFrom(const FarHeap& h, Node& nearest) {
 		std::vector<uint>::iterator iter = this->count + 1;
 		const auto len = h.len();

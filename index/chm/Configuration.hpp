@@ -11,8 +11,9 @@ namespace chm {
 		const uint efConstruction;
 		const uint mMax;
 		const uint mMax0;
+		const bool useHeuristic;
 
-		Configuration(const uint efConstruction, const uint mMax);
+		Configuration(const uint efConstruction, const uint mMax, const bool useHeuristic);
 		uint getEfSearch() const;
 		uint getMaxEf(const uint k) const;
 		double getML() const;

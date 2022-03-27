@@ -20,7 +20,9 @@ namespace chm {
 		Space space;
 		VisitedSet visited;
 
-		void fillNearHeap(const Neighbors& N, const uint queryID, const float* const latestData, const uint latestID);
+		template<class Comparator>
+		void fillHeap(Heap<Comparator>& h, const Neighbors& N, const uint queryID, const float* const latestData, const uint latestID);
+
 		void push(const float* const data);
 		void push(const FloatArray& arr);
 		FarHeap query(const float* const data, const uint k);
@@ -32,13 +34,17 @@ namespace chm {
 
 		void searchUpperLayer(const float* const query, const uint lc);
 		Neighbors selectNewNeighbors(const uint queryID, const uint lc);
+		Neighbors selectNewNeighborsHeuristic(Neighbors& R);
+		Neighbors selectNewNeighborsNaive(Neighbors& N);
 		void shrinkNeighbors(const uint M, const uint queryID, Neighbors& R, const float* const latestData, const uint latestID);
+		void shrinkNeighborsHeuristic(const uint M, const uint queryID, Neighbors& R, const float* const latestData, const uint latestID);
+		void shrinkNeighborsNaive(const uint M, const uint queryID, Neighbors& R, const float* const latestData, const uint latestID);
 
 	public:
 		std::string getString() const;
 		Index(
 			const size_t dim, const uint efConstruction, const uint maxCount,
-			const uint mMax, const uint seed, const SpaceKind spaceKind
+			const uint mMax, const uint seed, const SpaceKind spaceKind, const bool useHeuristic
 		);
 
 		void push(const float* const data, const uint count);
@@ -54,6 +60,16 @@ namespace chm {
 	};
 
 	using IndexPtr = std::shared_ptr<Index>;
+
+	template<class Comparator>
+	inline void Index::fillHeap(Heap<Comparator>& h, const Neighbors& N, const uint queryID, const float* const latestData, const uint latestID) {
+		const auto data = this->space.getData(queryID);
+		h.clear();
+		h.push(this->space.getDistance(data, latestData), latestID);
+
+		for(const auto& id : N)
+			h.push(this->space.getDistance(data, id), id);
+	}
 
 	template<bool searching>
 	inline void Index::searchLowerLayer(

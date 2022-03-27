@@ -21,7 +21,7 @@ namespace chm {
 	public:
 		void build(const IndexPtr& index) const;
 		Dataset(const fs::path& p);
-		IndexPtr getIndex(const uint efConstruction, const uint mMax, const uint seed) const;
+		IndexPtr getIndex(const uint efConstruction, const uint mMax, const uint seed, const bool useHeuristic) const;
 		float getRecall(const KnnResults& results) const;
 		bool isAngular() const;
 		KnnResults query(const IndexPtr& index, const uint efSearch) const;

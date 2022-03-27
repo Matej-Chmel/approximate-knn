@@ -3,5 +3,6 @@
 	"efConstruction": 200,
 	"efSearch": [10, 50, 100, 500, 1000],
 	"mMax": 16,
-	"seed": 200
+	"seed": 200,
+	"useHeuristic": false
 }

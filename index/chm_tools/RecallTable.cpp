@@ -69,14 +69,14 @@ namespace chm {
 		s.copyfmt(streamState);
 	}
 
-	void RecallTable::run(const uint efConstruction, const uint mMax, const uint seed, std::ostream& s) {
+	void RecallTable::run(const uint efConstruction, const uint mMax, std::ostream& s, const uint seed, const bool useHeuristic) {
 		Timer timer{};
 		this->benchmarks.clear();
 
 		s << "Building index.\n";
 
 		timer.reset();
-		this->index = this->dataset->getIndex(efConstruction, mMax, seed);
+		this->index = this->dataset->getIndex(efConstruction, mMax, seed, useHeuristic);
 		this->dataset->build(this->index);
 		this->buildElapsed = timer.getElapsed();
 

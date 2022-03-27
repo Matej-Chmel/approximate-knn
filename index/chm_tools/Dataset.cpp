@@ -29,8 +29,8 @@ namespace chm {
 		readBinary(file, this->train, size_t(this->dim * this->trainCount));
 	}
 
-	IndexPtr Dataset::getIndex(const uint efConstruction, const uint mMax, const uint seed) const {
-		return std::make_shared<Index>(this->dim, efConstruction, this->trainCount, mMax, seed, this->space);
+	IndexPtr Dataset::getIndex(const uint efConstruction, const uint mMax, const uint seed, const bool useHeuristic) const {
+		return std::make_shared<Index>(this->dim, efConstruction, this->trainCount, mMax, seed, this->space, useHeuristic);
 	}
 
 	float Dataset::getRecall(const KnnResults& results) const {

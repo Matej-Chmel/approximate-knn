@@ -3,8 +3,9 @@
 #include "Configuration.hpp"
 
 namespace chm {
-	Configuration::Configuration(const uint efConstruction, const uint mMax)
-		: efSearch(DEFAULT_EF_SEARCH), efConstruction(efConstruction), mMax(mMax), mMax0(this->mMax * 2) {}
+	Configuration::Configuration(const uint efConstruction, const uint mMax, const bool useHeuristic)
+		: efSearch(DEFAULT_EF_SEARCH), efConstruction(efConstruction), mMax(mMax), mMax0(this->mMax * 2),
+		useHeuristic(useHeuristic) {}
 
 	uint Configuration::getEfSearch() const {
 		return this->efSearch;

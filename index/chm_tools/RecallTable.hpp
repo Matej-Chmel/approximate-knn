@@ -31,7 +31,7 @@ namespace chm {
 		RecallTable(const DatasetPtr& dataset, const std::vector<uint>& efSearchValues);
 		RecallTable(const fs::path& datasetPath, const std::vector<uint>& efSearchValues);
 		void print(std::ostream& s) const;
-		void run(const uint efConstruction, const uint mMax, const uint seed, std::ostream& s);
+		void run(const uint efConstruction, const uint mMax, std::ostream& s, const uint seed, const bool useHeuristic);
 	};
 
 	class Timer {

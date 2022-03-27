@@ -2,15 +2,6 @@
 #include "Index.hpp"
 
 namespace chm {
-	void Index::fillNearHeap(const Neighbors& N, const uint queryID, const float* const latestData, const uint latestID) {
-		const auto data = this->space.getData(queryID);
-		this->heaps.near.clear();
-		this->heaps.near.push(this->space.getDistance(data, latestData), latestID);
-
-		for(const auto& id : N)
-			this->heaps.near.push(this->space.getDistance(data, id), id);
-	}
-
 	void Index::push(const float* const data) {
 		const auto L = this->entryLevel;
 		const auto l = this->gen.getNext();
@@ -127,13 +118,18 @@ namespace chm {
 	Neighbors Index::selectNewNeighbors(const uint queryID, const uint lc) {
 		auto N = this->conn.getNeighbors(queryID, lc);
 
-		if(this->heaps.far.len() < this->cfg.mMax) {
-			N.fillFrom(this->heaps.far, this->ep);
-			return N;
+		if(this->cfg.useHeuristic)
+			return this->selectNewNeighborsHeuristic(N);
+		return this->selectNewNeighborsNaive(N);
+	}
+
+	Neighbors Index::selectNewNeighborsHeuristic(Neighbors& R) {
+		if(this->heaps.far.len() <= this->cfg.mMax) {
+			R.fillFrom(this->heaps.far, this->ep);
+			return R;
 		}
 
 		this->heaps.prepareHeuristic();
-		auto& R = N;
 		auto& W = this->heaps.near;
 
 		{
@@ -142,6 +138,8 @@ namespace chm {
 			this->ep.id = e.id;
 			R.push(e.id);
 		}
+
+		W.pop();
 
 		while(W.len() && R.len() < this->cfg.mMax) {
 			{
@@ -169,12 +167,31 @@ namespace chm {
 		return R;
 	}
 
+	Neighbors Index::selectNewNeighborsNaive(Neighbors& N) {
+		auto& W = this->heaps.far;
+
+		if(W.len() > this->cfg.mMax)
+			while(W.len() > this->cfg.mMax)
+				W.pop();
+
+		N.fillFrom(W, this->ep);
+		return N;
+	}
+
 	void Index::shrinkNeighbors(const uint M, const uint queryID, Neighbors& R, const float* const latestData, const uint latestID) {
-		this->fillNearHeap(R, queryID, latestData, latestID);
+		if(this->cfg.useHeuristic)
+			this->shrinkNeighborsHeuristic(M, queryID, R, latestData, latestID);
+		else
+			this->shrinkNeighborsNaive(M, queryID, R, latestData, latestID);
+	}
+
+	void Index::shrinkNeighborsHeuristic(const uint M, const uint queryID, Neighbors& R, const float* const latestData, const uint latestID) {
+		this->fillHeap(this->heaps.near, R, queryID, latestData, latestID);
 
 		auto& W = this->heaps.near;
 		R.clear();
 		R.push(W.top().id);
+		W.pop();
 
 		while(W.len() && R.len() < this->cfg.mMax) {
 			{
@@ -195,6 +212,16 @@ namespace chm {
 		}
 	}
 
+	void Index::shrinkNeighborsNaive(const uint M, const uint queryID, Neighbors& R, const float* const latestData, const uint latestID) {
+		auto& W = this->heaps.far;
+		this->fillHeap(W, R, queryID, latestData, latestID);
+
+		while(W.len() > M)
+			W.pop();
+
+		R.fillFrom(W);
+	}
+
 	std::string Index::getString() const {
 		std::stringstream s;
 		s << "chm_hnsw.Index(efConstruction=" << this->cfg.efConstruction << ", mMax=" << this->cfg.mMax << ", distance=" << this->space.getName() << ')';
@@ -203,8 +230,8 @@ namespace chm {
 
 	Index::Index(
 		const size_t dim, const uint efConstruction, const uint maxCount,
-		const uint mMax, const uint seed, const SpaceKind spaceKind
-	) : cfg(efConstruction, mMax), conn(maxCount, this->cfg.mMax, this->cfg.mMax0),
+		const uint mMax, const uint seed, const SpaceKind spaceKind, const bool useHeuristic
+	) : cfg(efConstruction, mMax, useHeuristic), conn(maxCount, this->cfg.mMax, this->cfg.mMax0),
 		entryID(0), entryLevel(0), ep{}, gen(this->cfg.getML(), seed),
 		heaps(efConstruction, this->cfg.mMax), space(dim, spaceKind, maxCount), visited(maxCount) {}
 
