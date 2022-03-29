@@ -20,9 +20,11 @@ namespace chm {
 
 		py::class_<Index>(m, "Index")
 			.def(
-				py::init<const size_t, const uint, const uint, const uint, const uint, const SpaceKind>(),
-				py::arg("dim"), py::arg("efConstruction"), py::arg("maxCount"),
-				py::arg("mMax"), py::arg("seed"), py::arg("spaceKind")
+				py::init<
+					const size_t, const uint, const uint, const uint,
+					const uint, const SpaceKind, const bool>(),
+				py::arg("dim"), py::arg("efConstruction"), py::arg("maxCount"), py::arg("mMax"),
+				py::arg("seed"), py::arg("spaceKind"), py::arg("useHeuristic")
 			)
 			.def("__str__", [](const Index& h) { return h.getString(); })
 			.def("push", py::overload_cast<const NumpyArray<float>>(&Index::push), py::arg("data"))

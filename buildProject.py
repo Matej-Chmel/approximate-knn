@@ -51,7 +51,7 @@ def checkPythonVersion(args: Args):
 def cleanProject(args: Args):
 	if args.clean:
 		print("Cleaning.")
-		clean.main()
+		clean.cleanProject(False)
 
 def generateDatasets(executable: Path, repoDir: Path):
 	print("Generating datasets.")

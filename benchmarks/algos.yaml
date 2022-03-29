@@ -1,9 +1,9 @@
 float:
   any:
     chm-hnsw:
-      docker-tag: ann-benchmarks-chm-hnsw
+      docker-tag: ann-benchmarks-chm-hnsw-heuristic
       module: ann_benchmarks.algorithms.chm_hnsw
-      constructor: ChmHnsw
+      constructor: ChmHnswHeuristic
       base-args: ["@metric"]
       run-groups:
         efConstruction-100-mMax-4:

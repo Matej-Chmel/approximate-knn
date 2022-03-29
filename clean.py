@@ -1,18 +1,21 @@
 from pathlib import Path
 import shutil
 
-def cleanProject():
+def cleanProject(deleteVenv: bool):
 	repoDir = Path(__file__).parent
 	benchmarksDir = Path("benchmarks")
 	annBenchmarks = benchmarksDir / "ann_benchmarks"
 
 	for path in [
-		"__pycache__", ".venv", "build", "chm_hnsw.egg-info", "cmakeBuild", "data", "dist",
+		"__pycache__", "build", "chm_hnsw.egg-info", "cmakeBuild", "data", "dist",
 		benchmarksDir / "__pycache__", annBenchmarks / "__pycache__",
 		annBenchmarks / "algorithms" / "__pycache__", annBenchmarks / "plotting" / "__pycache__",
 		Path("executables", "tools", "__pycache__")
 	]:
 		deleteDir(repoDir / path)
+
+	if deleteVenv:
+		deleteDir(repoDir / ".venv")
 
 def deleteDir(p: Path):
 	pathStr = f"[{p}] "
@@ -27,7 +30,7 @@ def deleteDir(p: Path):
 		print(f"{pathStr}Does not exist.")
 
 def main():
-	cleanProject()
+	cleanProject(True)
 
 if __name__ == "__main__":
 	main()

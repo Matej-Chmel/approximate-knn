@@ -48,12 +48,15 @@ class RecallTable:
 	def fromHDF(cls, datasetPath: Path, efSearchValues: list[int]):
 		return cls(Dataset.fromHDF(datasetPath), efSearchValues)
 
-	def run(self, efConstruction: int, mMax: int, seed: int):
+	def run(self, efConstruction: int, mMax: int, seed: int, useHeuristic: bool):
 		self.benchmarks = []
 		print("Building index.")
 
 		start = time.perf_counter_ns()
-		self.index = Index(self.dataset.dim, efConstruction, self.dataset.trainCount, mMax, seed, self.space)
+		self.index = Index(
+			self.dataset.dim, efConstruction, self.dataset.trainCount,
+			mMax, seed, self.space, useHeuristic
+		)
 		self.index.push(self.dataset.train)
 		end = time.perf_counter_ns()
 

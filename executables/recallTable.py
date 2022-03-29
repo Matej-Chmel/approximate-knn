@@ -10,27 +10,31 @@ class Config:
 	efSearch: list[int]
 	mMax: int
 	seed: int
+	useHeuristic: bool
 
 	@classmethod
 	def fromJSON(cls, p: Path):
 		with p.open("r", encoding="utf-8") as f:
 			obj = json.load(f)
-			return Config(obj["dataset"], obj["efConstruction"], obj["efSearch"], obj["mMax"], obj["seed"])
+			return Config(
+				obj["dataset"], obj["efConstruction"], obj["efSearch"],
+				obj["mMax"], obj["seed"], obj["useHeuristic"]
+			)
 
 def main():
 	repoDir = Path(__file__).parent.parent
 
 	try:
-		configPath = repoDir / "config" / "recallTableConfig.json"
-		config = Config.fromJSON(configPath)
+		cfgPath = repoDir / "config" / "recallTableConfig.json"
+		cfg = Config.fromJSON(cfgPath)
 	except FileNotFoundError:
-		return print(f"No configuration file found at {configPath}.")
+		return print(f"No configuration file found at {cfgPath}.")
 	except KeyError as e:
 		return print(f"Configuration file is missing key {e.args[0]}.")
 
 	try:
-		table = RecallTable.fromHDF(repoDir / "data" / f"{config.dataset}.hdf5", config.efSearch)
-		table.run(config.efConstruction, config.mMax, config.seed)
+		table = RecallTable.fromHDF(repoDir / "data" / f"{cfg.dataset}.hdf5", cfg.efSearch)
+		table.run(cfg.efConstruction, cfg.mMax, cfg.seed, cfg.useHeuristic)
 		print(table)
 
 	except FileNotFoundError:
