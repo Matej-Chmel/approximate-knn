@@ -41,12 +41,12 @@ namespace chm {
 		return this->getDistance(aData, this->getData(bID));
 	}
 
-	uint Space::getLatestID() const {
-		return this->count - 1;
+	std::string Space::getDistanceName() const {
+		return this->distName;
 	}
 
-	std::string Space::getName() const {
-		return this->name;
+	uint Space::getLatestID() const {
+		return this->count - 1;
 	}
 
 	const float* const Space::getNormalizedQuery(const float* const data) {
@@ -84,7 +84,7 @@ namespace chm {
 
 		this->dimLeft = info.dimLeft;
 		this->distFunc = info.distFunc;
-		this->name = info.name;
+		this->distName = info.name;
 
 		if(this->normalize)
 			this->query.resize(this->dim);

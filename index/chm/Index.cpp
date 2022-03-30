@@ -224,7 +224,9 @@ namespace chm {
 
 	std::string Index::getString() const {
 		std::stringstream s;
-		s << "chm_hnsw.Index(efConstruction=" << this->cfg.efConstruction << ", mMax=" << this->cfg.mMax << ", distance=" << this->space.getName() << ')';
+		s << "chm_hnsw.Index(efConstruction=" << this->cfg.efConstruction <<
+			", mMax=" << this->cfg.mMax << ", distance=" << this->space.getDistanceName() <<
+			", selectNeighbors=" << (this->cfg.useHeuristic ? "heuristic" : "naive") << ')';
 		return s.str();
 	}
 

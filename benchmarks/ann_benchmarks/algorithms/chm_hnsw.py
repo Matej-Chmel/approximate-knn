@@ -14,7 +14,7 @@ class ChmHnswHeuristic(BaseANN):
 			len(X[0]), self.params["efConstruction"], len(X),
 			self.params["mMax"], 100, self.space, True
 		)
-		self.name = f"{self.index}[heuristic]"
+		self.name = str(self.index)
 		self.index.push(np.asarray(X))
 
 	def freeIndex(self):
@@ -37,7 +37,7 @@ class ChmHnswNaive(BaseANN):
 			len(X[0]), self.params["efConstruction"], len(X),
 			self.params["mMax"], 100, self.space, False
 		)
-		self.name = f"{self.index}[naive]"
+		self.name = str(self.index)
 		self.index.push(np.asarray(X))
 
 	def freeIndex(self):

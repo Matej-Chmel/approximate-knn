@@ -17,7 +17,7 @@ namespace chm {
 		const size_t dim16;
 		size_t dimLeft;
 		DistanceFunction distFunc;
-		std::string name;
+		std::string distName;
 		const bool normalize;
 		std::vector<float> query;
 
@@ -32,8 +32,8 @@ namespace chm {
 		float getDistance(const uint aID, const uint bID) const;
 		float getDistance(const float* const a, const float* const b) const;
 		float getDistance(const float* const aData, const uint bID) const;
+		std::string getDistanceName() const;
 		uint getLatestID() const;
-		std::string getName() const;
 		const float* const getNormalizedQuery(const float* const data);
 		bool isEmpty() const;
 		const float* const push(const float* const data);
