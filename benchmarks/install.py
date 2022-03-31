@@ -1,10 +1,9 @@
-import json
-import os
 import argparse
-import subprocess
+import os
 from multiprocessing import Pool
+from pathlib import Path
+import subprocess
 from ann_benchmarks.main import positive_int
-
 
 def build(library, args):
     print('Building %s...' % library)
@@ -12,11 +11,11 @@ def build(library, args):
         q = " ".join(["--build-arg " + x.replace(" ", "\\ ") for x in args])
     else:
         q = ""
-    
+
     try:
         subprocess.check_call(
             'docker build %s --rm -t ann-benchmarks-%s -f'
-            ' install/Dockerfile.%s .' % (q, library, library), shell=True)
+            ' benchmarks/install/Dockerfile.%s .' % (q, library, library), shell=True, cwd=Path(__file__).parent.parent)
         return {library: 'success'}
     except subprocess.CalledProcessError:
         return {library: 'fail'}
@@ -48,7 +47,7 @@ if __name__ == "__main__":
     print('Building base image...')
     subprocess.check_call(
         'docker build \
-        --rm -t ann-benchmarks -f install/Dockerfile .', shell=True)
+        --rm -t ann-benchmarks -f benchmarks/install/Dockerfile .', shell=True, cwd=Path(__file__).parent.parent)
 
     if args.algorithm:
         tags = [args.algorithm]

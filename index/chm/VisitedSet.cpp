@@ -1,12 +1,21 @@
 #include "VisitedSet.hpp"
 
 namespace chm {
-	bool VisitedSet::insert(const uint id) {
-		if (this->v[id])
-			return false;
+	FindResult VisitedSet::findNext(const Neighbors& N, const uint startIdx) const {
+		const auto len = N.len();
 
+		for(uint i = startIdx; i < len; ++i) {
+			const auto id = N.get(i);
+
+			if(!this->v[id])
+				return {i, id, true};
+		}
+
+		return {0, 0, false};
+	}
+
+	void VisitedSet::insert(const uint id) {
 		this->v[id] = true;
-		return true;
 	}
 
 	void VisitedSet::prepare(const uint count, const uint epID) {

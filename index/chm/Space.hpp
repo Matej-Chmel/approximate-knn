@@ -35,6 +35,7 @@ namespace chm {
 		std::string getDistanceName() const;
 		const float* const getNormalizedQuery(const float* const data);
 		bool isEmpty() const;
+		void prefetch(const uint id) const;
 		void push(const float* const data, const uint count);
 		Space(const size_t dim, const SpaceKind kind, const size_t maxCount);
 	};

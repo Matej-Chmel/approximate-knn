@@ -1,5 +1,6 @@
 #include <algorithm>
 #include <cmath>
+#include <immintrin.h>
 #include "euclideanDistance.hpp"
 #include "innerProduct.hpp"
 #include "Space.hpp"
@@ -56,6 +57,10 @@ namespace chm {
 
 	bool Space::isEmpty() const {
 		return !this->count;
+	}
+
+	void Space::prefetch(const uint id) const {
+		_mm_prefetch(reinterpret_cast<const char*>(this->getData(id)), _MM_HINT_T0);
 	}
 
 	void Space::push(const float* const data, const uint count) {

@@ -103,7 +103,7 @@ def main():
 		long_description=desc,
 		name="chm_hnsw",
 		url="https://github.com/Matej-Chmel/approximate-knn",
-		version="0.0.17",
+		version="0.0.18",
 		zip_safe=False
 	)
 

@@ -37,8 +37,26 @@ namespace chm {
 		}
 	}
 
+	void Index::processNeighbor(const uint neighborID, const float* const query, const uint ef, FarHeap& W) {
+		this->visited.insert(neighborID);
+		const auto distance = this->space.getDistance(query, neighborID);
+		bool shouldAdd{};
+
+		{
+			const auto& f = W.top();
+			shouldAdd = f.distance > distance || W.len() < ef;
+		}
+
+		if(shouldAdd) {
+			this->heaps.push(distance, neighborID);
+
+			if(W.len() > ef)
+				W.pop();
+		}
+	}
+
 	void Index::push(const FloatArray& arr) {
-		size_t i = 0;
+		uint i = 0;
 
 		if(this->space.isEmpty()) {
 			i = 1;

@@ -24,6 +24,7 @@ namespace chm {
 		void fillHeap(Heap<Comparator>& h, const Neighbors& N, const uint queryID, const float* const latestData, const uint latestID);
 
 		void insert(const float* const queryData, const uint queryID);
+		void processNeighbor(const uint neighborID, const float* const query, const uint ef, FarHeap& W);
 		void push(const FloatArray& arr);
 		FarHeap query(const float* const data, const uint k);
 		KnnResults query(const FloatArray& arr, const uint k);
@@ -102,23 +103,20 @@ namespace chm {
 			C.pop();
 			const auto N = this->conn.getNeighbors(cand, lc);
 
-			for(const auto& id : N) {
-				if(this->visited.insert(id)) {
-					const auto distance = this->space.getDistance(query, id);
-					bool shouldAdd{};
+			FindResult findRes = this->visited.findNext(N, 0);
 
-					{
-						const auto& f = W.top();
-						shouldAdd = f.distance > distance || W.len() < ef;
-					}
+			for(;;) {
+				if(!findRes.success)
+					break;
 
-					if(shouldAdd) {
-						this->heaps.push(distance, id);
+				const auto currID = findRes.neighborID;
 
-						if(W.len() > ef)
-							W.pop();
-					}
-				}
+				findRes = this->visited.findNext(N, findRes.idx + 1);
+
+				if(findRes.success)
+					this->space.prefetch(findRes.neighborID);
+
+				this->processNeighbor(currID, query, ef, W);
 			}
 		}
 	}

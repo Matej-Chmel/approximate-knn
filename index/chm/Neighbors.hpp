@@ -3,6 +3,7 @@
 
 namespace chm {
 	class Neighbors {
+		std::vector<uint>::iterator beginIter;
 		std::vector<uint>::iterator count;
 		std::vector<uint>::iterator endIter;
 
@@ -12,6 +13,7 @@ namespace chm {
 		std::vector<uint>::const_iterator end() const;
 		void fillFrom(const FarHeap& h);
 		void fillFrom(const FarHeap& h, Node& nearest);
+		uint get(const uint i) const;
 		uint len() const;
 		Neighbors(const std::vector<uint>::iterator& count);
 		void push(const uint id);
