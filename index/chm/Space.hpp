@@ -33,10 +33,9 @@ namespace chm {
 		float getDistance(const float* const a, const float* const b) const;
 		float getDistance(const float* const aData, const uint bID) const;
 		std::string getDistanceName() const;
-		uint getLatestID() const;
 		const float* const getNormalizedQuery(const float* const data);
 		bool isEmpty() const;
-		const float* const push(const float* const data);
+		void push(const float* const data, const uint count);
 		Space(const size_t dim, const SpaceKind kind, const size_t maxCount);
 	};
 }

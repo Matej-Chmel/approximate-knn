@@ -1,4 +1,3 @@
-from dataclasses import dataclass
 import pandas
 from pathlib import Path
 import time
@@ -8,16 +7,29 @@ import sys
 N = "\n"
 
 class Config:
-	def __init__(self, algosPath: Path, datasetsPath: Path, dockerWorkers: int, runs: int):
+	def __init__(self, algosPath: Path, datasets: list[str], dockerWorkers: int, runs: int):
 		self.algosPath = str(algosPath.absolute())
-		self.datasets = parseDatasetsFile(datasetsPath)
+		self.datasets = datasets
 		self.dockerWorkers = str(dockerWorkers)
 		self.runs = str(runs)
+
+	@classmethod
+	def fromDatasetsPath(cls, algosPath: Path, datasetsPath: Path, dockerWorkers: int, runs: int):
+		return cls(algosPath, parseDatasetsFile(datasetsPath), dockerWorkers, runs)
 
 def createWebsite(scriptDir: Path):
 	print("Creating website.")
 	subprocess.call([sys.executable, "create_website.py", "--latex", "--outputdir", "website/"], cwd=scriptDir)
 	print("Website created.")
+
+def getDefaultAlgosPath():
+	return getScriptDir() / "algos.yaml"
+
+def getDefaultDatasetsPath():
+	return getScriptDir() / "datasets.txt"
+
+def getScriptDir():
+	return Path(__file__).parent
 
 def installDockerImages(scriptDir: Path):
 	print("Installing Docker images.")
@@ -72,5 +84,4 @@ def tryRun(cfg: Config):
 		print(f"[SUBPROCESS ERROR] {e}")
 
 if __name__ == "__main__":
-	scriptDir = Path(__file__).parent
-	tryRun(Config(scriptDir / "algos.yaml", scriptDir / "datasets.txt", 1, 5))
+	tryRun(Config.fromDatasetsPath(getDefaultAlgosPath(), getDefaultDatasetsPath(), 1, 5))

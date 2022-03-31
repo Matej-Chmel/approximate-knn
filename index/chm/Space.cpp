@@ -45,10 +45,6 @@ namespace chm {
 		return this->distName;
 	}
 
-	uint Space::getLatestID() const {
-		return this->count - 1;
-	}
-
 	const float* const Space::getNormalizedQuery(const float* const data) {
 		if(this->normalize) {
 			this->normalizeData(data, this->query.data());
@@ -62,16 +58,14 @@ namespace chm {
 		return !this->count;
 	}
 
-	const float* const Space::push(const float* const data) {
-		float* const res = this->data.data() + this->count * this->dim;
-
+	void Space::push(const float* const data, const uint count) {
 		if(this->normalize)
-			this->normalizeData(data, res);
+			for(uint i = 0; i < count; i++)
+				this->normalizeData(data + i * this->dim, this->data.data() + (this->count + i) * this->dim);
 		else
-			std::copy(data, data + this->dim, res);
+			std::copy(data, data + count * this->dim, this->data.data() + this->count * this->dim);
 
-		this->count++;
-		return res;
+		this->count += count;
 	}
 
 	Space::Space(const size_t dim, const SpaceKind kind, const size_t maxCount)

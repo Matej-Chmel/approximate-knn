@@ -2,11 +2,9 @@
 #include "Index.hpp"
 
 namespace chm {
-	void Index::push(const float* const data) {
+	void Index::insert(const float* const queryData, const uint queryID) {
 		const auto L = this->entryLevel;
 		const auto l = this->gen.getNext();
-		const auto queryData = this->space.push(data);
-		const auto queryID = this->space.getLatestID();
 
 		this->conn.init(queryID, l);
 		this->resetEp(queryData);
@@ -46,11 +44,15 @@ namespace chm {
 			i = 1;
 			this->entryLevel = this->gen.getNext();
 			this->conn.init(this->entryID, this->entryLevel);
-			this->space.push(arr.data);
 		}
 
-		for(; i < arr.count; i++)
-			this->push(arr.data + i * this->space.dim);
+		const auto prevCount = this->space.getCount();
+		this->space.push(arr.data, arr.count);
+
+		for(; i < arr.count; i++) {
+			const auto queryID = prevCount + i;
+			this->insert(this->space.getData(queryID), queryID);
+		}
 	}
 
 	FarHeap Index::query(const float* const data, const uint k) {

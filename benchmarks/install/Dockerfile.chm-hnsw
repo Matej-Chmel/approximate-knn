@@ -1,4 +1,4 @@
 FROM ann-benchmarks
 
-RUN python -m pip install chm-hnsw==0.0.16
+RUN python -m pip install chm-hnsw==0.0.17
 RUN python -c 'import chm_hnsw'

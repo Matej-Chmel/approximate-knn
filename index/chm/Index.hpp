@@ -23,7 +23,7 @@ namespace chm {
 		template<class Comparator>
 		void fillHeap(Heap<Comparator>& h, const Neighbors& N, const uint queryID, const float* const latestData, const uint latestID);
 
-		void push(const float* const data);
+		void insert(const float* const queryData, const uint queryID);
 		void push(const FloatArray& arr);
 		FarHeap query(const float* const data, const uint k);
 		KnnResults query(const FloatArray& arr, const uint k);
