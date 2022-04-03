@@ -4,18 +4,31 @@
 #include "DistanceFunction.hpp"
 
 namespace chm {
+	SIMDType getBestSIMDType() {
+		#if defined(AVX512_CAPABLE)
+			return SIMDType::AVX512;
+		#elif defined(AVX_CAPABLE)
+			return SIMDType::AVX;
+		#elif defined(SSE_CAPABLE)
+			return SIMDType::SSE;
+		#else
+			throw std::runtime_error("Cannot decide best SIMD type.");
+		#endif
+	}
+
 	SIMDType getSIMDType(std::string s) {
-		std::transform(s.begin(), s.end(), s.begin(), std::tolower);
+		std::transform(s.begin(), s.end(), s.begin(), ::tolower);
 
 		if(s == "avx")
 			return SIMDType::AVX;
 		if(s == "avx512")
 			return SIMDType::AVX512;
+		if(s == "best")
+			return SIMDType::BEST;
 		if(s == "none")
 			return SIMDType::NONE;
 		if(s == "sse")
 			return SIMDType::SSE;
-
 		throw std::runtime_error("Invalid SIMD type.");
 	}
 

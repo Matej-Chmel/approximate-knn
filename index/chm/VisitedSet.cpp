@@ -45,12 +45,9 @@ namespace chm {
 	}
 
 	void VisitedSet::prepare(const uint count, const uint epID) {
-		this->v.clear();
-		this->v.assign(count, false);
+		std::fill(this->v.begin(), this->v.begin() + count, false);
 		this->v[epID] = true;
 	}
 
-	VisitedSet::VisitedSet(const uint maxCount) {
-		this->v.resize(maxCount);
-	}
+	VisitedSet::VisitedSet(const uint maxCount) : v(maxCount, false) {}
 }

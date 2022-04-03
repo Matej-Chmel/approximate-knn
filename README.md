@@ -91,6 +91,6 @@ Konfigurace je JSON soubor s jediným objektem.
 |efSearch|array|Pole hodnot parametru vyhledávání.|
 |mMax|int|Maximální povolený počet sousedů jednoho prvku v indexu na vrstvě vyšší než ta nejspodnější.|
 |seed|int|Nastavení generátoru náhodných úrovní v indexu.|
-|SIMD|string|Upřednostňovaný typ SIMD instrukcí. Možnosti jsou `avx`, `avx512`, `null`, a `sse`.|
+|SIMD|string|Upřednostňovaný typ SIMD instrukcí. Možnosti jsou `avx`, `avx512`, `best`, `null`, a `sse`.|
 |useHeuristic|boolean|Pokud je nastaven na `true`, využívá index heuristiky při výběru sousedů. Jinak využívá naivního algoritmu.|
 |usePrefetch|boolean|Pokud je nastaven na `true`, index používá asynchronní načítání dat do paměti.|

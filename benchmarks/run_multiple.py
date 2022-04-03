@@ -3,6 +3,7 @@ from pathlib import Path
 import time
 import subprocess
 import sys
+import webbrowser as wb
 
 N = "\n"
 
@@ -35,6 +36,9 @@ def installDockerImages(scriptDir: Path):
 	print("Installing Docker images.")
 	subprocess.call([sys.executable, "install.py"], cwd=scriptDir)
 	print("Docker images installed.")
+
+def openWebsite():
+	wb.open_new_tab(f"file:///{getScriptDir().absolute()}/website/index.html")
 
 def parseDatasetsFile(p: Path):
 	res = []
@@ -80,6 +84,7 @@ def runDataset(dataset: str, cfg: Config, scriptDir: Path):
 def tryRun(cfg: Config):
 	try:
 		run(cfg)
+		openWebsite()
 	except subprocess.SubprocessError as e:
 		print(f"[SUBPROCESS ERROR] {e}")
 

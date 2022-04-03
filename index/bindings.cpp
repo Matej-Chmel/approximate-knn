@@ -15,7 +15,7 @@ namespace chm {
 					const uint, const SIMDType, const SpaceKind>(),
 				py::arg("dim"), py::arg("maxCount"),
 				py::arg("efConstruction") = 200, py::arg("mMax") = 16, py::arg("seed") = 100,
-				py::arg("simdType") = SIMDType::NONE, py::arg("spaceKind") = SpaceKind::EUCLIDEAN
+				py::arg("SIMD") = SIMDType::NONE, py::arg("space") = SpaceKind::EUCLIDEAN
 			)
 			.def("__str__", [](const Index<useHeuristic, usePrefetch>& h) { return h.getString(); })
 			.def(
@@ -44,6 +44,7 @@ namespace chm {
 		py::enum_<SIMDType>(m, "SIMDType")
 			.value("AVX", SIMDType::AVX)
 			.value("AVX512", SIMDType::AVX512)
+			.value("BEST", SIMDType::BEST)
 			.value("NONE", SIMDType::NONE)
 			.value("SSE", SIMDType::SSE);
 

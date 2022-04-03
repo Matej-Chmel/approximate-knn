@@ -296,6 +296,9 @@ namespace chm {
 			if(type == SIMDType::NONE)
 				return DistanceInfo(0, ip);
 
+			if(type == SIMDType::BEST)
+				type = getBestSIMDType();
+
 			if(dim % 16 == 0)
 				switch(type) {
 					case SIMDType::AVX:

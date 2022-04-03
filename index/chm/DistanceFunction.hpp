@@ -31,10 +31,12 @@ namespace chm {
 	enum class SIMDType {
 		AVX,
 		AVX512,
+		BEST,
 		NONE,
 		SSE
 	};
 
+	SIMDType getBestSIMDType();
 	SIMDType getSIMDType(std::string s);
 
 	struct FunctionInfo {

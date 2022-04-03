@@ -195,11 +195,14 @@ namespace chm {
 	#endif
 
 	inline DistanceInfo getEuclideanInfo(
-		const size_t dim, const size_t dim4, const size_t dim16, const SIMDType type
+		const size_t dim, const size_t dim4, const size_t dim16, SIMDType type
 	) {
 		#if defined(SIMD_CAPABLE)
 			if(type == SIMDType::NONE)
 				return DistanceInfo(0, euc);
+
+			if(type == SIMDType::BEST)
+				type = getBestSIMDType();
 
 			if(dim % 16 == 0)
 				switch(type) {
