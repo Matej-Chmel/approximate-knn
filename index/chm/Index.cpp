@@ -74,7 +74,7 @@ namespace chm {
 	}
 
 	FarHeap Index::query(const float* const data, const uint k) {
-		const auto maxEf = std::max(this->cfg.getEfSearch(), k);
+		const auto maxEf = this->cfg.getMaxEf(k);
 		this->heaps.reserve(std::max(maxEf, this->cfg.mMax0));
 		this->resetEp(data);
 		const auto L = this->entryLevel;

@@ -36,7 +36,7 @@ namespace chm {
 					hits++;
 		}
 
-		return float(hits) / (correctLabels.getComponentCount());
+		return float(hits) / float(correctLabels.getComponentCount());
 	}
 
 	#ifdef PYBIND_INCLUDED
