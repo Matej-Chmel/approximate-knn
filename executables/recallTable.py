@@ -1,3 +1,4 @@
+from chm_hnsw import getSIMDType, SIMDType
 from dataclasses import dataclass
 import json
 from pathlib import Path
@@ -10,15 +11,15 @@ class Config:
 	efSearch: list[int]
 	mMax: int
 	seed: int
-	useHeuristic: bool
+	simdType: SIMDType
 
 	@classmethod
 	def fromJSON(cls, p: Path):
 		with p.open("r", encoding="utf-8") as f:
 			obj = json.load(f)
 			return Config(
-				obj["dataset"], obj["efConstruction"], obj["efSearch"],
-				obj["mMax"], obj["seed"], obj["useHeuristic"]
+				obj["dataset"], obj["efConstruction"], obj["efSearch"], obj["mMax"], obj["seed"],
+				SIMDType.NONE if "SIMD" not in obj or obj["SIMD"] is None else getSIMDType(obj["SIMD"])
 			)
 
 def main():
@@ -34,7 +35,7 @@ def main():
 
 	try:
 		table = RecallTable.fromHDF(repoDir / "data" / f"{cfg.dataset}.hdf5", cfg.efSearch)
-		table.run(cfg.efConstruction, cfg.mMax, cfg.seed, cfg.useHeuristic)
+		table.run(cfg.efConstruction, cfg.mMax, cfg.seed, cfg.simdType)
 		print(table)
 
 	except FileNotFoundError:

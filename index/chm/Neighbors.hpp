@@ -13,7 +13,7 @@ namespace chm {
 		std::vector<uint>::const_iterator end() const;
 		void fillFrom(const FarHeap& h);
 		void fillFrom(const FarHeap& h, Node& nearest);
-		uint get(const uint i) const;
+		uint get(const size_t i) const;
 		uint len() const;
 		Neighbors(const std::vector<uint>::iterator& count);
 		void push(const uint id);

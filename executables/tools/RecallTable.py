@@ -1,4 +1,4 @@
-from chm_hnsw import getRecall, Index, Space
+from chm_hnsw import getRecall, Index, SIMDType, Space
 from dataclasses import dataclass
 from .Dataset import Dataset
 import pandas
@@ -48,14 +48,17 @@ class RecallTable:
 	def fromHDF(cls, datasetPath: Path, efSearchValues: list[int]):
 		return cls(Dataset.fromHDF(datasetPath), efSearchValues)
 
-	def run(self, efConstruction: int, mMax: int, seed: int, useHeuristic: bool):
+	def run(self,
+		efConstruction: int = 200, mMax: int = 16, seed: int = 100,
+		simdType: SIMDType = SIMDType.NONE
+	):
 		self.benchmarks = []
 		print("Building index.")
 
 		start = time.perf_counter_ns()
 		self.index = Index(
-			self.dataset.dim, efConstruction, self.dataset.trainCount,
-			mMax, seed, self.space, useHeuristic
+			self.dataset.dim, self.dataset.trainCount,
+			efConstruction, mMax, seed, simdType, self.space
 		)
 		self.index.push(self.dataset.train)
 		end = time.perf_counter_ns()

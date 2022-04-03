@@ -35,7 +35,9 @@ namespace chm {
 	}
 
 	float Space::getDistance(const float* const a, const float* const b) const {
-		return this->distFunc(a, b, this->dim, this->dim4, this->dim16, this->dimLeft);
+		return this->distInfo.funcInfo.f(
+			a, b, this->dim, this->dim4, this->dim16, this->distInfo.dimLeft
+		);
 	}
 
 	float Space::getDistance(const float* const aData, const uint bID) const {
@@ -43,7 +45,7 @@ namespace chm {
 	}
 
 	std::string Space::getDistanceName() const {
-		return this->distName;
+		return this->distInfo.funcInfo.name;
 	}
 
 	const float* const Space::getNormalizedQuery(const float* const data) {
@@ -73,17 +75,16 @@ namespace chm {
 		this->count += count;
 	}
 
-	Space::Space(const size_t dim, const SpaceKind kind, const size_t maxCount)
-		: count(0), dim4(dim >> 2 << 2), dim16(dim >> 4 << 4), normalize(kind == SpaceKind::ANGULAR), dim(dim) {
+	Space::Space(const size_t dim, const SpaceKind kind, const size_t maxCount, const SIMDType simdType)
+		: count(0), dim4(dim >> 2 << 2), dim16(dim >> 4 << 4),
+		distInfo(
+			kind == SpaceKind::EUCLIDEAN
+			? getEuclideanInfo(dim, this->dim4, this->dim16, simdType)
+			: getInnerProductInfo(dim, this->dim4, this->dim16, simdType)
+		),
+		normalize(kind == SpaceKind::ANGULAR), dim(dim) {
 
 		this->data.resize(this->dim * maxCount);
-		const auto info = kind == SpaceKind::EUCLIDEAN
-			? getEuclideanInfo(this->dim, this->dim4, this->dim16)
-			: getInnerProductInfo(this->dim, this->dim4, this->dim16);
-
-		this->dimLeft = info.dimLeft;
-		this->distFunc = info.distFunc;
-		this->distName = info.name;
 
 		if(this->normalize)
 			this->query.resize(this->dim);

@@ -52,7 +52,7 @@ namespace chm {
 		}
 	}
 
-	uint Neighbors::get(const uint i) const {
+	uint Neighbors::get(const size_t i) const {
 		return *(this->beginIter + i);
 	}
 

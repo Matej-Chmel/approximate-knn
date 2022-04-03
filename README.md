@@ -79,7 +79,8 @@ Konfigurace je JSON soubor s jediným objektem.
 	"efSearch": [10, 50, 100, 500, 1000],
 	"mMax": 16,
 	"seed": 200,
-	"useHeuristic": true
+	"useHeuristic": true,
+	"SIMD": null
 }
 ```
 
@@ -90,4 +91,4 @@ Konfigurace je JSON soubor s jediným objektem.
 |efSearch|array|Pole hodnot parametru vyhledávání.|
 |mMax|int|Maximální povolený počet sousedů jednoho prvku v indexu na vrstvě vyšší než ta nejspodnější.|
 |seed|int|Nastavení generátoru náhodných úrovní v indexu.|
-|useHeuristic|boolean|Pokud je nastaven na `true`, využívá index heuristiky při výběru sousedů. Jinak využívá naivního algoritmu.|
+|SIMD|string|Upřednostňovaný typ SIMD instrukcí. Možnosti jsou `avx`, `avx512`, `null`, a `sse`.|

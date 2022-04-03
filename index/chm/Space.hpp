@@ -1,6 +1,6 @@
 #pragma once
 #include <vector>
-#include "DistanceInfo.hpp"
+#include "DistanceFunction.hpp"
 #include "types.hpp"
 
 namespace chm {
@@ -15,9 +15,7 @@ namespace chm {
 		std::vector<float> data;
 		const size_t dim4;
 		const size_t dim16;
-		size_t dimLeft;
-		DistanceFunction distFunc;
-		std::string distName;
+		const DistanceInfo distInfo;
 		const bool normalize;
 		std::vector<float> query;
 
@@ -37,6 +35,6 @@ namespace chm {
 		bool isEmpty() const;
 		void prefetch(const uint id) const;
 		void push(const float* const data, const uint count);
-		Space(const size_t dim, const SpaceKind kind, const size_t maxCount);
+		Space(const size_t dim, const SpaceKind kind, const size_t maxCount, const SIMDType simdType);
 	};
 }
