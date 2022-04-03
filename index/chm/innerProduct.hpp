@@ -21,7 +21,6 @@ namespace chm {
 	FunctionInfo ip(innerProduct, "ip");
 
 	#if defined(AVX_CAPABLE)
-
 		static float innerProductSum16AVX(const float* node, const float* query, const size_t dim16) {
 			const float* end = node + dim16;
 			__m256 sum = _mm256_set1_ps(0);
@@ -54,8 +53,6 @@ namespace chm {
 			return 1.f - innerProductSum16AVX(node, query, dim16);
 		}
 
-		FunctionInfo ip16AVX(innerProduct16AVX, "ip16AVX");
-
 		static float innerProduct16ResidualAVX(
 			const float* node, const float* query, const size_t,
 			const size_t dim4, const size_t dim16, const size_t dimLeft
@@ -64,8 +61,6 @@ namespace chm {
 			const float back = innerProductSum(node + dim16, query + dim16, dimLeft);
 			return 1.f - (front + back);
 		}
-
-		FunctionInfo ip16RAVX(innerProduct16ResidualAVX, "ip16RAVX");
 
 		static float innerProductSum4AVX(
 			const float* node, const float* query, const size_t dim4, const size_t dim16
@@ -111,8 +106,6 @@ namespace chm {
 			return 1.f - innerProductSum4AVX(node, query, dim4, dim16);
 		}
 
-		FunctionInfo ip4AVX(innerProduct4AVX, "ip4AVX");
-
 		static float innerProduct4ResidualAVX(
 			const float* node, const float* query, const size_t,
 			const size_t dim4, const size_t dim16, const size_t dimLeft
@@ -122,10 +115,13 @@ namespace chm {
 			return 1.f - (front + back);
 		}
 
+		FunctionInfo ip16AVX(innerProduct16AVX, "ip16AVX");
+		FunctionInfo ip16RAVX(innerProduct16ResidualAVX, "ip16RAVX");
+		FunctionInfo ip4AVX(innerProduct4AVX, "ip4AVX");
 		FunctionInfo ip4RAVX(innerProduct4ResidualAVX, "ip4RAVX");
+	#endif
 
-	#elif defined(AVX512_CAPABLE)
-
+	#if defined(AVX512_CAPABLE)
 		static float innerProductSum16AVX512(
 			const float* node, const float* query, const size_t dim16
 		) {
@@ -156,8 +152,6 @@ namespace chm {
 			return 1.f - innerProductSum16AVX512(node, query, dim16);
 		}
 
-		FunctionInfo ip16AVX512(innerProduct16AVX512, "ip16AVX512");
-
 		static float innerProduct16ResidualAVX512(
 			const float* node, const float* query, const size_t,
 			const size_t dim4, const size_t dim16, const size_t dimLeft
@@ -167,10 +161,11 @@ namespace chm {
 			return 1.f - (front + back);
 		}
 
+		FunctionInfo ip16AVX512(innerProduct16AVX512, "ip16AVX512");
 		FunctionInfo ip16RAVX512(innerProduct16ResidualAVX512, "ip16RAVX512");
+	#endif
 
-	#elif defined(SSE_CAPABLE)
-
+	#if defined(SSE_CAPABLE)
 		static float innerProductSum16SSE(
 			const float* node, const float* query, const size_t dim16
 		) {
@@ -216,8 +211,6 @@ namespace chm {
 			return 1.f - innerProductSum16SSE(node, query, dim16);
 		}
 
-		FunctionInfo ip16SSE(innerProduct16SSE, "ip16SSE");
-
 		static float innerProduct16ResidualSSE(
 			const float* node, const float* query, const size_t,
 			const size_t dim4, const size_t dim16, const size_t dimLeft
@@ -226,8 +219,6 @@ namespace chm {
 			const float back = innerProductSum(node + dim16, query + dim16, dimLeft);
 			return 1.f - (front + back);
 		}
-
-		FunctionInfo ip16RSSE(innerProduct16ResidualSSE, "ip16RSSE");
 
 		static float innerProductSum4SSE(
 			const float* node, const float* query, const size_t dim4, const size_t dim16
@@ -283,8 +274,6 @@ namespace chm {
 			return 1.f - innerProductSum4SSE(node, query, dim4, dim16);
 		}
 
-		FunctionInfo ip4SSE(innerProduct4SSE, "ip4SSE");
-
 		static float innerProduct4ResidualSSE(
 			const float* node, const float* query, const size_t,
 			const size_t dim4, const size_t dim16, const size_t dimLeft
@@ -294,15 +283,16 @@ namespace chm {
 			return 1.f - (front + back);
 		}
 
+		FunctionInfo ip16SSE(innerProduct16SSE, "ip16SSE");
+		FunctionInfo ip16RSSE(innerProduct16ResidualSSE, "ip16RSSE");
+		FunctionInfo ip4SSE(innerProduct4SSE, "ip4SSE");
 		FunctionInfo ip4RSSE(innerProduct4ResidualSSE, "ip4RSSE");
-
 	#endif
 
 	inline DistanceInfo getInnerProductInfo(
 		const size_t dim, const size_t dim4, const size_t dim16, SIMDType type
 	) {
 		#if defined(SIMD_CAPABLE)
-
 			if(type == SIMDType::NONE)
 				return DistanceInfo(0, ip);
 
@@ -348,7 +338,7 @@ namespace chm {
 						throw std::runtime_error("Unknown SIMD type.");
 				}
 			else if (dim > 16) {
-				dimLeft = dim - dim16;
+				const auto dimLeft = dim - dim16;
 
 				switch(type) {
 					case SIMDType::AVX:
@@ -374,7 +364,7 @@ namespace chm {
 				}
 			}
 			else if (dim > 4) {
-				dimLeft = dim - dim4;
+				const auto dimLeft = dim - dim4;
 
 				switch(type) {
 					case SIMDType::AVX:
@@ -394,7 +384,6 @@ namespace chm {
 						throw std::runtime_error("Unknown SIMD type.");
 				}
 			}
-
 		#endif
 
 		return DistanceInfo(0, ip);

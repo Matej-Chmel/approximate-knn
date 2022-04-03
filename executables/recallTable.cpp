@@ -18,6 +18,8 @@ struct Config {
 	chm::uint mMax;
 	chm::uint seed;
 	chm::SIMDType simdType;
+	bool useHeuristic;
+	bool usePrefetch;
 
 	Config(const fs::path& p) {
 		std::ifstream stream(p);
@@ -33,6 +35,8 @@ struct Config {
 		this->efConstruction = obj["efConstruction"];
 		this->mMax = obj["mMax"];
 		this->seed = obj["seed"];
+		this->useHeuristic = obj["useHeuristic"];
+		this->usePrefetch = obj["usePrefetch"];
 
 		if(!obj.contains("SIMD") || obj["SIMD"].is_null())
 			this->simdType = chm::SIMDType::NONE;
@@ -46,13 +50,30 @@ struct Config {
 	}
 };
 
+template<bool useHeuristic, bool usePrefetch>
+inline void runRecallTable(const Config& cfg, const fs::path& dataDir) {
+	chm::RecallTable<useHeuristic, usePrefetch> table(dataDir / (cfg.dataset + ".bin"), cfg.efSearch);
+	table.run(std::cout, cfg.efConstruction, cfg.mMax, cfg.seed, cfg.simdType);
+	table.print(std::cout);
+}
+
 int main() {
 	try {
 		const auto repoDir = fs::path(REPO_DIR);
 		Config cfg(repoDir / "config" / "recallTableConfig.json");
-		chm::RecallTable table(repoDir / "data" / (cfg.dataset + ".bin"), cfg.efSearch);
-		table.run(std::cout, cfg.efConstruction, cfg.mMax, cfg.seed, cfg.simdType);
-		table.print(std::cout);
+		const auto dataDir = repoDir / "data";
+
+		if(cfg.useHeuristic) {
+			if(cfg.usePrefetch)
+				runRecallTable<true, true>(cfg, dataDir);
+			else
+				runRecallTable<true, false>(cfg, dataDir);
+		} else {
+			if(cfg.usePrefetch)
+				runRecallTable<false, true>(cfg, dataDir);
+			else
+				runRecallTable<false, false>(cfg, dataDir);
+		}
 
 	} catch(const std::exception& e) {
 		std::cerr << "[ERROR] " << e.what() << '\n';

@@ -33,8 +33,8 @@ namespace chm {
 			const uint neighborID, const float* const query, const uint ef, FarHeap& W
 		);
 		void push(const FloatArray& arr);
-		FarHeap query(const float* const data, const uint k);
-		KnnResults query(const FloatArray& arr, const uint k);
+		KnnResults queryBatch(const FloatArray& arr, const uint k);
+		FarHeap queryOne(const float* const data, const uint k);
 		void resetEp(const float* const query);
 
 		template<bool searching>
@@ -68,13 +68,13 @@ namespace chm {
 		);
 
 		void push(const float* const data, const uint count);
-		KnnResults query(const float* const data, const uint count, const uint k = 10);
+		KnnResults queryBatch(const float* const data, const uint count, const uint k = 10);
 		void setEfSearch(const uint efSearch);
 
 		#ifdef PYBIND_INCLUDED
 
 			void push(const NumpyArray<float> data);
-			py::tuple query(const NumpyArray<float> data, const uint k = 10);
+			py::tuple queryBatch(const NumpyArray<float> data, const uint k = 10);
 
 		#endif
 	};
@@ -175,7 +175,7 @@ namespace chm {
 		uint i = 0;
 
 		if(this->space.isEmpty()) {
-			i = 1;
+			i++;
 			this->entryLevel = this->gen.getNext();
 			this->conn.init(this->entryID, this->entryLevel);
 		}
@@ -190,29 +190,11 @@ namespace chm {
 	}
 
 	template<bool useHeuristic, bool usePrefetch>
-	inline FarHeap Index<useHeuristic, usePrefetch>::query(const float* const data, const uint k) {
-		const auto maxEf = this->cfg.getMaxEf(k);
-		this->heaps.reserve(std::max(maxEf, this->cfg.mMax0));
-		this->resetEp(data);
-		const auto L = this->entryLevel;
-
-		for(auto lc = L; lc > 0; lc--)
-			this->searchUpperLayer(data, lc);
-
-		this->searchLowerLayer<true>(data, maxEf, 0, this->space.getCount());
-
-		while(this->heaps.far.len() > k)
-			this->heaps.far.pop();
-
-		return this->heaps.far;
-	}
-
-	template<bool useHeuristic, bool usePrefetch>
-	inline KnnResults Index<useHeuristic, usePrefetch>::query(const FloatArray& arr, const uint k) {
+	inline KnnResults Index<useHeuristic, usePrefetch>::queryBatch(const FloatArray& arr, const uint k) {
 		KnnResults res(arr.count, k);
 
 		for(size_t queryIdx = 0; queryIdx < arr.count; queryIdx++) {
-			auto heap = this->query(
+			auto heap = this->queryOne(
 				this->space.getNormalizedQuery(arr.data + queryIdx * this->space.dim), k
 			);
 
@@ -229,6 +211,24 @@ namespace chm {
 		}
 
 		return res;
+	}
+
+	template<bool useHeuristic, bool usePrefetch>
+	inline FarHeap Index<useHeuristic, usePrefetch>::queryOne(const float* const data, const uint k) {
+		const auto maxEf = this->cfg.getMaxEf(k);
+		this->heaps.reserve(std::max(maxEf, this->cfg.mMax0));
+		this->resetEp(data);
+		const auto L = this->entryLevel;
+
+		for(auto lc = L; lc > 0; lc--)
+			this->searchUpperLayer(data, lc);
+
+		this->searchLowerLayer<true>(data, maxEf, 0, this->space.getCount());
+
+		while(this->heaps.far.len() > k)
+			this->heaps.far.pop();
+
+		return this->heaps.far;
 	}
 
 	template<bool useHeuristic, bool usePrefetch>
@@ -323,7 +323,12 @@ namespace chm {
 			prev = this->ep.id;
 
 			if constexpr(usePrefetch) {
-				const auto lastIdx = N.len() - 1;
+				const auto len = N.len();
+
+				if(!len)
+					continue;
+
+				const auto lastIdx = len - 1;
 				this->space.prefetch(N.get(0));
 
 				for(size_t i = 0; i < lastIdx; i++) {
@@ -553,10 +558,10 @@ namespace chm {
 	}
 
 	template<bool useHeuristic, bool usePrefetch>
-	inline KnnResults Index<useHeuristic, usePrefetch>::query(
+	inline KnnResults Index<useHeuristic, usePrefetch>::queryBatch(
 		const float* const data, const uint count, const uint k
 	) {
-		return this->query(FloatArray(data, count), k);
+		return this->queryBatch(FloatArray(data, count), k);
 	}
 
 	template<bool useHeuristic, bool usePrefetch>
@@ -572,10 +577,10 @@ namespace chm {
 		}
 
 		template<bool useHeuristic, bool usePrefetch>
-		inline py::tuple Index<useHeuristic, usePrefetch>::query(
+		inline py::tuple Index<useHeuristic, usePrefetch>::queryBatch(
 			const NumpyArray<float> data, const uint k
 		) {
-			return this->query(FloatArray(data, this->space.dim), k).makeTuple();
+			return this->queryBatch(FloatArray(data, this->space.dim), k).makeTuple();
 		}
 
 	#endif

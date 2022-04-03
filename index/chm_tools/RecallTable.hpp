@@ -83,7 +83,7 @@ namespace chm {
 	template<bool useHeuristic, bool usePrefetch>
 	inline RecallTable<useHeuristic, usePrefetch>::RecallTable(
 		const fs::path& datasetPath, const std::vector<uint>& efSearchValues
-	) : RecallTable(std::make_shared<Dataset>(datasetPath), efSearchValues) {}
+	) : RecallTable(std::make_shared<Dataset<useHeuristic, usePrefetch>>(datasetPath), efSearchValues) {}
 
 	template<bool useHeuristic, bool usePrefetch>
 	inline void RecallTable<useHeuristic, usePrefetch>::print(std::ostream& s) const {

@@ -40,7 +40,7 @@ namespace chm {
 
 	void VisitedSet::prefetch(const uint id) const {
 		#if defined(SSE_CAPABLE)
-			_mm_prefetch(reinterpret_cast<const char*>(&this->v[id]), _MM_HINT_T0);
+			// _mm_prefetch(reinterpret_cast<const char*>(&this->v[id]), _MM_HINT_T0);
 		#endif
 	}
 

@@ -19,7 +19,8 @@ namespace chm {
 		throw std::runtime_error("Invalid SIMD type.");
 	}
 
-	FunctionInfo(const DistanceFunction f, const char* const name) : f(f), name(name) {}
-	DistanceInfo(const size_t dimLeft, const FunctionInfo funcInfo)
+	FunctionInfo::FunctionInfo(const DistanceFunction f, const char* const name) : f(f), name(name) {}
+
+	DistanceInfo::DistanceInfo(const size_t dimLeft, const FunctionInfo funcInfo)
 		: dimLeft(dimLeft), funcInfo(funcInfo) {}
 }

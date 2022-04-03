@@ -1,8 +1,10 @@
 {
-	"dataset": "angular-20000",
+	"dataset": "angular-d25-20000",
 	"efConstruction": 200,
 	"efSearch": [10, 50, 100, 500, 1000],
 	"mMax": 16,
 	"seed": 200,
-	"SIMD": null
+	"SIMD": "sse",
+	"useHeuristic": true,
+	"usePrefetch": false
 }

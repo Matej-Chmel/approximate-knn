@@ -1,6 +1,7 @@
-from chm_hnsw import getRecall, Index, SIMDType, Space
+import chm_hnsw as h
 from dataclasses import dataclass
 from .Dataset import Dataset
+import json
 import pandas
 from pathlib import Path
 import time
@@ -10,6 +11,36 @@ ELAPSED_PRETTY_WIDTH = 29
 ELAPSED_WIDTH = 29
 N = "\n"
 RECALL_WIDTH = 12
+
+@dataclass
+class RecallTableConfig:
+	dataset: str
+	efConstruction: int
+	efSearch: list[int]
+	mMax: int
+	seed: int
+	simdType: h.SIMDType
+	useHeuristic: bool
+	usePrefetch: bool
+
+	@classmethod
+	def fromJSON(cls, p: Path):
+		with p.open("r", encoding="utf-8") as f:
+			obj = json.load(f)
+			return RecallTableConfig(
+				obj["dataset"], obj["efConstruction"], obj["efSearch"], obj["mMax"], obj["seed"],
+				h.SIMDType.NONE
+				if "SIMD" not in obj or obj["SIMD"] is None
+				else h.getSIMDType(obj["SIMD"]),
+				obj["useHeuristic"], obj["usePrefetch"]
+			)
+
+	def getIndexCls(self):
+		if self.useHeuristic:
+			if self.usePrefetch:
+				return h.PrefetchingIndex
+			return h.HeuristicIndex
+		return h.NaiveIndex
 
 def getPrettyElapsedStr(elapsedNS: int):
 	return str(pandas.Timedelta(nanoseconds=elapsedNS))
@@ -24,13 +55,12 @@ class QueryBenchmark:
 		return getPrettyElapsedStr(self.elapsedNS)
 
 class RecallTable:
-	def __init__(self, dataset: Dataset, efSearchValues: list[int]):
+	def __init__(self, cfg: RecallTableConfig, dataset: Dataset):
 		self.benchmarks: list[QueryBenchmark] = None
 		self.buildElapsedNS: int = None
+		self.cfg = cfg
 		self.dataset = dataset
-		self.efSearchValues = efSearchValues
-		self.index: Index = None
-		self.space = Space.ANGULAR if self.dataset.angular else Space.EUCLIDEAN
+		self.space = h.Space.ANGULAR if self.dataset.angular else h.Space.EUCLIDEAN
 
 	def __str__(self):
 		return "\n".join([
@@ -45,20 +75,17 @@ class RecallTable:
 		])
 
 	@classmethod
-	def fromHDF(cls, datasetPath: Path, efSearchValues: list[int]):
-		return cls(Dataset.fromHDF(datasetPath), efSearchValues)
+	def fromHDF(cls, cfg: RecallTableConfig, datasetPath: Path):
+		return cls(cfg, Dataset.fromHDF(datasetPath))
 
-	def run(self,
-		efConstruction: int = 200, mMax: int = 16, seed: int = 100,
-		simdType: SIMDType = SIMDType.NONE
-	):
+	def run(self):
 		self.benchmarks = []
 		print("Building index.")
 
 		start = time.perf_counter_ns()
-		self.index = Index(
+		self.index = self.cfg.getIndexCls()(
 			self.dataset.dim, self.dataset.trainCount,
-			efConstruction, mMax, seed, simdType, self.space
+			self.cfg.efConstruction, self.cfg.mMax, self.cfg.seed, self.cfg.simdType, self.space
 		)
 		self.index.push(self.dataset.train)
 		end = time.perf_counter_ns()
@@ -66,21 +93,21 @@ class RecallTable:
 		self.buildElapsedNS = end - start
 		print(f"Index built in {getPrettyElapsedStr(self.buildElapsedNS)}.", end = "\n\n")
 
-		for efSearch in self.efSearchValues:
+		for efSearch in self.cfg.efSearch:
 			benchmark = QueryBenchmark(efSearch)
 			self.benchmarks.append(benchmark)
 			print(f"Querying with efSearch = {efSearch}.")
 
 			start = time.perf_counter_ns()
 			self.index.setEfSearch(efSearch)
-			knnResults = self.index.query(self.dataset.test, self.dataset.k)
+			knnResults = self.index.queryBatch(self.dataset.test, self.dataset.k)
 			end = time.perf_counter_ns()
 			benchmark.elapsedNS = end - start
 			print(f"Completed in {benchmark.getPrettyElapsedStr()}.")
 
 			print("Computing recall.")
 			start = time.perf_counter_ns()
-			benchmark.recall = getRecall(self.dataset.neighbors, knnResults[0])
+			benchmark.recall = h.getRecall(self.dataset.neighbors, knnResults[0])
 			end = time.perf_counter_ns()
 			recallElapsedNS = end - start
 			print(f"Recall computed in {getPrettyElapsedStr(recallElapsedNS)}.", end="\n\n")

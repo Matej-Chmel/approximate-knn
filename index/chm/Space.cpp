@@ -62,7 +62,9 @@ namespace chm {
 	}
 
 	void Space::prefetch(const uint id) const {
-		_mm_prefetch(reinterpret_cast<const char*>(this->getData(id)), _MM_HINT_T0);
+		#if defined(SSE_CAPABLE)
+			_mm_prefetch(reinterpret_cast<const char*>(this->getData(id)), _MM_HINT_T0);
+		#endif
 	}
 
 	void Space::push(const float* const data, const uint count) {

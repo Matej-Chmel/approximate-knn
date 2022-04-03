@@ -112,7 +112,7 @@ namespace chm {
 		const uint efConstruction, const uint mMax, const uint seed, const SIMDType simdType
 	) const {
 		return std::make_shared<Index<useHeuristic, usePrefetch>>(
-			this->dim, efConstruction, this->trainCount, mMax, seed, simdType, this->space
+			this->dim, this->trainCount, efConstruction, mMax, seed, simdType, this->space
 		);
 	}
 
@@ -138,7 +138,7 @@ namespace chm {
 		const IndexPtr<useHeuristic, usePrefetch>& index, const uint efSearch
 	) const {
 		index->setEfSearch(efSearch);
-		return index->query(this->test.data(), this->testCount, this->k);
+		return index->queryBatch(this->test.data(), this->testCount, this->k);
 	}
 
 	template<bool useHeuristic, bool usePrefetch>

@@ -24,9 +24,9 @@ namespace chm {
 				py::arg("data")
 			)
 			.def(
-				"query",
+				"queryBatch",
 				py::overload_cast<const NumpyArray<float>, const uint>(
-					&Index<useHeuristic, usePrefetch>::query
+					&Index<useHeuristic, usePrefetch>::queryBatch
 				),
 				py::arg("data"), py::arg("k") = 10
 			)

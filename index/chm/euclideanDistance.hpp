@@ -20,7 +20,6 @@ namespace chm {
 	FunctionInfo euc(euclideanDistance, "euc");
 
 	#if defined(AVX_CAPABLE)
-
 		static float euclideanDistance16AVX(
 			const float* node, const float* query, const size_t,
 			const size_t, const size_t dim16, const size_t
@@ -52,8 +51,6 @@ namespace chm {
 				tmp[4] + tmp[5] + tmp[6] + tmp[7];
 		}
 
-		FunctionInfo euc16AVX(euclideanDistance16AVX, "euc16AVX");
-
 		static float euclideanDistance16ResidualAVX(
 			const float* node, const float* query, const size_t,
 			const size_t dim4, const size_t dim16, const size_t dimLeft
@@ -63,10 +60,11 @@ namespace chm {
 			return front + back;
 		}
 
+		FunctionInfo euc16AVX(euclideanDistance16AVX, "euc16AVX");
 		FunctionInfo euc16RAVX(euclideanDistance16ResidualAVX, "euc16RAVX");
+	#endif
 
-	#elif defined(AVX512_CAPABLE)
-
+	#if defined(AVX512_CAPABLE)
 		static float euclideanDistance16AVX512(
 			const float* node, const float* query, const size_t,
 			const size_t, const size_t dim16, const size_t
@@ -93,8 +91,6 @@ namespace chm {
 				tmp[12] + tmp[13] + tmp[14] + tmp[15];
 		}
 
-		FunctionInfo euc16AVX512(euclideanDistance16AVX512, "euc16AVX512");
-
 		static float euclideanDistance16ResidualAVX512(
 			const float* node, const float* query, const size_t,
 			const size_t dim4, const size_t dim16, const size_t dimLeft
@@ -104,10 +100,11 @@ namespace chm {
 			return front + back;
 		}
 
+		FunctionInfo euc16AVX512(euclideanDistance16AVX512, "euc16AVX512");
 		FunctionInfo euc16RAVX512(euclideanDistance16ResidualAVX512, "euc16RAVX512");
+	#endif
 
-	#elif defined(SSE_CAPABLE)
-
+	#if defined(SSE_CAPABLE)
 		static float euclideanDistance16SSE(
 			const float* node, const float* query, const size_t,
 			const size_t, const size_t dim16, const size_t
@@ -151,8 +148,6 @@ namespace chm {
 			return tmp[0] + tmp[1] + tmp[2] + tmp[3];
 		}
 
-		FunctionInfo euc16SSE(euclideanDistance16SSE, "euc16SSE");
-
 		static float euclideanDistance4SSE(
 			const float* node, const float* query, const size_t,
 			const size_t dim4, const size_t, const size_t
@@ -175,8 +170,6 @@ namespace chm {
 			return tmp[0] + tmp[1] + tmp[2] + tmp[3];
 		}
 
-		FunctionInfo euc4SSE(euclideanDistance4SSE, "euc4SSE");
-
 		static float euclideanDistance4ResidualSSE(
 			const float* node, const float* query, const size_t,
 			const size_t dim4, const size_t dim16, const size_t dimLeft
@@ -185,8 +178,6 @@ namespace chm {
 			const float back = euclideanDistance(node + dim4, query + dim4, dimLeft, 0, 0, 0);
 			return front + back;
 		}
-
-		FunctionInfo euc4RSSE(euclideanDistance4ResidualSSE, "euc4RSSE");
 
 		static float euclideanDistance16ResidualSSE(
 			const float* node, const float* query, const size_t,
@@ -197,15 +188,16 @@ namespace chm {
 			return front + back;
 		}
 
+		FunctionInfo euc16SSE(euclideanDistance16SSE, "euc16SSE");
+		FunctionInfo euc4SSE(euclideanDistance4SSE, "euc4SSE");
+		FunctionInfo euc4RSSE(euclideanDistance4ResidualSSE, "euc4RSSE");
 		FunctionInfo euc16RSSE(euclideanDistance16ResidualSSE, "euc16RSSE");
-
 	#endif
 
 	inline DistanceInfo getEuclideanInfo(
 		const size_t dim, const size_t dim4, const size_t dim16, const SIMDType type
 	) {
 		#if defined(SIMD_CAPABLE)
-
 			if(type == SIMDType::NONE)
 				return DistanceInfo(0, euc);
 
@@ -239,7 +231,7 @@ namespace chm {
 					throw std::runtime_error("This CPU doesn't support SSE.");
 				#endif
 			else if (dim > 16) {
-				dimLeft = dim - dim16;
+				const auto dimLeft = dim - dim16;
 
 				switch(type) {
 					case SIMDType::AVX:
@@ -270,7 +262,6 @@ namespace chm {
 				#else
 					throw std::runtime_error("This CPU doesn't support SSE.");
 				#endif
-
 		#endif
 
 		return DistanceInfo(0, euc);
