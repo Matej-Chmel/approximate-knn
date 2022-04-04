@@ -11,13 +11,14 @@
 			cycle list name = color list
 		]
 			{% for algo in plot_data %}
+				% {{algo.name}}
 				{% if algo.scatter %}
-			\addplot [only marks] coordinates {
+					\addplot [only marks] coordinates {
 				{% else %}
-			\addplot coordinates {
+					\addplot coordinates {
 				{% endif %}
 					{% for coord in algo.coords %}
-				({{coord[0]}}, {{coord[1]}})
+						({{coord[0]}}, {{coord[1]}})
 					{% endfor %}
 				};
 			{% endfor %}

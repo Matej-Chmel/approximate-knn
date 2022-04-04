@@ -1,0 +1,35 @@
+float:
+  any:
+    chm-hnsw-heuristic:
+      docker-tag: ann-benchmarks-chm-hnsw
+      module: ann_benchmarks.algorithms.chm_hnsw
+      constructor: ChmHnswHeuristic
+      base-args: ["@metric"]
+      run-groups:
+        efConstruction-100-mMax-4:
+          arg-groups:
+            - {"efConstruction": 100, "mMax": 4}
+          query-args: [[10, 100, 400, 800]]
+        efConstruction-100-mMax-16:
+          arg-groups:
+            - {"efConstruction": 100, "mMax": 16}
+          query-args: [[10, 100, 400, 800]]
+    chm-hnsw-prefetching:
+      docker-tag: ann-benchmarks-chm-hnsw
+      module: ann_benchmarks.algorithms.chm_hnsw
+      constructor: ChmHnswPrefetching
+      base-args: ["@metric"]
+      run-groups:
+        efConstruction-100-mMax-4:
+          arg-groups:
+            - {"efConstruction": 100, "mMax": 4}
+          query-args: [[10, 100, 400, 800]]
+        efConstruction-100-mMax-16:
+          arg-groups:
+            - {"efConstruction": 100, "mMax": 16}
+          query-args: [[10, 100, 400, 800]]
+  euclidean: []
+  angular: []
+bit:
+  hamming: []
+  jaccard: []

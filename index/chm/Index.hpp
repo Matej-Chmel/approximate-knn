@@ -153,7 +153,6 @@ namespace chm {
 	inline void Index<useHeuristic, usePrefetch>::processNeighbor(
 		const uint neighborID, const float* const query, const uint ef, FarHeap& W
 	) {
-		this->visited.insert(neighborID);
 		const auto distance = this->space.getDistance(query, neighborID);
 		bool shouldAdd{};
 
@@ -270,7 +269,7 @@ namespace chm {
 			const auto N = this->conn.getNeighbors(cand, lc);
 
 			if constexpr(usePrefetch) {
-				VisitedResult visRes = this->visited.findNext(N, 0);
+				VisitResult visRes = this->visited.insertNext(N, 0);
 
 				if(visRes.success)
 					this->space.prefetch(visRes.neighborID);
@@ -281,7 +280,7 @@ namespace chm {
 
 					const auto currID = visRes.neighborID;
 
-					visRes = this->visited.findNext(N, visRes.idx + 1);
+					visRes = this->visited.insertNext(N, visRes.idx + 1);
 
 					if(visRes.success)
 						this->space.prefetch(visRes.neighborID);
