@@ -1,0 +1,2 @@
+mnist-784-euclidean
+nytimes-256-angular

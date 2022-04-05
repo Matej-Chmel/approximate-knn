@@ -23,6 +23,10 @@ class Config:
 		self.force = force
 		self.runs = str(runs)
 
+		for a in self.algos:
+			if not a.exists():
+				raise FileNotFoundError(f"Algorithm definitions file {a} does not exist.")
+
 	def __str__(self):
 		return (
 			f"Algos: {', '.join(map(str, self.algos))}{N}"
@@ -119,6 +123,8 @@ def tryRun(cfg: Config):
 	try:
 		run(cfg)
 		openWebsite()
+	except FileNotFoundError as e:
+		print(f"[FILE NOT FOUND] {e}")
 	except subprocess.SubprocessError as e:
 		print(f"[SUBPROCESS ERROR] {e}")
 
