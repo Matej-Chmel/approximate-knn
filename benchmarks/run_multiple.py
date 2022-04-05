@@ -13,39 +13,69 @@ DEFAULT_DATASETS_PATH = CONFIG_DIR / "datasets.txt"
 N = "\n"
 
 class Config:
-	def __init__(
-		self, algos: list[Path], datasets: list[str], dockerWorkers: int = 1,
-		force: bool = False, runs: int = 1
-	):
-		self.algos = [Path(a).absolute() for a in algos]
-		self.datasets = datasets
-		self.dockerWorkers = str(dockerWorkers)
-		self.force = force
-		self.runs = str(runs)
-
-		for a in self.algos:
-			if not a.exists():
-				raise FileNotFoundError(f"Algorithm definitions file {a} does not exist.")
+	def __init__(self):
+		self.algoDefPaths = [DEFAULT_ALGOS_PATH]
+		self.datasets = None
+		self.datasetsPath = DEFAULT_DATASETS_PATH
+		self.dockerWorkers = 1
+		self.force = False
+		self.runs = 1
 
 	def __str__(self):
 		return (
-			f"Algos: {', '.join(map(str, self.algos))}{N}"
-			f"Datasets: {', '.join(self.datasets)}{N}"
+			f"Algorithm definitions: {', '.join(map(str, self.algoDefPaths))}{N}"
+			f"Datasets: {'NOT PARSED' if self.datasets is None else ', '.join(self.datasets)}{N}"
+			f"Datasets file: {'NONE' if self.datasetsPath is None else self.datasetsPath}{N}"
 			f"Docker workers: {self.dockerWorkers}{N}"
 			f"Force re-run: {self.force}{N}"
 			f"Runs: {self.runs}"
 		)
 
-	@classmethod
-	def fromArgs(cls, args: Namespace):
-		return cls.fromDatasetsPath(args.algos, args.datasets, args.workers, args.force, args.runs)
+	def checkForErrors(self):
+		for a in self.algoDefPaths:
+			if not a.exists():
+				raise FileNotFoundError(f"Algorithm definitions file {a} does not exist.")
+
+		if self.datasets is None and not self.datasetsPath.exists():
+			raise FileNotFoundError(f"Datasets file {self.datasetsPath} does not exist.")
+
+		return self
+
+	def parseDatasetsFile(self):
+		if self.datasetsPath is not None:
+			self.datasets = parseDatasetsFile(self.datasetsPath)
+		return self
+
+	def setAlgoDefPaths(self, algoDefPaths: list[str]):
+		self.algoDefPaths = [Path(a).absolute() for a in algoDefPaths]
+		return self
+
+	def setDatasets(self, datasets: list[str]):
+		self.datasets = datasets
+		self.datasetsPath = None
+		return self
+
+	def setDatasetsPath(self, datasetsPath: str):
+		self.datasets = None
+		self.datasetsPath = Path(datasetsPath).absolute()
+		return self
+
+	def setDockerWorkers(self, workers: int):
+		self.dockerWorkers = workers
+		return self
+
+	def setForce(self, force: bool):
+		self.force = force
+		return self
+
+	def setRuns(self, runs: int):
+		self.runs = runs
+		return self
 
 	@classmethod
-	def fromDatasetsPath(
-		cls, algosPath: Path, datasetsPath: Path, dockerWorkers: int = 1,
-		force: bool = False, runs: int = 1
-	):
-		return cls(algosPath, parseDatasetsFile(datasetsPath), dockerWorkers, force, runs)
+	def fromArgs(cls, args: Namespace):
+		return cls().setAlgoDefPaths(args.algoDefPaths).setDatasetsPath(
+			args.datasetsPath).setDockerWorkers(args.workers).setForce(args.force).setRuns(args.runs)
 
 def createWebsite():
 	print("Creating website.")
@@ -57,16 +87,16 @@ def createWebsite():
 def getArgs():
 	p = ArgumentParser("BENCHMARK_MULTIPLE", description="Runs multiple benchmarks.")
 	p.add_argument(
-		"-a", "--algos", help="Paths to YAML files with algorithm definitions.",
+		"-a", "--algoDefPaths", help="Paths to YAML files with algorithm definitions.",
 		nargs="+", required=True
 	)
 	p.add_argument(
-		"-d", "--datasets", default=DEFAULT_DATASETS_PATH, help="Path to text file with datasets."
+		"-d", "--datasetsPath", default=DEFAULT_DATASETS_PATH, help="Path to text file with datasets."
 	)
 	p.add_argument(
 		"-f", "--force", action="store_true", help="Force re-running already computed benchmarks."
 	)
-	p.add_argument("-r", "--runs", default=3, help="Number of runs per benchmark.", type=int)
+	p.add_argument("-r", "--runs", default=1, help="Number of runs per benchmark.", type=int)
 	p.add_argument("-w", "--workers", default=1, help="Number of Docker workers.", type=int)
 	return p.parse_args()
 
@@ -105,23 +135,23 @@ def runBenchmarks(cfg: Config):
 	print("Running benchmarks.")
 	print(cfg)
 
-	for a in cfg.algos:
-		for d in cfg.datasets:
-			runDataset(a, d, cfg)
+	for algoDefPath in cfg.algoDefPaths:
+		for dataset in cfg.datasets:
+			runDataset(algoDefPath, dataset, cfg)
 
 	print("Benchmarks completed.")
 
-def runDataset(algos: str, dataset: str, cfg: Config):
+def runDataset(algoDefPath: Path, dataset: str, cfg: Config):
 	print(f"Running benchmarks for dataset {dataset}.")
 	subprocess.call([
-		sys.executable, "run.py", "--dataset", dataset, "--definitions", algos,
-		"--parallelism", cfg.dockerWorkers, "--runs", cfg.runs
+		sys.executable, "run.py", "--dataset", dataset, "--definitions", str(algoDefPath),
+		"--parallelism", str(cfg.dockerWorkers), "--runs", str(cfg.runs)
 	] + (["--force"] if cfg.force else []), cwd=SCRIPT_DIR)
 	print(f"Benchmarks for dataset {dataset} completed.")
 
 def tryRun(cfg: Config):
 	try:
-		run(cfg)
+		run(cfg.checkForErrors().parseDatasetsFile())
 		openWebsite()
 	except FileNotFoundError as e:
 		print(f"[FILE NOT FOUND] {e}")
