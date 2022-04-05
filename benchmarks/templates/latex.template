@@ -1,29 +1,14 @@
+\nextgroupplot[title={{dataset_name}}]
+{% for algo in plot_data %}
+	% {{algo.name}}
+	{% if algo.scatter %}
+		\addplot [only marks] coordinates {
+	{% else %}
+		\addplot coordinates {
+	{% endif %}
 
-\begin{subfigure}
-	\centering
-	\begin{tikzpicture}
-		\begin{axis}[
-			xlabel={% raw %}{{% endraw %}{{xlabel}}{% raw %}}{% endraw %},
-			ylabel={% raw %}{{% endraw %}{{ylabel}}{% raw %}}{% endraw %},
-			ymode = log,
-			yticklabel style={/pgf/number format/fixed, /pgf/number format/precision=3},
-			legend style={anchor=west},
-			cycle list name = color list
-		]
-			{% for algo in plot_data %}
-				% {{algo.name}}
-				{% if algo.scatter %}
-					\addplot [only marks] coordinates {
-				{% else %}
-					\addplot coordinates {
-				{% endif %}
-					{% for coord in algo.coords %}
-						({{coord[0]}}, {{coord[1]}})
-					{% endfor %}
-				};
-			{% endfor %}
-		\end{axis}
-	\end{tikzpicture}
-	\caption{% raw %}{{% endraw %}{{dataset_name}}{% raw %}}{% endraw %}{{''}}
-	\label{% raw %}{fig:{% endraw %}{{dataset_name}}{% raw %}}{% endraw %}{{''}}
-\end{subfigure}
+	{% for coord in algo.coords %}
+		({{coord[0]}}, {{coord[1]}})
+	{% endfor %}
+	};
+{% endfor %}
