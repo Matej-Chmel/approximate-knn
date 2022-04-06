@@ -1,3 +1,4 @@
+from ann_benchmarks.datasets import DATASETS
 from argparse import ArgumentParser, Namespace
 import pandas
 from pathlib import Path
@@ -11,6 +12,9 @@ CONFIG_DIR = SCRIPT_DIR / "config"
 DEFAULT_ALGOS_PATH = SCRIPT_DIR / "algos.yaml"
 DEFAULT_DATASETS_PATH = CONFIG_DIR / "datasets.txt"
 N = "\n"
+
+class AppError(Exception):
+	pass
 
 class Config:
 	def __init__(self):
@@ -30,6 +34,12 @@ class Config:
 			f"Force re-run: {self.force}{N}"
 			f"Runs: {self.runs}"
 		)
+
+	def checkDatasetsForErrors(self):
+		for d in self.datasets:
+			if d not in DATASETS:
+				raise AppError(f'Dataset "{d}" is not a valid dataset.')
+		return self
 
 	def checkForErrors(self):
 		for a in self.algoDefPaths:
@@ -74,8 +84,15 @@ class Config:
 
 	@classmethod
 	def fromArgs(cls, args: Namespace):
-		return cls().setAlgoDefPaths(args.algoDefPaths).setDatasetsPath(
-			args.datasetsPath).setDockerWorkers(args.workers).setForce(args.force).setRuns(args.runs)
+		cfg = cls().setAlgoDefPaths(args.algoDefPaths).setDockerWorkers(args.workers
+			).setForce(args.force).setRuns(args.runs)
+
+		if args.datasets:
+			cfg.setDatasets(args.datasets)
+		else:
+			cfg.setDatasetsPath(args.datasetsPath)
+
+		return cfg
 
 def createWebsite():
 	print("Creating website.")
@@ -91,10 +108,13 @@ def getArgs():
 		nargs="+", required=True
 	)
 	p.add_argument(
-		"-d", "--datasetsPath", default=DEFAULT_DATASETS_PATH, help="Path to text file with datasets."
+		"-d", "--datasets", help="Names of datasets to benchmark on.", nargs="*"
 	)
 	p.add_argument(
 		"-f", "--force", action="store_true", help="Force re-running already computed benchmarks."
+	)
+	p.add_argument(
+		"-p", "--datasetsPath", default=DEFAULT_DATASETS_PATH, help="Path to text file with datasets."
 	)
 	p.add_argument("-r", "--runs", default=1, help="Number of runs per benchmark.", type=int)
 	p.add_argument("-w", "--workers", default=1, help="Number of Docker workers.", type=int)
@@ -151,8 +171,10 @@ def runDataset(algoDefPath: Path, dataset: str, cfg: Config):
 
 def tryRun(cfg: Config):
 	try:
-		run(cfg.checkForErrors().parseDatasetsFile())
+		run(cfg.checkForErrors().parseDatasetsFile().checkDatasetsForErrors())
 		openWebsite()
+	except AppError as e:
+		print(f"[APP ERROR] {e}")
 	except FileNotFoundError as e:
 		print(f"[FILE NOT FOUND] {e}")
 	except subprocess.SubprocessError as e:
