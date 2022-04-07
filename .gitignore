@@ -5,8 +5,8 @@ __pycache__
 /benchmarks/*.csv
 /benchmarks/*.xlsx
 /benchmarks/*.log
+/benchmarks/*.tex
 /benchmarks/benchmarks_time.txt
-/benchmarks/buildParamsPlots.txt
 /benchmarks/data
 /benchmarks/results/*
 !/benchmarks/results/.gitkeep

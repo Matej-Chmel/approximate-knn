@@ -60,7 +60,7 @@ class Dataset:
 			res += f"{BACK_SLASH}addplot coordinates {{{N}% {algo.name}{N}"
 
 			for val in sorted(algo.plotValues, key=lambda v: v.x):
-				res += f"{TAB}{val}{N}"
+				res += f"{TAB}{val.getTupleStr()}{N}"
 
 			res += f"}};{N}"
 
@@ -94,19 +94,19 @@ class Plot:
 		)
 
 	def getDataset(self, datasetName: str):
-		df = df[df["dataset"] == datasetName]
+		df = self.df[self.df["dataset"] == datasetName]
 		return Dataset(datasetName, [self.getAlgorithm(algoName, df) for algoName in self.algos])
 
 	def getPlotPart(self, datasetNames: list[str], template: str):
-		return template.replace("@GROUP_SIZE@", "group size=2 by 2," if len(datasetNames) == 4 else ""
-		).replace("@YMODE@", "ymode = log," if self.yModeLog else ""
+		return template.replace("@GROUP_SIZE@", f"{N}group size=2 by 2," if len(datasetNames) == 4 else ""
+		).replace("@YMODE@", f"{N}ymode = log," if self.yModeLog else ""
 		).replace("@XLABEL@", self.xLabel
 		).replace("@YLABEL@", self.yLabel
 		).replace("@GROUP_PLOTS@", "\n\n".join([
 			self.getDataset(name).getGroupPlot()
 			for name in datasetNames
 		])).replace("@LEGEND@", ",".join(self.legend if self.legend is not None else self.algos)
-		).replace("@SHORT_CAPTION@", self.shortCaption if self.shortCaption is not None else ""
+		).replace("@SHORT_CAPTION@", f"[{self.shortCaption}]" if self.shortCaption is not None else ""
 		).replace("@LONG_CAPTION@", self.caption
 		).replace("@BEST_DIRECTION@", self.bestDirection
 		).replace("@LABEL@", self.plotLabel)

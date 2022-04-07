@@ -3,14 +3,12 @@
 		\ref{named}
 		\begin{tikzpicture}
 			\begin{groupplot}[
-				group style={
-					@GROUP_SIZE@
+				group style={@GROUP_SIZE@
 					vertical sep=3cm,
 					ylabels at=edge left
 				},
 				height=0.5\textwidth,
-				width=0.5\textwidth,
-				@YMODE@
+				width=0.5\textwidth,@YMODE@
 				xlabel={@XLABEL@},
 				ylabel={@YLABEL@},
 				xmajorgrids=true,
@@ -20,7 +18,6 @@
 				legend columns=-1
 			]
 				@GROUP_PLOTS@
-
 				\legend{@LEGEND@}
 			\end{groupplot}
 		\end{tikzpicture}
@@ -28,4 +25,3 @@
 		\label{fig:@LABEL@}
 	\end{center}
 \end{figure}
-\endinput
