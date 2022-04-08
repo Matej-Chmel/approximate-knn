@@ -37,6 +37,9 @@ def ChmHnswHeuristic(metric: str, method_param: dict):
 def ChmHnswNaive(metric: str, method_param: dict):
 	return ChmHnsw(h.NaiveIndex, metric, method_param, h.SIMDType.BEST)
 
+def ChmHnswNoBitArray(metric: str, method_param: dict):
+	return ChmHnsw(h.NoBitArrayIndex, metric, method_param, h.SIMDType.BEST)
+
 def ChmHnswNoSIMD(metric: str, method_param: dict):
 	return ChmHnsw(h.HeuristicIndex, metric, method_param, h.SIMDType.NONE)
 

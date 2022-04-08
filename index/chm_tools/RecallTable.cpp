@@ -1,6 +1,10 @@
+#include <fstream>
+#include <streambuf>
 #include "RecallTable.hpp"
 
 namespace chm {
+	namespace nl = nlohmann;
+
 	long long QueryBenchmark::getElapsedNum() const {
 		return this->elapsed.count();
 	}
@@ -23,6 +27,33 @@ namespace chm {
 
 	void QueryBenchmark::setRecall(const float recall) {
 		this->recall = recall;
+	}
+
+	RecallTableConfig::RecallTableConfig(const fs::path& jsonPath, const fs::path& dataDir) {
+		std::ifstream stream(jsonPath);
+
+		if(!stream.is_open())
+			throwCouldNotOpen(jsonPath);
+
+		const auto obj = nl::json::parse(std::string(
+			std::istreambuf_iterator(stream), std::istreambuf_iterator<char>())
+		);
+
+		this->datasetPath = dataDir / (obj.at("dataset").get<std::string>() + ".bin");
+		this->efConstruction = obj["efConstruction"];
+		this->indexTemplate = getIndexTemplate(obj.at("template").get<std::string>());
+		this->mMax = obj["mMax"];
+		this->seed = obj["seed"];
+
+		if(!obj.contains("SIMD") || obj["SIMD"].is_null())
+			this->simdType = chm::SIMDType::NONE;
+		else {
+			const std::string simdStr = obj["SIMD"];
+			this->simdType = chm::getSIMDType(simdStr);
+		}
+
+		for(const auto& item : obj["efSearch"])
+			this->efSearchValues.push_back(item.get<chm::uint>());
 	}
 
 	chr::nanoseconds Timer::getElapsed() const {

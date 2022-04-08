@@ -2,15 +2,13 @@
 #include <string>
 
 #if defined(SIMD_CAPABLE)
+	#include <immintrin.h>
+
 	#ifdef _MSC_VER
 		#include <intrin.h>
 		#include <stdexcept>
 	#else
 		#include <x86intrin.h>
-	#endif
-
-	#if defined(AVX512_CAPABLE)
-		#include <immintrin.h>
 	#endif
 
 	#if defined(__GNUC__)

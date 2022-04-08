@@ -74,13 +74,13 @@ Pro změnu datové kolekce nebo nastavení indexu v programech [executables/reca
 Konfigurace je JSON soubor s jediným objektem.
 ```json
 {
-	"dataset": "angular-20000",
+	"dataset": "angular-d25-20000",
 	"efConstruction": 200,
 	"efSearch": [10, 50, 100, 500, 1000],
 	"mMax": 16,
 	"seed": 200,
-	"useHeuristic": true,
-	"SIMD": null
+	"SIMD": null,
+	"template": "heuristic"
 }
 ```
 
@@ -92,5 +92,4 @@ Konfigurace je JSON soubor s jediným objektem.
 |mMax|int|Maximální povolený počet sousedů jednoho prvku v indexu na vrstvě vyšší než ta nejspodnější.|
 |seed|int|Nastavení generátoru náhodných úrovní v indexu.|
 |SIMD|string|Upřednostňovaný typ SIMD instrukcí. Možnosti jsou `avx`, `avx512`, `best`, `null`, a `sse`.|
-|useHeuristic|boolean|Pokud je nastaven na `true`, využívá index heuristiky při výběru sousedů. Jinak využívá naivního algoritmu.|
-|usePrefetch|boolean|Pokud je nastaven na `true`, index používá asynchronní načítání dat do paměti.|
+|template|string|Šablona indexu. Možnosti jsou `Heuristic`, `Naive`, `NoBitArray` a `Prefetching`.|

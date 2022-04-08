@@ -1,6 +1,5 @@
 #include <algorithm>
 #include <cmath>
-#include <immintrin.h>
 #include "euclideanDistance.hpp"
 #include "innerProduct.hpp"
 #include "Space.hpp"
@@ -62,15 +61,18 @@ namespace chm {
 	}
 
 	void Space::prefetch(const uint id) const {
-		#if defined(SSE_CAPABLE)
+		#if defined(SIMD_CAPABLE)
 			_mm_prefetch(reinterpret_cast<const char*>(this->getData(id)), _MM_HINT_T0);
 		#endif
 	}
 
 	void Space::push(const float* const data, const uint count) {
-		if(this->normalize)
+		if(this->normalize) {
+			const size_t prevCount(this->count);
+
 			for(uint i = 0; i < count; i++)
-				this->normalizeData(data + i * this->dim, this->data.data() + (this->count + i) * this->dim);
+				this->normalizeData(data + i * this->dim, this->data.data() + (prevCount + i) * this->dim);
+		}
 		else
 			std::copy(data, data + count * this->dim, this->data.data() + this->count * this->dim);
 

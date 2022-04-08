@@ -4,13 +4,14 @@
 #include "Configuration.hpp"
 #include "Connections.hpp"
 #include "HeapPair.hpp"
+#include "IndexTemplate.hpp"
 #include "LevelGenerator.hpp"
 #include "KnnResults.hpp"
 #include "Space.hpp"
 #include "VisitedSet.hpp"
 
 namespace chm {
-	template<bool useHeuristic = false, bool usePrefetch = false>
+	template<class T = NaiveTemplate>
 	class Index {
 		Configuration cfg;
 		Connections conn;
@@ -20,7 +21,7 @@ namespace chm {
 		LevelGenerator gen;
 		HeapPair heaps;
 		Space space;
-		VisitedSet visited;
+		typename T::VisitedSet visited;
 
 		template<class Comparator>
 		void fillHeap(
@@ -58,6 +59,7 @@ namespace chm {
 			const uint M, const uint queryID, Neighbors& R,
 			const float* const latestData, const uint latestID
 		);
+		static constexpr bool useBitArray();
 
 	public:
 		std::string getString() const;
@@ -79,12 +81,12 @@ namespace chm {
 		#endif
 	};
 
-	template<bool useHeuristic, bool usePrefetch>
-	using IndexPtr = std::shared_ptr<Index<useHeuristic, usePrefetch>>;
+	template<class T>
+	using IndexPtr = std::shared_ptr<Index<T>>;
 
-	template<bool useHeuristic, bool usePrefetch>
+	template<class T>
 	template<class Comparator>
-	inline void Index<useHeuristic, usePrefetch>::fillHeap(
+	inline void Index<T>::fillHeap(
 		Heap<Comparator>& h, const Neighbors& N, const uint queryID,
 		const float* const latestData, const uint latestID
 	) {
@@ -92,7 +94,7 @@ namespace chm {
 		h.clear();
 		h.push(this->space.getDistance(data, latestData), latestID);
 
-		if constexpr(usePrefetch) {
+		if constexpr(T::usePrefetch) {
 			const auto lastIdx = N.len() - 1;
 			this->space.prefetch(N.get(0));
 
@@ -111,8 +113,8 @@ namespace chm {
 				h.push(this->space.getDistance(data, id), id);
 	}
 
-	template<bool useHeuristic, bool usePrefetch>
-	inline void Index<useHeuristic, usePrefetch>::insert(
+	template<class T>
+	inline void Index<T>::insert(
 		const float* const queryData, const uint queryID
 	) {
 		const auto L = this->entryLevel;
@@ -149,8 +151,8 @@ namespace chm {
 		}
 	}
 
-	template<bool useHeuristic, bool usePrefetch>
-	inline void Index<useHeuristic, usePrefetch>::processNeighbor(
+	template<class T>
+	inline void Index<T>::processNeighbor(
 		const uint neighborID, const float* const query, const uint ef, FarHeap& W
 	) {
 		const auto distance = this->space.getDistance(query, neighborID);
@@ -169,8 +171,8 @@ namespace chm {
 		}
 	}
 
-	template<bool useHeuristic, bool usePrefetch>
-	inline void Index<useHeuristic, usePrefetch>::push(const FloatArray& arr) {
+	template<class T>
+	inline void Index<T>::push(const FloatArray& arr) {
 		uint i = 0;
 
 		if(this->space.isEmpty()) {
@@ -188,8 +190,8 @@ namespace chm {
 		}
 	}
 
-	template<bool useHeuristic, bool usePrefetch>
-	inline KnnResults Index<useHeuristic, usePrefetch>::queryBatch(const FloatArray& arr, const uint k) {
+	template<class T>
+	inline KnnResults Index<T>::queryBatch(const FloatArray& arr, const uint k) {
 		KnnResults res(arr.count, k);
 
 		for(size_t queryIdx = 0; queryIdx < arr.count; queryIdx++) {
@@ -212,8 +214,8 @@ namespace chm {
 		return res;
 	}
 
-	template<bool useHeuristic, bool usePrefetch>
-	inline FarHeap Index<useHeuristic, usePrefetch>::queryOne(const float* const data, const uint k) {
+	template<class T>
+	inline FarHeap Index<T>::queryOne(const float* const data, const uint k) {
 		const auto maxEf = this->cfg.getMaxEf(k);
 		this->heaps.reserve(std::max(maxEf, this->cfg.mMax0));
 		this->resetEp(data);
@@ -230,15 +232,15 @@ namespace chm {
 		return this->heaps.far;
 	}
 
-	template<bool useHeuristic, bool usePrefetch>
-	inline void Index<useHeuristic, usePrefetch>::resetEp(const float* const query) {
+	template<class T>
+	inline void Index<T>::resetEp(const float* const query) {
 		this->ep.distance = this->space.getDistance(query, this->entryID);
 		this->ep.id = this->entryID;
 	}
 
-	template<bool useHeuristic, bool usePrefetch>
+	template<class T>
 	template<bool searching>
-	inline void Index<useHeuristic, usePrefetch>::searchLowerLayer(
+	inline void Index<T>::searchLowerLayer(
 		const float* const query, const uint ef, const uint lc, const uint countBeforeQuery
 	) {
 		this->heaps.prepareLowerSearch(this->ep);
@@ -268,7 +270,14 @@ namespace chm {
 			C.pop();
 			const auto N = this->conn.getNeighbors(cand, lc);
 
-			if constexpr(usePrefetch) {
+			if constexpr(T::usePrefetch) {
+				if constexpr(!Index<T>::useBitArray()) {
+					if(!N.len())
+						continue;
+
+					this->visited.prefetch(N.get(0));
+				}
+
 				VisitResult visRes = this->visited.insertNext(N, 0);
 
 				if(visRes.success)
@@ -288,31 +297,15 @@ namespace chm {
 					this->processNeighbor(currID, query, ef, W);
 				}
 
-			} else {
-				for(const auto& id : N) {
-					if(this->visited.insert(id)) {
-						const auto distance = this->space.getDistance(query, id);
-						bool shouldAdd{};
-
-						{
-							const auto& f = W.top();
-							shouldAdd = f.distance > distance || W.len() < ef;
-						}
-
-						if(shouldAdd) {
-							this->heaps.push(distance, id);
-
-							if(W.len() > ef)
-								W.pop();
-						}
-					}
-				}
-			}
+			} else
+				for(const auto& id : N)
+					if(this->visited.insert(id))
+						this->processNeighbor(id, query, ef, W);
 		}
 	}
 
-	template<bool useHeuristic, bool usePrefetch>
-	inline void Index<useHeuristic, usePrefetch>::searchUpperLayer(
+	template<class T>
+	inline void Index<T>::searchUpperLayer(
 		const float* const query, const uint lc
 	) {
 		uint prev{};
@@ -321,7 +314,7 @@ namespace chm {
 			const auto N = this->conn.getNeighbors(this->ep.id, lc);
 			prev = this->ep.id;
 
-			if constexpr(usePrefetch) {
+			if constexpr(T::usePrefetch) {
 				const auto len = N.len();
 
 				if(!len)
@@ -363,19 +356,19 @@ namespace chm {
 		} while(this->ep.id != prev);
 	}
 
-	template<bool useHeuristic, bool usePrefetch>
-	inline Neighbors Index<useHeuristic, usePrefetch>::selectNewNeighbors(
+	template<class T>
+	inline Neighbors Index<T>::selectNewNeighbors(
 		const uint queryID, const uint lc
 	) {
 		auto N = this->conn.getNeighbors(queryID, lc);
 
-		if constexpr(useHeuristic)
+		if constexpr(T::useHeuristic)
 			return this->selectNewNeighborsHeuristic(N);
 		return this->selectNewNeighborsNaive(N);
 	}
 
-	template<bool useHeuristic, bool usePrefetch>
-	inline Neighbors Index<useHeuristic, usePrefetch>::selectNewNeighborsHeuristic(Neighbors& R) {
+	template<class T>
+	inline Neighbors Index<T>::selectNewNeighborsHeuristic(Neighbors& R) {
 		if(this->heaps.far.len() <= this->cfg.mMax) {
 			R.fillFrom(this->heaps.far, this->ep);
 			return R;
@@ -398,7 +391,7 @@ namespace chm {
 				const auto& e = W.top();
 				const auto eData = this->space.getData(e.id);
 
-				if constexpr(usePrefetch) {
+				if constexpr(T::usePrefetch) {
 					const auto lastIdx = R.len() - 1;
 					this->space.prefetch(R.get(0));
 
@@ -435,8 +428,8 @@ namespace chm {
 		return R;
 	}
 
-	template<bool useHeuristic, bool usePrefetch>
-	inline Neighbors Index<useHeuristic, usePrefetch>::selectNewNeighborsNaive(Neighbors& N) {
+	template<class T>
+	inline Neighbors Index<T>::selectNewNeighborsNaive(Neighbors& N) {
 		auto& W = this->heaps.far;
 
 		if(W.len() > this->cfg.mMax)
@@ -447,19 +440,19 @@ namespace chm {
 		return N;
 	}
 
-	template<bool useHeuristic, bool usePrefetch>
-	inline void Index<useHeuristic, usePrefetch>::shrinkNeighbors(
+	template<class T>
+	inline void Index<T>::shrinkNeighbors(
 		const uint M, const uint queryID, Neighbors& R,
 		const float* const latestData, const uint latestID
 	) {
-		if constexpr(useHeuristic)
+		if constexpr(T::useHeuristic)
 			this->shrinkNeighborsHeuristic(M, queryID, R, latestData, latestID);
 		else
 			this->shrinkNeighborsNaive(M, queryID, R, latestData, latestID);
 	}
 
-	template<bool useHeuristic, bool usePrefetch>
-	inline void Index<useHeuristic, usePrefetch>::shrinkNeighborsHeuristic(
+	template<class T>
+	inline void Index<T>::shrinkNeighborsHeuristic(
 		const uint M, const uint queryID, Neighbors& R,
 		const float* const latestData, const uint latestID
 	) {
@@ -475,7 +468,7 @@ namespace chm {
 				const auto& e = W.top();
 				const auto eData = this->space.getData(e.id);
 
-				if constexpr(usePrefetch) {
+				if constexpr(T::usePrefetch) {
 					const auto lastIdx = R.len() - 1;
 					this->space.prefetch(R.get(0));
 
@@ -505,8 +498,8 @@ namespace chm {
 		}
 	}
 
-	template<bool useHeuristic, bool usePrefetch>
-	inline void Index<useHeuristic, usePrefetch>::shrinkNeighborsNaive(
+	template<class T>
+	inline void Index<T>::shrinkNeighborsNaive(
 		const uint M, const uint queryID, Neighbors& R,
 		const float* const latestData, const uint latestID
 	) {
@@ -519,20 +512,41 @@ namespace chm {
 		R.fillFrom(W);
 	}
 
-	template<bool useHeuristic, bool usePrefetch>
-	inline std::string Index<useHeuristic, usePrefetch>::getString() const {
-		std::stringstream s;
-		s << "chm(e=" << this->cfg.efConstruction << ",m=" << this->cfg.mMax <<
-		",d=" << this->space.getDistanceName() << ",n=";
+	template<class T>
+	inline constexpr bool Index<T>::useBitArray() {
+		return std::is_same<T::VisitedSet, VisitedSet<bool>>::value;
+	}
 
-		if constexpr(useHeuristic)
+	template<class T>
+	inline std::string Index<T>::getString() const {
+		std::stringstream s;
+		/*
+			Meaning of abbreviations.
+			e ... efConstruction
+			m ... mMax
+			d ... name of distance function
+			b ... index uses a bit array (0 = false, 1 = true)
+			n ... neighbors selection method (h = heuristic, n = naive)
+			p ... index uses prefetch instruction (0 = false, 1 = true)
+		*/
+		s << "chm(e=" << this->cfg.efConstruction << ",m=" << this->cfg.mMax <<
+		",d=" << this->space.getDistanceName() << ",b=";
+
+		if constexpr(Index<T>::useBitArray())
+			s << "1";
+		else
+			s << "0";
+
+		s << ",n=";
+
+		if constexpr(T::useHeuristic)
 			s << 'h';
 		else
 			s << 'n';
 
 		s << ",p=";
 
-		if constexpr(usePrefetch)
+		if constexpr(T::usePrefetch)
 			s << '1';
 		else
 			s << '0';
@@ -542,8 +556,8 @@ namespace chm {
 		return s.str();
 	}
 
-	template<bool useHeuristic, bool usePrefetch>
-	inline Index<useHeuristic, usePrefetch>::Index(
+	template<class T>
+	inline Index<T>::Index(
 		const size_t dim, const uint maxCount, const uint efConstruction, const uint mMax,
 		const uint seed, const SIMDType simdType, const SpaceKind spaceKind
 	) : cfg(efConstruction, mMax), conn(maxCount, this->cfg.mMax, this->cfg.mMax0),
@@ -551,32 +565,32 @@ namespace chm {
 		heaps(efConstruction, this->cfg.mMax), space(dim, spaceKind, maxCount, simdType),
 		visited(maxCount) {}
 
-	template<bool useHeuristic, bool usePrefetch>
-	inline void Index<useHeuristic, usePrefetch>::push(const float* const data, const uint count) {
+	template<class T>
+	inline void Index<T>::push(const float* const data, const uint count) {
 		this->push(FloatArray(data, count));
 	}
 
-	template<bool useHeuristic, bool usePrefetch>
-	inline KnnResults Index<useHeuristic, usePrefetch>::queryBatch(
+	template<class T>
+	inline KnnResults Index<T>::queryBatch(
 		const float* const data, const uint count, const uint k
 	) {
 		return this->queryBatch(FloatArray(data, count), k);
 	}
 
-	template<bool useHeuristic, bool usePrefetch>
-	inline void Index<useHeuristic, usePrefetch>::setEfSearch(const uint efSearch) {
+	template<class T>
+	inline void Index<T>::setEfSearch(const uint efSearch) {
 		this->cfg.setEfSearch(efSearch);
 	}
 
 	#ifdef PYBIND_INCLUDED
 
-		template<bool useHeuristic, bool usePrefetch>
-		inline void Index<useHeuristic, usePrefetch>::push(const NumpyArray<float> data) {
+		template<class T>
+		inline void Index<T>::push(const NumpyArray<float> data) {
 			this->push(FloatArray(data, this->space.dim));
 		}
 
-		template<bool useHeuristic, bool usePrefetch>
-		inline py::tuple Index<useHeuristic, usePrefetch>::queryBatch(
+		template<class T>
+		inline py::tuple Index<T>::queryBatch(
 			const NumpyArray<float> data, const uint k
 		) {
 			return this->queryBatch(FloatArray(data, this->space.dim), k).makeTuple();

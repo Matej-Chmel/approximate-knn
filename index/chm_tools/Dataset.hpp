@@ -4,7 +4,6 @@
 #include <iomanip>
 #include <ios>
 #include <ostream>
-#include <sstream>
 #include <stdexcept>
 #include "chm/Index.hpp"
 #include "chm/recall.hpp"
@@ -12,7 +11,7 @@
 namespace chm {
 	namespace fs = std::filesystem;
 
-	template<bool useHeuristic = false, bool usePrefetch = false>
+	template<class T = NaiveTemplate>
 	class Dataset {
 		size_t dim;
 		uint k;
@@ -24,22 +23,23 @@ namespace chm {
 		std::vector<float> test, train;
 
 	public:
-		void build(const IndexPtr<useHeuristic, usePrefetch>& index) const;
+		void build(const IndexPtr<T>& index) const;
 		Dataset(const fs::path& p);
-		IndexPtr<useHeuristic, usePrefetch> getIndex(
+		IndexPtr<T> getIndex(
 			const uint efConstruction = 200, const uint mMax = 16,
 			const uint seed = 100, const SIMDType simdType = SIMDType::NONE
 		) const;
 		float getRecall(const KnnResults& results) const;
+		std::string getString() const;
 		bool isAngular() const;
-		KnnResults query(const IndexPtr<useHeuristic, usePrefetch>& index, const uint efSearch) const;
+		KnnResults query(const IndexPtr<T>& index, const uint efSearch) const;
 		void writeLongDescription(const fs::path& p) const;
 		void writeLongDescription(std::ostream& s) const;
 		void writeShortDescription(std::ostream& s) const;
 	};
 
-	template<bool useHeuristic, bool usePrefetch>
-	using DatasetPtr = std::shared_ptr<const Dataset<useHeuristic, usePrefetch>>;
+	template<class T>
+	using DatasetPtr = std::shared_ptr<const Dataset<T>>;
 
 	void throwCouldNotOpen(const fs::path& p);
 
@@ -79,15 +79,15 @@ namespace chm {
 		s.copyfmt(streamState);
 	}
 
-	template<bool useHeuristic, bool usePrefetch>
-	inline void Dataset<useHeuristic, usePrefetch>::build(
-		const IndexPtr<useHeuristic, usePrefetch>& index
+	template<class T>
+	inline void Dataset<T>::build(
+		const IndexPtr<T>& index
 	) const {
 		index->push(this->train.data(), this->trainCount);
 	}
 
-	template<bool useHeuristic, bool usePrefetch>
-	inline Dataset<useHeuristic, usePrefetch>::Dataset(const fs::path& p) : name(p.stem().string()) {
+	template<class T>
+	inline Dataset<T>::Dataset(const fs::path& p) : name(p.stem().string()) {
 		std::ifstream file(p, std::ios::binary);
 
 		if (!file.is_open())
@@ -102,27 +102,34 @@ namespace chm {
 		readBinary(file, this->k);
 		readBinary(file, this->testCount);
 		readBinary(file, this->trainCount);
-		readBinary(file, this->neighbors, size_t(this->k * this->testCount));
-		readBinary(file, this->test, size_t(this->dim * this->testCount));
-		readBinary(file, this->train, size_t(this->dim * this->trainCount));
+		readBinary(file, this->neighbors, size_t(this->k) * size_t(this->testCount));
+		readBinary(file, this->test, size_t(this->dim) * size_t(this->testCount));
+		readBinary(file, this->train, size_t(this->dim) * size_t(this->trainCount));
 	}
 
-	template<bool useHeuristic, bool usePrefetch>
-	inline IndexPtr<useHeuristic, usePrefetch> Dataset<useHeuristic, usePrefetch>::getIndex(
+	template<class T>
+	inline IndexPtr<T> Dataset<T>::getIndex(
 		const uint efConstruction, const uint mMax, const uint seed, const SIMDType simdType
 	) const {
-		return std::make_shared<Index<useHeuristic, usePrefetch>>(
+		return std::make_shared<Index<T>>(
 			this->dim, this->trainCount, efConstruction, mMax, seed, simdType, this->space
 		);
 	}
 
-	template<bool useHeuristic, bool usePrefetch>
-	inline float Dataset<useHeuristic, usePrefetch>::getRecall(const KnnResults& results) const {
+	template<class T>
+	inline float Dataset<T>::getRecall(const KnnResults& results) const {
 		return chm::getRecall(this->neighbors.data(), results.getLabels(), this->testCount, this->k);
 	}
 
-	template<bool useHeuristic, bool usePrefetch>
-	inline bool Dataset<useHeuristic, usePrefetch>::isAngular() const {
+	template<class T>
+	inline std::string Dataset<T>::getString() const {
+		std::stringstream s;
+		this->writeShortDescription(s);
+		return s.str();
+	}
+
+	template<class T>
+	inline bool Dataset<T>::isAngular() const {
 		switch(this->space) {
 			case SpaceKind::ANGULAR:
 				return true;
@@ -133,22 +140,22 @@ namespace chm {
 		}
 	}
 
-	template<bool useHeuristic, bool usePrefetch>
-	inline KnnResults Dataset<useHeuristic, usePrefetch>::query(
-		const IndexPtr<useHeuristic, usePrefetch>& index, const uint efSearch
+	template<class T>
+	inline KnnResults Dataset<T>::query(
+		const IndexPtr<T>& index, const uint efSearch
 	) const {
 		index->setEfSearch(efSearch);
 		return index->queryBatch(this->test.data(), this->testCount, this->k);
 	}
 
-	template<bool useHeuristic, bool usePrefetch>
-	inline void Dataset<useHeuristic, usePrefetch>::writeLongDescription(const fs::path& p) const {
+	template<class T>
+	inline void Dataset<T>::writeLongDescription(const fs::path& p) const {
 		std::ofstream s(p);
 		this->writeLongDescription(s);
 	}
 
-	template<bool useHeuristic, bool usePrefetch>
-	inline void Dataset<useHeuristic, usePrefetch>::writeLongDescription(std::ostream& s) const {
+	template<class T>
+	inline void Dataset<T>::writeLongDescription(std::ostream& s) const {
 		s << "angular: " << (this->isAngular() ? "True" : "False") << '\n'
 			<< "dim: " << dim << '\n'
 			<< "k: " << k << '\n'
@@ -159,10 +166,10 @@ namespace chm {
 		chm::writeDescription(s, this->train, "train", 6);
 	}
 
-	template<bool useHeuristic, bool usePrefetch>
-	inline void Dataset<useHeuristic, usePrefetch>::writeShortDescription(std::ostream& s) const {
+	template<class T>
+	inline void Dataset<T>::writeShortDescription(std::ostream& s) const {
 		s << "Dataset " << this->name << ": " << (this->isAngular() ? "angular" : "euclidean")
 			<< " space, dimension = " << this->dim << ", trainCount = " << this->trainCount
-			<< ", testCount = " << this->testCount << ", k = " << this->k << '\n';
+			<< ", testCount = " << this->testCount << ", k = " << this->k;
 	}
 }

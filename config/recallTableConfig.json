@@ -5,6 +5,5 @@
 	"mMax": 16,
 	"seed": 200,
 	"SIMD": "best",
-	"useHeuristic": true,
-	"usePrefetch": true
+	"template": "prefetching"
 }

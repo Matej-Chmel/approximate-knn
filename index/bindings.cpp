@@ -6,9 +6,9 @@
 #include "chm/recall.hpp"
 
 namespace chm {
-	template<bool useHeuristic, bool usePrefetch>
+	template<class T>
 	void bindIndex(py::module_& m, const char* const name) {
-		py::class_<Index<useHeuristic, usePrefetch>>(m, name)
+		py::class_<Index<T>>(m, name)
 			.def(
 				py::init<
 					const size_t, const uint, const uint, const uint,
@@ -17,29 +17,36 @@ namespace chm {
 				py::arg("efConstruction") = 200, py::arg("mMax") = 16, py::arg("seed") = 100,
 				py::arg("SIMD") = SIMDType::NONE, py::arg("space") = SpaceKind::EUCLIDEAN
 			)
-			.def("__str__", [](const Index<useHeuristic, usePrefetch>& h) { return h.getString(); })
+			.def("__str__", [](const Index<T>& h) { return h.getString(); })
 			.def(
 				"push",
-				py::overload_cast<const NumpyArray<float>>(&Index<useHeuristic, usePrefetch>::push),
+				py::overload_cast<const NumpyArray<float>>(&Index<T>::push),
 				py::arg("data")
 			)
 			.def(
 				"queryBatch",
 				py::overload_cast<const NumpyArray<float>, const uint>(
-					&Index<useHeuristic, usePrefetch>::queryBatch
+					&Index<T>::queryBatch
 				),
 				py::arg("data"), py::arg("k") = 10
 			)
-			.def("setEfSearch", &Index<useHeuristic, usePrefetch>::setEfSearch, py::arg("efSearch"));
+			.def("setEfSearch", &Index<T>::setEfSearch, py::arg("efSearch"));
 	}
 
 	PYBIND11_MODULE(chm_hnsw, m) {
+		m.def("getIndexTemplate", getIndexTemplate, py::arg("s"));
 		m.def(
 			"getRecall", py::overload_cast<const NumpyArray<uint>, const NumpyArray<uint>>(getRecall),
 			py::arg("correctLabels"), py::arg("testedLabels")
 		);
 		m.def("getSIMDType", getSIMDType, py::arg("s"));
 		m.doc() = "Python bindings for HNSW index classes from Matej-Chmel/approximate-knn.";
+
+		py::enum_<IndexTemplate>(m, "IndexTemplate")
+			.value("HEURISTIC", IndexTemplate::HEURISTIC)
+			.value("NAIVE", IndexTemplate::NAIVE)
+			.value("NO_BIT_ARRAY", IndexTemplate::NO_BIT_ARRAY)
+			.value("PREFETCHING", IndexTemplate::PREFETCHING);
 
 		py::enum_<SIMDType>(m, "SIMDType")
 			.value("AVX", SIMDType::AVX)
@@ -53,8 +60,9 @@ namespace chm {
 			.value("EUCLIDEAN", SpaceKind::EUCLIDEAN)
 			.value("INNER_PRODUCT", SpaceKind::INNER_PRODUCT);
 
-		bindIndex<false, false>(m, "NaiveIndex");
-		bindIndex<true, false>(m, "HeuristicIndex");
-		bindIndex<true, true>(m, "PrefetchingIndex");
+		bindIndex<HeuristicTemplate>(m, "HeuristicIndex");
+		bindIndex<NaiveTemplate>(m, "NaiveIndex");
+		bindIndex<NoBitArrayTemplate>(m, "NoBitArrayIndex");
+		bindIndex<PrefetchingTemplate>(m, "PrefetchingIndex");
 	}
 }

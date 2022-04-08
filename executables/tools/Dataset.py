@@ -41,7 +41,8 @@ class Dataset:
 	def __str__(self):
 		return (
 			f"Dataset {self.name}: {'angular' if self.angular else 'euclidean'} space, "
-			f"dimension = {self.dim}, trainCount = {self.trainCount}, testCount = {self.testCount}, k = {self.k}"
+			f"dimension = {self.dim}, trainCount = {self.trainCount}, "
+			f"testCount = {self.testCount}, k = {self.k}"
 		)
 
 	@classmethod
@@ -89,7 +90,8 @@ class Dataset:
 			f"k: {self.k}",
 			f"testCount: {self.testCount}",
 			f"trainCount: {self.trainCount}"
-		]) + "\n" + numpyArrayToStr(self.neighbors, "neighbors") + numpyArrayToStr(self.test, "test", ".6f") + numpyArrayToStr(self.train, "train", ".6f")
+		]) + "\n" + numpyArrayToStr(self.neighbors, "neighbors"
+		) + numpyArrayToStr(self.test, "test", ".6f") + numpyArrayToStr(self.train, "train", ".6f")
 
 	def writeBinary(self, f: BufferedWriter):
 		f.write(struct.pack("<?IIII", self.angular, self.dim, self.k, self.testCount, self.trainCount))

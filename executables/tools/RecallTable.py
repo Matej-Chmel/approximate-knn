@@ -17,30 +17,30 @@ class RecallTableConfig:
 	dataset: str
 	efConstruction: int
 	efSearch: list[int]
+	indexTemplate: h.IndexTemplate
 	mMax: int
 	seed: int
 	simdType: h.SIMDType
-	useHeuristic: bool
-	usePrefetch: bool
 
 	@classmethod
 	def fromJSON(cls, p: Path):
 		with p.open("r", encoding="utf-8") as f:
 			obj = json.load(f)
 			return RecallTableConfig(
-				obj["dataset"], obj["efConstruction"], obj["efSearch"], obj["mMax"], obj["seed"],
+				obj["dataset"], obj["efConstruction"], obj["efSearch"],
+				h.getIndexTemplate(obj["template"]), obj["mMax"], obj["seed"],
 				h.SIMDType.NONE
 				if "SIMD" not in obj or obj["SIMD"] is None
-				else h.getSIMDType(obj["SIMD"]),
-				obj["useHeuristic"], obj["usePrefetch"]
+				else h.getSIMDType(obj["SIMD"])
 			)
 
 	def getIndexCls(self):
-		if self.useHeuristic:
-			if self.usePrefetch:
-				return h.PrefetchingIndex
-			return h.HeuristicIndex
-		return h.NaiveIndex
+		return {
+			h.IndexTemplate.HEURISTIC: h.HeuristicIndex,
+			h.IndexTemplate.NAIVE: h.NaiveIndex,
+			h.IndexTemplate.NO_BIT_ARRAY: h.NoBitArrayIndex,
+			h.IndexTemplate.PREFETCHING: h.PrefetchingIndex
+		}[self.indexTemplate]
 
 def getPrettyElapsedStr(elapsedNS: int):
 	return str(pandas.Timedelta(nanoseconds=elapsedNS))
