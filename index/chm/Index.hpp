@@ -514,7 +514,7 @@ namespace chm {
 
 	template<class T>
 	inline constexpr bool Index<T>::useBitArray() {
-		return std::is_same<T::VisitedSet, VisitedSet<bool>>::value;
+		return std::is_same<typename T::VisitedSet, VisitedSet<bool>>::value;
 	}
 
 	template<class T>
