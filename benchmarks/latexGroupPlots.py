@@ -23,7 +23,9 @@ class Args:
 	datasets: list[str]
 	legend: list[str]
 	outputPath: Path
+	plots: list[str]
 	recompute: bool
+	scriptDir: Path
 
 	def __post_init__(self):
 		if not self.legend:
@@ -98,7 +100,8 @@ class Plot:
 		return Dataset(datasetName, [self.getAlgorithm(algoName, df) for algoName in self.algos])
 
 	def getPlotPart(self, datasetNames: list[str], template: str):
-		return template.replace("@GROUP_SIZE@", f"{N}group size=2 by 2," if len(datasetNames) == 4 else ""
+		return template.replace(
+			"@GROUP_SIZE@", "2 by 2" if len(datasetNames) == 4 else f"{len(datasetNames)} by 1"
 		).replace("@YMODE@", f"{N}ymode = log," if self.yModeLog else ""
 		).replace("@XLABEL@", self.xLabel
 		).replace("@YLABEL@", self.yLabel
@@ -119,18 +122,46 @@ class Plot:
 
 		return res
 
-def getArgs():
+def getArgs(scriptDir: Path):
+	plotChoices = ["build", "recall", "size"]
 	p = ArgumentParser("LATEX_GROUP_PLOTS", description="Builds LaTeX group plots.")
 	p.add_argument("-a", "--algorithms", help="List of algorithm names.", nargs="+", required=True)
-	p.add_argument("-l", "--legend", help="List of legend labels.", nargs="*")
 	p.add_argument("-d", "--datasets", help="List of dataset names.", nargs="+", required=True)
-	p.add_argument("-o", "--output", help="Path to output file.", type=str)
+	p.add_argument("-l", "--legend", help="List of legend labels.", nargs="*")
+	p.add_argument("-o", "--output", default=scriptDir / "groupPlots.tex", help="Path to output file.")
+	p.add_argument(
+		"-p", "--plots", choices=plotChoices, default=plotChoices,
+		help="Type of plots to build.", nargs="*"
+	)
 	p.add_argument("-r", "--recompute", action="store_true", help="Recompute exported data.")
 	args = p.parse_args()
-	return Args(args.algorithms, args.datasets, args.legend, Path(args.output), args.recompute)
+	return Args(
+		args.algorithms, args.datasets, args.legend, Path(args.output),
+		args.plots, args.recompute, scriptDir
+	)
 
 def getBuildSeconds(s: pd.Series):
 	return s["build"]
+
+def getHashBuildPlot(a: Args, df: pd.DataFrame):
+	caption = "Závislost času stavby na parametrech stavby."
+	return Plot(
+		algos=a.algorithms, bestDirection="Lepší výsledky směrem k dolnímu okraji grafu.",
+		caption=caption, datasets=a.datasets, df=df, plotLabel="HashBuild",
+		rowToX=getParamsHash, rowToY=getBuildSeconds, xLabel="$ef_{construction} + M_{max}$",
+		yLabel="Čas stavby (s)", dropDuplicateParameters=True, legend=a.legend,
+		shortCaption=caption, yModeLog=True
+	)
+
+def getHashSizePlot(a: Args, df: pd.DataFrame):
+	caption = "Závislost velikosti indexu na parametrech stavby."
+	return Plot(
+		algos=a.algorithms, bestDirection="Lepší výsledky směrem k dolnímu okraji grafu.",
+		caption=caption, datasets=a.datasets, df=df, plotLabel="HashSize",
+		rowToX=getParamsHash, rowToY=getIndexSize, xLabel="$ef_{construction} + M_{max}$",
+		yLabel="Velikost indexu (kB)", dropDuplicateParameters=True, legend=a.legend,
+		shortCaption=caption
+	)
 
 def getIndexSize(s: pd.Series):
 	return s["indexsize"]
@@ -152,45 +183,35 @@ def getQueriesPerSecond(s: pd.Series):
 def getRecall(s: pd.Series):
 	return s["k-nn"]
 
+def getRecallQueriesPlot(a: Args, df: pd.DataFrame):
+	caption = "Závislost počtu dotazů za sekundu na přesnosti."
+	return Plot(
+		algos=a.algorithms, bestDirection="Lepší výsledky směrem k pravému hornímu rohu grafu.",
+		caption=caption, datasets=a.datasets, df=df, plotLabel="RecallQueries",
+		rowToX=getRecall, rowToY=getQueriesPerSecond, xLabel="Recall",
+		yLabel=r"Počet dotazů za sekundu $(\frac{1}{s})$", legend=a.legend, shortCaption=caption,
+		yModeLog=True
+	)
+
 def writePlots(a: Args):
-	scriptDir = Path(__file__).parent
-	inputPath = scriptDir / "data.csv"
+	inputPath = a.scriptDir / "data.csv"
 
 	if a.recompute or not inputPath.exists():
 		export.exportData(export.Args(inputPath, a.recompute))
 
-	df = pd.read_csv(inputPath, sep=",")
-	recallQueriesCaption = "Závislost počtu dotazů za sekundu na přesnosti."
-	recallQueries = Plot(
-		algos=a.algorithms, bestDirection="Lepší výsledky směrem k pravému hornímu rohu grafu.",
-		caption=recallQueriesCaption, datasets=a.datasets, df=df, plotLabel="RecallQueries",
-		rowToX=getRecall, rowToY=getQueriesPerSecond, xLabel="Recall",
-		yLabel="Počet dotazů za sekundu (s)", legend=a.legend, shortCaption=recallQueriesCaption,
-		yModeLog=True
-	)
-	hashBuildCaption = "Závislost času stavby na parametrech stavby."
-	hashBuild = Plot(
-		algos=a.algorithms, bestDirection="Lepší výsledky směrem k dolnímu okraji grafu.",
-		caption=hashBuildCaption, datasets=a.datasets, df=df, plotLabel="HashBuild",
-		rowToX=getParamsHash, rowToY=getBuildSeconds, xLabel="$ef_{construction} + M_{max}$",
-		yLabel="Čas stavby (s)", legend=a.legend, shortCaption=hashBuildCaption, yModeLog=True
-	)
-	hashSizeCaption = "Závislost velikosti indexu na parametrech stavby."
-	hashSize = Plot(
-		algos=a.algorithms, bestDirection="Lepší výsledky směrem k dolnímu okraji grafu.",
-		caption=hashSizeCaption, datasets=a.datasets, df=df, plotLabel="HashSize",
-		rowToX=getParamsHash, rowToY=getIndexSize, xLabel="$ef_{construction} + M_{max}$",
-		yLabel="Velikost indexu (kB)", legend=a.legend, shortCaption=hashSizeCaption
-	)
+	with a.outputPath.open("w", encoding="utf-8") as f:
+		df = pd.read_csv(inputPath, sep=",")
+		template = (a.scriptDir / "templates" / "latexGroupPlots.txt").read_text(encoding="utf-8")
 
-	with a.outputPath.open("w", encoding="utf-8") as f, (scriptDir / "templates" / "latexGroupPlots.txt") as t:
-		template = t.read_text()
-		f.write(recallQueries.getPlotStr(template))
-		f.write(hashBuild.getPlotStr(template))
-		f.write(hashSize.getPlotStr(template))
+		for plotType in a.plots:
+			f.write({
+				"build": getHashBuildPlot,
+				"recall": getRecallQueriesPlot,
+				"size": getHashSizePlot
+			}[plotType](a, df).getPlotStr(template))
 
 def main():
-	writePlots(getArgs())
+	writePlots(getArgs(Path(__file__).parent))
 
 if __name__ == "__main__":
 	main()

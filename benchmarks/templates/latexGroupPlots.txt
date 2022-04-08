@@ -1,9 +1,10 @@
 \begin{figure}
 	\begin{center}
-		\ref{named}
+		\ref{@LABEL@Legend}
 		\begin{tikzpicture}
 			\begin{groupplot}[
-				group style={@GROUP_SIZE@
+				group style={
+					group size=@GROUP_SIZE@,
 					vertical sep=3cm,
 					ylabels at=edge left
 				},
@@ -14,7 +15,7 @@
 				xmajorgrids=true,
 				ymajorgrids=true,
 				grid style=dashed,
-				legend to name=named,
+				legend to name=@LABEL@Legend,
 				legend columns=-1
 			]
 				@GROUP_PLOTS@
