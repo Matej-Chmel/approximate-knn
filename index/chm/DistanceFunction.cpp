@@ -12,7 +12,7 @@ namespace chm {
 		#elif defined(SSE_CAPABLE)
 			return SIMDType::SSE;
 		#else
-			throw std::runtime_error("Cannot decide best SIMD type.");
+			return SIMDType::NONE;
 		#endif
 	}
 
