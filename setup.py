@@ -1,5 +1,6 @@
 from glob import glob
 import numpy as np
+from pathlib import Path
 import platform
 import pybind11
 import setuptools
@@ -7,6 +8,8 @@ from setuptools import Extension, setup
 from setuptools.command.build_ext import build_ext
 import sys
 import tempfile
+
+sys.path.append(str(Path(__file__).parent.absolute()))
 from scripts.SIMDCapability import SIMDCapability
 
 MSVC_QUOTE = r'\\"'
@@ -98,6 +101,7 @@ def main():
 	desc = "Custom implementation of HNSW index."
 	setup(
 		author="Matěj Chmel",
+		author_email="58189701+Matej-Chmel@users.noreply.github.com",
 		cmdclass={"build_ext": BuildExt},
 		description=desc,
 		ext_modules=[

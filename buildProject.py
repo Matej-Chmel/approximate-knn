@@ -5,7 +5,7 @@ import platform
 import subprocess
 import sys
 import scripts.clean as clean
-from scripts.SIMDCapability import SIMDCapability
+from typing import Callable
 
 class AppError(Exception):
 	pass
@@ -24,12 +24,12 @@ def buildBindings(executable: Path, repoDir: Path):
 	print(f"Module docstring: {output}")
 	print("Bindings built.")
 
-def buildNativeLib(repoDir: Path):
+def buildNativeLib(executable: Path, repoDir: Path):
 	print("Building build system for native library.")
+	subprocess.call([executable, Path("scripts", "formatCMakeTemplates.py")], cwd=repoDir)
 	cmakeBuildDir = repoDir / "cmakeBuild"
 	cmakeBuildDir.mkdir(exist_ok=True)
-	formatCMakeTemplates(repoDir)
-	subprocess.call(["cmake", "./.."], cwd=cmakeBuildDir)
+	subprocess.call(["cmake", Path("..")], cwd=cmakeBuildDir)
 	print("Build system for native library built.")
 
 def buildVirtualEnv(repoDir: Path):
@@ -40,9 +40,13 @@ def buildVirtualEnv(repoDir: Path):
 	if not executable.exists():
 		raise AppError("Python virtual environment executable not found.")
 
-	subprocess.call([executable, "-m", "pip", "install", "--upgrade", "pip"], cwd=repoDir)
-	subprocess.call([executable, "-m", "pip", "install", "-r", "benchmarks/requirements.txt"], cwd=repoDir)
-	subprocess.call([executable, "-m", "pip", "install", "-r", "scripts/requirements.txt"], cwd=repoDir)
+	cmdline = [executable, "-m", "pip", "install"]
+	reqCmdline: Callable[[str], list[str]] = lambda folder: cmdline + [
+		"-r", (Path(folder) / "requirements.txt")
+	]
+	subprocess.call(cmdline + ["--upgrade", "pip"], cwd=repoDir)
+	subprocess.call(reqCmdline("benchmarks"), cwd=repoDir)
+	subprocess.call(reqCmdline("scripts"), cwd=repoDir)
 	print("Virtual environment built.")
 	return executable
 
@@ -55,26 +59,6 @@ def cleanProject(args: Args):
 		print("Cleaning project.")
 		clean.cleanProject(False)
 		print("Project cleaned.")
-
-def formatCMakeTemplates(repoDir: Path):
-	simd = SIMDCapability()
-	arch = simd.getMsvcArchFlag()
-	archStr = "" if arch is None else arch
-	macros = " ".join(simd.getMacros())
-	templatesDir = repoDir / "cmakeTemplates"
-
-	with (repoDir / "index" / "CMakeLists.txt").open("w", encoding="utf-8") as f:
-		f.write((templatesDir / "index.txt").read_text(encoding="utf-8"
-			).replace(
-				"@DEFINITIONS@",
-				f"target_compile_definitions(chmLib PRIVATE {macros})" if macros else ""
-		))
-
-	with (repoDir / "CMakeLists.txt").open("w", encoding="utf-8") as f:
-		f.write((templatesDir / "root.txt").read_text(encoding="utf-8"
-			).replace("@ARCH@", f" {archStr}"
-			).replace("@SIMD@", f" {macros}" if macros else ""
-		))
 
 def generateDatasets(executable: Path, repoDir: Path):
 	print("Generating datasets.")
@@ -124,7 +108,7 @@ def run():
 	repoDir = Path(__file__).parent
 	executable = buildVirtualEnv(repoDir)
 	generateDatasets(executable, repoDir)
-	buildNativeLib(repoDir)
+	buildNativeLib(executable, repoDir)
 	buildBindings(executable, repoDir)
 	runRecallTable(executable, repoDir)
 	print("Completed.")

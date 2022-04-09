@@ -2,7 +2,7 @@ from pathlib import Path
 import shutil
 
 def cleanProject(deleteVenv: bool):
-	repoDir = Path(__file__).parent
+	repoDir = Path(__file__).parent.parent
 	benchmarksDir = Path("benchmarks")
 	annBenchmarks = benchmarksDir / "ann_benchmarks"
 
@@ -10,7 +10,7 @@ def cleanProject(deleteVenv: bool):
 		"__pycache__", "build", "chm_hnsw.egg-info", "cmakeBuild", "data", "dist",
 		benchmarksDir / "__pycache__", annBenchmarks / "__pycache__",
 		annBenchmarks / "algorithms" / "__pycache__", annBenchmarks / "plotting" / "__pycache__",
-		Path("executables", "tools", "__pycache__")
+		Path("executables", "tools", "__pycache__"), Path("scripts", "__pycache__")
 	]:
 		deleteDir(repoDir / path)
 

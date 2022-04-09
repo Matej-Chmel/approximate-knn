@@ -14,5 +14,7 @@ __pycache__
 !/benchmarks/website/.gitkeep
 /build
 /cmakeBuild
+/CMakeLists.txt
 /data
 /dist
+/index/CMakeLists.txt
