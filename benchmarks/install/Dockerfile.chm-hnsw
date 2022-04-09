@@ -5,7 +5,7 @@ WORKDIR /home/app
 COPY index/chm/* ./index/chm/
 COPY index/bindings.cpp index/LICENSE_hnswlib ./index/
 COPY LICENSE MANIFEST.in pyproject.toml setup.py ./
-COPY requirements.txt ./indexRequirements.txt
+COPY scripts/requirements.txt ./indexRequirements.txt
 
 RUN python -m pip install -r indexRequirements.txt
 RUN python -m pip install .

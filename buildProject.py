@@ -1,10 +1,11 @@
 from argparse import ArgumentParser
 from dataclasses import dataclass
-import clean
 from pathlib import Path
 import platform
 import subprocess
 import sys
+import scripts.clean as clean
+from scripts.SIMDCapability import SIMDCapability
 
 class AppError(Exception):
 	pass
@@ -27,6 +28,7 @@ def buildNativeLib(repoDir: Path):
 	print("Building build system for native library.")
 	cmakeBuildDir = repoDir / "cmakeBuild"
 	cmakeBuildDir.mkdir(exist_ok=True)
+	formatCMakeTemplates(repoDir)
 	subprocess.call(["cmake", "./.."], cwd=cmakeBuildDir)
 	print("Build system for native library built.")
 
@@ -39,8 +41,8 @@ def buildVirtualEnv(repoDir: Path):
 		raise AppError("Python virtual environment executable not found.")
 
 	subprocess.call([executable, "-m", "pip", "install", "--upgrade", "pip"], cwd=repoDir)
-	subprocess.call([executable, "-m", "pip", "install", "-r", "requirements.txt"], cwd=repoDir)
 	subprocess.call([executable, "-m", "pip", "install", "-r", "benchmarks/requirements.txt"], cwd=repoDir)
+	subprocess.call([executable, "-m", "pip", "install", "-r", "scripts/requirements.txt"], cwd=repoDir)
 	print("Virtual environment built.")
 	return executable
 
@@ -50,8 +52,29 @@ def checkPythonVersion(args: Args):
 
 def cleanProject(args: Args):
 	if args.clean:
-		print("Cleaning.")
+		print("Cleaning project.")
 		clean.cleanProject(False)
+		print("Project cleaned.")
+
+def formatCMakeTemplates(repoDir: Path):
+	simd = SIMDCapability()
+	arch = simd.getMsvcArchFlag()
+	archStr = "" if arch is None else arch
+	macros = " ".join(simd.getMacros())
+	templatesDir = repoDir / "cmakeTemplates"
+
+	with (repoDir / "index" / "CMakeLists.txt").open("w", encoding="utf-8") as f:
+		f.write((templatesDir / "index.txt").read_text(encoding="utf-8"
+			).replace(
+				"@DEFINITIONS@",
+				f"target_compile_definitions(chmLib PRIVATE {macros})" if macros else ""
+		))
+
+	with (repoDir / "CMakeLists.txt").open("w", encoding="utf-8") as f:
+		f.write((templatesDir / "root.txt").read_text(encoding="utf-8"
+			).replace("@ARCH@", f" {archStr}"
+			).replace("@SIMD@", f" {macros}" if macros else ""
+		))
 
 def generateDatasets(executable: Path, repoDir: Path):
 	print("Generating datasets.")

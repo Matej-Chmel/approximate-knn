@@ -1,4 +1,3 @@
-import cpufeature as cf
 from glob import glob
 import numpy as np
 import platform
@@ -8,12 +7,9 @@ from setuptools import Extension, setup
 from setuptools.command.build_ext import build_ext
 import sys
 import tempfile
+from scripts.SIMDCapability import SIMDCapability
 
 MSVC_QUOTE = r'\\"'
-
-def addConditionMacro(name: str, compilerType: str, opts: list[str], cond: bool, val: str = None):
-	if cond:
-		addPreprocessorMacro(name, compilerType, opts, val)
 
 def addPreprocessorMacro(name: str, compilerType: str, opts: list[str], val: str = None):
 	if compilerType == "msvc":
@@ -30,6 +26,18 @@ def addPreprocessorMacro(name: str, compilerType: str, opts: list[str], val: str
 			cmd += f'="{val}"'
 
 		opts.append(cmd)
+
+def addSIMDMacros(compilerType: str, opts: list[str]):
+	simd = SIMDCapability()
+
+	for macro in simd.getMacros():
+		addPreprocessorMacro(macro, compilerType, opts)
+
+	if compilerType == "msvc":
+		arch = simd.getMsvcArchFlag()
+
+		if arch is not None:
+			opts.append(arch)
 
 class BuildExt(build_ext):
 	"""A custom build extension for adding compiler-specific options."""
@@ -63,8 +71,7 @@ class BuildExt(build_ext):
 		opts.append(cppStandard)
 		addPreprocessorMacro("PYBIND_INCLUDED", ct, opts)
 		addPreprocessorMacro("VERSION_INFO", ct, opts, self.distribution.get_version())
-		SIMDCapability().addMacrosAndFlags(ct, opts)
-		print(ct, opts)
+		addSIMDMacros(ct, opts)
 
 		for ext in self.extensions:
 			ext.extra_compile_args.extend(opts)
@@ -86,30 +93,6 @@ def hasFlag(compiler, flag):
 			return False
 
 	return True
-
-class SIMDCapability:
-	def __init__(self):
-		info: dict = cf.CPUFeature
-		osAVX = info.get("OS_AVX", False)
-		self.avx = info.get("AVX", False) and osAVX
-		self.avx2 = info.get("AVX2", False)
-		self.avx512 = info.get("AVX512f", False) and info.get("OS_AVX512", False)
-		self.sse = info.get("SSE", False)
-		self.any = self.avx or self.avx2 or self.avx512 or self.sse
-
-	def addMacrosAndFlags(self, compilerType: str, opts: list[str]):
-		addConditionMacro("AVX_CAPABLE", compilerType, opts, self.avx or self.avx2)
-		addConditionMacro("AVX512_CAPABLE", compilerType, opts, self.avx512)
-		addConditionMacro("SIMD_CAPABLE", compilerType, opts, self.any)
-		addConditionMacro("SSE_CAPABLE", compilerType, opts, self.sse)
-
-		if compilerType == "msvc":
-			if self.avx512:
-				opts.append("/arch:AVX512")
-			elif self.avx2:
-				opts.append("/arch:AVX2")
-			elif self.avx:
-				opts.append("/arch:AVX")
 
 def main():
 	desc = "Custom implementation of HNSW index."
