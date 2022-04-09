@@ -4,7 +4,10 @@ project(approximate-knn-index)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /arch:AVX2")
+
+if(CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
+	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}@ARCH@")
+endif()
 
 add_subdirectory(index)
 
@@ -15,7 +18,7 @@ target_link_libraries(checkDataset PUBLIC chmLib)
 
 add_executable(recallTable executables/recallTable.cpp)
 target_compile_definitions(
-	recallTable PRIVATE REPO_DIR="${CMAKE_SOURCE_DIR}" AVX_CAPABLE SIMD_CAPABLE SSE_CAPABLE
+	recallTable PRIVATE REPO_DIR="${CMAKE_SOURCE_DIR}"@SIMD@
 )
 target_include_directories(recallTable PUBLIC "${PROJECT_BINARY_DIR}" "${PROJECT_SOURCE_DIR}/index")
 target_link_libraries(recallTable PUBLIC chmLib)
