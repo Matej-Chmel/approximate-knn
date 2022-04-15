@@ -1,0 +1,13 @@
+\begin{table}
+	\centering
+	\begin{tabular}{@COLUMNS@}
+		\toprule
+			@HEADERS@\\
+		\midrule
+			@CONTENT@
+		\bottomrule
+	\end{tabular}
+	\caption{@CAPTION@}
+	\captionsetup{justification=centering}
+	\label{tab:@LABEL@}
+\end{table}
