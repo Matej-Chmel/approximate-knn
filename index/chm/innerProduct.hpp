@@ -2,6 +2,9 @@
 #include "DistanceFunction.hpp"
 
 namespace chm {
+	/**
+	 * Skalárního součin.
+	 */
 	static float innerProductSum(const float* node, const float* query, const size_t dim) {
 		auto res = 0.f;
 
@@ -11,6 +14,9 @@ namespace chm {
 		return res;
 	}
 
+	/**
+	 * Kosinusová vzdálenost.
+	 */
 	static float innerProduct(
 		const float* node, const float* query, const size_t dim,
 		const size_t, const size_t, const size_t
@@ -18,9 +24,16 @@ namespace chm {
 		return 1.f - innerProductSum(node, query, dim);
 	}
 
+	/**
+	 * Odkaz na innerProduct.
+	 */
 	FunctionInfo ip(innerProduct, "ip");
 
 	#if defined(AVX_CAPABLE)
+		/**
+		 * Výpočet skalárního součinu pomocí instrukcí AVX
+		 * v prostoru o počtu dimenzí dělitelných 16 beze zbytku.
+		 */
 		static float innerProductSum16AVX(const float* node, const float* query, const size_t dim16) {
 			const float* end = node + dim16;
 			__m256 sum = _mm256_set1_ps(0);
@@ -46,6 +59,10 @@ namespace chm {
 				tmp[4] + tmp[5] + tmp[6] + tmp[7];
 		}
 
+		/**
+		 * Výpočet kosinusové vzdálenosti pomocí instrukcí AVX
+		 * v prostoru o počtu dimenzí dělitelných 16 beze zbytku.
+		 */
 		static float innerProduct16AVX(
 			const float* node, const float* query, const size_t,
 			const size_t, const size_t dim16, const size_t
@@ -53,6 +70,10 @@ namespace chm {
 			return 1.f - innerProductSum16AVX(node, query, dim16);
 		}
 
+		/**
+		 * Výpočet skalárního součinu pomocí instrukcí AVX
+		 * v prostoru o počtu dimenzí dělitelných 16 se zbytkem.
+		 */
 		static float innerProduct16ResidualAVX(
 			const float* node, const float* query, const size_t,
 			const size_t dim4, const size_t dim16, const size_t dimLeft
@@ -62,6 +83,10 @@ namespace chm {
 			return 1.f - (front + back);
 		}
 
+		/**
+		 * Výpočet skalárního součinu pomocí instrukcí AVX
+		 * v prostoru o počtu dimenzí dělitelných 4 beze zbytku.
+		 */
 		static float innerProductSum4AVX(
 			const float* node, const float* query, const size_t dim4, const size_t dim16
 		) {
@@ -99,6 +124,10 @@ namespace chm {
 			return tmp[0] + tmp[1] + tmp[2] + tmp[3];
 		}
 
+		/**
+		 * Výpočet kosinusové vzdálenosti pomocí instrukcí AVX
+		 * v prostoru o počtu dimenzí dělitelných 4 beze zbytku.
+		 */
 		static float innerProduct4AVX(
 			const float* node, const float* query, const size_t,
 			const size_t dim4, const size_t dim16, const size_t
@@ -106,6 +135,10 @@ namespace chm {
 			return 1.f - innerProductSum4AVX(node, query, dim4, dim16);
 		}
 
+		/**
+		 * Výpočet kosinusové vzdálenosti pomocí instrukcí AVX
+		 * v prostoru o počtu dimenzí dělitelných 4 se zbytkem.
+		 */
 		static float innerProduct4ResidualAVX(
 			const float* node, const float* query, const size_t,
 			const size_t dim4, const size_t dim16, const size_t dimLeft
@@ -115,13 +148,29 @@ namespace chm {
 			return 1.f - (front + back);
 		}
 
+		/**
+		 * Odkaz na innerProduct16AVX.
+		 */
 		FunctionInfo ip16AVX(innerProduct16AVX, "ip16AVX");
+		/**
+		 * Odkaz na innerProduct16ResidualAVX.
+		 */
 		FunctionInfo ip16RAVX(innerProduct16ResidualAVX, "ip16RAVX");
+		/**
+		 * Odkaz na innerProduct4AVX.
+		 */
 		FunctionInfo ip4AVX(innerProduct4AVX, "ip4AVX");
+		/**
+		 * Odkaz na innerProduct4ResidualAVX.
+		 */
 		FunctionInfo ip4RAVX(innerProduct4ResidualAVX, "ip4RAVX");
 	#endif
 
 	#if defined(AVX512_CAPABLE)
+		/**
+		 * Výpočet skalárního součinu pomocí instrukcí AVX-512
+		 * v prostoru o počtu dimenzí dělitelných 16 beze zbytku.
+		 */
 		static float innerProductSum16AVX512(
 			const float* node, const float* query, const size_t dim16
 		) {
@@ -145,6 +194,10 @@ namespace chm {
 				tmp[12] + tmp[13] + tmp[14] + tmp[15];
 		}
 
+		/**
+		 * Výpočet kosinusové vzdálenosti pomocí instrukcí AVX-512
+		 * v prostoru o počtu dimenzí dělitelných 16 beze zbytku.
+		 */
 		static float innerProduct16AVX512(
 			const float* node, const float* query, const size_t,
 			const size_t, const size_t dim16, const size_t
@@ -152,6 +205,10 @@ namespace chm {
 			return 1.f - innerProductSum16AVX512(node, query, dim16);
 		}
 
+		/**
+		 * Výpočet kosinusové vzdálenosti pomocí instrukcí AVX-512
+		 * v prostoru o počtu dimenzí dělitelných 16 se zbytkem.
+		 */
 		static float innerProduct16ResidualAVX512(
 			const float* node, const float* query, const size_t,
 			const size_t dim4, const size_t dim16, const size_t dimLeft
@@ -161,11 +218,21 @@ namespace chm {
 			return 1.f - (front + back);
 		}
 
+		/**
+		 * Odkaz na innerProduct16AVX512.
+		 */
 		FunctionInfo ip16AVX512(innerProduct16AVX512, "ip16AVX512");
+		/**
+		 * Odkaz na innerProduct16ResidualAVX512.
+		 */
 		FunctionInfo ip16RAVX512(innerProduct16ResidualAVX512, "ip16RAVX512");
 	#endif
 
 	#if defined(SSE_CAPABLE)
+		/**
+		 * Výpočet skalárního součinu pomocí instrukcí SSE
+		 * v prostoru o počtu dimenzí dělitelných 16 beze zbytku.
+		 */
 		static float innerProductSum16SSE(
 			const float* node, const float* query, const size_t dim16
 		) {
@@ -204,6 +271,10 @@ namespace chm {
 			return tmp[0] + tmp[1] + tmp[2] + tmp[3];
 		}
 
+		/**
+		 * Výpočet kosinusové vzdálenosti pomocí instrukcí SSE
+		 * v prostoru o počtu dimenzí dělitelných 16 beze zbytku.
+		 */
 		static float innerProduct16SSE(
 			const float* node, const float* query, const size_t,
 			const size_t, const size_t dim16, const size_t
@@ -211,6 +282,10 @@ namespace chm {
 			return 1.f - innerProductSum16SSE(node, query, dim16);
 		}
 
+		/**
+		 * Výpočet kosinusové vzdálenosti pomocí instrukcí SSE
+		 * v prostoru o počtu dimenzí dělitelných 16 se zbytkem.
+		 */
 		static float innerProduct16ResidualSSE(
 			const float* node, const float* query, const size_t,
 			const size_t dim4, const size_t dim16, const size_t dimLeft
@@ -220,6 +295,10 @@ namespace chm {
 			return 1.f - (front + back);
 		}
 
+		/**
+		 * Výpočet skalárního součinu pomocí instrukcí SSE
+		 * v prostoru o počtu dimenzí dělitelných 4 beze zbytku.
+		 */
 		static float innerProductSum4SSE(
 			const float* node, const float* query, const size_t dim4, const size_t dim16
 		) {
@@ -267,6 +346,10 @@ namespace chm {
 			return tmp[0] + tmp[1] + tmp[2] + tmp[3];
 		}
 
+		/**
+		 * Výpočet kosinusové vzdálenosti pomocí instrukcí SSE
+		 * v prostoru o počtu dimenzí dělitelných 4 beze zbytku.
+		 */
 		static float innerProduct4SSE(
 			const float* node, const float* query, const size_t,
 			const size_t dim4, const size_t dim16, const size_t
@@ -274,6 +357,10 @@ namespace chm {
 			return 1.f - innerProductSum4SSE(node, query, dim4, dim16);
 		}
 
+		/**
+		 * Výpočet kosinusové vzdálenosti pomocí instrukcí SSE
+		 * v prostoru o počtu dimenzí dělitelných 4 se zbytkem.
+		 */
 		static float innerProduct4ResidualSSE(
 			const float* node, const float* query, const size_t,
 			const size_t dim4, const size_t dim16, const size_t dimLeft
@@ -283,12 +370,28 @@ namespace chm {
 			return 1.f - (front + back);
 		}
 
+		/**
+		 * Odkaz na innerProduct16SSE.
+		 */
 		FunctionInfo ip16SSE(innerProduct16SSE, "ip16SSE");
+		/**
+		 * Odkaz na innerProduct16ResidualSSE.
+		 */
 		FunctionInfo ip16RSSE(innerProduct16ResidualSSE, "ip16RSSE");
+		/**
+		 * Odkaz na innerProduct4SSE.
+		 */
 		FunctionInfo ip4SSE(innerProduct4SSE, "ip4SSE");
+		/**
+		 * Odkaz na innerProduct4ResidualSSE.
+		 */
 		FunctionInfo ip4RSSE(innerProduct4ResidualSSE, "ip4RSSE");
 	#endif
 
+	/**
+	 * Vybere vhodnou funkci kosinusové vzdálenosti dle informací o počtu dimenzí prostoru
+	 * a preferovanému druhu SIMD instrukcí.
+	 */
 	inline DistanceInfo getInnerProductInfo(
 		const size_t dim, const size_t dim4, const size_t dim16, SIMDType type
 	) {

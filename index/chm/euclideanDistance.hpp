@@ -3,6 +3,9 @@
 #include "DistanceFunction.hpp"
 
 namespace chm {
+	/**
+	 * Eukleidovská vzdálenost.
+	 */
 	static float euclideanDistance(
 		const float* node, const float* query, const size_t dim,
 		const size_t, const size_t, const size_t
@@ -17,9 +20,16 @@ namespace chm {
 		return res;
 	}
 
+	/**
+	 * Odkaz na euclideanDistance.
+	 */
 	FunctionInfo euc(euclideanDistance, "euc");
 
 	#if defined(AVX_CAPABLE)
+		/**
+		 * Výpočet eukleidovské vzdálenosti pomocí instrukcí AVX
+		 * v prostoru o počtu dimenzí dělitelných 16 beze zbytku.
+		 */
 		static float euclideanDistance16AVX(
 			const float* node, const float* query, const size_t,
 			const size_t, const size_t dim16, const size_t
@@ -51,6 +61,10 @@ namespace chm {
 				tmp[4] + tmp[5] + tmp[6] + tmp[7];
 		}
 
+		/**
+		 * Výpočet eukleidovské vzdálenosti pomocí instrukcí AVX
+		 * v prostoru o počtu dimenzí dělitelných 16 se zbytkem.
+		 */
 		static float euclideanDistance16ResidualAVX(
 			const float* node, const float* query, const size_t,
 			const size_t dim4, const size_t dim16, const size_t dimLeft
@@ -60,11 +74,21 @@ namespace chm {
 			return front + back;
 		}
 
+		/**
+		 * Odkaz na euclideanDistance16AVX.
+		 */
 		FunctionInfo euc16AVX(euclideanDistance16AVX, "euc16AVX");
+		/**
+		 * Odkaz na euclideanDistance16ResidualAVX.
+		 */
 		FunctionInfo euc16RAVX(euclideanDistance16ResidualAVX, "euc16RAVX");
 	#endif
 
 	#if defined(AVX512_CAPABLE)
+		/**
+		 * Výpočet eukleidovské vzdálenosti pomocí instrukcí AVX-512
+		 * v prostoru o počtu dimenzí dělitelných 16 beze zbytku.
+		 */
 		static float euclideanDistance16AVX512(
 			const float* node, const float* query, const size_t,
 			const size_t, const size_t dim16, const size_t
@@ -91,6 +115,10 @@ namespace chm {
 				tmp[12] + tmp[13] + tmp[14] + tmp[15];
 		}
 
+		/**
+		 * Výpočet eukleidovské vzdálenosti pomocí instrukcí AVX
+		 * v prostoru o počtu dimenzí dělitelných 16 se zbytkem.
+		 */
 		static float euclideanDistance16ResidualAVX512(
 			const float* node, const float* query, const size_t,
 			const size_t dim4, const size_t dim16, const size_t dimLeft
@@ -100,11 +128,21 @@ namespace chm {
 			return front + back;
 		}
 
+		/**
+		 * Odkaz na euclideanDistance16AVX512.
+		 */
 		FunctionInfo euc16AVX512(euclideanDistance16AVX512, "euc16AVX512");
+		/**
+		 * Odkaz na euclideanDistance16ResidualAVX512.
+		 */
 		FunctionInfo euc16RAVX512(euclideanDistance16ResidualAVX512, "euc16RAVX512");
 	#endif
 
 	#if defined(SSE_CAPABLE)
+		/**
+		 * Výpočet eukleidovské vzdálenosti pomocí instrukcí SSE
+		 * v prostoru o počtu dimenzí dělitelných 16 beze zbytku.
+		 */
 		static float euclideanDistance16SSE(
 			const float* node, const float* query, const size_t,
 			const size_t, const size_t dim16, const size_t
@@ -148,6 +186,23 @@ namespace chm {
 			return tmp[0] + tmp[1] + tmp[2] + tmp[3];
 		}
 
+		/**
+		 * Výpočet eukleidovské vzdálenosti pomocí instrukcí SSE
+		 * v prostoru o počtu dimenzí dělitelných 16 se zbytkem.
+		 */
+		static float euclideanDistance16ResidualSSE(
+			const float* node, const float* query, const size_t,
+			const size_t dim4, const size_t dim16, const size_t dimLeft
+		) {
+			const float front = euclideanDistance16SSE(node, query, 0, dim4, dim16, 0);
+			const float back = euclideanDistance(node + dim16, query + dim16, dimLeft, 0, 0, 0);
+			return front + back;
+		}
+
+		/**
+		 * Výpočet eukleidovské vzdálenosti pomocí instrukcí SSE
+		 * v prostoru o počtu dimenzí dělitelných 4 beze zbytku.
+		 */
 		static float euclideanDistance4SSE(
 			const float* node, const float* query, const size_t,
 			const size_t dim4, const size_t, const size_t
@@ -170,6 +225,10 @@ namespace chm {
 			return tmp[0] + tmp[1] + tmp[2] + tmp[3];
 		}
 
+		/**
+		 * Výpočet eukleidovské vzdálenosti pomocí instrukcí SSE
+		 * v prostoru o počtu dimenzí dělitelných 4 se zbytkem.
+		 */
 		static float euclideanDistance4ResidualSSE(
 			const float* node, const float* query, const size_t,
 			const size_t dim4, const size_t dim16, const size_t dimLeft
@@ -179,21 +238,28 @@ namespace chm {
 			return front + back;
 		}
 
-		static float euclideanDistance16ResidualSSE(
-			const float* node, const float* query, const size_t,
-			const size_t dim4, const size_t dim16, const size_t dimLeft
-		) {
-			const float front = euclideanDistance16SSE(node, query, 0, dim4, dim16, 0);
-			const float back = euclideanDistance(node + dim16, query + dim16, dimLeft, 0, 0, 0);
-			return front + back;
-		}
-
+		/**
+		 * Odkaz na euclideanDistance16SSE.
+		 */
 		FunctionInfo euc16SSE(euclideanDistance16SSE, "euc16SSE");
-		FunctionInfo euc4SSE(euclideanDistance4SSE, "euc4SSE");
-		FunctionInfo euc4RSSE(euclideanDistance4ResidualSSE, "euc4RSSE");
+		/**
+		 * Odkaz na euclideanDistance16ResidualSSE.
+		 */
 		FunctionInfo euc16RSSE(euclideanDistance16ResidualSSE, "euc16RSSE");
+		/**
+		 * Odkaz na euclideanDistance4SSE.
+		 */
+		FunctionInfo euc4SSE(euclideanDistance4SSE, "euc4SSE");
+		/**
+		 * Odkaz na euclideanDistance4ResidualSSE.
+		 */
+		FunctionInfo euc4RSSE(euclideanDistance4ResidualSSE, "euc4RSSE");
 	#endif
 
+	/**
+	 * Vybere vhodnou funkci eukleidovské metriky dle informací o počtu dimenzí prostoru
+	 * a preferovanému druhu SIMD instrukcí.
+	 */
 	inline DistanceInfo getEuclideanInfo(
 		const size_t dim, const size_t dim4, const size_t dim16, SIMDType type
 	) {

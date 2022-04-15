@@ -11,76 +11,183 @@
 #include "VisitedSet.hpp"
 
 namespace chm {
+	/**
+	 * Index HNSW.
+	 * Šablona T určuje metodu výběru sousedů, typ seznamu navštívených vrcholů
+	 * a druh přístupu do paměti.
+	 */
 	template<class T = NaiveTemplate>
 	class Index {
+		/**
+		 * Konfigurace indexu.
+		 */
 		Configuration cfg;
+		/**
+		 * Seznamy sousedů.
+		 */
 		Connections conn;
+		/**
+		 * Identita vstupního prvku.
+		 */
 		uint entryID;
+		/**
+		 * Úroveň vstupního prvku.
+		 */
 		uint entryLevel;
+		/**
+		 * Aktuální počáteční vrchol pro procházení následující vrstvy.
+		 */
 		Node ep;
+		/**
+		 * Generátor náhodné úrovně nových prvků.
+		 */
 		LevelGenerator gen;
+		/**
+		 * Dvojice hald pro seřazování vrcholů.
+		 */
 		HeapPair heaps;
+		/**
+		 * Objekt, který ukládá vektory prvků a metriku vzdálenosti.
+		 */
 		Space space;
+		/**
+		 * Seznam navštívených vrcholů.
+		 */
 		typename T::VisitedSet visited;
 
+		/**
+		 * Do haldy h přidá všechny sousedy z N a nově příchozí prvek s identitou latestID.
+		 * Všechny vzdálenosti počítá od prvku s identitou queryID.
+		 */
 		template<class Comparator>
 		void fillHeap(
 			Heap<Comparator>& h, const Neighbors& N, const uint queryID,
 			const float* const latestData, const uint latestID
 		);
-
+		/**
+		 * Funkce jedné iterace stavby, která vloží nový prvek do indexu.
+		 */
 		void insert(const float* const queryData, const uint queryID);
+		/**
+		 * Zpracuje jeden dosud nenavštívený vrchol při prohledání nižší vrstvy.
+		 */
 		void processNeighbor(
 			const uint neighborID, const float* const query, const uint ef, FarHeap& W
 		);
+		/**
+		 * Vloží kolekci prvků do indexu.
+		 */
 		void push(const FloatArray& arr);
+		/**
+		 * Zpracuje kolekci dotazů.
+		 */
 		KnnResults queryBatch(const FloatArray& arr, const uint k);
+		/**
+		 * Zpracuje jeden dotaz.
+		 */
 		FarHeap queryOne(const float* const data, const uint k);
+		/**
+		 * Nastaví počáteční vrchol ep na vstupní prvek se vzdáleností od zkoumaného prvku.
+		 */
 		void resetEp(const float* const query);
-
+		/**
+		 * Prohledá nižší vrstvu. Výsledky zapíše do haldy far.
+		 */
 		template<bool searching>
 		void searchLowerLayer(
 			const float* const query, const uint ef, const uint lc, const uint countBeforeQuery
 		);
-
+		/**
+		 * Nalezne lokální minimum na vyšší vrstvě.
+		 */
 		void searchUpperLayer(const float* const query, const uint lc);
+		/**
+		 * Vybere sousedy nového prvku a vytvoří hrany vedoucí od nového prvku k těmto sousedům.
+		 * Metodu výběru sousedů zvolí na základě šablony T.
+		 */
 		Neighbors selectNewNeighbors(const uint queryID, const uint lc);
+		/**
+		 * Vybere sousedy nového prvku a vytvoří hrany vedoucí od nového prvku k těmto sousedům.
+		 * Pro výběr sousedů využívá heuristiku.
+		 */
 		Neighbors selectNewNeighborsHeuristic(Neighbors& R);
+		/**
+		 * Vybere sousedy nového prvku a vytvoří hrany vedoucí od nového prvku k těmto sousedům.
+		 * Pro výběr sousedů využívá naivní algoritmus.
+		 */
 		Neighbors selectNewNeighborsNaive(Neighbors& N);
+		/**
+		 * Upraví seznam sousedů na velikost M.
+		 * Metodu výběru sousedů zvolí na základě šablony T.
+		 */
 		void shrinkNeighbors(
 			const uint M, const uint queryID, Neighbors& R,
 			const float* const latestData, const uint latestID
 		);
+		/**
+		 * Upraví seznam sousedů na velikost M.
+		 * Pro výběr sousedů využívá heuristiku.
+		 */
 		void shrinkNeighborsHeuristic(
 			const uint M, const uint queryID, Neighbors& R,
 			const float* const latestData, const uint latestID
 		);
+		/**
+		 * Upraví seznam sousedů na velikost M.
+		 * Pro výběr sousedů využívá naivní algoritmus.
+		 */
 		void shrinkNeighborsNaive(
 			const uint M, const uint queryID, Neighbors& R,
 			const float* const latestData, const uint latestID
 		);
+		/**
+		 * Vrátí hodnotu pravda, pokud seznam navštívených vrcholů visited využívá bitového pole.
+		 */
 		static constexpr bool useBitArray();
 
 	public:
+		/**
+		 * Vrátí krátký popis indexu.
+		 */
 		std::string getString() const;
+		/**
+		 * Konstruktor.
+		 */
 		Index(
 			const size_t dim, const uint maxCount,
 			const uint efConstruction = 200, const uint mMax = 16, const uint seed = 100,
 			const SIMDType simdType = SIMDType::NONE, const SpaceKind spaceKind = SpaceKind::EUCLIDEAN
 		);
-
+		/**
+		 * Vloží kolekci prvků do indexu.
+		 */
 		void push(const float* const data, const uint count);
+		/**
+		 * Zpracuje kolekci dotazů.
+		 */
 		KnnResults queryBatch(const float* const data, const uint count, const uint k = 10);
+		/**
+		 * Nastaví parametr vyhledávání efSearch.
+		 */
 		void setEfSearch(const uint efSearch);
 
 		#ifdef PYBIND_INCLUDED
 
+			/**
+			 * Vloží kolekci prvků popsanou pomocí NumPy pole do indexu.
+			 */
 			void push(const NumpyArray<float> data);
+			/**
+			 * Zpracuje kolekci dotazů popsanou pomocí NumPy pole.
+			 */
 			py::tuple queryBatch(const NumpyArray<float> data, const uint k = 10);
 
 		#endif
 	};
 
+	/**
+	 * Typ sdíleného ukazatele na index.
+	 */
 	template<class T>
 	using IndexPtr = std::shared_ptr<Index<T>>;
 

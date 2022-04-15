@@ -4,26 +4,69 @@
 #include "Neighbors.hpp"
 
 namespace chm {
+	/**
+	 * Výsledek pokusu o navštívení prvního nenavštíveného prvku ze seznamu sousedů.
+	 */
 	struct VisitResult {
+		/**
+		 * Pozice prvku v seznamu sousedů.
+		 */
 		size_t idx;
+		/**
+		 * Identita prvku.
+		 */
 		uint neighborID;
+		/**
+		 * Pravda, pokud byl nalezen nenavštívený prvek.
+		 */
 		bool success;
 
+		/**
+		 * Vrátí objekt, který reprezentuje neúspěšný pokus o navštívení.
+		 */
 		static VisitResult fail();
+		/**
+		 * Konstruktor.
+		 */
 		VisitResult(const size_t idx, const uint neighborID, const bool success);
 	};
 
+	/**
+	 * Seznam navštívených prvků.
+	 * Šablona T určuje typ informace o návštěvě prvku.
+	 */
 	template<typename T>
 	class VisitedSet {
+		/**
+		 * Pole informací o návštěvě prvků.
+		 */
 		std::vector<T> v;
 
+		/**
+		 * Vrátí pravdu, pokud je v bitovým polem.
+		 */
 		static constexpr bool isBitArray();
 
 	public:
+		/**
+		 * Pokusí se navštívit prvek s identitou id.
+		 */
 		bool insert(const uint id);
+		/**
+		 * Pokusí se navštívit první nenavštívený prvek z N při procházení N od pozice startIdx.
+		 */
 		VisitResult insertNext(const Neighbors& N, const size_t startIdx);
+		/**
+		 * Asynchronně načte informace o návštěvách prvků do paměti.
+		 */
 		void prefetch(const uint id) const;
+		/**
+		 * Vynuluje pole v a navštíví počáteční prvek s identitou epID.
+		 */
 		void prepare(const uint count, const uint epID);
+		/**
+		 * Konstruktor.
+		 */
 		VisitedSet(const uint maxCount);
 	};
 
