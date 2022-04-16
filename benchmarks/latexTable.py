@@ -27,6 +27,7 @@ class Algorithm:
 @dataclass
 class Args:
 	algoNames: list[str]
+	calcPercent: bool
 	dataset: str
 	label: str
 	legend: list[str]
@@ -43,10 +44,19 @@ class Row:
 	algoToBuildTime: dict[str, float] = field(default_factory=dict)
 	algoToIndexSize: dict[str, float] = field(default_factory=dict)
 
-	def getString(self, algoNames: list[str]):
+	def getString(self, algoNames: list[str], calcPercent: bool):
+		if calcPercent:
+			time0 = self.algoToBuildTime[algoNames[0]]
+			time1 = self.algoToBuildTime[algoNames[1]]
+			buildTimes = [
+				time0, getPercentDiff(time0, time1), time1,
+				*[self.algoToBuildTime[algoNames[i]] for i in range(2, len(algoNames))]
+			]
+		else:
+			buildTimes = [self.algoToBuildTime[algoName] for algoName in algoNames]
 		return " & ".join(map(str, [
 			self.efConstruction, self.mMax,
-			*[self.algoToBuildTime[algoName] for algoName in algoNames],
+			*buildTimes,
 			*[self.algoToIndexSize[algoName] for algoName in algoNames]
 		])) + r"\\"
 
@@ -57,6 +67,7 @@ class Row:
 @dataclass
 class Table:
 	algoNames: list[str]
+	calcPercent: bool = False
 	caption: str = ""
 	label: str = ""
 	legend: list[str] = None
@@ -80,19 +91,22 @@ class Table:
 
 	def getContent(self):
 		return N.join(map(
-			lambda row: row.getString(self.algoNames),
+			lambda row: row.getString(self.algoNames, self.calcPercent),
 			sorted(self.rows, key=lambda row: row.paramHash)
 		))
 
 	def getHeaders(self):
 		algoLen = len(self.algoNames)
-		names = " & ".join(self.algoNames if self.legend is None else self.legend)
+		buildLen = algoLen + 1 if self.calcPercent else algoLen
+		legend = self.algoNames if self.legend is None else self.legend
+		names = " & ".join(legend)
+		buildNames = f"{legend[0]} & Rozdíl (\\%) & {' & '.join(legend[1:])}" if self.calcPercent else names
 		return (
 			r"\multicolumn{2}{c}{Konfigurace} & "
-			f"\multicolumn{{{algoLen}}}{{c}}{{Čas stavby (s)}} & "
+			f"\multicolumn{{{buildLen}}}{{c}}{{Čas stavby (s)}} & "
 			f"\multicolumn{{{algoLen}}}{{c}}{{Velikost indexu (1000 kB)}}\\\\{N}"
 			"$ef_{construction}$ & $M_{max}$ & "
-			f"{names} & {names}"
+			f"{buildNames} & {names}"
 		)
 
 	def getLatex(self, template: str):
@@ -109,8 +123,9 @@ def getArgs():
 	p.add_argument("-la", "--label", help="Label of the table.", required=True)
 	p.add_argument("-le", "--legend", help="Legend of the table.", nargs="+", required=True)
 	p.add_argument("-o", "--output", help="Path to output file.", required=True)
+	p.add_argument("-p", "--percent", action="store_true", help="Calculate percent difference in build times.")
 	args = p.parse_args()
-	return Args(args.algorithms, args.dataset, args.label, args.legend, Path(args.output))
+	return Args(args.algorithms, args.percent, args.dataset, args.label, args.legend, Path(args.output))
 
 def getExportedData(scriptDir: Path):
 	p = scriptDir / "data.csv"
@@ -118,6 +133,9 @@ def getExportedData(scriptDir: Path):
 	if not p.exists():
 		raise FileNotFoundError(f"File {p} not found.")
 	return pd.read_csv(p)
+
+def getPercentDiff(orig: float, new: float):
+	return round((new - orig) / orig * 100, 2)
 
 def getTable(df: pd.DataFrame, algoNames: list[str], dataset: str):
 	table = Table(algoNames)
@@ -131,22 +149,25 @@ def getTable(df: pd.DataFrame, algoNames: list[str], dataset: str):
 
 	return table
 
-def run():
-	args = getArgs()
+def run(args: Args):
 	scriptDir = Path(__file__).parent
 
 	with args.output.open("w", encoding="utf-8") as f:
 		table = getTable(getExportedData(scriptDir), args.algoNames, args.dataset)
+		table.calcPercent = args.calcPercent
 		table.caption = "Tabulka časů stavby a velikostí indexu."
 		table.label = args.label
 		table.legend = args.legend
 		f.write(table.getLatex((scriptDir / "templates" / "latexTable.txt").read_text(encoding="utf-8")))
 
-def main():
+def tryRun(args: Args):
 	try:
-		run()
+		run(args)
 	except FileNotFoundError as e:
 		print(f"[FILE NOT FOUND] {e}")
+
+def main():
+	tryRun(getArgs())
 
 if __name__ == "__main__":
 	main()
