@@ -501,7 +501,7 @@ namespace chm {
 						#if defined(AVX512_CAPABLE)
 							return DistanceInfo(0, ip16AVX512);
 						#else
-							throw std::runtime_error("This CPU doesn't support AVX512.");
+							throw std::runtime_error("This CPU doesn't support AVX-512.");
 						#endif
 					case SIMDType::SSE:
 						#if defined(SSE_CAPABLE)
@@ -544,7 +544,7 @@ namespace chm {
 						#if defined(AVX512_CAPABLE)
 							return DistanceInfo(dimLeft, ip16RAVX512);
 						#else
-							throw std::runtime_error("This CPU doesn't support AVX512.");
+							throw std::runtime_error("This CPU doesn't support AVX-512.");
 						#endif
 					case SIMDType::SSE:
 						#if defined(SSE_CAPABLE)

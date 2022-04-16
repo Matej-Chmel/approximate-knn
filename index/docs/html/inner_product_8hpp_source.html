@@ -1,0 +1,534 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.3"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Index HNSW: Zdrojový soubor innerProduct.hpp</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">Index HNSW
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Vygenerováno programem Doxygen 1.9.3 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search",'Hledat','.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','Hledat');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('inner_product_8hpp_source.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">innerProduct.hpp</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="inner_product_8hpp.html">Zobrazit dokumentaci tohoto souboru.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#pragma once</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="preprocessor">#include &quot;<a class="code" href="_distance_function_8hpp.html">DistanceFunction.hpp</a>&quot;</span></div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span> </div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespacechm.html">chm</a> {</div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno"><a class="line" href="namespacechm.html#acb6568066ecd173e3f7752d5161e9fa0">   12</a></span>    <span class="keyword">static</span> <span class="keywordtype">float</span> <a class="code hl_function" href="namespacechm.html#acb6568066ecd173e3f7752d5161e9fa0">innerProductSum</a>(<span class="keyword">const</span> <span class="keywordtype">float</span>* node, <span class="keyword">const</span> <span class="keywordtype">float</span>* query, <span class="keyword">const</span> <span class="keywordtype">size_t</span> dim) {</div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span>        <span class="keyword">auto</span> res = 0.f;</div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span> </div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span>        <span class="keywordflow">for</span>(<span class="keywordtype">size_t</span> i = 0; i &lt; dim; i++)</div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>            res += node[i] * query[i];</div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span> </div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>        <span class="keywordflow">return</span> res;</div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>    }</div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span> </div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno"><a class="line" href="namespacechm.html#ad1ad8251433d554fea0e628ffa765245">   28</a></span>    <span class="keyword">static</span> <span class="keywordtype">float</span> <a class="code hl_function" href="namespacechm.html#ad1ad8251433d554fea0e628ffa765245">innerProduct</a>(</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>        <span class="keyword">const</span> <span class="keywordtype">float</span>* node, <span class="keyword">const</span> <span class="keywordtype">float</span>* query, <span class="keyword">const</span> <span class="keywordtype">size_t</span> dim,</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>        <span class="keyword">const</span> <span class="keywordtype">size_t</span>, <span class="keyword">const</span> <span class="keywordtype">size_t</span>, <span class="keyword">const</span> <span class="keywordtype">size_t</span></div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>    ) {</div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>        <span class="keywordflow">return</span> 1.f - <a class="code hl_function" href="namespacechm.html#acb6568066ecd173e3f7752d5161e9fa0">innerProductSum</a>(node, query, dim);</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>    }</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span> </div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno"><a class="line" href="namespacechm.html#a1bb6af108730a5b5464a5686b7d2cd27">   38</a></span>    <a class="code hl_struct" href="structchm_1_1_function_info.html">FunctionInfo</a> <a class="code hl_variable" href="namespacechm.html#a1bb6af108730a5b5464a5686b7d2cd27">ip</a>(<a class="code hl_function" href="namespacechm.html#ad1ad8251433d554fea0e628ffa765245">innerProduct</a>, <span class="stringliteral">&quot;ip&quot;</span>);</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span> </div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span><span class="preprocessor">    #if defined(AVX_CAPABLE)</span></div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno"><a class="line" href="namespacechm.html#ac470e6149527293cde89937d0f81338e">   49</a></span>        <span class="keyword">static</span> <span class="keywordtype">float</span> <a class="code hl_function" href="namespacechm.html#ac470e6149527293cde89937d0f81338e">innerProductSum16AVX</a>(<span class="keyword">const</span> <span class="keywordtype">float</span>* node, <span class="keyword">const</span> <span class="keywordtype">float</span>* query, <span class="keyword">const</span> <span class="keywordtype">size_t</span> dim16) {</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>            <span class="keyword">const</span> <span class="keywordtype">float</span>* end = node + dim16;</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>            __m256 sum = _mm256_set1_ps(0);</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>            <span class="keywordtype">float</span> <a class="code hl_define" href="_distance_function_8hpp.html#af972c2f24aeb5cb9f10349feb9afdf6c">PORTABLE_ALIGN32</a> tmp[8];</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span> </div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>            <span class="keywordflow">while</span>(node &lt; end) {</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>                __m256 v1 = _mm256_loadu_ps(node);</div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>                node += 8;</div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>                __m256 v2 = _mm256_loadu_ps(query);</div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>                query += 8;</div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>                sum = _mm256_add_ps(sum, _mm256_mul_ps(v1, v2));</div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span> </div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>                v1 = _mm256_loadu_ps(node);</div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>                node += 8;</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>                v2 = _mm256_loadu_ps(query);</div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>                query += 8;</div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>                sum = _mm256_add_ps(sum, _mm256_mul_ps(v1, v2));</div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>            }</div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span> </div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>            _mm256_store_ps(tmp, sum);</div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>            <span class="keywordflow">return</span></div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>                tmp[0] + tmp[1] + tmp[2] + tmp[3] +</div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>                tmp[4] + tmp[5] + tmp[6] + tmp[7];</div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>        }</div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span> </div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno"><a class="line" href="namespacechm.html#a71e6b90c1bbad8007669703c254aaa21">   82</a></span>        <span class="keyword">static</span> <span class="keywordtype">float</span> <a class="code hl_function" href="namespacechm.html#a71e6b90c1bbad8007669703c254aaa21">innerProduct16AVX</a>(</div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span>            <span class="keyword">const</span> <span class="keywordtype">float</span>* node, <span class="keyword">const</span> <span class="keywordtype">float</span>* query, <span class="keyword">const</span> <span class="keywordtype">size_t</span>,</div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>            <span class="keyword">const</span> <span class="keywordtype">size_t</span>, <span class="keyword">const</span> <span class="keywordtype">size_t</span> dim16, <span class="keyword">const</span> <span class="keywordtype">size_t</span></div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>        ) {</div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>            <span class="keywordflow">return</span> 1.f - <a class="code hl_function" href="namespacechm.html#ac470e6149527293cde89937d0f81338e">innerProductSum16AVX</a>(node, query, dim16);</div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>        }</div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span> </div>
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno"><a class="line" href="namespacechm.html#ae1293ebe2ccbeffdf25e23ef9d4e555c">   99</a></span>        <span class="keyword">static</span> <span class="keywordtype">float</span> <a class="code hl_function" href="namespacechm.html#ae1293ebe2ccbeffdf25e23ef9d4e555c">innerProduct16ResidualAVX</a>(</div>
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>            <span class="keyword">const</span> <span class="keywordtype">float</span>* node, <span class="keyword">const</span> <span class="keywordtype">float</span>* query, <span class="keyword">const</span> <span class="keywordtype">size_t</span>,</div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span>            <span class="keyword">const</span> <span class="keywordtype">size_t</span> dim4, <span class="keyword">const</span> <span class="keywordtype">size_t</span> dim16, <span class="keyword">const</span> <span class="keywordtype">size_t</span> dimLeft</div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>        ) {</div>
+<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span>            <span class="keyword">const</span> <span class="keywordtype">float</span> front = <a class="code hl_function" href="namespacechm.html#ac470e6149527293cde89937d0f81338e">innerProductSum16AVX</a>(node, query, dim16);</div>
+<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span>            <span class="keyword">const</span> <span class="keywordtype">float</span> back = <a class="code hl_function" href="namespacechm.html#acb6568066ecd173e3f7752d5161e9fa0">innerProductSum</a>(node + dim16, query + dim16, dimLeft);</div>
+<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span>            <span class="keywordflow">return</span> 1.f - (front + back);</div>
+<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span>        }</div>
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span> </div>
+<div class="line"><a id="l00117" name="l00117"></a><span class="lineno"><a class="line" href="namespacechm.html#adc19e87ad106a52c62dc1eadb6161fa4">  117</a></span>        <span class="keyword">static</span> <span class="keywordtype">float</span> <a class="code hl_function" href="namespacechm.html#adc19e87ad106a52c62dc1eadb6161fa4">innerProductSum4AVX</a>(</div>
+<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span>            <span class="keyword">const</span> <span class="keywordtype">float</span>* node, <span class="keyword">const</span> <span class="keywordtype">float</span>* query, <span class="keyword">const</span> <span class="keywordtype">size_t</span> dim4, <span class="keyword">const</span> <span class="keywordtype">size_t</span> dim16</div>
+<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span>        ) {</div>
+<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span>            <span class="keyword">const</span> <span class="keywordtype">float</span>* end4 = node + dim4;</div>
+<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span>            <span class="keyword">const</span> <span class="keywordtype">float</span>* end16 = node + dim16;</div>
+<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span>            __m256 sum = _mm256_set1_ps(0);</div>
+<div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span>            <span class="keywordtype">float</span> <a class="code hl_define" href="_distance_function_8hpp.html#af972c2f24aeb5cb9f10349feb9afdf6c">PORTABLE_ALIGN32</a> tmp[8];</div>
+<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span> </div>
+<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span>            <span class="keywordflow">while</span>(node &lt; end16) {</div>
+<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span>                __m256 v1 = _mm256_loadu_ps(node);</div>
+<div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span>                node += 8;</div>
+<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span>                __m256 v2 = _mm256_loadu_ps(query);</div>
+<div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span>                query += 8;</div>
+<div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span>                sum = _mm256_add_ps(sum, _mm256_mul_ps(v1, v2));</div>
+<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span> </div>
+<div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span>                v1 = _mm256_loadu_ps(node);</div>
+<div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span>                node += 8;</div>
+<div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span>                v2 = _mm256_loadu_ps(query);</div>
+<div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span>                query += 8;</div>
+<div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span>                sum = _mm256_add_ps(sum, _mm256_mul_ps(v1, v2));</div>
+<div class="line"><a id="l00137" name="l00137"></a><span class="lineno">  137</span>            }</div>
+<div class="line"><a id="l00138" name="l00138"></a><span class="lineno">  138</span> </div>
+<div class="line"><a id="l00139" name="l00139"></a><span class="lineno">  139</span>            __m128 v1, v2;</div>
+<div class="line"><a id="l00140" name="l00140"></a><span class="lineno">  140</span>            __m128 prod = _mm_add_ps(_mm256_extractf128_ps(sum, 0), _mm256_extractf128_ps(sum, 1));</div>
+<div class="line"><a id="l00141" name="l00141"></a><span class="lineno">  141</span> </div>
+<div class="line"><a id="l00142" name="l00142"></a><span class="lineno">  142</span>            <span class="keywordflow">while</span>(node &lt; end4) {</div>
+<div class="line"><a id="l00143" name="l00143"></a><span class="lineno">  143</span>                v1 = _mm_loadu_ps(node);</div>
+<div class="line"><a id="l00144" name="l00144"></a><span class="lineno">  144</span>                node += 4;</div>
+<div class="line"><a id="l00145" name="l00145"></a><span class="lineno">  145</span>                v2 = _mm_loadu_ps(query);</div>
+<div class="line"><a id="l00146" name="l00146"></a><span class="lineno">  146</span>                query += 4;</div>
+<div class="line"><a id="l00147" name="l00147"></a><span class="lineno">  147</span>                prod = _mm_add_ps(prod, _mm_mul_ps(v1, v2));</div>
+<div class="line"><a id="l00148" name="l00148"></a><span class="lineno">  148</span>            }</div>
+<div class="line"><a id="l00149" name="l00149"></a><span class="lineno">  149</span> </div>
+<div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span>            _mm_store_ps(tmp, prod);</div>
+<div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span>            <span class="keywordflow">return</span> tmp[0] + tmp[1] + tmp[2] + tmp[3];</div>
+<div class="line"><a id="l00152" name="l00152"></a><span class="lineno">  152</span>        }</div>
+<div class="line"><a id="l00153" name="l00153"></a><span class="lineno">  153</span> </div>
+<div class="line"><a id="l00163" name="l00163"></a><span class="lineno"><a class="line" href="namespacechm.html#aeea6e4db70025964c7f20c06703bd91a">  163</a></span>        <span class="keyword">static</span> <span class="keywordtype">float</span> <a class="code hl_function" href="namespacechm.html#aeea6e4db70025964c7f20c06703bd91a">innerProduct4AVX</a>(</div>
+<div class="line"><a id="l00164" name="l00164"></a><span class="lineno">  164</span>            <span class="keyword">const</span> <span class="keywordtype">float</span>* node, <span class="keyword">const</span> <span class="keywordtype">float</span>* query, <span class="keyword">const</span> <span class="keywordtype">size_t</span>,</div>
+<div class="line"><a id="l00165" name="l00165"></a><span class="lineno">  165</span>            <span class="keyword">const</span> <span class="keywordtype">size_t</span> dim4, <span class="keyword">const</span> <span class="keywordtype">size_t</span> dim16, <span class="keyword">const</span> <span class="keywordtype">size_t</span></div>
+<div class="line"><a id="l00166" name="l00166"></a><span class="lineno">  166</span>        ) {</div>
+<div class="line"><a id="l00167" name="l00167"></a><span class="lineno">  167</span>            <span class="keywordflow">return</span> 1.f - <a class="code hl_function" href="namespacechm.html#adc19e87ad106a52c62dc1eadb6161fa4">innerProductSum4AVX</a>(node, query, dim4, dim16);</div>
+<div class="line"><a id="l00168" name="l00168"></a><span class="lineno">  168</span>        }</div>
+<div class="line"><a id="l00169" name="l00169"></a><span class="lineno">  169</span> </div>
+<div class="line"><a id="l00180" name="l00180"></a><span class="lineno"><a class="line" href="namespacechm.html#a2699b68b3f27cafd671bd1203025b45e">  180</a></span>        <span class="keyword">static</span> <span class="keywordtype">float</span> <a class="code hl_function" href="namespacechm.html#a2699b68b3f27cafd671bd1203025b45e">innerProduct4ResidualAVX</a>(</div>
+<div class="line"><a id="l00181" name="l00181"></a><span class="lineno">  181</span>            <span class="keyword">const</span> <span class="keywordtype">float</span>* node, <span class="keyword">const</span> <span class="keywordtype">float</span>* query, <span class="keyword">const</span> <span class="keywordtype">size_t</span>,</div>
+<div class="line"><a id="l00182" name="l00182"></a><span class="lineno">  182</span>            <span class="keyword">const</span> <span class="keywordtype">size_t</span> dim4, <span class="keyword">const</span> <span class="keywordtype">size_t</span> dim16, <span class="keyword">const</span> <span class="keywordtype">size_t</span> dimLeft</div>
+<div class="line"><a id="l00183" name="l00183"></a><span class="lineno">  183</span>        ) {</div>
+<div class="line"><a id="l00184" name="l00184"></a><span class="lineno">  184</span>            <span class="keyword">const</span> <span class="keywordtype">float</span> front = <a class="code hl_function" href="namespacechm.html#adc19e87ad106a52c62dc1eadb6161fa4">innerProductSum4AVX</a>(node, query, dim4, dim16);</div>
+<div class="line"><a id="l00185" name="l00185"></a><span class="lineno">  185</span>            <span class="keyword">const</span> <span class="keywordtype">float</span> back = <a class="code hl_function" href="namespacechm.html#acb6568066ecd173e3f7752d5161e9fa0">innerProductSum</a>(node + dim4, query + dim4, dimLeft);</div>
+<div class="line"><a id="l00186" name="l00186"></a><span class="lineno">  186</span>            <span class="keywordflow">return</span> 1.f - (front + back);</div>
+<div class="line"><a id="l00187" name="l00187"></a><span class="lineno">  187</span>        }</div>
+<div class="line"><a id="l00188" name="l00188"></a><span class="lineno">  188</span> </div>
+<div class="line"><a id="l00192" name="l00192"></a><span class="lineno"><a class="line" href="namespacechm.html#a2bb756ddb3bc3a2c5edccc651ae7e439">  192</a></span>        <a class="code hl_struct" href="structchm_1_1_function_info.html">FunctionInfo</a> <a class="code hl_variable" href="namespacechm.html#a2bb756ddb3bc3a2c5edccc651ae7e439">ip16AVX</a>(<a class="code hl_function" href="namespacechm.html#a71e6b90c1bbad8007669703c254aaa21">innerProduct16AVX</a>, <span class="stringliteral">&quot;ip16AVX&quot;</span>);</div>
+<div class="line"><a id="l00196" name="l00196"></a><span class="lineno"><a class="line" href="namespacechm.html#a3609b93f3210b38fff7de615110ec6b4">  196</a></span>        <a class="code hl_struct" href="structchm_1_1_function_info.html">FunctionInfo</a> <a class="code hl_variable" href="namespacechm.html#a3609b93f3210b38fff7de615110ec6b4">ip16RAVX</a>(<a class="code hl_function" href="namespacechm.html#ae1293ebe2ccbeffdf25e23ef9d4e555c">innerProduct16ResidualAVX</a>, <span class="stringliteral">&quot;ip16RAVX&quot;</span>);</div>
+<div class="line"><a id="l00200" name="l00200"></a><span class="lineno"><a class="line" href="namespacechm.html#a4ea018416c3b219f6ac801c40d4ab007">  200</a></span>        <a class="code hl_struct" href="structchm_1_1_function_info.html">FunctionInfo</a> <a class="code hl_variable" href="namespacechm.html#a4ea018416c3b219f6ac801c40d4ab007">ip4AVX</a>(<a class="code hl_function" href="namespacechm.html#aeea6e4db70025964c7f20c06703bd91a">innerProduct4AVX</a>, <span class="stringliteral">&quot;ip4AVX&quot;</span>);</div>
+<div class="line"><a id="l00204" name="l00204"></a><span class="lineno"><a class="line" href="namespacechm.html#a4919717e432440a1abdcef263dfd74e4">  204</a></span>        <a class="code hl_struct" href="structchm_1_1_function_info.html">FunctionInfo</a> <a class="code hl_variable" href="namespacechm.html#a4919717e432440a1abdcef263dfd74e4">ip4RAVX</a>(<a class="code hl_function" href="namespacechm.html#a2699b68b3f27cafd671bd1203025b45e">innerProduct4ResidualAVX</a>, <span class="stringliteral">&quot;ip4RAVX&quot;</span>);</div>
+<div class="line"><a id="l00205" name="l00205"></a><span class="lineno">  205</span><span class="preprocessor">    #endif</span></div>
+<div class="line"><a id="l00206" name="l00206"></a><span class="lineno">  206</span> </div>
+<div class="line"><a id="l00207" name="l00207"></a><span class="lineno">  207</span><span class="preprocessor">    #if defined(AVX512_CAPABLE)</span></div>
+<div class="line"><a id="l00216" name="l00216"></a><span class="lineno"><a class="line" href="namespacechm.html#afb3fec6838b742c57d035897638f8ec1">  216</a></span>        <span class="keyword">static</span> <span class="keywordtype">float</span> <a class="code hl_function" href="namespacechm.html#afb3fec6838b742c57d035897638f8ec1">innerProductSum16AVX512</a>(</div>
+<div class="line"><a id="l00217" name="l00217"></a><span class="lineno">  217</span>            <span class="keyword">const</span> <span class="keywordtype">float</span>* node, <span class="keyword">const</span> <span class="keywordtype">float</span>* query, <span class="keyword">const</span> <span class="keywordtype">size_t</span> dim16</div>
+<div class="line"><a id="l00218" name="l00218"></a><span class="lineno">  218</span>        ) {</div>
+<div class="line"><a id="l00219" name="l00219"></a><span class="lineno">  219</span>            <span class="keyword">const</span> <span class="keywordtype">float</span>* end = node + dim16;</div>
+<div class="line"><a id="l00220" name="l00220"></a><span class="lineno">  220</span>            __m512 sum = _mm512_set1_ps(0);</div>
+<div class="line"><a id="l00221" name="l00221"></a><span class="lineno">  221</span>            <span class="keywordtype">float</span> <a class="code hl_define" href="_distance_function_8hpp.html#a4601795d7c62cdcc0a987b3acac85862">PORTABLE_ALIGN64</a> tmp[16];</div>
+<div class="line"><a id="l00222" name="l00222"></a><span class="lineno">  222</span> </div>
+<div class="line"><a id="l00223" name="l00223"></a><span class="lineno">  223</span>            <span class="keywordflow">while</span>(node &lt; end) {</div>
+<div class="line"><a id="l00224" name="l00224"></a><span class="lineno">  224</span>                __m512 v1 = _mm512_loadu_ps(node);</div>
+<div class="line"><a id="l00225" name="l00225"></a><span class="lineno">  225</span>                node += 16;</div>
+<div class="line"><a id="l00226" name="l00226"></a><span class="lineno">  226</span>                __m512 v2 = _mm512_loadu_ps(query);</div>
+<div class="line"><a id="l00227" name="l00227"></a><span class="lineno">  227</span>                query += 16;</div>
+<div class="line"><a id="l00228" name="l00228"></a><span class="lineno">  228</span>                sum = _mm512_add_ps(sum, _mm512_mul_ps(v1, v2));</div>
+<div class="line"><a id="l00229" name="l00229"></a><span class="lineno">  229</span>            }</div>
+<div class="line"><a id="l00230" name="l00230"></a><span class="lineno">  230</span> </div>
+<div class="line"><a id="l00231" name="l00231"></a><span class="lineno">  231</span>            _mm512_store_ps(tmp, sum);</div>
+<div class="line"><a id="l00232" name="l00232"></a><span class="lineno">  232</span>            <span class="keywordflow">return</span></div>
+<div class="line"><a id="l00233" name="l00233"></a><span class="lineno">  233</span>                tmp[0] + tmp[1] + tmp[2] + tmp[3] +</div>
+<div class="line"><a id="l00234" name="l00234"></a><span class="lineno">  234</span>                tmp[4] + tmp[5] + tmp[6] + tmp[7] +</div>
+<div class="line"><a id="l00235" name="l00235"></a><span class="lineno">  235</span>                tmp[8] + tmp[9] + tmp[10] + tmp[11] +</div>
+<div class="line"><a id="l00236" name="l00236"></a><span class="lineno">  236</span>                tmp[12] + tmp[13] + tmp[14] + tmp[15];</div>
+<div class="line"><a id="l00237" name="l00237"></a><span class="lineno">  237</span>        }</div>
+<div class="line"><a id="l00238" name="l00238"></a><span class="lineno">  238</span> </div>
+<div class="line"><a id="l00247" name="l00247"></a><span class="lineno"><a class="line" href="namespacechm.html#a564bb8debf973270109a67997559dcc4">  247</a></span>        <span class="keyword">static</span> <span class="keywordtype">float</span> <a class="code hl_function" href="namespacechm.html#a564bb8debf973270109a67997559dcc4">innerProduct16AVX512</a>(</div>
+<div class="line"><a id="l00248" name="l00248"></a><span class="lineno">  248</span>            <span class="keyword">const</span> <span class="keywordtype">float</span>* node, <span class="keyword">const</span> <span class="keywordtype">float</span>* query, <span class="keyword">const</span> <span class="keywordtype">size_t</span>,</div>
+<div class="line"><a id="l00249" name="l00249"></a><span class="lineno">  249</span>            <span class="keyword">const</span> <span class="keywordtype">size_t</span>, <span class="keyword">const</span> <span class="keywordtype">size_t</span> dim16, <span class="keyword">const</span> <span class="keywordtype">size_t</span></div>
+<div class="line"><a id="l00250" name="l00250"></a><span class="lineno">  250</span>        ) {</div>
+<div class="line"><a id="l00251" name="l00251"></a><span class="lineno">  251</span>            <span class="keywordflow">return</span> 1.f - <a class="code hl_function" href="namespacechm.html#afb3fec6838b742c57d035897638f8ec1">innerProductSum16AVX512</a>(node, query, dim16);</div>
+<div class="line"><a id="l00252" name="l00252"></a><span class="lineno">  252</span>        }</div>
+<div class="line"><a id="l00253" name="l00253"></a><span class="lineno">  253</span> </div>
+<div class="line"><a id="l00264" name="l00264"></a><span class="lineno"><a class="line" href="namespacechm.html#a625e10282b194fef685ec1399eceb828">  264</a></span>        <span class="keyword">static</span> <span class="keywordtype">float</span> <a class="code hl_function" href="namespacechm.html#a625e10282b194fef685ec1399eceb828">innerProduct16ResidualAVX512</a>(</div>
+<div class="line"><a id="l00265" name="l00265"></a><span class="lineno">  265</span>            <span class="keyword">const</span> <span class="keywordtype">float</span>* node, <span class="keyword">const</span> <span class="keywordtype">float</span>* query, <span class="keyword">const</span> <span class="keywordtype">size_t</span>,</div>
+<div class="line"><a id="l00266" name="l00266"></a><span class="lineno">  266</span>            <span class="keyword">const</span> <span class="keywordtype">size_t</span> dim4, <span class="keyword">const</span> <span class="keywordtype">size_t</span> dim16, <span class="keyword">const</span> <span class="keywordtype">size_t</span> dimLeft</div>
+<div class="line"><a id="l00267" name="l00267"></a><span class="lineno">  267</span>        ) {</div>
+<div class="line"><a id="l00268" name="l00268"></a><span class="lineno">  268</span>            <span class="keyword">const</span> <span class="keywordtype">float</span> front = <a class="code hl_function" href="namespacechm.html#afb3fec6838b742c57d035897638f8ec1">innerProductSum16AVX512</a>(node, query, dim16);</div>
+<div class="line"><a id="l00269" name="l00269"></a><span class="lineno">  269</span>            <span class="keyword">const</span> <span class="keywordtype">float</span> back = <a class="code hl_function" href="namespacechm.html#acb6568066ecd173e3f7752d5161e9fa0">innerProductSum</a>(node + dim16, query + dim16, dimLeft);</div>
+<div class="line"><a id="l00270" name="l00270"></a><span class="lineno">  270</span>            <span class="keywordflow">return</span> 1.f - (front + back);</div>
+<div class="line"><a id="l00271" name="l00271"></a><span class="lineno">  271</span>        }</div>
+<div class="line"><a id="l00272" name="l00272"></a><span class="lineno">  272</span> </div>
+<div class="line"><a id="l00276" name="l00276"></a><span class="lineno"><a class="line" href="namespacechm.html#a2a1176a586901d55cb0b9b9e01273dce">  276</a></span>        <a class="code hl_struct" href="structchm_1_1_function_info.html">FunctionInfo</a> <a class="code hl_variable" href="namespacechm.html#a2a1176a586901d55cb0b9b9e01273dce">ip16AVX512</a>(<a class="code hl_function" href="namespacechm.html#a564bb8debf973270109a67997559dcc4">innerProduct16AVX512</a>, <span class="stringliteral">&quot;ip16AVX512&quot;</span>);</div>
+<div class="line"><a id="l00280" name="l00280"></a><span class="lineno"><a class="line" href="namespacechm.html#a46b53559d77a5c4a64b982e1dce69866">  280</a></span>        <a class="code hl_struct" href="structchm_1_1_function_info.html">FunctionInfo</a> <a class="code hl_variable" href="namespacechm.html#a46b53559d77a5c4a64b982e1dce69866">ip16RAVX512</a>(<a class="code hl_function" href="namespacechm.html#a625e10282b194fef685ec1399eceb828">innerProduct16ResidualAVX512</a>, <span class="stringliteral">&quot;ip16RAVX512&quot;</span>);</div>
+<div class="line"><a id="l00281" name="l00281"></a><span class="lineno">  281</span><span class="preprocessor">    #endif</span></div>
+<div class="line"><a id="l00282" name="l00282"></a><span class="lineno">  282</span> </div>
+<div class="line"><a id="l00283" name="l00283"></a><span class="lineno">  283</span><span class="preprocessor">    #if defined(SSE_CAPABLE)</span></div>
+<div class="line"><a id="l00292" name="l00292"></a><span class="lineno"><a class="line" href="namespacechm.html#ab42cb477520c33829040911675ecdbab">  292</a></span>        <span class="keyword">static</span> <span class="keywordtype">float</span> <a class="code hl_function" href="namespacechm.html#ab42cb477520c33829040911675ecdbab">innerProductSum16SSE</a>(</div>
+<div class="line"><a id="l00293" name="l00293"></a><span class="lineno">  293</span>            <span class="keyword">const</span> <span class="keywordtype">float</span>* node, <span class="keyword">const</span> <span class="keywordtype">float</span>* query, <span class="keyword">const</span> <span class="keywordtype">size_t</span> dim16</div>
+<div class="line"><a id="l00294" name="l00294"></a><span class="lineno">  294</span>        ) {</div>
+<div class="line"><a id="l00295" name="l00295"></a><span class="lineno">  295</span>            <span class="keyword">const</span> <span class="keywordtype">float</span>* end = node + dim16;</div>
+<div class="line"><a id="l00296" name="l00296"></a><span class="lineno">  296</span>            <span class="keywordtype">float</span> <a class="code hl_define" href="_distance_function_8hpp.html#af972c2f24aeb5cb9f10349feb9afdf6c">PORTABLE_ALIGN32</a> tmp[8];</div>
+<div class="line"><a id="l00297" name="l00297"></a><span class="lineno">  297</span>            __m128 sum = _mm_set1_ps(0);</div>
+<div class="line"><a id="l00298" name="l00298"></a><span class="lineno">  298</span>            __m128 v1, v2;</div>
+<div class="line"><a id="l00299" name="l00299"></a><span class="lineno">  299</span> </div>
+<div class="line"><a id="l00300" name="l00300"></a><span class="lineno">  300</span>            <span class="keywordflow">while</span>(node &lt; end) {</div>
+<div class="line"><a id="l00301" name="l00301"></a><span class="lineno">  301</span>                v1 = _mm_loadu_ps(node);</div>
+<div class="line"><a id="l00302" name="l00302"></a><span class="lineno">  302</span>                node += 4;</div>
+<div class="line"><a id="l00303" name="l00303"></a><span class="lineno">  303</span>                v2 = _mm_loadu_ps(query);</div>
+<div class="line"><a id="l00304" name="l00304"></a><span class="lineno">  304</span>                query += 4;</div>
+<div class="line"><a id="l00305" name="l00305"></a><span class="lineno">  305</span>                sum = _mm_add_ps(sum, _mm_mul_ps(v1, v2));</div>
+<div class="line"><a id="l00306" name="l00306"></a><span class="lineno">  306</span> </div>
+<div class="line"><a id="l00307" name="l00307"></a><span class="lineno">  307</span>                v1 = _mm_loadu_ps(node);</div>
+<div class="line"><a id="l00308" name="l00308"></a><span class="lineno">  308</span>                node += 4;</div>
+<div class="line"><a id="l00309" name="l00309"></a><span class="lineno">  309</span>                v2 = _mm_loadu_ps(query);</div>
+<div class="line"><a id="l00310" name="l00310"></a><span class="lineno">  310</span>                query += 4;</div>
+<div class="line"><a id="l00311" name="l00311"></a><span class="lineno">  311</span>                sum = _mm_add_ps(sum, _mm_mul_ps(v1, v2));</div>
+<div class="line"><a id="l00312" name="l00312"></a><span class="lineno">  312</span> </div>
+<div class="line"><a id="l00313" name="l00313"></a><span class="lineno">  313</span>                v1 = _mm_loadu_ps(node);</div>
+<div class="line"><a id="l00314" name="l00314"></a><span class="lineno">  314</span>                node += 4;</div>
+<div class="line"><a id="l00315" name="l00315"></a><span class="lineno">  315</span>                v2 = _mm_loadu_ps(query);</div>
+<div class="line"><a id="l00316" name="l00316"></a><span class="lineno">  316</span>                query += 4;</div>
+<div class="line"><a id="l00317" name="l00317"></a><span class="lineno">  317</span>                sum = _mm_add_ps(sum, _mm_mul_ps(v1, v2));</div>
+<div class="line"><a id="l00318" name="l00318"></a><span class="lineno">  318</span> </div>
+<div class="line"><a id="l00319" name="l00319"></a><span class="lineno">  319</span>                v1 = _mm_loadu_ps(node);</div>
+<div class="line"><a id="l00320" name="l00320"></a><span class="lineno">  320</span>                node += 4;</div>
+<div class="line"><a id="l00321" name="l00321"></a><span class="lineno">  321</span>                v2 = _mm_loadu_ps(query);</div>
+<div class="line"><a id="l00322" name="l00322"></a><span class="lineno">  322</span>                query += 4;</div>
+<div class="line"><a id="l00323" name="l00323"></a><span class="lineno">  323</span>                sum = _mm_add_ps(sum, _mm_mul_ps(v1, v2));</div>
+<div class="line"><a id="l00324" name="l00324"></a><span class="lineno">  324</span>            }</div>
+<div class="line"><a id="l00325" name="l00325"></a><span class="lineno">  325</span> </div>
+<div class="line"><a id="l00326" name="l00326"></a><span class="lineno">  326</span>            _mm_store_ps(tmp, sum);</div>
+<div class="line"><a id="l00327" name="l00327"></a><span class="lineno">  327</span>            <span class="keywordflow">return</span> tmp[0] + tmp[1] + tmp[2] + tmp[3];</div>
+<div class="line"><a id="l00328" name="l00328"></a><span class="lineno">  328</span>        }</div>
+<div class="line"><a id="l00329" name="l00329"></a><span class="lineno">  329</span> </div>
+<div class="line"><a id="l00338" name="l00338"></a><span class="lineno"><a class="line" href="namespacechm.html#a3690730136a4b8b3ef081e15bcbd2e46">  338</a></span>        <span class="keyword">static</span> <span class="keywordtype">float</span> <a class="code hl_function" href="namespacechm.html#a3690730136a4b8b3ef081e15bcbd2e46">innerProduct16SSE</a>(</div>
+<div class="line"><a id="l00339" name="l00339"></a><span class="lineno">  339</span>            <span class="keyword">const</span> <span class="keywordtype">float</span>* node, <span class="keyword">const</span> <span class="keywordtype">float</span>* query, <span class="keyword">const</span> <span class="keywordtype">size_t</span>,</div>
+<div class="line"><a id="l00340" name="l00340"></a><span class="lineno">  340</span>            <span class="keyword">const</span> <span class="keywordtype">size_t</span>, <span class="keyword">const</span> <span class="keywordtype">size_t</span> dim16, <span class="keyword">const</span> <span class="keywordtype">size_t</span></div>
+<div class="line"><a id="l00341" name="l00341"></a><span class="lineno">  341</span>        ) {</div>
+<div class="line"><a id="l00342" name="l00342"></a><span class="lineno">  342</span>            <span class="keywordflow">return</span> 1.f - <a class="code hl_function" href="namespacechm.html#ab42cb477520c33829040911675ecdbab">innerProductSum16SSE</a>(node, query, dim16);</div>
+<div class="line"><a id="l00343" name="l00343"></a><span class="lineno">  343</span>        }</div>
+<div class="line"><a id="l00344" name="l00344"></a><span class="lineno">  344</span> </div>
+<div class="line"><a id="l00355" name="l00355"></a><span class="lineno"><a class="line" href="namespacechm.html#a95260a593fc96b81c265179f62a72a49">  355</a></span>        <span class="keyword">static</span> <span class="keywordtype">float</span> <a class="code hl_function" href="namespacechm.html#a95260a593fc96b81c265179f62a72a49">innerProduct16ResidualSSE</a>(</div>
+<div class="line"><a id="l00356" name="l00356"></a><span class="lineno">  356</span>            <span class="keyword">const</span> <span class="keywordtype">float</span>* node, <span class="keyword">const</span> <span class="keywordtype">float</span>* query, <span class="keyword">const</span> <span class="keywordtype">size_t</span>,</div>
+<div class="line"><a id="l00357" name="l00357"></a><span class="lineno">  357</span>            <span class="keyword">const</span> <span class="keywordtype">size_t</span> dim4, <span class="keyword">const</span> <span class="keywordtype">size_t</span> dim16, <span class="keyword">const</span> <span class="keywordtype">size_t</span> dimLeft</div>
+<div class="line"><a id="l00358" name="l00358"></a><span class="lineno">  358</span>        ) {</div>
+<div class="line"><a id="l00359" name="l00359"></a><span class="lineno">  359</span>            <span class="keyword">const</span> <span class="keywordtype">float</span> front = <a class="code hl_function" href="namespacechm.html#ab42cb477520c33829040911675ecdbab">innerProductSum16SSE</a>(node, query, dim16);</div>
+<div class="line"><a id="l00360" name="l00360"></a><span class="lineno">  360</span>            <span class="keyword">const</span> <span class="keywordtype">float</span> back = <a class="code hl_function" href="namespacechm.html#acb6568066ecd173e3f7752d5161e9fa0">innerProductSum</a>(node + dim16, query + dim16, dimLeft);</div>
+<div class="line"><a id="l00361" name="l00361"></a><span class="lineno">  361</span>            <span class="keywordflow">return</span> 1.f - (front + back);</div>
+<div class="line"><a id="l00362" name="l00362"></a><span class="lineno">  362</span>        }</div>
+<div class="line"><a id="l00363" name="l00363"></a><span class="lineno">  363</span> </div>
+<div class="line"><a id="l00373" name="l00373"></a><span class="lineno"><a class="line" href="namespacechm.html#aba4ac4aa9d63e87ea81b59e8b45a3f5a">  373</a></span>        <span class="keyword">static</span> <span class="keywordtype">float</span> <a class="code hl_function" href="namespacechm.html#aba4ac4aa9d63e87ea81b59e8b45a3f5a">innerProductSum4SSE</a>(</div>
+<div class="line"><a id="l00374" name="l00374"></a><span class="lineno">  374</span>            <span class="keyword">const</span> <span class="keywordtype">float</span>* node, <span class="keyword">const</span> <span class="keywordtype">float</span>* query, <span class="keyword">const</span> <span class="keywordtype">size_t</span> dim4, <span class="keyword">const</span> <span class="keywordtype">size_t</span> dim16</div>
+<div class="line"><a id="l00375" name="l00375"></a><span class="lineno">  375</span>        ) {</div>
+<div class="line"><a id="l00376" name="l00376"></a><span class="lineno">  376</span>            <span class="keyword">const</span> <span class="keywordtype">float</span>* end4 = node + dim4;</div>
+<div class="line"><a id="l00377" name="l00377"></a><span class="lineno">  377</span>            <span class="keyword">const</span> <span class="keywordtype">float</span>* end16 = node + dim16;</div>
+<div class="line"><a id="l00378" name="l00378"></a><span class="lineno">  378</span>            <span class="keywordtype">float</span> <a class="code hl_define" href="_distance_function_8hpp.html#af972c2f24aeb5cb9f10349feb9afdf6c">PORTABLE_ALIGN32</a> tmp[8];</div>
+<div class="line"><a id="l00379" name="l00379"></a><span class="lineno">  379</span>            __m128 sum = _mm_set1_ps(0);</div>
+<div class="line"><a id="l00380" name="l00380"></a><span class="lineno">  380</span>            __m128 v1, v2;</div>
+<div class="line"><a id="l00381" name="l00381"></a><span class="lineno">  381</span> </div>
+<div class="line"><a id="l00382" name="l00382"></a><span class="lineno">  382</span>            <span class="keywordflow">while</span>(node &lt; end16) {</div>
+<div class="line"><a id="l00383" name="l00383"></a><span class="lineno">  383</span>                v1 = _mm_loadu_ps(node);</div>
+<div class="line"><a id="l00384" name="l00384"></a><span class="lineno">  384</span>                node += 4;</div>
+<div class="line"><a id="l00385" name="l00385"></a><span class="lineno">  385</span>                v2 = _mm_loadu_ps(query);</div>
+<div class="line"><a id="l00386" name="l00386"></a><span class="lineno">  386</span>                query += 4;</div>
+<div class="line"><a id="l00387" name="l00387"></a><span class="lineno">  387</span>                sum = _mm_add_ps(sum, _mm_mul_ps(v1, v2));</div>
+<div class="line"><a id="l00388" name="l00388"></a><span class="lineno">  388</span> </div>
+<div class="line"><a id="l00389" name="l00389"></a><span class="lineno">  389</span>                v1 = _mm_loadu_ps(node);</div>
+<div class="line"><a id="l00390" name="l00390"></a><span class="lineno">  390</span>                node += 4;</div>
+<div class="line"><a id="l00391" name="l00391"></a><span class="lineno">  391</span>                v2 = _mm_loadu_ps(query);</div>
+<div class="line"><a id="l00392" name="l00392"></a><span class="lineno">  392</span>                query += 4;</div>
+<div class="line"><a id="l00393" name="l00393"></a><span class="lineno">  393</span>                sum = _mm_add_ps(sum, _mm_mul_ps(v1, v2));</div>
+<div class="line"><a id="l00394" name="l00394"></a><span class="lineno">  394</span> </div>
+<div class="line"><a id="l00395" name="l00395"></a><span class="lineno">  395</span>                v1 = _mm_loadu_ps(node);</div>
+<div class="line"><a id="l00396" name="l00396"></a><span class="lineno">  396</span>                node += 4;</div>
+<div class="line"><a id="l00397" name="l00397"></a><span class="lineno">  397</span>                v2 = _mm_loadu_ps(query);</div>
+<div class="line"><a id="l00398" name="l00398"></a><span class="lineno">  398</span>                query += 4;</div>
+<div class="line"><a id="l00399" name="l00399"></a><span class="lineno">  399</span>                sum = _mm_add_ps(sum, _mm_mul_ps(v1, v2));</div>
+<div class="line"><a id="l00400" name="l00400"></a><span class="lineno">  400</span> </div>
+<div class="line"><a id="l00401" name="l00401"></a><span class="lineno">  401</span>                v1 = _mm_loadu_ps(node);</div>
+<div class="line"><a id="l00402" name="l00402"></a><span class="lineno">  402</span>                node += 4;</div>
+<div class="line"><a id="l00403" name="l00403"></a><span class="lineno">  403</span>                v2 = _mm_loadu_ps(query);</div>
+<div class="line"><a id="l00404" name="l00404"></a><span class="lineno">  404</span>                query += 4;</div>
+<div class="line"><a id="l00405" name="l00405"></a><span class="lineno">  405</span>                sum = _mm_add_ps(sum, _mm_mul_ps(v1, v2));</div>
+<div class="line"><a id="l00406" name="l00406"></a><span class="lineno">  406</span>            }</div>
+<div class="line"><a id="l00407" name="l00407"></a><span class="lineno">  407</span> </div>
+<div class="line"><a id="l00408" name="l00408"></a><span class="lineno">  408</span>            <span class="keywordflow">while</span>(node &lt; end4) {</div>
+<div class="line"><a id="l00409" name="l00409"></a><span class="lineno">  409</span>                v1 = _mm_loadu_ps(node);</div>
+<div class="line"><a id="l00410" name="l00410"></a><span class="lineno">  410</span>                node += 4;</div>
+<div class="line"><a id="l00411" name="l00411"></a><span class="lineno">  411</span>                v2 = _mm_loadu_ps(query);</div>
+<div class="line"><a id="l00412" name="l00412"></a><span class="lineno">  412</span>                query += 4;</div>
+<div class="line"><a id="l00413" name="l00413"></a><span class="lineno">  413</span>                sum = _mm_add_ps(sum, _mm_mul_ps(v1, v2));</div>
+<div class="line"><a id="l00414" name="l00414"></a><span class="lineno">  414</span>            }</div>
+<div class="line"><a id="l00415" name="l00415"></a><span class="lineno">  415</span> </div>
+<div class="line"><a id="l00416" name="l00416"></a><span class="lineno">  416</span>            _mm_store_ps(tmp, sum);</div>
+<div class="line"><a id="l00417" name="l00417"></a><span class="lineno">  417</span>            <span class="keywordflow">return</span> tmp[0] + tmp[1] + tmp[2] + tmp[3];</div>
+<div class="line"><a id="l00418" name="l00418"></a><span class="lineno">  418</span>        }</div>
+<div class="line"><a id="l00419" name="l00419"></a><span class="lineno">  419</span> </div>
+<div class="line"><a id="l00429" name="l00429"></a><span class="lineno"><a class="line" href="namespacechm.html#a37dce36fe3164bd28e0e3e33b10007f4">  429</a></span>        <span class="keyword">static</span> <span class="keywordtype">float</span> <a class="code hl_function" href="namespacechm.html#a37dce36fe3164bd28e0e3e33b10007f4">innerProduct4SSE</a>(</div>
+<div class="line"><a id="l00430" name="l00430"></a><span class="lineno">  430</span>            <span class="keyword">const</span> <span class="keywordtype">float</span>* node, <span class="keyword">const</span> <span class="keywordtype">float</span>* query, <span class="keyword">const</span> <span class="keywordtype">size_t</span>,</div>
+<div class="line"><a id="l00431" name="l00431"></a><span class="lineno">  431</span>            <span class="keyword">const</span> <span class="keywordtype">size_t</span> dim4, <span class="keyword">const</span> <span class="keywordtype">size_t</span> dim16, <span class="keyword">const</span> <span class="keywordtype">size_t</span></div>
+<div class="line"><a id="l00432" name="l00432"></a><span class="lineno">  432</span>        ) {</div>
+<div class="line"><a id="l00433" name="l00433"></a><span class="lineno">  433</span>            <span class="keywordflow">return</span> 1.f - <a class="code hl_function" href="namespacechm.html#aba4ac4aa9d63e87ea81b59e8b45a3f5a">innerProductSum4SSE</a>(node, query, dim4, dim16);</div>
+<div class="line"><a id="l00434" name="l00434"></a><span class="lineno">  434</span>        }</div>
+<div class="line"><a id="l00435" name="l00435"></a><span class="lineno">  435</span> </div>
+<div class="line"><a id="l00446" name="l00446"></a><span class="lineno"><a class="line" href="namespacechm.html#a5a367ceae51159ce9e555c0c813eb61a">  446</a></span>        <span class="keyword">static</span> <span class="keywordtype">float</span> <a class="code hl_function" href="namespacechm.html#a5a367ceae51159ce9e555c0c813eb61a">innerProduct4ResidualSSE</a>(</div>
+<div class="line"><a id="l00447" name="l00447"></a><span class="lineno">  447</span>            <span class="keyword">const</span> <span class="keywordtype">float</span>* node, <span class="keyword">const</span> <span class="keywordtype">float</span>* query, <span class="keyword">const</span> <span class="keywordtype">size_t</span>,</div>
+<div class="line"><a id="l00448" name="l00448"></a><span class="lineno">  448</span>            <span class="keyword">const</span> <span class="keywordtype">size_t</span> dim4, <span class="keyword">const</span> <span class="keywordtype">size_t</span> dim16, <span class="keyword">const</span> <span class="keywordtype">size_t</span> dimLeft</div>
+<div class="line"><a id="l00449" name="l00449"></a><span class="lineno">  449</span>        ) {</div>
+<div class="line"><a id="l00450" name="l00450"></a><span class="lineno">  450</span>            <span class="keyword">const</span> <span class="keywordtype">float</span> front = <a class="code hl_function" href="namespacechm.html#aba4ac4aa9d63e87ea81b59e8b45a3f5a">innerProductSum4SSE</a>(node, query, dim4, dim16);</div>
+<div class="line"><a id="l00451" name="l00451"></a><span class="lineno">  451</span>            <span class="keyword">const</span> <span class="keywordtype">float</span> back = <a class="code hl_function" href="namespacechm.html#acb6568066ecd173e3f7752d5161e9fa0">innerProductSum</a>(node + dim4, query + dim4, dimLeft);</div>
+<div class="line"><a id="l00452" name="l00452"></a><span class="lineno">  452</span>            <span class="keywordflow">return</span> 1.f - (front + back);</div>
+<div class="line"><a id="l00453" name="l00453"></a><span class="lineno">  453</span>        }</div>
+<div class="line"><a id="l00454" name="l00454"></a><span class="lineno">  454</span> </div>
+<div class="line"><a id="l00458" name="l00458"></a><span class="lineno"><a class="line" href="namespacechm.html#a1bc484557dc8584fb63fba59989e7360">  458</a></span>        <a class="code hl_struct" href="structchm_1_1_function_info.html">FunctionInfo</a> <a class="code hl_variable" href="namespacechm.html#a1bc484557dc8584fb63fba59989e7360">ip16SSE</a>(<a class="code hl_function" href="namespacechm.html#a3690730136a4b8b3ef081e15bcbd2e46">innerProduct16SSE</a>, <span class="stringliteral">&quot;ip16SSE&quot;</span>);</div>
+<div class="line"><a id="l00462" name="l00462"></a><span class="lineno"><a class="line" href="namespacechm.html#a260135a3b2cf1ef3a7988ce39aee5526">  462</a></span>        <a class="code hl_struct" href="structchm_1_1_function_info.html">FunctionInfo</a> <a class="code hl_variable" href="namespacechm.html#a260135a3b2cf1ef3a7988ce39aee5526">ip16RSSE</a>(<a class="code hl_function" href="namespacechm.html#a95260a593fc96b81c265179f62a72a49">innerProduct16ResidualSSE</a>, <span class="stringliteral">&quot;ip16RSSE&quot;</span>);</div>
+<div class="line"><a id="l00466" name="l00466"></a><span class="lineno"><a class="line" href="namespacechm.html#afaabb8aa029c7a0dea22ba278f579d8e">  466</a></span>        <a class="code hl_struct" href="structchm_1_1_function_info.html">FunctionInfo</a> <a class="code hl_variable" href="namespacechm.html#afaabb8aa029c7a0dea22ba278f579d8e">ip4SSE</a>(<a class="code hl_function" href="namespacechm.html#a37dce36fe3164bd28e0e3e33b10007f4">innerProduct4SSE</a>, <span class="stringliteral">&quot;ip4SSE&quot;</span>);</div>
+<div class="line"><a id="l00470" name="l00470"></a><span class="lineno"><a class="line" href="namespacechm.html#ad54448e61afd201b473b4a1355102c62">  470</a></span>        <a class="code hl_struct" href="structchm_1_1_function_info.html">FunctionInfo</a> <a class="code hl_variable" href="namespacechm.html#ad54448e61afd201b473b4a1355102c62">ip4RSSE</a>(<a class="code hl_function" href="namespacechm.html#a5a367ceae51159ce9e555c0c813eb61a">innerProduct4ResidualSSE</a>, <span class="stringliteral">&quot;ip4RSSE&quot;</span>);</div>
+<div class="line"><a id="l00471" name="l00471"></a><span class="lineno">  471</span><span class="preprocessor">    #endif</span></div>
+<div class="line"><a id="l00472" name="l00472"></a><span class="lineno">  472</span> </div>
+<div class="line"><a id="l00482" name="l00482"></a><span class="lineno"><a class="line" href="namespacechm.html#a8c19dda7962c94bed8a48902cebaf05e">  482</a></span>    <span class="keyword">inline</span> <a class="code hl_struct" href="structchm_1_1_distance_info.html">DistanceInfo</a> <a class="code hl_function" href="namespacechm.html#a8c19dda7962c94bed8a48902cebaf05e">getInnerProductInfo</a>(</div>
+<div class="line"><a id="l00483" name="l00483"></a><span class="lineno">  483</span>        <span class="keyword">const</span> <span class="keywordtype">size_t</span> dim, <span class="keyword">const</span> <span class="keywordtype">size_t</span> dim4, <span class="keyword">const</span> <span class="keywordtype">size_t</span> dim16, <a class="code hl_enumeration" href="namespacechm.html#a32cb02ac8c02f0f27c921c284020ab51">SIMDType</a> type</div>
+<div class="line"><a id="l00484" name="l00484"></a><span class="lineno">  484</span>    ) {</div>
+<div class="line"><a id="l00485" name="l00485"></a><span class="lineno">  485</span><span class="preprocessor">        #if defined(SIMD_CAPABLE)</span></div>
+<div class="line"><a id="l00486" name="l00486"></a><span class="lineno">  486</span>            <span class="keywordflow">if</span>(type == <a class="code hl_enumvalue" href="namespacechm.html#a32cb02ac8c02f0f27c921c284020ab51ab50339a10e1de285ac99d4c3990b8693">SIMDType::NONE</a>)</div>
+<div class="line"><a id="l00487" name="l00487"></a><span class="lineno">  487</span>                <span class="keywordflow">return</span> <a class="code hl_struct" href="structchm_1_1_distance_info.html">DistanceInfo</a>(0, <a class="code hl_variable" href="namespacechm.html#a1bb6af108730a5b5464a5686b7d2cd27">ip</a>);</div>
+<div class="line"><a id="l00488" name="l00488"></a><span class="lineno">  488</span> </div>
+<div class="line"><a id="l00489" name="l00489"></a><span class="lineno">  489</span>            <span class="keywordflow">if</span>(type == <a class="code hl_enumvalue" href="namespacechm.html#a32cb02ac8c02f0f27c921c284020ab51ada034de38c791a4e574a513e7b97bec6">SIMDType::BEST</a>)</div>
+<div class="line"><a id="l00490" name="l00490"></a><span class="lineno">  490</span>                type = <a class="code hl_function" href="namespacechm.html#a515bfcb5a313fbac8979ec2186820ac9">getBestSIMDType</a>();</div>
+<div class="line"><a id="l00491" name="l00491"></a><span class="lineno">  491</span> </div>
+<div class="line"><a id="l00492" name="l00492"></a><span class="lineno">  492</span>            <span class="keywordflow">if</span>(dim % 16 == 0)</div>
+<div class="line"><a id="l00493" name="l00493"></a><span class="lineno">  493</span>                <span class="keywordflow">switch</span>(type) {</div>
+<div class="line"><a id="l00494" name="l00494"></a><span class="lineno">  494</span>                    <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="namespacechm.html#a32cb02ac8c02f0f27c921c284020ab51a4863502abea45861b9ed022e66d66cb2">SIMDType::AVX</a>:</div>
+<div class="line"><a id="l00495" name="l00495"></a><span class="lineno">  495</span><span class="preprocessor">                        #if defined(AVX_CAPABLE)</span></div>
+<div class="line"><a id="l00496" name="l00496"></a><span class="lineno">  496</span>                            <span class="keywordflow">return</span> <a class="code hl_struct" href="structchm_1_1_distance_info.html">DistanceInfo</a>(0, <a class="code hl_variable" href="namespacechm.html#a2bb756ddb3bc3a2c5edccc651ae7e439">ip16AVX</a>);</div>
+<div class="line"><a id="l00497" name="l00497"></a><span class="lineno">  497</span><span class="preprocessor">                        #else</span></div>
+<div class="line"><a id="l00498" name="l00498"></a><span class="lineno">  498</span>                            <span class="keywordflow">throw</span> std::runtime_error(<span class="stringliteral">&quot;This CPU doesn&#39;t support AVX.&quot;</span>);</div>
+<div class="line"><a id="l00499" name="l00499"></a><span class="lineno">  499</span><span class="preprocessor">                        #endif</span></div>
+<div class="line"><a id="l00500" name="l00500"></a><span class="lineno">  500</span>                    <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="namespacechm.html#a32cb02ac8c02f0f27c921c284020ab51a5f8acb5068c8c8db7b2a4069bd17d9fd">SIMDType::AVX512</a>:</div>
+<div class="line"><a id="l00501" name="l00501"></a><span class="lineno">  501</span><span class="preprocessor">                        #if defined(AVX512_CAPABLE)</span></div>
+<div class="line"><a id="l00502" name="l00502"></a><span class="lineno">  502</span>                            <span class="keywordflow">return</span> <a class="code hl_struct" href="structchm_1_1_distance_info.html">DistanceInfo</a>(0, <a class="code hl_variable" href="namespacechm.html#a2a1176a586901d55cb0b9b9e01273dce">ip16AVX512</a>);</div>
+<div class="line"><a id="l00503" name="l00503"></a><span class="lineno">  503</span><span class="preprocessor">                        #else</span></div>
+<div class="line"><a id="l00504" name="l00504"></a><span class="lineno">  504</span>                            <span class="keywordflow">throw</span> std::runtime_error(<span class="stringliteral">&quot;This CPU doesn&#39;t support AVX-512.&quot;</span>);</div>
+<div class="line"><a id="l00505" name="l00505"></a><span class="lineno">  505</span><span class="preprocessor">                        #endif</span></div>
+<div class="line"><a id="l00506" name="l00506"></a><span class="lineno">  506</span>                    <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="namespacechm.html#a32cb02ac8c02f0f27c921c284020ab51a5fc53fc8197865c63285f74b1e147013">SIMDType::SSE</a>:</div>
+<div class="line"><a id="l00507" name="l00507"></a><span class="lineno">  507</span><span class="preprocessor">                        #if defined(SSE_CAPABLE)</span></div>
+<div class="line"><a id="l00508" name="l00508"></a><span class="lineno">  508</span>                            <span class="keywordflow">return</span> <a class="code hl_struct" href="structchm_1_1_distance_info.html">DistanceInfo</a>(0, <a class="code hl_variable" href="namespacechm.html#a1bc484557dc8584fb63fba59989e7360">ip16SSE</a>);</div>
+<div class="line"><a id="l00509" name="l00509"></a><span class="lineno">  509</span><span class="preprocessor">                        #else</span></div>
+<div class="line"><a id="l00510" name="l00510"></a><span class="lineno">  510</span>                            <span class="keywordflow">throw</span> std::runtime_error(<span class="stringliteral">&quot;This CPU doesn&#39;t support SSE.&quot;</span>);</div>
+<div class="line"><a id="l00511" name="l00511"></a><span class="lineno">  511</span><span class="preprocessor">                        #endif</span></div>
+<div class="line"><a id="l00512" name="l00512"></a><span class="lineno">  512</span>                    <span class="keywordflow">default</span>:</div>
+<div class="line"><a id="l00513" name="l00513"></a><span class="lineno">  513</span>                        <span class="keywordflow">throw</span> std::runtime_error(<span class="stringliteral">&quot;Unknown SIMD type.&quot;</span>);</div>
+<div class="line"><a id="l00514" name="l00514"></a><span class="lineno">  514</span>                }</div>
+<div class="line"><a id="l00515" name="l00515"></a><span class="lineno">  515</span>            <span class="keywordflow">else</span> <span class="keywordflow">if</span>(dim % 4 == 0)</div>
+<div class="line"><a id="l00516" name="l00516"></a><span class="lineno">  516</span>                <span class="keywordflow">switch</span>(type) {</div>
+<div class="line"><a id="l00517" name="l00517"></a><span class="lineno">  517</span>                    <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="namespacechm.html#a32cb02ac8c02f0f27c921c284020ab51a4863502abea45861b9ed022e66d66cb2">SIMDType::AVX</a>:</div>
+<div class="line"><a id="l00518" name="l00518"></a><span class="lineno">  518</span>                    <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="namespacechm.html#a32cb02ac8c02f0f27c921c284020ab51a5f8acb5068c8c8db7b2a4069bd17d9fd">SIMDType::AVX512</a>:</div>
+<div class="line"><a id="l00519" name="l00519"></a><span class="lineno">  519</span><span class="preprocessor">                        #if defined(AVX_CAPABLE)</span></div>
+<div class="line"><a id="l00520" name="l00520"></a><span class="lineno">  520</span>                            <span class="keywordflow">return</span> <a class="code hl_struct" href="structchm_1_1_distance_info.html">DistanceInfo</a>(0, <a class="code hl_variable" href="namespacechm.html#a4ea018416c3b219f6ac801c40d4ab007">ip4AVX</a>);</div>
+<div class="line"><a id="l00521" name="l00521"></a><span class="lineno">  521</span><span class="preprocessor">                        #else</span></div>
+<div class="line"><a id="l00522" name="l00522"></a><span class="lineno">  522</span>                            <span class="keywordflow">throw</span> std::runtime_error(<span class="stringliteral">&quot;This CPU doesn&#39;t support AVX.&quot;</span>);</div>
+<div class="line"><a id="l00523" name="l00523"></a><span class="lineno">  523</span><span class="preprocessor">                        #endif</span></div>
+<div class="line"><a id="l00524" name="l00524"></a><span class="lineno">  524</span>                    <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="namespacechm.html#a32cb02ac8c02f0f27c921c284020ab51a5fc53fc8197865c63285f74b1e147013">SIMDType::SSE</a>:</div>
+<div class="line"><a id="l00525" name="l00525"></a><span class="lineno">  525</span><span class="preprocessor">                        #if defined(SSE_CAPABLE)</span></div>
+<div class="line"><a id="l00526" name="l00526"></a><span class="lineno">  526</span>                            <span class="keywordflow">return</span> <a class="code hl_struct" href="structchm_1_1_distance_info.html">DistanceInfo</a>(0, <a class="code hl_variable" href="namespacechm.html#afaabb8aa029c7a0dea22ba278f579d8e">ip4SSE</a>);</div>
+<div class="line"><a id="l00527" name="l00527"></a><span class="lineno">  527</span><span class="preprocessor">                        #else</span></div>
+<div class="line"><a id="l00528" name="l00528"></a><span class="lineno">  528</span>                            <span class="keywordflow">throw</span> std::runtime_error(<span class="stringliteral">&quot;This CPU doesn&#39;t support SSE.&quot;</span>);</div>
+<div class="line"><a id="l00529" name="l00529"></a><span class="lineno">  529</span><span class="preprocessor">                        #endif</span></div>
+<div class="line"><a id="l00530" name="l00530"></a><span class="lineno">  530</span>                    <span class="keywordflow">default</span>:</div>
+<div class="line"><a id="l00531" name="l00531"></a><span class="lineno">  531</span>                        <span class="keywordflow">throw</span> std::runtime_error(<span class="stringliteral">&quot;Unknown SIMD type.&quot;</span>);</div>
+<div class="line"><a id="l00532" name="l00532"></a><span class="lineno">  532</span>                }</div>
+<div class="line"><a id="l00533" name="l00533"></a><span class="lineno">  533</span>            <span class="keywordflow">else</span> <span class="keywordflow">if</span> (dim &gt; 16) {</div>
+<div class="line"><a id="l00534" name="l00534"></a><span class="lineno">  534</span>                <span class="keyword">const</span> <span class="keyword">auto</span> dimLeft = dim - dim16;</div>
+<div class="line"><a id="l00535" name="l00535"></a><span class="lineno">  535</span> </div>
+<div class="line"><a id="l00536" name="l00536"></a><span class="lineno">  536</span>                <span class="keywordflow">switch</span>(type) {</div>
+<div class="line"><a id="l00537" name="l00537"></a><span class="lineno">  537</span>                    <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="namespacechm.html#a32cb02ac8c02f0f27c921c284020ab51a4863502abea45861b9ed022e66d66cb2">SIMDType::AVX</a>:</div>
+<div class="line"><a id="l00538" name="l00538"></a><span class="lineno">  538</span><span class="preprocessor">                        #if defined(AVX_CAPABLE)</span></div>
+<div class="line"><a id="l00539" name="l00539"></a><span class="lineno">  539</span>                            <span class="keywordflow">return</span> <a class="code hl_struct" href="structchm_1_1_distance_info.html">DistanceInfo</a>(dimLeft, <a class="code hl_variable" href="namespacechm.html#a3609b93f3210b38fff7de615110ec6b4">ip16RAVX</a>);</div>
+<div class="line"><a id="l00540" name="l00540"></a><span class="lineno">  540</span><span class="preprocessor">                        #else</span></div>
+<div class="line"><a id="l00541" name="l00541"></a><span class="lineno">  541</span>                            <span class="keywordflow">throw</span> std::runtime_error(<span class="stringliteral">&quot;This CPU doesn&#39;t support AVX.&quot;</span>);</div>
+<div class="line"><a id="l00542" name="l00542"></a><span class="lineno">  542</span><span class="preprocessor">                        #endif</span></div>
+<div class="line"><a id="l00543" name="l00543"></a><span class="lineno">  543</span>                    <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="namespacechm.html#a32cb02ac8c02f0f27c921c284020ab51a5f8acb5068c8c8db7b2a4069bd17d9fd">SIMDType::AVX512</a>:</div>
+<div class="line"><a id="l00544" name="l00544"></a><span class="lineno">  544</span><span class="preprocessor">                        #if defined(AVX512_CAPABLE)</span></div>
+<div class="line"><a id="l00545" name="l00545"></a><span class="lineno">  545</span>                            <span class="keywordflow">return</span> <a class="code hl_struct" href="structchm_1_1_distance_info.html">DistanceInfo</a>(dimLeft, <a class="code hl_variable" href="namespacechm.html#a46b53559d77a5c4a64b982e1dce69866">ip16RAVX512</a>);</div>
+<div class="line"><a id="l00546" name="l00546"></a><span class="lineno">  546</span><span class="preprocessor">                        #else</span></div>
+<div class="line"><a id="l00547" name="l00547"></a><span class="lineno">  547</span>                            <span class="keywordflow">throw</span> std::runtime_error(<span class="stringliteral">&quot;This CPU doesn&#39;t support AVX-512.&quot;</span>);</div>
+<div class="line"><a id="l00548" name="l00548"></a><span class="lineno">  548</span><span class="preprocessor">                        #endif</span></div>
+<div class="line"><a id="l00549" name="l00549"></a><span class="lineno">  549</span>                    <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="namespacechm.html#a32cb02ac8c02f0f27c921c284020ab51a5fc53fc8197865c63285f74b1e147013">SIMDType::SSE</a>:</div>
+<div class="line"><a id="l00550" name="l00550"></a><span class="lineno">  550</span><span class="preprocessor">                        #if defined(SSE_CAPABLE)</span></div>
+<div class="line"><a id="l00551" name="l00551"></a><span class="lineno">  551</span>                            <span class="keywordflow">return</span> <a class="code hl_struct" href="structchm_1_1_distance_info.html">DistanceInfo</a>(dimLeft, <a class="code hl_variable" href="namespacechm.html#a260135a3b2cf1ef3a7988ce39aee5526">ip16RSSE</a>);</div>
+<div class="line"><a id="l00552" name="l00552"></a><span class="lineno">  552</span><span class="preprocessor">                        #else</span></div>
+<div class="line"><a id="l00553" name="l00553"></a><span class="lineno">  553</span>                            <span class="keywordflow">throw</span> std::runtime_error(<span class="stringliteral">&quot;This CPU doesn&#39;t support SSE.&quot;</span>);</div>
+<div class="line"><a id="l00554" name="l00554"></a><span class="lineno">  554</span><span class="preprocessor">                        #endif</span></div>
+<div class="line"><a id="l00555" name="l00555"></a><span class="lineno">  555</span>                    <span class="keywordflow">default</span>:</div>
+<div class="line"><a id="l00556" name="l00556"></a><span class="lineno">  556</span>                        <span class="keywordflow">throw</span> std::runtime_error(<span class="stringliteral">&quot;Unknown SIMD type.&quot;</span>);</div>
+<div class="line"><a id="l00557" name="l00557"></a><span class="lineno">  557</span>                }</div>
+<div class="line"><a id="l00558" name="l00558"></a><span class="lineno">  558</span>            }</div>
+<div class="line"><a id="l00559" name="l00559"></a><span class="lineno">  559</span>            <span class="keywordflow">else</span> <span class="keywordflow">if</span> (dim &gt; 4) {</div>
+<div class="line"><a id="l00560" name="l00560"></a><span class="lineno">  560</span>                <span class="keyword">const</span> <span class="keyword">auto</span> dimLeft = dim - dim4;</div>
+<div class="line"><a id="l00561" name="l00561"></a><span class="lineno">  561</span> </div>
+<div class="line"><a id="l00562" name="l00562"></a><span class="lineno">  562</span>                <span class="keywordflow">switch</span>(type) {</div>
+<div class="line"><a id="l00563" name="l00563"></a><span class="lineno">  563</span>                    <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="namespacechm.html#a32cb02ac8c02f0f27c921c284020ab51a4863502abea45861b9ed022e66d66cb2">SIMDType::AVX</a>:</div>
+<div class="line"><a id="l00564" name="l00564"></a><span class="lineno">  564</span>                    <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="namespacechm.html#a32cb02ac8c02f0f27c921c284020ab51a5f8acb5068c8c8db7b2a4069bd17d9fd">SIMDType::AVX512</a>:</div>
+<div class="line"><a id="l00565" name="l00565"></a><span class="lineno">  565</span><span class="preprocessor">                        #if defined(AVX_CAPABLE)</span></div>
+<div class="line"><a id="l00566" name="l00566"></a><span class="lineno">  566</span>                            <span class="keywordflow">return</span> <a class="code hl_struct" href="structchm_1_1_distance_info.html">DistanceInfo</a>(dimLeft, <a class="code hl_variable" href="namespacechm.html#a4919717e432440a1abdcef263dfd74e4">ip4RAVX</a>);</div>
+<div class="line"><a id="l00567" name="l00567"></a><span class="lineno">  567</span><span class="preprocessor">                        #else</span></div>
+<div class="line"><a id="l00568" name="l00568"></a><span class="lineno">  568</span>                            <span class="keywordflow">throw</span> std::runtime_error(<span class="stringliteral">&quot;This CPU doesn&#39;t support AVX.&quot;</span>);</div>
+<div class="line"><a id="l00569" name="l00569"></a><span class="lineno">  569</span><span class="preprocessor">                        #endif</span></div>
+<div class="line"><a id="l00570" name="l00570"></a><span class="lineno">  570</span>                    <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="namespacechm.html#a32cb02ac8c02f0f27c921c284020ab51a5fc53fc8197865c63285f74b1e147013">SIMDType::SSE</a>:</div>
+<div class="line"><a id="l00571" name="l00571"></a><span class="lineno">  571</span><span class="preprocessor">                        #if defined(SSE_CAPABLE)</span></div>
+<div class="line"><a id="l00572" name="l00572"></a><span class="lineno">  572</span>                            <span class="keywordflow">return</span> <a class="code hl_struct" href="structchm_1_1_distance_info.html">DistanceInfo</a>(dimLeft, <a class="code hl_variable" href="namespacechm.html#ad54448e61afd201b473b4a1355102c62">ip4RSSE</a>);</div>
+<div class="line"><a id="l00573" name="l00573"></a><span class="lineno">  573</span><span class="preprocessor">                        #else</span></div>
+<div class="line"><a id="l00574" name="l00574"></a><span class="lineno">  574</span>                            <span class="keywordflow">throw</span> std::runtime_error(<span class="stringliteral">&quot;This CPU doesn&#39;t support SSE.&quot;</span>);</div>
+<div class="line"><a id="l00575" name="l00575"></a><span class="lineno">  575</span><span class="preprocessor">                        #endif</span></div>
+<div class="line"><a id="l00576" name="l00576"></a><span class="lineno">  576</span>                    <span class="keywordflow">default</span>:</div>
+<div class="line"><a id="l00577" name="l00577"></a><span class="lineno">  577</span>                        <span class="keywordflow">throw</span> std::runtime_error(<span class="stringliteral">&quot;Unknown SIMD type.&quot;</span>);</div>
+<div class="line"><a id="l00578" name="l00578"></a><span class="lineno">  578</span>                }</div>
+<div class="line"><a id="l00579" name="l00579"></a><span class="lineno">  579</span>            }</div>
+<div class="line"><a id="l00580" name="l00580"></a><span class="lineno">  580</span><span class="preprocessor">        #endif</span></div>
+<div class="line"><a id="l00581" name="l00581"></a><span class="lineno">  581</span> </div>
+<div class="line"><a id="l00582" name="l00582"></a><span class="lineno">  582</span>        <span class="keywordflow">return</span> <a class="code hl_struct" href="structchm_1_1_distance_info.html">DistanceInfo</a>(0, <a class="code hl_variable" href="namespacechm.html#a1bb6af108730a5b5464a5686b7d2cd27">ip</a>);</div>
+<div class="line"><a id="l00583" name="l00583"></a><span class="lineno">  583</span>    }</div>
+<div class="line"><a id="l00584" name="l00584"></a><span class="lineno">  584</span>}</div>
+<div class="ttc" id="a_distance_function_8hpp_html"><div class="ttname"><a href="_distance_function_8hpp.html">DistanceFunction.hpp</a></div></div>
+<div class="ttc" id="a_distance_function_8hpp_html_a4601795d7c62cdcc0a987b3acac85862"><div class="ttname"><a href="_distance_function_8hpp.html#a4601795d7c62cdcc0a987b3acac85862">PORTABLE_ALIGN64</a></div><div class="ttdeci">#define PORTABLE_ALIGN64</div><div class="ttdef"><b>Definition:</b> DistanceFunction.hpp:19</div></div>
+<div class="ttc" id="a_distance_function_8hpp_html_af972c2f24aeb5cb9f10349feb9afdf6c"><div class="ttname"><a href="_distance_function_8hpp.html#af972c2f24aeb5cb9f10349feb9afdf6c">PORTABLE_ALIGN32</a></div><div class="ttdeci">#define PORTABLE_ALIGN32</div><div class="ttdef"><b>Definition:</b> DistanceFunction.hpp:18</div></div>
+<div class="ttc" id="anamespacechm_html"><div class="ttname"><a href="namespacechm.html">chm</a></div><div class="ttdef"><b>Definition:</b> Configuration.cpp:5</div></div>
+<div class="ttc" id="anamespacechm_html_a1bb6af108730a5b5464a5686b7d2cd27"><div class="ttname"><a href="namespacechm.html#a1bb6af108730a5b5464a5686b7d2cd27">chm::ip</a></div><div class="ttdeci">FunctionInfo ip(innerProduct, &quot;ip&quot;)</div></div>
+<div class="ttc" id="anamespacechm_html_a1bc484557dc8584fb63fba59989e7360"><div class="ttname"><a href="namespacechm.html#a1bc484557dc8584fb63fba59989e7360">chm::ip16SSE</a></div><div class="ttdeci">FunctionInfo ip16SSE(innerProduct16SSE, &quot;ip16SSE&quot;)</div></div>
+<div class="ttc" id="anamespacechm_html_a260135a3b2cf1ef3a7988ce39aee5526"><div class="ttname"><a href="namespacechm.html#a260135a3b2cf1ef3a7988ce39aee5526">chm::ip16RSSE</a></div><div class="ttdeci">FunctionInfo ip16RSSE(innerProduct16ResidualSSE, &quot;ip16RSSE&quot;)</div></div>
+<div class="ttc" id="anamespacechm_html_a2699b68b3f27cafd671bd1203025b45e"><div class="ttname"><a href="namespacechm.html#a2699b68b3f27cafd671bd1203025b45e">chm::innerProduct4ResidualAVX</a></div><div class="ttdeci">static float innerProduct4ResidualAVX(const float *node, const float *query, const size_t, const size_t dim4, const size_t dim16, const size_t dimLeft)</div><div class="ttdef"><b>Definition:</b> innerProduct.hpp:180</div></div>
+<div class="ttc" id="anamespacechm_html_a2a1176a586901d55cb0b9b9e01273dce"><div class="ttname"><a href="namespacechm.html#a2a1176a586901d55cb0b9b9e01273dce">chm::ip16AVX512</a></div><div class="ttdeci">FunctionInfo ip16AVX512(innerProduct16AVX512, &quot;ip16AVX512&quot;)</div></div>
+<div class="ttc" id="anamespacechm_html_a2bb756ddb3bc3a2c5edccc651ae7e439"><div class="ttname"><a href="namespacechm.html#a2bb756ddb3bc3a2c5edccc651ae7e439">chm::ip16AVX</a></div><div class="ttdeci">FunctionInfo ip16AVX(innerProduct16AVX, &quot;ip16AVX&quot;)</div></div>
+<div class="ttc" id="anamespacechm_html_a32cb02ac8c02f0f27c921c284020ab51"><div class="ttname"><a href="namespacechm.html#a32cb02ac8c02f0f27c921c284020ab51">chm::SIMDType</a></div><div class="ttdeci">SIMDType</div><div class="ttdef"><b>Definition:</b> DistanceFunction.hpp:43</div></div>
+<div class="ttc" id="anamespacechm_html_a32cb02ac8c02f0f27c921c284020ab51a4863502abea45861b9ed022e66d66cb2"><div class="ttname"><a href="namespacechm.html#a32cb02ac8c02f0f27c921c284020ab51a4863502abea45861b9ed022e66d66cb2">chm::SIMDType::AVX</a></div><div class="ttdeci">@ AVX</div></div>
+<div class="ttc" id="anamespacechm_html_a32cb02ac8c02f0f27c921c284020ab51a5f8acb5068c8c8db7b2a4069bd17d9fd"><div class="ttname"><a href="namespacechm.html#a32cb02ac8c02f0f27c921c284020ab51a5f8acb5068c8c8db7b2a4069bd17d9fd">chm::SIMDType::AVX512</a></div><div class="ttdeci">@ AVX512</div></div>
+<div class="ttc" id="anamespacechm_html_a32cb02ac8c02f0f27c921c284020ab51a5fc53fc8197865c63285f74b1e147013"><div class="ttname"><a href="namespacechm.html#a32cb02ac8c02f0f27c921c284020ab51a5fc53fc8197865c63285f74b1e147013">chm::SIMDType::SSE</a></div><div class="ttdeci">@ SSE</div></div>
+<div class="ttc" id="anamespacechm_html_a32cb02ac8c02f0f27c921c284020ab51ab50339a10e1de285ac99d4c3990b8693"><div class="ttname"><a href="namespacechm.html#a32cb02ac8c02f0f27c921c284020ab51ab50339a10e1de285ac99d4c3990b8693">chm::SIMDType::NONE</a></div><div class="ttdeci">@ NONE</div></div>
+<div class="ttc" id="anamespacechm_html_a32cb02ac8c02f0f27c921c284020ab51ada034de38c791a4e574a513e7b97bec6"><div class="ttname"><a href="namespacechm.html#a32cb02ac8c02f0f27c921c284020ab51ada034de38c791a4e574a513e7b97bec6">chm::SIMDType::BEST</a></div><div class="ttdeci">@ BEST</div></div>
+<div class="ttc" id="anamespacechm_html_a3609b93f3210b38fff7de615110ec6b4"><div class="ttname"><a href="namespacechm.html#a3609b93f3210b38fff7de615110ec6b4">chm::ip16RAVX</a></div><div class="ttdeci">FunctionInfo ip16RAVX(innerProduct16ResidualAVX, &quot;ip16RAVX&quot;)</div></div>
+<div class="ttc" id="anamespacechm_html_a3690730136a4b8b3ef081e15bcbd2e46"><div class="ttname"><a href="namespacechm.html#a3690730136a4b8b3ef081e15bcbd2e46">chm::innerProduct16SSE</a></div><div class="ttdeci">static float innerProduct16SSE(const float *node, const float *query, const size_t, const size_t, const size_t dim16, const size_t)</div><div class="ttdef"><b>Definition:</b> innerProduct.hpp:338</div></div>
+<div class="ttc" id="anamespacechm_html_a37dce36fe3164bd28e0e3e33b10007f4"><div class="ttname"><a href="namespacechm.html#a37dce36fe3164bd28e0e3e33b10007f4">chm::innerProduct4SSE</a></div><div class="ttdeci">static float innerProduct4SSE(const float *node, const float *query, const size_t, const size_t dim4, const size_t dim16, const size_t)</div><div class="ttdef"><b>Definition:</b> innerProduct.hpp:429</div></div>
+<div class="ttc" id="anamespacechm_html_a46b53559d77a5c4a64b982e1dce69866"><div class="ttname"><a href="namespacechm.html#a46b53559d77a5c4a64b982e1dce69866">chm::ip16RAVX512</a></div><div class="ttdeci">FunctionInfo ip16RAVX512(innerProduct16ResidualAVX512, &quot;ip16RAVX512&quot;)</div></div>
+<div class="ttc" id="anamespacechm_html_a4919717e432440a1abdcef263dfd74e4"><div class="ttname"><a href="namespacechm.html#a4919717e432440a1abdcef263dfd74e4">chm::ip4RAVX</a></div><div class="ttdeci">FunctionInfo ip4RAVX(innerProduct4ResidualAVX, &quot;ip4RAVX&quot;)</div></div>
+<div class="ttc" id="anamespacechm_html_a4ea018416c3b219f6ac801c40d4ab007"><div class="ttname"><a href="namespacechm.html#a4ea018416c3b219f6ac801c40d4ab007">chm::ip4AVX</a></div><div class="ttdeci">FunctionInfo ip4AVX(innerProduct4AVX, &quot;ip4AVX&quot;)</div></div>
+<div class="ttc" id="anamespacechm_html_a515bfcb5a313fbac8979ec2186820ac9"><div class="ttname"><a href="namespacechm.html#a515bfcb5a313fbac8979ec2186820ac9">chm::getBestSIMDType</a></div><div class="ttdeci">SIMDType getBestSIMDType()</div><div class="ttdef"><b>Definition:</b> DistanceFunction.cpp:7</div></div>
+<div class="ttc" id="anamespacechm_html_a564bb8debf973270109a67997559dcc4"><div class="ttname"><a href="namespacechm.html#a564bb8debf973270109a67997559dcc4">chm::innerProduct16AVX512</a></div><div class="ttdeci">static float innerProduct16AVX512(const float *node, const float *query, const size_t, const size_t, const size_t dim16, const size_t)</div><div class="ttdef"><b>Definition:</b> innerProduct.hpp:247</div></div>
+<div class="ttc" id="anamespacechm_html_a5a367ceae51159ce9e555c0c813eb61a"><div class="ttname"><a href="namespacechm.html#a5a367ceae51159ce9e555c0c813eb61a">chm::innerProduct4ResidualSSE</a></div><div class="ttdeci">static float innerProduct4ResidualSSE(const float *node, const float *query, const size_t, const size_t dim4, const size_t dim16, const size_t dimLeft)</div><div class="ttdef"><b>Definition:</b> innerProduct.hpp:446</div></div>
+<div class="ttc" id="anamespacechm_html_a625e10282b194fef685ec1399eceb828"><div class="ttname"><a href="namespacechm.html#a625e10282b194fef685ec1399eceb828">chm::innerProduct16ResidualAVX512</a></div><div class="ttdeci">static float innerProduct16ResidualAVX512(const float *node, const float *query, const size_t, const size_t dim4, const size_t dim16, const size_t dimLeft)</div><div class="ttdef"><b>Definition:</b> innerProduct.hpp:264</div></div>
+<div class="ttc" id="anamespacechm_html_a71e6b90c1bbad8007669703c254aaa21"><div class="ttname"><a href="namespacechm.html#a71e6b90c1bbad8007669703c254aaa21">chm::innerProduct16AVX</a></div><div class="ttdeci">static float innerProduct16AVX(const float *node, const float *query, const size_t, const size_t, const size_t dim16, const size_t)</div><div class="ttdef"><b>Definition:</b> innerProduct.hpp:82</div></div>
+<div class="ttc" id="anamespacechm_html_a8c19dda7962c94bed8a48902cebaf05e"><div class="ttname"><a href="namespacechm.html#a8c19dda7962c94bed8a48902cebaf05e">chm::getInnerProductInfo</a></div><div class="ttdeci">DistanceInfo getInnerProductInfo(const size_t dim, const size_t dim4, const size_t dim16, SIMDType type)</div><div class="ttdef"><b>Definition:</b> innerProduct.hpp:482</div></div>
+<div class="ttc" id="anamespacechm_html_a95260a593fc96b81c265179f62a72a49"><div class="ttname"><a href="namespacechm.html#a95260a593fc96b81c265179f62a72a49">chm::innerProduct16ResidualSSE</a></div><div class="ttdeci">static float innerProduct16ResidualSSE(const float *node, const float *query, const size_t, const size_t dim4, const size_t dim16, const size_t dimLeft)</div><div class="ttdef"><b>Definition:</b> innerProduct.hpp:355</div></div>
+<div class="ttc" id="anamespacechm_html_ab42cb477520c33829040911675ecdbab"><div class="ttname"><a href="namespacechm.html#ab42cb477520c33829040911675ecdbab">chm::innerProductSum16SSE</a></div><div class="ttdeci">static float innerProductSum16SSE(const float *node, const float *query, const size_t dim16)</div><div class="ttdef"><b>Definition:</b> innerProduct.hpp:292</div></div>
+<div class="ttc" id="anamespacechm_html_aba4ac4aa9d63e87ea81b59e8b45a3f5a"><div class="ttname"><a href="namespacechm.html#aba4ac4aa9d63e87ea81b59e8b45a3f5a">chm::innerProductSum4SSE</a></div><div class="ttdeci">static float innerProductSum4SSE(const float *node, const float *query, const size_t dim4, const size_t dim16)</div><div class="ttdef"><b>Definition:</b> innerProduct.hpp:373</div></div>
+<div class="ttc" id="anamespacechm_html_ac470e6149527293cde89937d0f81338e"><div class="ttname"><a href="namespacechm.html#ac470e6149527293cde89937d0f81338e">chm::innerProductSum16AVX</a></div><div class="ttdeci">static float innerProductSum16AVX(const float *node, const float *query, const size_t dim16)</div><div class="ttdef"><b>Definition:</b> innerProduct.hpp:49</div></div>
+<div class="ttc" id="anamespacechm_html_acb6568066ecd173e3f7752d5161e9fa0"><div class="ttname"><a href="namespacechm.html#acb6568066ecd173e3f7752d5161e9fa0">chm::innerProductSum</a></div><div class="ttdeci">static float innerProductSum(const float *node, const float *query, const size_t dim)</div><div class="ttdef"><b>Definition:</b> innerProduct.hpp:12</div></div>
+<div class="ttc" id="anamespacechm_html_ad1ad8251433d554fea0e628ffa765245"><div class="ttname"><a href="namespacechm.html#ad1ad8251433d554fea0e628ffa765245">chm::innerProduct</a></div><div class="ttdeci">static float innerProduct(const float *node, const float *query, const size_t dim, const size_t, const size_t, const size_t)</div><div class="ttdef"><b>Definition:</b> innerProduct.hpp:28</div></div>
+<div class="ttc" id="anamespacechm_html_ad54448e61afd201b473b4a1355102c62"><div class="ttname"><a href="namespacechm.html#ad54448e61afd201b473b4a1355102c62">chm::ip4RSSE</a></div><div class="ttdeci">FunctionInfo ip4RSSE(innerProduct4ResidualSSE, &quot;ip4RSSE&quot;)</div></div>
+<div class="ttc" id="anamespacechm_html_adc19e87ad106a52c62dc1eadb6161fa4"><div class="ttname"><a href="namespacechm.html#adc19e87ad106a52c62dc1eadb6161fa4">chm::innerProductSum4AVX</a></div><div class="ttdeci">static float innerProductSum4AVX(const float *node, const float *query, const size_t dim4, const size_t dim16)</div><div class="ttdef"><b>Definition:</b> innerProduct.hpp:117</div></div>
+<div class="ttc" id="anamespacechm_html_ae1293ebe2ccbeffdf25e23ef9d4e555c"><div class="ttname"><a href="namespacechm.html#ae1293ebe2ccbeffdf25e23ef9d4e555c">chm::innerProduct16ResidualAVX</a></div><div class="ttdeci">static float innerProduct16ResidualAVX(const float *node, const float *query, const size_t, const size_t dim4, const size_t dim16, const size_t dimLeft)</div><div class="ttdef"><b>Definition:</b> innerProduct.hpp:99</div></div>
+<div class="ttc" id="anamespacechm_html_aeea6e4db70025964c7f20c06703bd91a"><div class="ttname"><a href="namespacechm.html#aeea6e4db70025964c7f20c06703bd91a">chm::innerProduct4AVX</a></div><div class="ttdeci">static float innerProduct4AVX(const float *node, const float *query, const size_t, const size_t dim4, const size_t dim16, const size_t)</div><div class="ttdef"><b>Definition:</b> innerProduct.hpp:163</div></div>
+<div class="ttc" id="anamespacechm_html_afaabb8aa029c7a0dea22ba278f579d8e"><div class="ttname"><a href="namespacechm.html#afaabb8aa029c7a0dea22ba278f579d8e">chm::ip4SSE</a></div><div class="ttdeci">FunctionInfo ip4SSE(innerProduct4SSE, &quot;ip4SSE&quot;)</div></div>
+<div class="ttc" id="anamespacechm_html_afb3fec6838b742c57d035897638f8ec1"><div class="ttname"><a href="namespacechm.html#afb3fec6838b742c57d035897638f8ec1">chm::innerProductSum16AVX512</a></div><div class="ttdeci">static float innerProductSum16AVX512(const float *node, const float *query, const size_t dim16)</div><div class="ttdef"><b>Definition:</b> innerProduct.hpp:216</div></div>
+<div class="ttc" id="astructchm_1_1_distance_info_html"><div class="ttname"><a href="structchm_1_1_distance_info.html">chm::DistanceInfo</a></div><div class="ttdef"><b>Definition:</b> DistanceFunction.hpp:103</div></div>
+<div class="ttc" id="astructchm_1_1_function_info_html"><div class="ttname"><a href="structchm_1_1_function_info.html">chm::FunctionInfo</a></div><div class="ttdef"><b>Definition:</b> DistanceFunction.hpp:82</div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_a9bdb1b6f7cefbba21d3af20c63f0bce.html">chm</a></li><li class="navelem"><a class="el" href="inner_product_8hpp.html">innerProduct.hpp</a></li>
+    <li class="footer">Vygenerováno programem <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.3 </li>
+  </ul>
+</div>
+</body>
+</html>

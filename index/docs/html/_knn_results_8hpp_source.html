@@ -1,0 +1,186 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.3"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Index HNSW: Zdrojový soubor KnnResults.hpp</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">Index HNSW
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Vygenerováno programem Doxygen 1.9.3 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search",'Hledat','.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','Hledat');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('_knn_results_8hpp_source.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">KnnResults.hpp</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="_knn_results_8hpp.html">Zobrazit dokumentaci tohoto souboru.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#pragma once</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="preprocessor">#include &quot;<a class="code" href="types_8hpp.html">types.hpp</a>&quot;</span></div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span> </div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#ifdef PYBIND_INCLUDED</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">    #include &lt;pybind11/numpy.h&gt;</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">    #include &lt;pybind11/pybind11.h&gt;</span></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span> </div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespacechm.html">chm</a> {</div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="preprocessor">    #ifdef PYBIND_INCLUDED</span></div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span>        <span class="keyword">namespace </span>py = pybind11;</div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span> </div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>        <span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno"><a class="line" href="namespacechm.html#a553e7185c00722ad59564ad770dea432">   17</a></span>        <span class="keyword">using</span> <a class="code hl_typedef" href="namespacechm.html#a553e7185c00722ad59564ad770dea432">NumpyArray</a> = py::array_t&lt;T, py::array::c_style | py::array::forcecast&gt;;</div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span> </div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>        <span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno"><a class="line" href="namespacechm.html#a73bee82c7006ebe3529f0b27eba06cd6">   26</a></span>        <span class="keyword">const</span> T* <span class="keyword">const</span> <a class="code hl_function" href="namespacechm.html#a73bee82c7006ebe3529f0b27eba06cd6">getNumpyPtr</a>(<span class="keyword">const</span> <a class="code hl_typedef" href="namespacechm.html#a553e7185c00722ad59564ad770dea432">NumpyArray&lt;T&gt;</a>&amp; a) {</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>            <span class="keywordflow">return</span> (<span class="keyword">const</span> T* <span class="keyword">const</span>)a.request().ptr;</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>        }</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span> </div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>        <span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno"><a class="line" href="namespacechm.html#a465578f6444491199d4b1b583ad31739">   37</a></span>        <span class="keywordtype">size_t</span> <a class="code hl_function" href="namespacechm.html#a465578f6444491199d4b1b583ad31739">getNumpyXDim</a>(<span class="keyword">const</span> <a class="code hl_typedef" href="namespacechm.html#a553e7185c00722ad59564ad770dea432">NumpyArray&lt;T&gt;</a>&amp; a) {</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>            <span class="keywordflow">return</span> (<span class="keywordtype">size_t</span>)a.request().shape[0];</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>        }</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span> </div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>        <span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno"><a class="line" href="namespacechm.html#aced675f3fa7ef1e04c1504b65f297ced">   48</a></span>        <span class="keywordtype">size_t</span> <a class="code hl_function" href="namespacechm.html#aced675f3fa7ef1e04c1504b65f297ced">getNumpyYDim</a>(<span class="keyword">const</span> <a class="code hl_typedef" href="namespacechm.html#a553e7185c00722ad59564ad770dea432">NumpyArray&lt;T&gt;</a>&amp; a) {</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>            <span class="keywordflow">return</span> (<span class="keywordtype">size_t</span>)a.request().shape[1];</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>        }</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span><span class="preprocessor">    #endif</span></div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span> </div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno"><a class="line" href="structchm_1_1_float_array.html">   56</a></span>    <span class="keyword">struct </span><a class="code hl_struct" href="structchm_1_1_float_array.html">FloatArray</a> {</div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno"><a class="line" href="structchm_1_1_float_array.html#af656ffeefe3cfecc781277ea8d4a267b">   60</a></span>        <span class="keyword">const</span> <a class="code hl_typedef" href="namespacechm.html#a513a40c15e5fad57de99dabd89d0c494">uint</a> <a class="code hl_variable" href="structchm_1_1_float_array.html#af656ffeefe3cfecc781277ea8d4a267b">count</a>;</div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno"><a class="line" href="structchm_1_1_float_array.html#ab2ba32f86e835417d735f4da9ce800b9">   64</a></span>        <span class="keyword">const</span> <span class="keywordtype">float</span>* <span class="keyword">const</span> <a class="code hl_variable" href="structchm_1_1_float_array.html#ab2ba32f86e835417d735f4da9ce800b9">data</a>;</div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span> </div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>        <a class="code hl_function" href="structchm_1_1_float_array.html#adaea16c23c019458ae10d1a4a9c766e0">FloatArray</a>(<span class="keyword">const</span> <span class="keywordtype">float</span>* <span class="keyword">const</span> <a class="code hl_variable" href="structchm_1_1_float_array.html#ab2ba32f86e835417d735f4da9ce800b9">data</a>, <span class="keyword">const</span> <a class="code hl_typedef" href="namespacechm.html#a513a40c15e5fad57de99dabd89d0c494">uint</a> <a class="code hl_variable" href="structchm_1_1_float_array.html#af656ffeefe3cfecc781277ea8d4a267b">count</a>);</div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span> </div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span><span class="preprocessor">        #ifdef PYBIND_INCLUDED</span></div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>            <a class="code hl_function" href="structchm_1_1_float_array.html#adaea16c23c019458ae10d1a4a9c766e0">FloatArray</a>(<span class="keyword">const</span> <a class="code hl_typedef" href="namespacechm.html#a553e7185c00722ad59564ad770dea432">NumpyArray&lt;float&gt;</a>&amp; <a class="code hl_variable" href="structchm_1_1_float_array.html#ab2ba32f86e835417d735f4da9ce800b9">data</a>, <span class="keyword">const</span> <span class="keywordtype">size_t</span> dim);</div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span><span class="preprocessor">        #endif</span></div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span>    };</div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span> </div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno"><a class="line" href="classchm_1_1_knn_results.html">   86</a></span>    <span class="keyword">class </span><a class="code hl_class" href="classchm_1_1_knn_results.html">KnnResults</a> {</div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno"><a class="line" href="classchm_1_1_knn_results.html#a508b59d08c52db2f87a6055c96f41e22">   90</a></span>        <span class="keyword">const</span> <span class="keywordtype">size_t</span> <a class="code hl_variable" href="classchm_1_1_knn_results.html#a508b59d08c52db2f87a6055c96f41e22">count</a>;</div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno"><a class="line" href="classchm_1_1_knn_results.html#ab16ebd6d75cad79b9141e178828333eb">   94</a></span>        <span class="keywordtype">float</span>* <span class="keyword">const</span> <a class="code hl_variable" href="classchm_1_1_knn_results.html#ab16ebd6d75cad79b9141e178828333eb">distances</a>;</div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno"><a class="line" href="classchm_1_1_knn_results.html#a294506dec60c5f2b06e4a4a1e79872b4">   98</a></span>        <span class="keyword">const</span> <span class="keywordtype">size_t</span> <a class="code hl_variable" href="classchm_1_1_knn_results.html#a294506dec60c5f2b06e4a4a1e79872b4">k</a>;</div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno"><a class="line" href="classchm_1_1_knn_results.html#a8d5ac5667fdda4938fc6d936260bac79">  102</a></span>        <a class="code hl_typedef" href="namespacechm.html#a513a40c15e5fad57de99dabd89d0c494">uint</a>* <span class="keyword">const</span> <a class="code hl_variable" href="classchm_1_1_knn_results.html#a8d5ac5667fdda4938fc6d936260bac79">labels</a>;</div>
+<div class="line"><a id="l00106" name="l00106"></a><span class="lineno"><a class="line" href="classchm_1_1_knn_results.html#a4c50fa8f12937baa8531c74443b420c2">  106</a></span>        <span class="keywordtype">bool</span> <a class="code hl_variable" href="classchm_1_1_knn_results.html#a4c50fa8f12937baa8531c74443b420c2">owningData</a>;</div>
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span> </div>
+<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span>    <span class="keyword">public</span>:</div>
+<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span>        <a class="code hl_function" href="classchm_1_1_knn_results.html#a4e361eb66e69fe2f6040892ff1882a8d">~KnnResults</a>();</div>
+<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span>        <span class="keyword">const</span> <a class="code hl_typedef" href="namespacechm.html#a513a40c15e5fad57de99dabd89d0c494">uint</a>* <span class="keyword">const</span> <a class="code hl_function" href="classchm_1_1_knn_results.html#ab634e041617f3f5a80e8e472c886bbd3">getLabels</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00121" name="l00121"></a><span class="lineno"><a class="line" href="classchm_1_1_knn_results.html#ab6e13319338ed9504b5709f8b2adcec4">  121</a></span>        <a class="code hl_function" href="classchm_1_1_knn_results.html#ab6e13319338ed9504b5709f8b2adcec4">KnnResults</a>(<span class="keyword">const</span> <a class="code hl_class" href="classchm_1_1_knn_results.html">KnnResults</a>&amp; o) = <span class="keyword">delete</span>;</div>
+<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span>        <a class="code hl_function" href="classchm_1_1_knn_results.html#ab6e13319338ed9504b5709f8b2adcec4">KnnResults</a>(<a class="code hl_class" href="classchm_1_1_knn_results.html">KnnResults</a>&amp;&amp; o) <span class="keyword">noexcept</span>;</div>
+<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span>        <a class="code hl_function" href="classchm_1_1_knn_results.html#ab6e13319338ed9504b5709f8b2adcec4">KnnResults</a>(<span class="keyword">const</span> <span class="keywordtype">size_t</span> <a class="code hl_variable" href="classchm_1_1_knn_results.html#a508b59d08c52db2f87a6055c96f41e22">count</a>, <span class="keyword">const</span> <span class="keywordtype">size_t</span> <a class="code hl_variable" href="classchm_1_1_knn_results.html#a294506dec60c5f2b06e4a4a1e79872b4">k</a>);</div>
+<div class="line"><a id="l00135" name="l00135"></a><span class="lineno"><a class="line" href="classchm_1_1_knn_results.html#a618c8075430826e1dbd231eef20670f5">  135</a></span>        <a class="code hl_class" href="classchm_1_1_knn_results.html">KnnResults</a>&amp; <a class="code hl_function" href="classchm_1_1_knn_results.html#a618c8075430826e1dbd231eef20670f5">operator=</a>(<span class="keyword">const</span> <a class="code hl_class" href="classchm_1_1_knn_results.html">KnnResults</a>&amp;) = <span class="keyword">delete</span>;</div>
+<div class="line"><a id="l00139" name="l00139"></a><span class="lineno"><a class="line" href="classchm_1_1_knn_results.html#a5f982e611d186a3234b8d3572c803b85">  139</a></span>        <a class="code hl_class" href="classchm_1_1_knn_results.html">KnnResults</a>&amp; <a class="code hl_function" href="classchm_1_1_knn_results.html#a5f982e611d186a3234b8d3572c803b85">operator=</a>(<a class="code hl_class" href="classchm_1_1_knn_results.html">KnnResults</a>&amp;&amp; o) <span class="keyword">noexcept</span> = <span class="keyword">delete</span>;</div>
+<div class="line"><a id="l00147" name="l00147"></a><span class="lineno">  147</span>        <span class="keywordtype">void</span> <a class="code hl_function" href="classchm_1_1_knn_results.html#a1b8854a264f226af591af56bf2ba6450">setData</a>(<span class="keyword">const</span> <span class="keywordtype">size_t</span> queryIdx, <span class="keyword">const</span> <span class="keywordtype">size_t</span> neighborIdx, <span class="keyword">const</span> <span class="keywordtype">float</span> distance, <span class="keyword">const</span> <a class="code hl_typedef" href="namespacechm.html#a513a40c15e5fad57de99dabd89d0c494">uint</a> label);</div>
+<div class="line"><a id="l00148" name="l00148"></a><span class="lineno">  148</span> </div>
+<div class="line"><a id="l00149" name="l00149"></a><span class="lineno">  149</span><span class="preprocessor">        #ifdef PYBIND_INCLUDED</span></div>
+<div class="line"><a id="l00154" name="l00154"></a><span class="lineno">  154</span>            py::tuple <a class="code hl_function" href="classchm_1_1_knn_results.html#af874a937b9a524548016da1bac9bc6f4">makeTuple</a>();</div>
+<div class="line"><a id="l00155" name="l00155"></a><span class="lineno">  155</span><span class="preprocessor">        #endif</span></div>
+<div class="line"><a id="l00156" name="l00156"></a><span class="lineno">  156</span>    };</div>
+<div class="line"><a id="l00157" name="l00157"></a><span class="lineno">  157</span>}</div>
+<div class="ttc" id="aclasschm_1_1_knn_results_html"><div class="ttname"><a href="classchm_1_1_knn_results.html">chm::KnnResults</a></div><div class="ttdef"><b>Definition:</b> KnnResults.hpp:86</div></div>
+<div class="ttc" id="aclasschm_1_1_knn_results_html_a1b8854a264f226af591af56bf2ba6450"><div class="ttname"><a href="classchm_1_1_knn_results.html#a1b8854a264f226af591af56bf2ba6450">chm::KnnResults::setData</a></div><div class="ttdeci">void setData(const size_t queryIdx, const size_t neighborIdx, const float distance, const uint label)</div><div class="ttdef"><b>Definition:</b> KnnResults.cpp:31</div></div>
+<div class="ttc" id="aclasschm_1_1_knn_results_html_a294506dec60c5f2b06e4a4a1e79872b4"><div class="ttname"><a href="classchm_1_1_knn_results.html#a294506dec60c5f2b06e4a4a1e79872b4">chm::KnnResults::k</a></div><div class="ttdeci">const size_t k</div><div class="ttdef"><b>Definition:</b> KnnResults.hpp:98</div></div>
+<div class="ttc" id="aclasschm_1_1_knn_results_html_a4c50fa8f12937baa8531c74443b420c2"><div class="ttname"><a href="classchm_1_1_knn_results.html#a4c50fa8f12937baa8531c74443b420c2">chm::KnnResults::owningData</a></div><div class="ttdeci">bool owningData</div><div class="ttdef"><b>Definition:</b> KnnResults.hpp:106</div></div>
+<div class="ttc" id="aclasschm_1_1_knn_results_html_a4e361eb66e69fe2f6040892ff1882a8d"><div class="ttname"><a href="classchm_1_1_knn_results.html#a4e361eb66e69fe2f6040892ff1882a8d">chm::KnnResults::~KnnResults</a></div><div class="ttdeci">~KnnResults()</div><div class="ttdef"><b>Definition:</b> KnnResults.cpp:10</div></div>
+<div class="ttc" id="aclasschm_1_1_knn_results_html_a508b59d08c52db2f87a6055c96f41e22"><div class="ttname"><a href="classchm_1_1_knn_results.html#a508b59d08c52db2f87a6055c96f41e22">chm::KnnResults::count</a></div><div class="ttdeci">const size_t count</div><div class="ttdef"><b>Definition:</b> KnnResults.hpp:90</div></div>
+<div class="ttc" id="aclasschm_1_1_knn_results_html_a5f982e611d186a3234b8d3572c803b85"><div class="ttname"><a href="classchm_1_1_knn_results.html#a5f982e611d186a3234b8d3572c803b85">chm::KnnResults::operator=</a></div><div class="ttdeci">KnnResults &amp; operator=(KnnResults &amp;&amp;o) noexcept=delete</div></div>
+<div class="ttc" id="aclasschm_1_1_knn_results_html_a618c8075430826e1dbd231eef20670f5"><div class="ttname"><a href="classchm_1_1_knn_results.html#a618c8075430826e1dbd231eef20670f5">chm::KnnResults::operator=</a></div><div class="ttdeci">KnnResults &amp; operator=(const KnnResults &amp;)=delete</div></div>
+<div class="ttc" id="aclasschm_1_1_knn_results_html_a8d5ac5667fdda4938fc6d936260bac79"><div class="ttname"><a href="classchm_1_1_knn_results.html#a8d5ac5667fdda4938fc6d936260bac79">chm::KnnResults::labels</a></div><div class="ttdeci">uint *const labels</div><div class="ttdef"><b>Definition:</b> KnnResults.hpp:102</div></div>
+<div class="ttc" id="aclasschm_1_1_knn_results_html_ab16ebd6d75cad79b9141e178828333eb"><div class="ttname"><a href="classchm_1_1_knn_results.html#ab16ebd6d75cad79b9141e178828333eb">chm::KnnResults::distances</a></div><div class="ttdeci">float *const distances</div><div class="ttdef"><b>Definition:</b> KnnResults.hpp:94</div></div>
+<div class="ttc" id="aclasschm_1_1_knn_results_html_ab634e041617f3f5a80e8e472c886bbd3"><div class="ttname"><a href="classchm_1_1_knn_results.html#ab634e041617f3f5a80e8e472c886bbd3">chm::KnnResults::getLabels</a></div><div class="ttdeci">const uint *const getLabels() const</div><div class="ttdef"><b>Definition:</b> KnnResults.cpp:17</div></div>
+<div class="ttc" id="aclasschm_1_1_knn_results_html_ab6e13319338ed9504b5709f8b2adcec4"><div class="ttname"><a href="classchm_1_1_knn_results.html#ab6e13319338ed9504b5709f8b2adcec4">chm::KnnResults::KnnResults</a></div><div class="ttdeci">KnnResults(const KnnResults &amp;o)=delete</div></div>
+<div class="ttc" id="aclasschm_1_1_knn_results_html_af874a937b9a524548016da1bac9bc6f4"><div class="ttname"><a href="classchm_1_1_knn_results.html#af874a937b9a524548016da1bac9bc6f4">chm::KnnResults::makeTuple</a></div><div class="ttdeci">py::tuple makeTuple()</div><div class="ttdef"><b>Definition:</b> KnnResults.cpp:54</div></div>
+<div class="ttc" id="anamespacechm_html"><div class="ttname"><a href="namespacechm.html">chm</a></div><div class="ttdef"><b>Definition:</b> Configuration.cpp:5</div></div>
+<div class="ttc" id="anamespacechm_html_a465578f6444491199d4b1b583ad31739"><div class="ttname"><a href="namespacechm.html#a465578f6444491199d4b1b583ad31739">chm::getNumpyXDim</a></div><div class="ttdeci">size_t getNumpyXDim(const NumpyArray&lt; T &gt; &amp;a)</div><div class="ttdef"><b>Definition:</b> KnnResults.hpp:37</div></div>
+<div class="ttc" id="anamespacechm_html_a513a40c15e5fad57de99dabd89d0c494"><div class="ttname"><a href="namespacechm.html#a513a40c15e5fad57de99dabd89d0c494">chm::uint</a></div><div class="ttdeci">unsigned int uint</div><div class="ttdef"><b>Definition:</b> types.hpp:7</div></div>
+<div class="ttc" id="anamespacechm_html_a553e7185c00722ad59564ad770dea432"><div class="ttname"><a href="namespacechm.html#a553e7185c00722ad59564ad770dea432">chm::NumpyArray</a></div><div class="ttdeci">py::array_t&lt; T, py::array::c_style|py::array::forcecast &gt; NumpyArray</div><div class="ttdef"><b>Definition:</b> KnnResults.hpp:17</div></div>
+<div class="ttc" id="anamespacechm_html_a73bee82c7006ebe3529f0b27eba06cd6"><div class="ttname"><a href="namespacechm.html#a73bee82c7006ebe3529f0b27eba06cd6">chm::getNumpyPtr</a></div><div class="ttdeci">const T *const getNumpyPtr(const NumpyArray&lt; T &gt; &amp;a)</div><div class="ttdef"><b>Definition:</b> KnnResults.hpp:26</div></div>
+<div class="ttc" id="anamespacechm_html_aced675f3fa7ef1e04c1504b65f297ced"><div class="ttname"><a href="namespacechm.html#aced675f3fa7ef1e04c1504b65f297ced">chm::getNumpyYDim</a></div><div class="ttdeci">size_t getNumpyYDim(const NumpyArray&lt; T &gt; &amp;a)</div><div class="ttdef"><b>Definition:</b> KnnResults.hpp:48</div></div>
+<div class="ttc" id="astructchm_1_1_float_array_html"><div class="ttname"><a href="structchm_1_1_float_array.html">chm::FloatArray</a></div><div class="ttdef"><b>Definition:</b> KnnResults.hpp:56</div></div>
+<div class="ttc" id="astructchm_1_1_float_array_html_ab2ba32f86e835417d735f4da9ce800b9"><div class="ttname"><a href="structchm_1_1_float_array.html#ab2ba32f86e835417d735f4da9ce800b9">chm::FloatArray::data</a></div><div class="ttdeci">const float *const data</div><div class="ttdef"><b>Definition:</b> KnnResults.hpp:64</div></div>
+<div class="ttc" id="astructchm_1_1_float_array_html_adaea16c23c019458ae10d1a4a9c766e0"><div class="ttname"><a href="structchm_1_1_float_array.html#adaea16c23c019458ae10d1a4a9c766e0">chm::FloatArray::FloatArray</a></div><div class="ttdeci">FloatArray(const float *const data, const uint count)</div><div class="ttdef"><b>Definition:</b> KnnResults.cpp:8</div></div>
+<div class="ttc" id="astructchm_1_1_float_array_html_af656ffeefe3cfecc781277ea8d4a267b"><div class="ttname"><a href="structchm_1_1_float_array.html#af656ffeefe3cfecc781277ea8d4a267b">chm::FloatArray::count</a></div><div class="ttdeci">const uint count</div><div class="ttdef"><b>Definition:</b> KnnResults.hpp:60</div></div>
+<div class="ttc" id="atypes_8hpp_html"><div class="ttname"><a href="types_8hpp.html">types.hpp</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_a9bdb1b6f7cefbba21d3af20c63f0bce.html">chm</a></li><li class="navelem"><a class="el" href="_knn_results_8hpp.html">KnnResults.hpp</a></li>
+    <li class="footer">Vygenerováno programem <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.3 </li>
+  </ul>
+</div>
+</body>
+</html>

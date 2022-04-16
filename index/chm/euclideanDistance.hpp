@@ -134,7 +134,7 @@ namespace chm {
 		}
 
 		/**
-		 * Výpočet Eukleidovské vzdálenosti mezi dvěma prvky pomocí instrukcí AVX
+		 * Výpočet Eukleidovské vzdálenosti mezi dvěma prvky pomocí instrukcí AVX-512
 		 * v prostoru o počtu dimenzí dělitelných 16 se zbytkem.
 		 * @param[in] node Vektor prvního prvku.
 		 * @param[in] query Vektor druhého prvku.
@@ -331,7 +331,7 @@ namespace chm {
 						#if defined(AVX512_CAPABLE)
 							return DistanceInfo(0, euc16AVX512);
 						#else
-							throw std::runtime_error("This CPU doesn't support AVX512.");
+							throw std::runtime_error("This CPU doesn't support AVX-512.");
 						#endif
 					case SIMDType::SSE:
 						#if defined(SSE_CAPABLE)
@@ -362,7 +362,7 @@ namespace chm {
 						#if defined(AVX512_CAPABLE)
 							return DistanceInfo(dimLeft, euc16RAVX512);
 						#else
-							throw std::runtime_error("This CPU doesn't support AVX512.");
+							throw std::runtime_error("This CPU doesn't support AVX-512.");
 						#endif
 					case SIMDType::SSE:
 						#if defined(SSE_CAPABLE)

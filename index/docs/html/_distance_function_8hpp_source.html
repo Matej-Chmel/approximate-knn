@@ -1,0 +1,169 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.3"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Index HNSW: Zdrojový soubor DistanceFunction.hpp</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">Index HNSW
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Vygenerováno programem Doxygen 1.9.3 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search",'Hledat','.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','Hledat');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('_distance_function_8hpp_source.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">DistanceFunction.hpp</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="_distance_function_8hpp.html">Zobrazit dokumentaci tohoto souboru.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#pragma once</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="preprocessor">#include &lt;string&gt;</span></div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span> </div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#if defined(SIMD_CAPABLE)</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">    #include &lt;immintrin.h&gt;</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span> </div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="preprocessor">    #ifdef _MSC_VER</span></div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="preprocessor">        #include &lt;intrin.h&gt;</span></div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="preprocessor">        #include &lt;stdexcept&gt;</span></div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="preprocessor">    #else</span></div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="preprocessor">        #include &lt;x86intrin.h&gt;</span></div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="preprocessor">    #endif</span></div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span> </div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span><span class="preprocessor">    #if defined(__GNUC__)</span></div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span><span class="preprocessor">        #define PORTABLE_ALIGN32 __attribute__((aligned(32)))</span></div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span><span class="preprocessor">        #define PORTABLE_ALIGN64 __attribute__((aligned(64)))</span></div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span><span class="preprocessor">    #else</span></div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno"><a class="line" href="_distance_function_8hpp.html#af972c2f24aeb5cb9f10349feb9afdf6c">   18</a></span><span class="preprocessor">        #define PORTABLE_ALIGN32 __declspec(align(32))</span></div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno"><a class="line" href="_distance_function_8hpp.html#a4601795d7c62cdcc0a987b3acac85862">   19</a></span><span class="preprocessor">        #define PORTABLE_ALIGN64 __declspec(align(64))</span></div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span><span class="preprocessor">    #endif</span></div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span> </div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespacechm.html">chm</a> {</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno"><a class="line" href="namespacechm.html#ab297b4f929236c97f98368ed403cf3f6">   35</a></span>    <span class="keyword">typedef</span> float (*<a class="code hl_typedef" href="namespacechm.html#ab297b4f929236c97f98368ed403cf3f6">DistanceFunction</a>)(</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>        <span class="keyword">const</span> <span class="keywordtype">float</span>* node, <span class="keyword">const</span> <span class="keywordtype">float</span>* query, <span class="keyword">const</span> <span class="keywordtype">size_t</span> dim,</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>        <span class="keyword">const</span> <span class="keywordtype">size_t</span> dim4, <span class="keyword">const</span> <span class="keywordtype">size_t</span> dim16, <span class="keyword">const</span> <span class="keywordtype">size_t</span> dimLeft</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>    );</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span> </div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno"><a class="line" href="namespacechm.html#a32cb02ac8c02f0f27c921c284020ab51">   43</a></span>    <span class="keyword">enum class</span> <a class="code hl_enumeration" href="namespacechm.html#a32cb02ac8c02f0f27c921c284020ab51">SIMDType</a> {</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>        <a class="code hl_enumvalue" href="namespacechm.html#a32cb02ac8c02f0f27c921c284020ab51a4863502abea45861b9ed022e66d66cb2">AVX</a>,</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>        <a class="code hl_enumvalue" href="namespacechm.html#a32cb02ac8c02f0f27c921c284020ab51a5f8acb5068c8c8db7b2a4069bd17d9fd">AVX512</a>,</div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>        <a class="code hl_enumvalue" href="namespacechm.html#a32cb02ac8c02f0f27c921c284020ab51ada034de38c791a4e574a513e7b97bec6">BEST</a>,</div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>        <a class="code hl_enumvalue" href="namespacechm.html#a32cb02ac8c02f0f27c921c284020ab51ab50339a10e1de285ac99d4c3990b8693">NONE</a>,</div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>        <a class="code hl_enumvalue" href="namespacechm.html#a32cb02ac8c02f0f27c921c284020ab51a5fc53fc8197865c63285f74b1e147013">SSE</a></div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>    };</div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span> </div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>    <a class="code hl_enumeration" href="namespacechm.html#a32cb02ac8c02f0f27c921c284020ab51">SIMDType</a> <a class="code hl_function" href="namespacechm.html#a515bfcb5a313fbac8979ec2186820ac9">getBestSIMDType</a>();</div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>    <a class="code hl_enumeration" href="namespacechm.html#a32cb02ac8c02f0f27c921c284020ab51">SIMDType</a> <a class="code hl_function" href="namespacechm.html#a1784e09c5179b094d1f696f496c0b592">getSIMDType</a>(std::string s);</div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span> </div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno"><a class="line" href="structchm_1_1_function_info.html">   82</a></span>    <span class="keyword">struct </span><a class="code hl_struct" href="structchm_1_1_function_info.html">FunctionInfo</a> {</div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno"><a class="line" href="structchm_1_1_function_info.html#ad2ef3fd4e8c5f1c680d72801a37bf3a2">   86</a></span>        <span class="keyword">const</span> <a class="code hl_typedef" href="namespacechm.html#ab297b4f929236c97f98368ed403cf3f6">DistanceFunction</a> <a class="code hl_variable" href="structchm_1_1_function_info.html#ad2ef3fd4e8c5f1c680d72801a37bf3a2">f</a>;</div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno"><a class="line" href="structchm_1_1_function_info.html#a20a765dacabf0ce8e68b6f131e0bd23d">   90</a></span>        <span class="keyword">const</span> <span class="keywordtype">char</span>* <span class="keyword">const</span> <a class="code hl_variable" href="structchm_1_1_function_info.html#a20a765dacabf0ce8e68b6f131e0bd23d">name</a>;</div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span> </div>
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span>        <a class="code hl_function" href="structchm_1_1_function_info.html#a156af7e73810b5d57c98cd8b6283a3c6">FunctionInfo</a>(<span class="keyword">const</span> <a class="code hl_typedef" href="namespacechm.html#ab297b4f929236c97f98368ed403cf3f6">DistanceFunction</a> <a class="code hl_variable" href="structchm_1_1_function_info.html#ad2ef3fd4e8c5f1c680d72801a37bf3a2">f</a>, <span class="keyword">const</span> <span class="keywordtype">char</span>* <span class="keyword">const</span> <a class="code hl_variable" href="structchm_1_1_function_info.html#a20a765dacabf0ce8e68b6f131e0bd23d">name</a>);</div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>    };</div>
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span> </div>
+<div class="line"><a id="l00103" name="l00103"></a><span class="lineno"><a class="line" href="structchm_1_1_distance_info.html">  103</a></span>    <span class="keyword">struct </span><a class="code hl_struct" href="structchm_1_1_distance_info.html">DistanceInfo</a> {</div>
+<div class="line"><a id="l00108" name="l00108"></a><span class="lineno"><a class="line" href="structchm_1_1_distance_info.html#a7cee1cf1c9b8fafe1a9885b058bf2599">  108</a></span>        <span class="keyword">const</span> <span class="keywordtype">size_t</span> <a class="code hl_variable" href="structchm_1_1_distance_info.html#a7cee1cf1c9b8fafe1a9885b058bf2599">dimLeft</a>;</div>
+<div class="line"><a id="l00112" name="l00112"></a><span class="lineno"><a class="line" href="structchm_1_1_distance_info.html#a72a92912b69a9466f7cdd7ccc7646e54">  112</a></span>        <span class="keyword">const</span> <a class="code hl_struct" href="structchm_1_1_function_info.html">FunctionInfo</a> <a class="code hl_variable" href="structchm_1_1_distance_info.html#a72a92912b69a9466f7cdd7ccc7646e54">funcInfo</a>;</div>
+<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span> </div>
+<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span>        <a class="code hl_function" href="structchm_1_1_distance_info.html#ad3edf1187969100516c1bf7173bc2296">DistanceInfo</a>(<span class="keyword">const</span> <span class="keywordtype">size_t</span> <a class="code hl_variable" href="structchm_1_1_distance_info.html#a7cee1cf1c9b8fafe1a9885b058bf2599">dimLeft</a>, <span class="keyword">const</span> <a class="code hl_struct" href="structchm_1_1_function_info.html">FunctionInfo</a> <a class="code hl_variable" href="structchm_1_1_distance_info.html#a72a92912b69a9466f7cdd7ccc7646e54">funcInfo</a>);</div>
+<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span>    };</div>
+<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span>}</div>
+<div class="ttc" id="anamespacechm_html"><div class="ttname"><a href="namespacechm.html">chm</a></div><div class="ttdef"><b>Definition:</b> Configuration.cpp:5</div></div>
+<div class="ttc" id="anamespacechm_html_a1784e09c5179b094d1f696f496c0b592"><div class="ttname"><a href="namespacechm.html#a1784e09c5179b094d1f696f496c0b592">chm::getSIMDType</a></div><div class="ttdeci">SIMDType getSIMDType(std::string s)</div><div class="ttdef"><b>Definition:</b> DistanceFunction.cpp:19</div></div>
+<div class="ttc" id="anamespacechm_html_a32cb02ac8c02f0f27c921c284020ab51"><div class="ttname"><a href="namespacechm.html#a32cb02ac8c02f0f27c921c284020ab51">chm::SIMDType</a></div><div class="ttdeci">SIMDType</div><div class="ttdef"><b>Definition:</b> DistanceFunction.hpp:43</div></div>
+<div class="ttc" id="anamespacechm_html_a32cb02ac8c02f0f27c921c284020ab51a4863502abea45861b9ed022e66d66cb2"><div class="ttname"><a href="namespacechm.html#a32cb02ac8c02f0f27c921c284020ab51a4863502abea45861b9ed022e66d66cb2">chm::SIMDType::AVX</a></div><div class="ttdeci">@ AVX</div></div>
+<div class="ttc" id="anamespacechm_html_a32cb02ac8c02f0f27c921c284020ab51a5f8acb5068c8c8db7b2a4069bd17d9fd"><div class="ttname"><a href="namespacechm.html#a32cb02ac8c02f0f27c921c284020ab51a5f8acb5068c8c8db7b2a4069bd17d9fd">chm::SIMDType::AVX512</a></div><div class="ttdeci">@ AVX512</div></div>
+<div class="ttc" id="anamespacechm_html_a32cb02ac8c02f0f27c921c284020ab51a5fc53fc8197865c63285f74b1e147013"><div class="ttname"><a href="namespacechm.html#a32cb02ac8c02f0f27c921c284020ab51a5fc53fc8197865c63285f74b1e147013">chm::SIMDType::SSE</a></div><div class="ttdeci">@ SSE</div></div>
+<div class="ttc" id="anamespacechm_html_a32cb02ac8c02f0f27c921c284020ab51ab50339a10e1de285ac99d4c3990b8693"><div class="ttname"><a href="namespacechm.html#a32cb02ac8c02f0f27c921c284020ab51ab50339a10e1de285ac99d4c3990b8693">chm::SIMDType::NONE</a></div><div class="ttdeci">@ NONE</div></div>
+<div class="ttc" id="anamespacechm_html_a32cb02ac8c02f0f27c921c284020ab51ada034de38c791a4e574a513e7b97bec6"><div class="ttname"><a href="namespacechm.html#a32cb02ac8c02f0f27c921c284020ab51ada034de38c791a4e574a513e7b97bec6">chm::SIMDType::BEST</a></div><div class="ttdeci">@ BEST</div></div>
+<div class="ttc" id="anamespacechm_html_a515bfcb5a313fbac8979ec2186820ac9"><div class="ttname"><a href="namespacechm.html#a515bfcb5a313fbac8979ec2186820ac9">chm::getBestSIMDType</a></div><div class="ttdeci">SIMDType getBestSIMDType()</div><div class="ttdef"><b>Definition:</b> DistanceFunction.cpp:7</div></div>
+<div class="ttc" id="anamespacechm_html_ab297b4f929236c97f98368ed403cf3f6"><div class="ttname"><a href="namespacechm.html#ab297b4f929236c97f98368ed403cf3f6">chm::DistanceFunction</a></div><div class="ttdeci">float(* DistanceFunction)(const float *node, const float *query, const size_t dim, const size_t dim4, const size_t dim16, const size_t dimLeft)</div><div class="ttdef"><b>Definition:</b> DistanceFunction.hpp:35</div></div>
+<div class="ttc" id="astructchm_1_1_distance_info_html"><div class="ttname"><a href="structchm_1_1_distance_info.html">chm::DistanceInfo</a></div><div class="ttdef"><b>Definition:</b> DistanceFunction.hpp:103</div></div>
+<div class="ttc" id="astructchm_1_1_distance_info_html_a72a92912b69a9466f7cdd7ccc7646e54"><div class="ttname"><a href="structchm_1_1_distance_info.html#a72a92912b69a9466f7cdd7ccc7646e54">chm::DistanceInfo::funcInfo</a></div><div class="ttdeci">const FunctionInfo funcInfo</div><div class="ttdef"><b>Definition:</b> DistanceFunction.hpp:112</div></div>
+<div class="ttc" id="astructchm_1_1_distance_info_html_a7cee1cf1c9b8fafe1a9885b058bf2599"><div class="ttname"><a href="structchm_1_1_distance_info.html#a7cee1cf1c9b8fafe1a9885b058bf2599">chm::DistanceInfo::dimLeft</a></div><div class="ttdeci">const size_t dimLeft</div><div class="ttdef"><b>Definition:</b> DistanceFunction.hpp:108</div></div>
+<div class="ttc" id="astructchm_1_1_distance_info_html_ad3edf1187969100516c1bf7173bc2296"><div class="ttname"><a href="structchm_1_1_distance_info.html#ad3edf1187969100516c1bf7173bc2296">chm::DistanceInfo::DistanceInfo</a></div><div class="ttdeci">DistanceInfo(const size_t dimLeft, const FunctionInfo funcInfo)</div><div class="ttdef"><b>Definition:</b> DistanceFunction.cpp:37</div></div>
+<div class="ttc" id="astructchm_1_1_function_info_html"><div class="ttname"><a href="structchm_1_1_function_info.html">chm::FunctionInfo</a></div><div class="ttdef"><b>Definition:</b> DistanceFunction.hpp:82</div></div>
+<div class="ttc" id="astructchm_1_1_function_info_html_a156af7e73810b5d57c98cd8b6283a3c6"><div class="ttname"><a href="structchm_1_1_function_info.html#a156af7e73810b5d57c98cd8b6283a3c6">chm::FunctionInfo::FunctionInfo</a></div><div class="ttdeci">FunctionInfo(const DistanceFunction f, const char *const name)</div><div class="ttdef"><b>Definition:</b> DistanceFunction.cpp:35</div></div>
+<div class="ttc" id="astructchm_1_1_function_info_html_a20a765dacabf0ce8e68b6f131e0bd23d"><div class="ttname"><a href="structchm_1_1_function_info.html#a20a765dacabf0ce8e68b6f131e0bd23d">chm::FunctionInfo::name</a></div><div class="ttdeci">const char *const name</div><div class="ttdef"><b>Definition:</b> DistanceFunction.hpp:90</div></div>
+<div class="ttc" id="astructchm_1_1_function_info_html_ad2ef3fd4e8c5f1c680d72801a37bf3a2"><div class="ttname"><a href="structchm_1_1_function_info.html#ad2ef3fd4e8c5f1c680d72801a37bf3a2">chm::FunctionInfo::f</a></div><div class="ttdeci">const DistanceFunction f</div><div class="ttdef"><b>Definition:</b> DistanceFunction.hpp:86</div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_a9bdb1b6f7cefbba21d3af20c63f0bce.html">chm</a></li><li class="navelem"><a class="el" href="_distance_function_8hpp.html">DistanceFunction.hpp</a></li>
+    <li class="footer">Vygenerováno programem <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.3 </li>
+  </ul>
+</div>
+</body>
+</html>
