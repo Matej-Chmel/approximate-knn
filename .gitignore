@@ -5,7 +5,7 @@ __pycache__
 /benchmarks/*.csv
 /benchmarks/*.xlsx
 /benchmarks/*.log
-/benchmarks/*.tex
+/benchmarks/**/*.tex
 /benchmarks/benchmarks_time.txt
 /benchmarks/data
 /benchmarks/results/*

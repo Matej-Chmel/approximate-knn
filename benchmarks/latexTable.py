@@ -87,7 +87,7 @@ class Table:
 		row.algoToIndexSize[algo.name] = algo.indexSize
 
 	def getColumns(self):
-		return "r" * 6
+		return "r" * (7 if self.calcPercent else 6)
 
 	def getContent(self):
 		return N.join(map(
