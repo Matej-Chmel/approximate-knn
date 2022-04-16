@@ -7,19 +7,23 @@ namespace chm {
 	 */
 	enum class IndexTemplate {
 		/**
-		* Šablona indexu využívající heuristiku.
-		*/
+		 * Šablona indexu využívající heuristiku.
+		 * @see HeuristicTemplate
+		 */
 		HEURISTIC,
 		/**
 		 * Šablona indexu využívající naivní algoritmus.
+		 * @see NaiveTemplate
 		 */
 		NAIVE,
 		/**
 		 * Šablona indexu využívající obyčejného pole pro reprezentaci seznamu navštívených vrcholů.
+		 * @see NoBitArrayTemplate
 		 */
 		NO_BIT_ARRAY,
 		/**
 		 * Šablona indexu využívající asynchronního přístupu do paměti při výpočtu vzdálenosti.
+		 * @see PrefetchingTemplate
 		 */
 		PREFETCHING
 	};

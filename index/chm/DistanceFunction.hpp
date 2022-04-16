@@ -22,31 +22,57 @@
 
 namespace chm {
 	/**
-	 * Metrika vzdálenosti.
+	 * Metrika vzdálenosti mezi dvěma prvky.
+	 * @param[in] node Vektor prvního prvku.
+	 * @param[in] query Vektor druhého prvku.
+	 * @param[in] dim Počet dimenzí prostoru.
+	 * @param[in] dim4 Počet dimenzí prostoru po dělení 4.
+	 * @param[in] dim16 Počet dimenzí prostoru po dělení 16.
+	 * @param[in] dimLeft Zbytek po dělení počtu dimenzí počtem složek vektoru
+	 * zpracovaných během jedné iterace smyčky uvnitř metriky.
+	 * @return Vzdálenost mezi dvěma prvky.
 	 */
 	typedef float (*DistanceFunction)(
-		const float*, const float*, const size_t,
-		const size_t, const size_t, const size_t
+		const float* node, const float* query, const size_t dim,
+		const size_t dim4, const size_t dim16, const size_t dimLeft
 	);
 
 	/**
-	 * Druh SIMD instrukcí.
+	 * Druh SIMD rozšíření instrukční sady procesoru.
 	 */
 	enum class SIMDType {
+		/**
+		 * Využít AVX nebo AVX2.
+		 */
 		AVX,
+		/**
+		 * Využít AVX-512.
+		 */
 		AVX512,
+		/**
+		 * Využít nejlepší dostupný druh SIMD rozšíření
+		 * dle počtu zpracovaných dvojic čísel jednou instrukcí.
+		 */
 		BEST,
+		/**
+		 * Nevyužívat žádné SIMD rozšíření.
+		 */
 		NONE,
+		/**
+		 * Využít SSE.
+		 */
 		SSE
 	};
 
 	/**
-	 * Získá nejlepší SIMDType dle počtu dvojic čísel,
-	 * které zpracuje najednou.
+	 * Získá nejlepší @ref SIMDType dle počtu dvojic čísel, které zpracuje jedna instrukce.
+	 * @return Nejlepší @ref SIMDType.
 	 */
 	SIMDType getBestSIMDType();
 	/**
-	 * Získá SIMDType z jeho názvu.
+	 * Získá @ref SIMDType z jeho názvu.
+	 * @param[in] s Název SIMD rozšíření.
+	 * @return @ref SIMDType odpovídající názvu.
 	 */
 	SIMDType getSIMDType(std::string s);
 
@@ -59,12 +85,14 @@ namespace chm {
 		 */
 		const DistanceFunction f;
 		/**
-		 * Název metriky.
+		 * Název funkce metriky.
 		 */
 		const char* const name;
 
 		/**
 		 * Konstruktor.
+		 * @param[in] f @ref f
+		 * @param[in] name @ref name
 		 */
 		FunctionInfo(const DistanceFunction f, const char* const name);
 	};
@@ -74,7 +102,7 @@ namespace chm {
 	 */
 	struct DistanceInfo {
 		/**
-		 * Zbytek po dělení počtu dimenzí počtem složek zpracovaných
+		 * Zbytek po dělení počtu dimenzí počtem složek vektoru zpracovaných
 		 * během jedné iterace smyčky uvnitř metriky.
 		 */
 		const size_t dimLeft;
@@ -85,6 +113,8 @@ namespace chm {
 
 		/**
 		 * Konstruktor.
+		 * @param[in] dimLeft @ref dimLeft
+		 * @param[in] funcInfo @ref funcInfo
 		 */
 		DistanceInfo(const size_t dimLeft, const FunctionInfo funcInfo);
 	};

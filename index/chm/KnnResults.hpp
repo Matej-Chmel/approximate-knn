@@ -18,6 +18,9 @@ namespace chm {
 
 		/**
 		 * Vrátí ukazatel na první vektor NumPy pole.
+		 * @tparam T Typ čísel v NumPy poli.
+		 * @param[in] a NumPy pole.
+		 * @return Ukazatel na první vektor.
 		 */
 		template<typename T>
 		const T* const getNumpyPtr(const NumpyArray<T>& a) {
@@ -26,6 +29,9 @@ namespace chm {
 
 		/**
 		 * Vrátí počet vektorů v NumPy poli.
+		 * @tparam T Typ čísel v NumPy poli.
+		 * @param[in] a NumPy pole.
+		 * @return Počet vektorů.
 		 */
 		template<typename T>
 		size_t getNumpyXDim(const NumpyArray<T>& a) {
@@ -34,6 +40,9 @@ namespace chm {
 
 		/**
 		 * Vrátí počet složek jednoho vektoru v NumPy poli.
+		 * @tparam T Typ čísel v NumPy poli.
+		 * @param[in] a NumPy pole.
+		 * @return Počet složek jednoho vektoru.
 		 */
 		template<typename T>
 		size_t getNumpyYDim(const NumpyArray<T>& a) {
@@ -42,7 +51,7 @@ namespace chm {
 	#endif
 
 	/**
-	 * Obal pro obyčejné i NumPy pole.
+	 * Obal pro obyčejné i @ref NumpyArray "NumPy" pole.
 	 */
 	struct FloatArray {
 		/**
@@ -56,12 +65,16 @@ namespace chm {
 
 		/**
 		 * Konstruktor z obyčejného pole.
+		 * @param[in] data @ref data
+		 * @param[in] count @ref count
 		 */
 		FloatArray(const float* const data, const uint count);
 
 		#ifdef PYBIND_INCLUDED
 			/**
 			 * Konstruktor z NumPy pole.
+			 * @param[in] data NumPy pole.
+			 * @param[in] dim Počet složek jednoho vektoru v NumPy poli.
 			 */
 			FloatArray(const NumpyArray<float>& data, const size_t dim);
 		#endif
@@ -88,7 +101,7 @@ namespace chm {
 		 */
 		uint* const labels;
 		/**
-		 * Pravda, pokud tento objekt vlastní pole distances a labels.
+		 * Pravda, pokud tento objekt vlastní paměť polí @ref distances a @ref labels.
 		 */
 		bool owningData;
 
@@ -98,9 +111,13 @@ namespace chm {
 		 */
 		~KnnResults();
 		/**
-		 * Vrátí odkaz na pole identit výsledných sousedů, přes který je nelze změnit.
+		 * Vrátí odkaz na pole @ref labels, přes který nelze upravovat data tohoto pole.
+		 * @return Odkaz na pole @ref labels.
 		 */
 		const uint* const getLabels() const;
+		/**
+		 * Výsledky nelze kopírovat pomocí konstruktoru.
+		 */
 		KnnResults(const KnnResults& o) = delete;
 		/**
 		 * Konstruktor přemístění výsledků z jiného objektu.
@@ -108,18 +125,31 @@ namespace chm {
 		KnnResults(KnnResults&& o) noexcept;
 		/**
 		 * Konstruktor.
+		 * @param[in] count @ref count
+		 * @param[in] k @ref k
 		 */
 		KnnResults(const size_t count, const size_t k);
+		/**
+		 * Výsledky nelze kopírovat pomocí operátoru přiřazení.
+		 */
 		KnnResults& operator=(const KnnResults&) = delete;
+		/**
+		 * Data výsledků nelze přemístit pomocí operátoru přiřazení.
+		 */
 		KnnResults& operator=(KnnResults&& o) noexcept = delete;
 		/**
-		 * Nastaví identitu a vzdálenost jednoho souseda.
+		 * Nastaví identitu a vzdálenost jednoho souseda od dotazovaného prvku.
+		 * @param[in] queryIdx Pozice dotazu.
+		 * @param[in] neighborIdx Pozice souseda vůči pozici dotazu.
+		 * @param[in] distance Vzdálenost souseda od dotazovaného prvku.
+		 * @param[in] label Identita souseda.
 		 */
 		void setData(const size_t queryIdx, const size_t neighborIdx, const float distance, const uint label);
 
 		#ifdef PYBIND_INCLUDED
 			/**
-			 * Vytvoří uspořádanou dvojici (labels, distances) a vrátí ji interpretu jazyka Python.
+			 * Vytvoří uspořádanou dvojici (@ref labels, @ref distances) a vrátí ji interpretu jazyka Python.
+			 * @return Uspořádaná dvojice (@ref labels, @ref distances).
 			 */
 			py::tuple makeTuple();
 		#endif

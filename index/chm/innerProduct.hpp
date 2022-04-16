@@ -3,7 +3,11 @@
 
 namespace chm {
 	/**
-	 * Skalárního součin.
+	 * Skalární součin dvou vektorů.
+	 * @param[in] node První vektor.
+	 * @param[in] query Druhý vektor.
+	 * @param[in] dim Počet dimenzí prostoru.
+	 * @return Skalární součin.
 	 */
 	static float innerProductSum(const float* node, const float* query, const size_t dim) {
 		auto res = 0.f;
@@ -15,7 +19,11 @@ namespace chm {
 	}
 
 	/**
-	 * Kosinusová vzdálenost.
+	 * Metrika kosinusové vzdálenosti mezi dvěma prvky.
+	 * @param[in] node Vektor prvního prvku.
+	 * @param[in] query Vektor druhého prvku.
+	 * @param[in] dim Počet dimenzí prostoru.
+	 * @return Kosinusová vzdálenost.
 	 */
 	static float innerProduct(
 		const float* node, const float* query, const size_t dim,
@@ -25,14 +33,18 @@ namespace chm {
 	}
 
 	/**
-	 * Odkaz na innerProduct.
+	 * Odkaz na @ref innerProduct.
 	 */
 	FunctionInfo ip(innerProduct, "ip");
 
 	#if defined(AVX_CAPABLE)
 		/**
-		 * Výpočet skalárního součinu pomocí instrukcí AVX
+		 * Výpočet skalárního součinu dvou vektorů pomocí instrukcí AVX
 		 * v prostoru o počtu dimenzí dělitelných 16 beze zbytku.
+		 * @param[in] node První vektor.
+		 * @param[in] query Druhý vektor.
+		 * @param[in] dim16 Počet dimenzí prostoru po dělení 16.
+		 * @return Skalární součin.
 		 */
 		static float innerProductSum16AVX(const float* node, const float* query, const size_t dim16) {
 			const float* end = node + dim16;
@@ -60,8 +72,12 @@ namespace chm {
 		}
 
 		/**
-		 * Výpočet kosinusové vzdálenosti pomocí instrukcí AVX
+		 * Výpočet kosinusové vzdálenosti mezi dvěma prvky pomocí instrukcí AVX
 		 * v prostoru o počtu dimenzí dělitelných 16 beze zbytku.
+		 * @param[in] node Vektor prvního prvku.
+		 * @param[in] query Vektor druhého prvku.
+		 * @param[in] dim16 Počet dimenzí prostoru po dělení 16.
+		 * @return Kosinusová vzdálenost.
 		 */
 		static float innerProduct16AVX(
 			const float* node, const float* query, const size_t,
@@ -71,8 +87,14 @@ namespace chm {
 		}
 
 		/**
-		 * Výpočet skalárního součinu pomocí instrukcí AVX
+		 * Výpočet kosinusové vzdálenosti mezi dvěma prvky pomocí instrukcí AVX
 		 * v prostoru o počtu dimenzí dělitelných 16 se zbytkem.
+		 * @param[in] node Vektor prvního prvku.
+		 * @param[in] query Vektor druhého prvku.
+		 * @param[in] dim4 Počet dimenzí prostoru po dělení 4.
+		 * @param[in] dim16 Počet dimenzí prostoru po dělení 16.
+		 * @param[in] dimLeft Zbytek po dělení počtu dimenzí 16.
+		 * @return Kosinusová vzdálenost.
 		 */
 		static float innerProduct16ResidualAVX(
 			const float* node, const float* query, const size_t,
@@ -84,8 +106,13 @@ namespace chm {
 		}
 
 		/**
-		 * Výpočet skalárního součinu pomocí instrukcí AVX
+		 * Výpočet skalárního součinu dvou vektorů pomocí instrukcí AVX
 		 * v prostoru o počtu dimenzí dělitelných 4 beze zbytku.
+		 * @param[in] node První vektor.
+		 * @param[in] query Druhý vektor.
+		 * @param[in] dim4 Počet dimenzí prostoru po dělení 4.
+		 * @param[in] dim16 Počet dimenzí prostoru po dělení 16.
+		 * @return Skalární součin.
 		 */
 		static float innerProductSum4AVX(
 			const float* node, const float* query, const size_t dim4, const size_t dim16
@@ -125,8 +152,13 @@ namespace chm {
 		}
 
 		/**
-		 * Výpočet kosinusové vzdálenosti pomocí instrukcí AVX
+		 * Výpočet kosinusové vzdálenosti mezi dvěma prvky pomocí instrukcí AVX
 		 * v prostoru o počtu dimenzí dělitelných 4 beze zbytku.
+		 * @param[in] node Vektor prvního prvku.
+		 * @param[in] query Vektor druhého prvku.
+		 * @param[in] dim4 Počet dimenzí prostoru po dělení 4.
+		 * @param[in] dim16 Počet dimenzí prostoru po dělení 16.
+		 * @return Kosinusová vzdálenost.
 		 */
 		static float innerProduct4AVX(
 			const float* node, const float* query, const size_t,
@@ -138,6 +170,12 @@ namespace chm {
 		/**
 		 * Výpočet kosinusové vzdálenosti pomocí instrukcí AVX
 		 * v prostoru o počtu dimenzí dělitelných 4 se zbytkem.
+		 * @param[in] node Vektor prvního prvku.
+		 * @param[in] query Vektor druhého prvku.
+		 * @param[in] dim4 Počet dimenzí prostoru po dělení 4.
+		 * @param[in] dim16 Počet dimenzí prostoru po dělení 16.
+		 * @param[in] dimLeft Zbytek po dělení počtu dimenzí 4.
+		 * @return Kosinusová vzdálenost.
 		 */
 		static float innerProduct4ResidualAVX(
 			const float* node, const float* query, const size_t,
@@ -149,27 +187,31 @@ namespace chm {
 		}
 
 		/**
-		 * Odkaz na innerProduct16AVX.
+		 * Odkaz na @ref innerProduct16AVX.
 		 */
 		FunctionInfo ip16AVX(innerProduct16AVX, "ip16AVX");
 		/**
-		 * Odkaz na innerProduct16ResidualAVX.
+		 * Odkaz na @ref innerProduct16ResidualAVX.
 		 */
 		FunctionInfo ip16RAVX(innerProduct16ResidualAVX, "ip16RAVX");
 		/**
-		 * Odkaz na innerProduct4AVX.
+		 * Odkaz na @ref innerProduct4AVX.
 		 */
 		FunctionInfo ip4AVX(innerProduct4AVX, "ip4AVX");
 		/**
-		 * Odkaz na innerProduct4ResidualAVX.
+		 * Odkaz na @ref innerProduct4ResidualAVX.
 		 */
 		FunctionInfo ip4RAVX(innerProduct4ResidualAVX, "ip4RAVX");
 	#endif
 
 	#if defined(AVX512_CAPABLE)
 		/**
-		 * Výpočet skalárního součinu pomocí instrukcí AVX-512
+		 * Výpočet skalárního součinu dvou vektorů pomocí instrukcí AVX-512
 		 * v prostoru o počtu dimenzí dělitelných 16 beze zbytku.
+		 * @param[in] node První vektor.
+		 * @param[in] query Druhý vektor.
+		 * @param[in] dim16 Počet dimenzí prostoru po dělení 16.
+		 * @return Skalární součin.
 		 */
 		static float innerProductSum16AVX512(
 			const float* node, const float* query, const size_t dim16
@@ -195,8 +237,12 @@ namespace chm {
 		}
 
 		/**
-		 * Výpočet kosinusové vzdálenosti pomocí instrukcí AVX-512
+		 * Výpočet kosinusové vzdálenosti mezi dvěma prvky pomocí instrukcí AVX-512
 		 * v prostoru o počtu dimenzí dělitelných 16 beze zbytku.
+		 * @param[in] node Vektor prvního prvku.
+		 * @param[in] query Vektor druhého prvku.
+		 * @param[in] dim16 Počet dimenzí prostoru po dělení 16.
+		 * @return Kosinusová vzdálenost.
 		 */
 		static float innerProduct16AVX512(
 			const float* node, const float* query, const size_t,
@@ -206,8 +252,14 @@ namespace chm {
 		}
 
 		/**
-		 * Výpočet kosinusové vzdálenosti pomocí instrukcí AVX-512
+		 * Výpočet kosinusové vzdálenosti mezi dvěma prvky pomocí instrukcí AVX-512
 		 * v prostoru o počtu dimenzí dělitelných 16 se zbytkem.
+		 * @param[in] node Vektor prvního prvku.
+		 * @param[in] query Vektor druhého prvku.
+		 * @param[in] dim4 Počet dimenzí prostoru po dělení 4.
+		 * @param[in] dim16 Počet dimenzí prostoru po dělení 16.
+		 * @param[in] dimLeft Zbytek po dělení počtu dimenzí 16.
+		 * @return Kosinusová vzdálenost.
 		 */
 		static float innerProduct16ResidualAVX512(
 			const float* node, const float* query, const size_t,
@@ -219,19 +271,23 @@ namespace chm {
 		}
 
 		/**
-		 * Odkaz na innerProduct16AVX512.
+		 * Odkaz na @ref innerProduct16AVX512.
 		 */
 		FunctionInfo ip16AVX512(innerProduct16AVX512, "ip16AVX512");
 		/**
-		 * Odkaz na innerProduct16ResidualAVX512.
+		 * Odkaz na @ref innerProduct16ResidualAVX512.
 		 */
 		FunctionInfo ip16RAVX512(innerProduct16ResidualAVX512, "ip16RAVX512");
 	#endif
 
 	#if defined(SSE_CAPABLE)
 		/**
-		 * Výpočet skalárního součinu pomocí instrukcí SSE
+		 * Výpočet skalárního součinu dvou vektorů pomocí instrukcí SSE
 		 * v prostoru o počtu dimenzí dělitelných 16 beze zbytku.
+		 * @param[in] node První vektor.
+		 * @param[in] query Druhý vektor.
+		 * @param[in] dim16 Počet dimenzí prostoru po dělení 16.
+		 * @return Skalární součin.
 		 */
 		static float innerProductSum16SSE(
 			const float* node, const float* query, const size_t dim16
@@ -272,8 +328,12 @@ namespace chm {
 		}
 
 		/**
-		 * Výpočet kosinusové vzdálenosti pomocí instrukcí SSE
+		 * Výpočet kosinusové vzdálenosti mezi dvěma prvky pomocí instrukcí SSE
 		 * v prostoru o počtu dimenzí dělitelných 16 beze zbytku.
+		 * @param[in] node Vektor prvního prvku.
+		 * @param[in] query Vektor druhého prvku.
+		 * @param[in] dim16 Počet dimenzí prostoru po dělení 16.
+		 * @return Kosinusová vzdálenost.
 		 */
 		static float innerProduct16SSE(
 			const float* node, const float* query, const size_t,
@@ -283,8 +343,14 @@ namespace chm {
 		}
 
 		/**
-		 * Výpočet kosinusové vzdálenosti pomocí instrukcí SSE
+		 * Výpočet kosinusové vzdálenosti mezi dvěma prvky pomocí instrukcí SSE
 		 * v prostoru o počtu dimenzí dělitelných 16 se zbytkem.
+		 * @param[in] node Vektor prvního prvku.
+		 * @param[in] query Vektor druhého prvku.
+		 * @param[in] dim4 Počet dimenzí prostoru po dělení 4.
+		 * @param[in] dim16 Počet dimenzí prostoru po dělení 16.
+		 * @param[in] dimLeft Zbytek po dělení počtu dimenzí 16.
+		 * @return Kosinusová vzdálenost.
 		 */
 		static float innerProduct16ResidualSSE(
 			const float* node, const float* query, const size_t,
@@ -296,8 +362,13 @@ namespace chm {
 		}
 
 		/**
-		 * Výpočet skalárního součinu pomocí instrukcí SSE
+		 * Výpočet skalárního součinu dvou vektorů pomocí instrukcí SSE
 		 * v prostoru o počtu dimenzí dělitelných 4 beze zbytku.
+		 * @param[in] node První vektor.
+		 * @param[in] query Druhý vektor.
+		 * @param[in] dim4 Počet dimenzí prostoru po dělení 4.
+		 * @param[in] dim16 Počet dimenzí prostoru po dělení 16.
+		 * @return Skalární součin.
 		 */
 		static float innerProductSum4SSE(
 			const float* node, const float* query, const size_t dim4, const size_t dim16
@@ -347,8 +418,13 @@ namespace chm {
 		}
 
 		/**
-		 * Výpočet kosinusové vzdálenosti pomocí instrukcí SSE
+		 * Výpočet kosinusové vzdálenosti mezi dvěma prvky pomocí instrukcí SSE
 		 * v prostoru o počtu dimenzí dělitelných 4 beze zbytku.
+		 * @param[in] node Vektor prvního prvku.
+		 * @param[in] query Vektor druhého prvku.
+		 * @param[in] dim4 Počet dimenzí prostoru po dělení 4.
+		 * @param[in] dim16 Počet dimenzí prostoru po dělení 16.
+		 * @return Kosinusová vzdálenost.
 		 */
 		static float innerProduct4SSE(
 			const float* node, const float* query, const size_t,
@@ -358,8 +434,14 @@ namespace chm {
 		}
 
 		/**
-		 * Výpočet kosinusové vzdálenosti pomocí instrukcí SSE
+		 * Výpočet kosinusové vzdálenosti mezi dvěma prvky pomocí instrukcí SSE
 		 * v prostoru o počtu dimenzí dělitelných 4 se zbytkem.
+		 * @param[in] node Vektor prvního prvku.
+		 * @param[in] query Vektor druhého prvku.
+		 * @param[in] dim4 Počet dimenzí prostoru po dělení 4.
+		 * @param[in] dim16 Počet dimenzí prostoru po dělení 16.
+		 * @param[in] dimLeft Zbytek po dělení počtu dimenzí 4.
+		 * @return Kosinusová vzdálenost.
 		 */
 		static float innerProduct4ResidualSSE(
 			const float* node, const float* query, const size_t,
@@ -371,26 +453,31 @@ namespace chm {
 		}
 
 		/**
-		 * Odkaz na innerProduct16SSE.
+		 * Odkaz na @ref innerProduct16SSE.
 		 */
 		FunctionInfo ip16SSE(innerProduct16SSE, "ip16SSE");
 		/**
-		 * Odkaz na innerProduct16ResidualSSE.
+		 * Odkaz na @ref innerProduct16ResidualSSE.
 		 */
 		FunctionInfo ip16RSSE(innerProduct16ResidualSSE, "ip16RSSE");
 		/**
-		 * Odkaz na innerProduct4SSE.
+		 * Odkaz na @ref innerProduct4SSE.
 		 */
 		FunctionInfo ip4SSE(innerProduct4SSE, "ip4SSE");
 		/**
-		 * Odkaz na innerProduct4ResidualSSE.
+		 * Odkaz na @ref innerProduct4ResidualSSE.
 		 */
 		FunctionInfo ip4RSSE(innerProduct4ResidualSSE, "ip4RSSE");
 	#endif
 
 	/**
 	 * Vybere vhodnou funkci kosinusové vzdálenosti dle informací o počtu dimenzí prostoru
-	 * a preferovanému druhu SIMD instrukcí.
+	 * a preferovaném druhu SIMD instrukcí.
+	 * @param[in] dim Počet dimenzí prostoru.
+	 * @param[in] dim4 Počet dimenzí prostoru po dělení 4.
+	 * @param[in] dim16 Počet dimenzí prostoru po dělení 16.
+	 * @param[in] type Druh SIMD instrukcí.
+	 * @return Odkaz na funkci kosinusové vzdálenosti.
 	 */
 	inline DistanceInfo getInnerProductInfo(
 		const size_t dim, const size_t dim4, const size_t dim16, SIMDType type

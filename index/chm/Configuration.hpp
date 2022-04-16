@@ -3,12 +3,12 @@
 
 namespace chm {
 	/**
-	 * Výchozí hodnota parametru vyhledávání efSearch.
+	 * Výchozí hodnota parametru vyhledávání @ref Configuration::efSearch "efSearch".
 	 */
 	constexpr uint DEFAULT_EF_SEARCH = 10;
 
 	/**
-	 * Konfigurace indexu.
+	 * Konfigurace třídy @ref Index.
 	 */
 	class Configuration {
 		/**
@@ -18,7 +18,7 @@ namespace chm {
 
 	public:
 		/**
-		 * Počet prvků, ze kterých index vybírá nové sousedy při vkládání prvku.
+		 * Počet prvků, ze kterých index vybírá nové sousedy při vkládání nového prvku.
 		 */
 		const uint efConstruction;
 		/**
@@ -27,28 +27,35 @@ namespace chm {
 		const uint mMax;
 		/**
 		 * Maximální počet sousedů prvku na vrstvě 0.
-		 * Dvojnásobek mMax.
+		 * Dvojnásobek @ref mMax.
 		 */
 		const uint mMax0;
 
 		/**
 		 * Konstruktor.
+		 * @param[in] efConstruction @ref efConstruction
+		 * @param[in] mMax @ref mMax
 		 */
 		Configuration(const uint efConstruction, const uint mMax);
 		/**
-		 * Vrátí hodnotu efSearch.
+		 * Vrátí hodnotu @ref efSearch.
+		 * @return @ref efSearch
 		 */
 		uint getEfSearch() const;
 		/**
-		 * Vrátí vyšší hodnotu při výběru mezi efSearch a k.
+		 * Vrátí vyšší hodnotu při výběru mezi @ref efSearch a @p k.
+		 * @param[in] k Počet hledaných sousedů pro dotazovaný prvek.
+		 * @return max(@ref efSearch, @p k)
 		 */
 		uint getMaxEf(const uint k) const;
 		/**
-		 * Vrátí optimální hodnotu parametru stavby mL.
+		 * Vrátí optimální hodnotu parametru stavby @ref LevelGenerator::mL "mL".
+		 * @return 1 / log(@ref mMax)
 		 */
 		double getML() const;
 		/**
-		 * Nastaví hodnotu efSearch.
+		 * Nastaví hodnotu @ref efSearch.
+		 * @param[in] efSearch @ref efSearch
 		 */
 		void setEfSearch(const uint efSearch);
 	};

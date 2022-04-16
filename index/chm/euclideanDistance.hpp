@@ -4,7 +4,11 @@
 
 namespace chm {
 	/**
-	 * Eukleidovská vzdálenost.
+	 * Metrika Eukleidovské vzdálenosti mezi dvěma prvky.
+	 * @param[in] node Vektor prvního prvku.
+	 * @param[in] query Vektor druhého prvku.
+	 * @param[in] dim Počet dimenzí prostoru.
+	 * @return Eukleidovská vzdálenost.
 	 */
 	static float euclideanDistance(
 		const float* node, const float* query, const size_t dim,
@@ -21,14 +25,18 @@ namespace chm {
 	}
 
 	/**
-	 * Odkaz na euclideanDistance.
+	 * Odkaz na @ref euclideanDistance.
 	 */
 	FunctionInfo euc(euclideanDistance, "euc");
 
 	#if defined(AVX_CAPABLE)
 		/**
-		 * Výpočet eukleidovské vzdálenosti pomocí instrukcí AVX
+		 * Výpočet Eukleidovské vzdálenosti mezi dvěma prvky pomocí instrukcí AVX
 		 * v prostoru o počtu dimenzí dělitelných 16 beze zbytku.
+		 * @param[in] node Vektor prvního prvku.
+		 * @param[in] query Vektor druhého prvku.
+		 * @param[in] dim16 Počet dimenzí prostoru po dělení 16.
+		 * @return Eukleidovská vzdálenost.
 		 */
 		static float euclideanDistance16AVX(
 			const float* node, const float* query, const size_t,
@@ -62,8 +70,14 @@ namespace chm {
 		}
 
 		/**
-		 * Výpočet eukleidovské vzdálenosti pomocí instrukcí AVX
+		 * Výpočet Eukleidovské vzdálenosti mezi dvěma prvky pomocí instrukcí AVX
 		 * v prostoru o počtu dimenzí dělitelných 16 se zbytkem.
+		 * @param[in] node Vektor prvního prvku.
+		 * @param[in] query Vektor druhého prvku.
+		 * @param[in] dim4 Počet dimenzí prostoru po dělení 4.
+		 * @param[in] dim16 Počet dimenzí prostoru po dělení 16.
+		 * @param[in] dimLeft Zbytek po dělení počtu dimenzí 16.
+		 * @return Eukleidovská vzdálenost.
 		 */
 		static float euclideanDistance16ResidualAVX(
 			const float* node, const float* query, const size_t,
@@ -75,19 +89,23 @@ namespace chm {
 		}
 
 		/**
-		 * Odkaz na euclideanDistance16AVX.
+		 * Odkaz na @ref euclideanDistance16AVX.
 		 */
 		FunctionInfo euc16AVX(euclideanDistance16AVX, "euc16AVX");
 		/**
-		 * Odkaz na euclideanDistance16ResidualAVX.
+		 * Odkaz na @ref euclideanDistance16ResidualAVX.
 		 */
 		FunctionInfo euc16RAVX(euclideanDistance16ResidualAVX, "euc16RAVX");
 	#endif
 
 	#if defined(AVX512_CAPABLE)
 		/**
-		 * Výpočet eukleidovské vzdálenosti pomocí instrukcí AVX-512
+		 * Výpočet Eukleidovské vzdálenosti mezi dvěma prvky pomocí instrukcí AVX-512
 		 * v prostoru o počtu dimenzí dělitelných 16 beze zbytku.
+		 * @param[in] node Vektor prvního prvku.
+		 * @param[in] query Vektor druhého prvku.
+		 * @param[in] dim16 Počet dimenzí prostoru po dělení 16.
+		 * @return Eukleidovská vzdálenost.
 		 */
 		static float euclideanDistance16AVX512(
 			const float* node, const float* query, const size_t,
@@ -116,8 +134,14 @@ namespace chm {
 		}
 
 		/**
-		 * Výpočet eukleidovské vzdálenosti pomocí instrukcí AVX
+		 * Výpočet Eukleidovské vzdálenosti mezi dvěma prvky pomocí instrukcí AVX
 		 * v prostoru o počtu dimenzí dělitelných 16 se zbytkem.
+		 * @param[in] node Vektor prvního prvku.
+		 * @param[in] query Vektor druhého prvku.
+		 * @param[in] dim4 Počet dimenzí prostoru po dělení 4.
+		 * @param[in] dim16 Počet dimenzí prostoru po dělení 16.
+		 * @param[in] dimLeft Zbytek po dělení počtu dimenzí 16.
+		 * @return Eukleidovská vzdálenost.
 		 */
 		static float euclideanDistance16ResidualAVX512(
 			const float* node, const float* query, const size_t,
@@ -129,19 +153,23 @@ namespace chm {
 		}
 
 		/**
-		 * Odkaz na euclideanDistance16AVX512.
+		 * Odkaz na @ref euclideanDistance16AVX512.
 		 */
 		FunctionInfo euc16AVX512(euclideanDistance16AVX512, "euc16AVX512");
 		/**
-		 * Odkaz na euclideanDistance16ResidualAVX512.
+		 * Odkaz na @ref euclideanDistance16ResidualAVX512.
 		 */
 		FunctionInfo euc16RAVX512(euclideanDistance16ResidualAVX512, "euc16RAVX512");
 	#endif
 
 	#if defined(SSE_CAPABLE)
 		/**
-		 * Výpočet eukleidovské vzdálenosti pomocí instrukcí SSE
+		 * Výpočet Eukleidovské vzdálenosti mezi dvěma prvky pomocí instrukcí SSE
 		 * v prostoru o počtu dimenzí dělitelných 16 beze zbytku.
+		 * @param[in] node Vektor prvního prvku.
+		 * @param[in] query Vektor druhého prvku.
+		 * @param[in] dim16 Počet dimenzí prostoru po dělení 16.
+		 * @return Eukleidovská vzdálenost.
 		 */
 		static float euclideanDistance16SSE(
 			const float* node, const float* query, const size_t,
@@ -187,8 +215,14 @@ namespace chm {
 		}
 
 		/**
-		 * Výpočet eukleidovské vzdálenosti pomocí instrukcí SSE
+		 * Výpočet Eukleidovské vzdálenosti mezi dvěma prvky pomocí instrukcí SSE
 		 * v prostoru o počtu dimenzí dělitelných 16 se zbytkem.
+		 * @param[in] node Vektor prvního prvku.
+		 * @param[in] query Vektor druhého prvku.
+		 * @param[in] dim4 Počet dimenzí prostoru po dělení 4.
+		 * @param[in] dim16 Počet dimenzí prostoru po dělení 16.
+		 * @param[in] dimLeft Zbytek po dělení počtu dimenzí 16.
+		 * @return Eukleidovská vzdálenost.
 		 */
 		static float euclideanDistance16ResidualSSE(
 			const float* node, const float* query, const size_t,
@@ -200,8 +234,12 @@ namespace chm {
 		}
 
 		/**
-		 * Výpočet eukleidovské vzdálenosti pomocí instrukcí SSE
+		 * Výpočet Eukleidovské vzdálenosti mezi dvěma prvky pomocí instrukcí SSE
 		 * v prostoru o počtu dimenzí dělitelných 4 beze zbytku.
+		 * @param[in] node Vektor prvního prvku.
+		 * @param[in] query Vektor druhého prvku.
+		 * @param[in] dim4 Počet dimenzí prostoru po dělení 4.
+		 * @return Eukleidovská vzdálenost.
 		 */
 		static float euclideanDistance4SSE(
 			const float* node, const float* query, const size_t,
@@ -226,8 +264,14 @@ namespace chm {
 		}
 
 		/**
-		 * Výpočet eukleidovské vzdálenosti pomocí instrukcí SSE
+		 * Výpočet Eukleidovské vzdálenosti mezi dvěma prvky pomocí instrukcí SSE
 		 * v prostoru o počtu dimenzí dělitelných 4 se zbytkem.
+		 * @param[in] node Vektor prvního prvku.
+		 * @param[in] query Vektor druhého prvku.
+		 * @param[in] dim4 Počet dimenzí prostoru po dělení 4.
+		 * @param[in] dim16 Počet dimenzí prostoru po dělení 16.
+		 * @param[in] dimLeft Zbytek po dělení počtu dimenzí 4.
+		 * @return Eukleidovská vzdálenost.
 		 */
 		static float euclideanDistance4ResidualSSE(
 			const float* node, const float* query, const size_t,
@@ -239,26 +283,31 @@ namespace chm {
 		}
 
 		/**
-		 * Odkaz na euclideanDistance16SSE.
+		 * Odkaz na @ref euclideanDistance16SSE.
 		 */
 		FunctionInfo euc16SSE(euclideanDistance16SSE, "euc16SSE");
 		/**
-		 * Odkaz na euclideanDistance16ResidualSSE.
+		 * Odkaz na @ref euclideanDistance16ResidualSSE.
 		 */
 		FunctionInfo euc16RSSE(euclideanDistance16ResidualSSE, "euc16RSSE");
 		/**
-		 * Odkaz na euclideanDistance4SSE.
+		 * Odkaz na @ref euclideanDistance4SSE.
 		 */
 		FunctionInfo euc4SSE(euclideanDistance4SSE, "euc4SSE");
 		/**
-		 * Odkaz na euclideanDistance4ResidualSSE.
+		 * Odkaz na @ref euclideanDistance4ResidualSSE.
 		 */
 		FunctionInfo euc4RSSE(euclideanDistance4ResidualSSE, "euc4RSSE");
 	#endif
 
 	/**
-	 * Vybere vhodnou funkci eukleidovské metriky dle informací o počtu dimenzí prostoru
-	 * a preferovanému druhu SIMD instrukcí.
+	 * Vybere vhodnou funkci Eukleidovské vzdálenosti metriky dle informací o počtu dimenzí prostoru
+	 * a preferovaném druhu SIMD instrukcí.
+	 * @param[in] dim Počet dimenzí prostoru.
+	 * @param[in] dim4 Počet dimenzí prostoru po dělení 4.
+	 * @param[in] dim16 Počet dimenzí prostoru po dělení 16.
+	 * @param[in] type Druh SIMD instrukcí.
+	 * @return Odkaz na funkci Eukleidovské vzdálenosti.
 	 */
 	inline DistanceInfo getEuclideanInfo(
 		const size_t dim, const size_t dim4, const size_t dim16, SIMDType type

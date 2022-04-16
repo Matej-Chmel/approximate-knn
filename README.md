@@ -60,7 +60,7 @@ Konfigurace je JSON soubor s polem objektů, kde každý objekt popisuje jednu d
 |Klíč|Typ hodnoty|Význam|
 |:--|:--|:--|
 |name|string|Unikátní název datové kolekce sloužící k její identifikaci.|
-|angular|boolean|Pokud je nastaven na `true`, využívá datová kolekce kosinusové podobnosti k nalezení sousedů. Jinak využívá eukleidovské vzdálenosti.|
+|angular|boolean|Pokud je nastaven na `true`, využívá datová kolekce kosinusové podobnosti k nalezení sousedů. Jinak využívá Eukleidovské vzdálenosti.|
 |dim|int|Počet dimenzí.|
 |k|int|Počet nejbližších sousedů dotazovaného prvku.|
 |testCount|int|Počet dotazů v kolekci.|

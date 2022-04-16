@@ -11,12 +11,12 @@ namespace chm {
 		 */
 		std::vector<uint> layer0;
 		/**
-		 * Počet čísel v poli upperLayers, které je nutné přeskočit
+		 * Počet položek v poli upperLayers, které je nutné přeskočit
 		 * pro přístup k seznamu sousedů na vrstvě o jednu úroveň výše.
 		 */
 		const uint maxLen;
 		/**
-		 * Počet čísel v poli layer0, které je nutné přeskočit
+		 * Počet položek v poli layer0, které je nutné přeskočit
 		 * pro přístup k seznamu sousedů prvku s identitou o jedna vyšší.
 		 */
 		const uint maxLen0;
@@ -28,14 +28,22 @@ namespace chm {
 	public:
 		/**
 		 * Konstruktor.
+		 * @param[in] maxNodeCount Maximální počet prvků v indexu.
+		 * @param[in] mMax Maximální počet sousedů prvku na vrstvě vyšší než vrstva 0.
+		 * @param[in] mMax0 Maximální počet sousedů prvku na vrstvě 0.
 		 */
 		Connections(const uint maxNodeCount, const uint mMax, const uint mMax0);
 		/**
-		 * Vrátí seznam sousedů prvku s identitou id na vrstvě lc.
+		 * Vrátí seznam sousedů prvku @p id na vrstvě @p lc.
+		 * @param[in] id Identita prvku.
+		 * @param[in] lc Číselné označení vrstvy.
+		 * @return Seznam sousedů prvku @p id na vrstvě @p lc.
 		 */
 		Neighbors getNeighbors(const uint id, const uint lc);
 		/**
-		 * Vytvoří seznamy sousedů prvku s identitou id v poli upperLayers.
+		 * Vytvoří seznamy sousedů prvku @p id v poli @ref upperLayers.
+		 * @param[in] id Identita prvku.
+		 * @param[in] level Úroveň prvku. Číslo nejvyšší vrstvy, která obsahuje vrchol prvku.
 		 */
 		void init(const uint id, const uint level);
 	};

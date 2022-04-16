@@ -12,9 +12,9 @@
 
 namespace chm {
 	/**
-	 * Index HNSW.
-	 * Šablona T určuje metodu výběru sousedů, typ seznamu navštívených vrcholů
-	 * a druh přístupu do paměti.
+	 * Hlavní třída indexu HNSW, která využívá všech ostatních tříd.
+	 * @tparam T Třída určující metodu výběru sousedů, typ seznamu navštívených vrcholů
+	 * a druh přístupu do paměti při výpočtu vzdálenosti. @see IndexTemplate.
 	 */
 	template<class T = NaiveTemplate>
 	class Index {
@@ -56,8 +56,13 @@ namespace chm {
 		typename T::VisitedSet visited;
 
 		/**
-		 * Do haldy h přidá všechny sousedy z N a nově příchozí prvek s identitou latestID.
-		 * Všechny vzdálenosti počítá od prvku s identitou queryID.
+		 * Naplní haldu vrcholy z právě upravovaného seznamu sousedů
+		 * a přidá do ní nově příchozí prvek.
+		 * @param[in] h Halda, která se má naplnit.
+		 * @param[in] N Právě upravovaný seznam sousedů.
+		 * @param[in] queryID Identita prvku, kterému index právě upravuje seznam sousedů.
+		 * @param[in] latestData Vektor nově příchozího prvku.
+		 * @param[in] latestID Identita nově příchozího prvku.
 		 */
 		template<class Comparator>
 		void fillHeap(
@@ -66,75 +71,120 @@ namespace chm {
 		);
 		/**
 		 * Funkce jedné iterace stavby, která vloží nový prvek do indexu.
+		 * @param[in] queryData Vektor nově příchozího prvku.
+		 * @param[in] queryID Identita nově příchozího prvku.
 		 */
 		void insert(const float* const queryData, const uint queryID);
 		/**
-		 * Zpracuje jeden dosud nenavštívený vrchol při prohledání nižší vrstvy.
+		 * Rozhodne o přidání prvku do haldy dosud nalezených sousedů při zpracování nižší vrstvy.
+		 * @param[in] neighborID Identita prvku, o kterém se má rozhodnout.
+		 * @param[in] query Vektor prvku, kterému index právě hledá sousedy.
+		 * @param[in] ef Maximální počet výsledných sousedů.
+		 * @param[in,out] W Halda dosud nalezených sousedů.
 		 */
 		void processNeighbor(
 			const uint neighborID, const float* const query, const uint ef, FarHeap& W
 		);
 		/**
 		 * Vloží kolekci prvků do indexu.
+		 * @param[in] arr Kolekce prvků.
 		 */
 		void push(const FloatArray& arr);
 		/**
 		 * Zpracuje kolekci dotazů.
+		 * @param[in] arr Kolekce dotazů.
+		 * @param[in] k Počet sousedů hledaných pro každý dotaz.
+		 * @return Výsledek hledání.
 		 */
 		KnnResults queryBatch(const FloatArray& arr, const uint k);
 		/**
 		 * Zpracuje jeden dotaz.
+		 * @param[in] data Vektor dotazovaného prvku.
+		 * @param[in] k Počet hledaných sousedů dotazovaného prvku.
+		 * @return Halda s výslednými sousedy.
 		 */
 		FarHeap queryOne(const float* const data, const uint k);
 		/**
-		 * Nastaví počáteční vrchol ep na vstupní prvek se vzdáleností od zkoumaného prvku.
+		 * Nastaví počáteční vrchol @ref ep na vstupní prvek se vzdáleností od zkoumaného prvku.
+		 * @param[in] query Vektor zkoumaného prvku.
 		 */
 		void resetEp(const float* const query);
 		/**
-		 * Prohledá nižší vrstvu. Výsledky zapíše do haldy far.
+		 * Najde sousedy zkoumaného prvku na nižší vrstvě a zapíše je do haldy @ref far.
+		 * @tparam searching Pravda, pokud je tato metoda volána z metody @ref queryOne.
+		 * @param[in] query Vektor zkoumaného prvku.
+		 * @param[in] ef Maximální počet výsledných sousedů.
+		 * @param[in] lc Číselné označení vrstvy.
+		 * @param[in] countBeforeQuery Počet prvků v indexu s ukončenou iterací stavby.
 		 */
 		template<bool searching>
 		void searchLowerLayer(
 			const float* const query, const uint ef, const uint lc, const uint countBeforeQuery
 		);
 		/**
-		 * Nalezne lokální minimum na vyšší vrstvě.
+		 * Nalezne lokální minimum ke zkoumanému prvku na vyšší vrstvě.
+		 * @param[in] query Vektor zkoumaného prvku.
+		 * @param[in] lc Číselné označení vrstvy.
 		 */
 		void searchUpperLayer(const float* const query, const uint lc);
 		/**
-		 * Vybere sousedy nového prvku a vytvoří hrany vedoucí od nového prvku k těmto sousedům.
-		 * Metodu výběru sousedů zvolí na základě šablony T.
+		 * Vybere sousedy nového prvku na dané vrstvě
+		 * a vytvoří hrany vedoucí od nového prvku k těmto sousedům.
+		 * Metodu výběru sousedů zvolí na základě šablony @p T.
+		 * @param[in] queryID Identita nového prvku.
+		 * @param[in] lc Číselné označení vrstvy.
+		 * @return Seznam vybraných sousedů.
 		 */
 		Neighbors selectNewNeighbors(const uint queryID, const uint lc);
 		/**
-		 * Vybere sousedy nového prvku a vytvoří hrany vedoucí od nového prvku k těmto sousedům.
+		 * Vybere sousedy nového prvku na dané vrstvě
+		 * a vytvoří hrany vedoucí od nového prvku k těmto sousedům.
 		 * Pro výběr sousedů využívá heuristiku.
+		 * @param[in,out] R Seznam vybraných sousedů.
+		 * @return Seznam vybraných sousedů.
 		 */
 		Neighbors selectNewNeighborsHeuristic(Neighbors& R);
 		/**
 		 * Vybere sousedy nového prvku a vytvoří hrany vedoucí od nového prvku k těmto sousedům.
 		 * Pro výběr sousedů využívá naivní algoritmus.
+		 * @param[in,out] N Seznam vybraných sousedů.
+		 * @return Seznam vybraných sousedů.
 		 */
 		Neighbors selectNewNeighborsNaive(Neighbors& N);
 		/**
-		 * Upraví seznam sousedů na velikost M.
-		 * Metodu výběru sousedů zvolí na základě šablony T.
+		 * Upraví seznam sousedů tak, aby jeho velikost nepřekračovala povolenou mez.
+		 * Metodu výběru sousedů zvolí na základě šablony @p T.
+		 * @param[in] M Maximální počet sousedů v seznamu.
+		 * @param[in] queryID Identita prvku, kterému patří seznam sousedů.
+		 * @param[in,out] R Seznam sousedů.
+		 * @param[in] latestData Vektor nově příchozího prvku.
+		 * @param[in] latestID Identita nově příchozího prvku.
 		 */
 		void shrinkNeighbors(
 			const uint M, const uint queryID, Neighbors& R,
 			const float* const latestData, const uint latestID
 		);
 		/**
-		 * Upraví seznam sousedů na velikost M.
+		 * Upraví seznam sousedů tak, aby jeho velikost nepřekračovala povolenou mez.
 		 * Pro výběr sousedů využívá heuristiku.
+		 * @param[in] M Maximální počet sousedů v seznamu.
+		 * @param[in] queryID Identita prvku, kterému patří seznam sousedů.
+		 * @param[in,out] R Seznam sousedů.
+		 * @param[in] latestData Vektor nově příchozího prvku.
+		 * @param[in] latestID Identita nově příchozího prvku.
 		 */
 		void shrinkNeighborsHeuristic(
 			const uint M, const uint queryID, Neighbors& R,
 			const float* const latestData, const uint latestID
 		);
 		/**
-		 * Upraví seznam sousedů na velikost M.
+		 * Upraví seznam sousedů tak, aby jeho velikost nepřekračovala povolenou mez.
 		 * Pro výběr sousedů využívá naivní algoritmus.
+		 * @param[in] M Maximální počet sousedů v seznamu.
+		 * @param[in] queryID Identita prvku, kterému patří seznam sousedů.
+		 * @param[in,out] R Seznam sousedů.
+		 * @param[in] latestData Vektor nově příchozího prvku.
+		 * @param[in] latestID Identita nově příchozího prvku.
 		 */
 		void shrinkNeighborsNaive(
 			const uint M, const uint queryID, Neighbors& R,
@@ -142,16 +192,28 @@ namespace chm {
 		);
 		/**
 		 * Vrátí hodnotu pravda, pokud seznam navštívených vrcholů visited využívá bitového pole.
+		 * @return Vlajka využití bitového pole.
 		 */
 		static constexpr bool useBitArray();
 
 	public:
 		/**
 		 * Vrátí krátký popis indexu.
+		 * @return Popis indexu.
 		 */
 		std::string getString() const;
 		/**
 		 * Konstruktor.
+		 * @param[in] dim Počet dimenzí prostoru.
+		 * @param[in] maxCount Maximální počet prvků v indexu.
+		 * @param[in] efConstruction Počet prvků,
+		 * ze kterých index vybírá nové sousedy při vkládání nového prvku. @see Configuration::efConstruction
+		 * @param[in] mMax Maximální počet sousedů prvku na vrstvách vyšších než vrstva 0.
+		 * @see Configuration::mMax
+		 * @param[in] seed Konfigurace generátoru náhodných úrovní nových prvků.
+		 * @see LevelGenerator
+		 * @param[in] simdType Druh SIMD instrukcí použitých při výpočtu vzdáleností.
+		 * @param[in] Druh prostoru dle metriky.
 		 */
 		Index(
 			const size_t dim, const uint maxCount,
@@ -160,14 +222,22 @@ namespace chm {
 		);
 		/**
 		 * Vloží kolekci prvků do indexu.
+		 * @param[in] data Ukazatel na vektor prvního prvku v kolekci.
+		 * @param[in] count Počet prvků v kolekci.
 		 */
 		void push(const float* const data, const uint count);
 		/**
 		 * Zpracuje kolekci dotazů.
+		 * @param[in] data Ukazatel na vektor prvního dotazu v kolekci.
+		 * @param[in] count Počet dotazů v kolekci.
+		 * @param[in] k Počet hledaných sousedů pro každý dotaz.
+		 * @return Kolekce výsledných sousedů.
 		 */
 		KnnResults queryBatch(const float* const data, const uint count, const uint k = 10);
 		/**
 		 * Nastaví parametr vyhledávání efSearch.
+		 * @param[in] efSearch Parametr vyhledávání.
+		 * @see Configuration::efSearch
 		 */
 		void setEfSearch(const uint efSearch);
 
@@ -175,10 +245,14 @@ namespace chm {
 
 			/**
 			 * Vloží kolekci prvků popsanou pomocí NumPy pole do indexu.
+			 * @param[in] data NumPy pole vektorů prvků.
 			 */
 			void push(const NumpyArray<float> data);
 			/**
 			 * Zpracuje kolekci dotazů popsanou pomocí NumPy pole.
+			 * @param[in] data NumPy pole vektorů dotazů.
+			 * @param[in] k Počet hledaných sousedů pro každý dotaz.
+			 * @return Uspořádaná dvojice (identity, vzdálenosti) výsledných sousedů.
 			 */
 			py::tuple queryBatch(const NumpyArray<float> data, const uint k = 10);
 
@@ -628,13 +702,13 @@ namespace chm {
 	inline std::string Index<T>::getString() const {
 		std::stringstream s;
 		/*
-			Meaning of abbreviations.
+			Význam zkratek v popisu indexu.
 			e ... efConstruction
 			m ... mMax
-			d ... name of distance function
-			b ... index uses a bit array (0 = false, 1 = true)
-			n ... neighbors selection method (h = heuristic, n = naive)
-			p ... index uses prefetch instruction (0 = false, 1 = true)
+			d ... Název funkce metriky.
+			b ... Index využívá bitového pole jako seznam navštívených prvků (0 = Ne, 1 = Ano).
+			n ... Metoda výběru sousedů (h = Heuristika, n = Naivní algoritmus).
+			p ... Index využívá asynchronního přístupu do paměti při výpočtu vzdáleností (0 = Ne, 1 = Ano).
 		*/
 		s << "chm(e=" << this->cfg.efConstruction << ",m=" << this->cfg.mMax <<
 		",d=" << this->space.getDistanceName() << ",b=";

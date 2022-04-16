@@ -23,10 +23,13 @@ namespace chm {
 	public:
 		/**
 		 * Vrátí náhodnou úroveň.
+		 * @return Náhodná úroveň.
 		 */
 		uint getNext();
 		/**
 		 * Konstruktor.
+		 * @param[in] mL @ref mL
+		 * @param[in] seed Nastavení generátoru náhodných čísel.
 		 */
 		LevelGenerator(const double mL, const uint seed);
 	};
