@@ -112,7 +112,7 @@ namespace chm {
 		 */
 		std::string getDistanceName() const;
 		/**
-		 * Pokud je @ref normalized pravda, vrátí jednotkový vektor dotazu, jinak vrátí původní vektor dotazu.
+		 * Pokud je @ref normalize pravda, vrátí jednotkový vektor dotazu, jinak vrátí původní vektor dotazu.
 		 * @param[in] data Původní vektor dotazu.
 		 * @return Ukazatel na výsledný vektor.
 		 */
