@@ -11,21 +11,24 @@ class ChmHnsw(BaseANN):
 		self.simdType = simdType
 		self.space = {'angular': h.Space.ANGULAR, 'euclidean': h.Space.EUCLIDEAN}[metric]
 
+	def __str__(self):
+		return f"{self.index}[ef={self.efSearch}]"
+
+	def done(self):
+		del self.index
+
 	def fit(self, X):
 		self.index = self.indexCls(
 			dim=len(X[0]), maxCount=len(X), efConstruction=self.params["efConstruction"],
 			mMax=self.params["mMax"], seed=100, SIMD=self.simdType, space=self.space
 		)
-		self.name = str(self.index)
 		self.index.push(np.asarray(X))
-
-	def freeIndex(self):
-		del self.index
 
 	def query(self, v, n: int):
 		return self.index.queryBatch(np.expand_dims(v, axis=0), n)[0][0]
 
 	def set_query_arguments(self, ef: int):
+		self.efSearch = ef
 		self.index.setEfSearch(ef)
 
 def ChmHnswAVX(metric: str, method_param: dict):

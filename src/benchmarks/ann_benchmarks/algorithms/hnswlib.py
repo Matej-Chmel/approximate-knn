@@ -10,6 +10,12 @@ class HnswLib(BaseANN):
 		self.method_param = method_param
 		self.name = f"hnswlib(e={self.method_param['efConstruction']},m={self.method_param['M']})"
 
+	def __str__(self):
+		return f"{self.name}[ef={self.ef}]"
+
+	def done(self):
+		del self.p
+
 	def fit(self, X):
 		self.p = hnswlib.Index(space=self.metric, dim=len(X[0]))
 		self.p.init_index(
@@ -20,11 +26,11 @@ class HnswLib(BaseANN):
 		self.p.set_num_threads(1)
 		self.p.add_items(np.asarray(X), data_labels)
 
-	def set_query_arguments(self, ef):
-		self.p.set_ef(ef)
-
 	def query(self, v, n):
 		return self.p.knn_query(np.expand_dims(v, axis=0), k=n)[0][0]
 
-	def freeIndex(self):
-		del self.p
+	def set_query_arguments(self, ef):
+		self.ef = ef
+		self.p.set_ef(ef)
+
+

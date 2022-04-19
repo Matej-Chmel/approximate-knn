@@ -23,11 +23,11 @@ float:
         efConstruction-100-M-4:
           arg-groups:
             - {"efConstruction": 100, "M": 4}
-          query-args: [[10, 100, 1000]]
+          query-args: [[10, 100, 400, 800]]
         efConstruction-100-M-16:
           arg-groups:
             - {"efConstruction": 100, "M": 16}
-          query-args: [[10, 100, 1000]]
+          query-args: [[10, 100, 400, 800]]
   euclidean: []
   angular: []
 bit:
