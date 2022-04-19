@@ -26,12 +26,13 @@ def clean(htmlDir: Path):
 
 def main():
 	args = Args()
-	htmlDir = Path(__file__).parent / "html"
+	docsDir = Path(__file__).parent
+	htmlDir = docsDir / "html"
 
 	if args.clean:
 		clean(htmlDir)
 	if args.generate:
-		subprocess.call(["doxygen", "Doxyfile"], cwd=Path(__file__).parents[1] / "src" / "index" / "chm")
+		subprocess.call(["doxygen", "Doxyfile"], cwd=docsDir)
 		print("Documentation generated.")
 
 	indexPath = (htmlDir / "index.html").absolute()

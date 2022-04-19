@@ -2,10 +2,10 @@ from pathlib import Path
 from RecallTable import RecallTable, RecallTableConfig
 
 def main():
-	repoDir = Path(__file__).parent.parent
+	srcDir = Path(__file__).parents[2]
 
 	try:
-		cfgPath = repoDir / "config" / "recallTableConfig.json"
+		cfgPath = srcDir / "config" / "recallTableConfig.json"
 		cfg = RecallTableConfig.fromJSON(cfgPath)
 	except FileNotFoundError:
 		return print(f"No configuration file found at {cfgPath}.")
@@ -13,7 +13,7 @@ def main():
 		return print(f"Configuration file is missing key {e.args[0]}.")
 
 	try:
-		table = RecallTable.fromHDF(cfg, repoDir / "data" / f"{cfg.dataset}.hdf5")
+		table = RecallTable.fromHDF(cfg, srcDir / "data" / f"{cfg.dataset}.hdf5")
 		table.run()
 		print(table)
 

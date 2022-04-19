@@ -3,7 +3,8 @@ from dataclasses import astuple, dataclass, field
 import pandas as pd
 import parse
 from pathlib import Path
-import src.benchmarks.data_export as export
+import subprocess
+import sys
 from typing import Callable
 
 BACK_SLASH = "\\"
@@ -194,10 +195,14 @@ def getRecallQueriesPlot(a: Args, df: pd.DataFrame):
 	)
 
 def writePlots(a: Args):
-	inputPath = a.srcDir / "data.csv"
+	inputPath = a.srcDir / "figures" / "data.csv"
+	inputPath.parent.mkdir(exist_ok=True, parents=True)
 
 	if a.recompute or not inputPath.exists():
-		export.exportData(export.Args(inputPath, a.recompute))
+		subprocess.call([
+			sys.executable, "data_export.py", "-o", inputPath.absolute()] + (["-r"] if a.recompute else []),
+			cwd=a.srcDir / "benchmarks"
+		)
 
 	with a.outputPath.open("w", encoding="utf-8") as f:
 		df = pd.read_csv(inputPath, sep=",")

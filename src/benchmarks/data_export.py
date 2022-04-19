@@ -38,8 +38,8 @@ def exportData(a: Args):
 
 def getArgs():
 	p = ArgumentParser()
-	p.add_argument("--output", help="Path to the output file", required=True)
-	p.add_argument("--recompute", action="store_true", help="Recompute metrics")
+	p.add_argument("-o", "--output", help="Path to the output file", required=True)
+	p.add_argument("-r", "--recompute", action="store_true", help="Recompute metrics")
 	args = p.parse_args()
 	return Args(Path(args.output), args.recompute)
 

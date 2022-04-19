@@ -25,12 +25,12 @@ def buildBindings(executable: Path, indexDir: Path, repoDir: Path):
 	print(f"Module docstring: {output}")
 	print("Bindings built.")
 
-def buildNativeLib(executable: Path, scriptsDir: Path, srcDir: Path):
+def buildNativeLib(executable: Path, indexDir: Path, scriptsDir: Path, srcDir: Path):
 	print("Building build system for native library.")
 	subprocess.call([executable, "formatCMakeTemplates.py"], cwd=scriptsDir / "install")
 	cmakeBuildDir = srcDir / "cmakeBuild"
 	cmakeBuildDir.mkdir(exist_ok=True)
-	subprocess.call(["cmake", Path("..")], cwd=cmakeBuildDir)
+	subprocess.call(["cmake", indexDir.absolute()], cwd=cmakeBuildDir)
 	print("Build system for native library built.")
 
 def buildVirtualEnv(repoDir: Path, scriptsDir: Path):
@@ -105,19 +105,20 @@ def run():
 
 	repoDir = Path(__file__).parents[3]
 	srcDir = repoDir / "src"
+	indexDir = srcDir / "index"
 	scriptsDir = srcDir / "scripts"
 	recallTableDir = scriptsDir / "recallTable"
 
 	executable = buildVirtualEnv(repoDir, scriptsDir)
-	buildNativeLib(executable, scriptsDir, srcDir)
-	buildBindings(executable, srcDir / "index", repoDir)
+	buildNativeLib(executable, indexDir, scriptsDir, srcDir)
+	buildBindings(executable, indexDir, repoDir)
 	generateDatasets(executable, recallTableDir, srcDir)
 	runRecallTable(executable, recallTableDir)
 	print("Completed.")
 
 def runRecallTable(executable: Path, recallTableDir: Path):
 	print("Running recall table Python program.")
-	subprocess.call([executable, "recallTable.py"], cwd=recallTableDir)
+	subprocess.call([executable, "runRecallTable.py"], cwd=recallTableDir)
 	print("Recall table run successfully.")
 
 def main():

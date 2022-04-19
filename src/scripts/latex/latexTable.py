@@ -128,7 +128,7 @@ def getArgs():
 	return Args(args.algorithms, args.percent, args.dataset, args.label, args.legend, Path(args.output))
 
 def getExportedData(srcDir: Path):
-	p = srcDir / "data.csv"
+	p = srcDir / "figures" / "data.csv"
 
 	if not p.exists():
 		raise FileNotFoundError(f"File {p} not found.")
@@ -151,6 +151,7 @@ def getTable(df: pd.DataFrame, algoNames: list[str], dataset: str):
 
 def run(args: Args):
 	srcDir = Path(__file__).parents[2]
+	args.output.parent.mkdir(exist_ok=True, parents=True)
 
 	with args.output.open("w", encoding="utf-8") as f:
 		table = getTable(getExportedData(srcDir), args.algoNames, args.dataset)

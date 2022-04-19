@@ -1,12 +1,12 @@
+from Dataset import Dataset
 import json
 from pathlib import Path
-from tools.Dataset import Dataset
 
 def run():
-	repoDir = Path(__file__).parent.parent
-	dataDir = repoDir / "data"
+	srcDir = Path(__file__).parents[2]
+	dataDir = srcDir / "data"
 
-	with (repoDir / "config" / "datasetGeneratorConfig.json").open("r", encoding="utf-8") as f:
+	with (srcDir / "config" / "datasetGeneratorConfig.json").open("r", encoding="utf-8") as f:
 		arr = json.load(f)
 
 	for obj in arr:

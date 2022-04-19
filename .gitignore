@@ -1,5 +1,15 @@
 __pycache__
 /.venv
 /.vscode
+/src/benchmarks/*.log
 /src/benchmarks/data
+/src/benchmarks/results
+/src/cmakeBuild
+/src/data
+/src/figures
+/src/index/build
+/src/index/chm_hnsw.egg-info
+/src/index/CMakeLists.txt
 /src/index/LICENSE
+/src/scripts/benchmarks/benchmarks_time.txt
+/src/website

@@ -1,13 +1,24 @@
-from src.benchmarks.ann_benchmarks.datasets import DATASETS
+if __package__ is None:
+	from pathlib import Path
+	import subprocess
+	import sys
+
+	subprocess.call(
+		[sys.executable, "-m", "src.scripts.benchmarks.runBenchmarks", *sys.argv[1:]],
+		cwd=Path(__file__).parents[3]
+	)
+	sys.exit(0)
+
 from argparse import ArgumentParser, Namespace
 import pandas
 from pathlib import Path
 import time
+from src.benchmarks.ann_benchmarks.datasets import DATASETS
 import subprocess
 import sys
 import webbrowser as wb
 
-SRC_DIR = Path(__file__).parent[2]
+SRC_DIR = Path(__file__).parents[2]
 BENCHMARKS_DIR = SRC_DIR / "benchmarks"
 CONFIG_DIR = SRC_DIR / "config"
 DEFAULT_ALGOS_PATH = BENCHMARKS_DIR / "algos.yaml"

@@ -1,19 +1,5 @@
 float:
   any:
-    chm-hnsw-no-bit-array:
-      docker-tag: ann-benchmarks-chm-hnsw
-      module: ann_benchmarks.algorithms.chm_hnsw
-      constructor: ChmHnswNoBitArray
-      base-args: ["@metric"]
-      run-groups:
-        efConstruction-100-mMax-4:
-          arg-groups:
-            - {"efConstruction": 100, "mMax": 4}
-          query-args: [[10, 100, 400, 800]]
-        efConstruction-100-mMax-16:
-          arg-groups:
-            - {"efConstruction": 100, "mMax": 16}
-          query-args: [[10, 100, 400, 800]]
     chm-hnsw-prefetching:
       docker-tag: ann-benchmarks-chm-hnsw
       module: ann_benchmarks.algorithms.chm_hnsw
@@ -28,6 +14,20 @@ float:
           arg-groups:
             - {"efConstruction": 100, "mMax": 16}
           query-args: [[10, 100, 400, 800]]
+    hnswlib:
+      docker-tag: ann-benchmarks-hnswlib
+      module: ann_benchmarks.algorithms.hnswlib
+      constructor: HnswLib
+      base-args: ["@metric"]
+      run-groups:
+        efConstruction-100-M-4:
+          arg-groups:
+            - {"efConstruction": 100, "M": 4}
+          query-args: [[10, 100, 1000]]
+        efConstruction-100-M-16:
+          arg-groups:
+            - {"efConstruction": 100, "M": 16}
+          query-args: [[10, 100, 1000]]
   euclidean: []
   angular: []
 bit:

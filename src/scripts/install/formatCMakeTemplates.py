@@ -8,7 +8,7 @@ def formatCMakeTemplates(srcDir: Path):
 	macros = " ".join(simd.getMacros())
 	N = "\n"
 
-	with (srcDir / "CMakeLists.txt").open("w", encoding="utf-8") as f:
+	with (srcDir / "index" / "CMakeLists.txt").open("w", encoding="utf-8") as f:
 		f.write((srcDir / "templates" / "CMake.txt").read_text(encoding="utf-8"
 			).replace("@ARCH@", f" {archStr}"
 			).replace(

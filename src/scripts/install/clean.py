@@ -5,9 +5,10 @@ def cleanProject(deleteVenv: bool):
 	repo = Path(__file__).parents[3]
 
 	src = repo / "src"
-	index = src / "index"
 	benchmarks = src / "benchmarks"
 	annBenchmarks = benchmarks / "ann_benchmarks"
+	index = src / "index"
+	scripts = src / "scripts"
 
 	deleteDir(annBenchmarks / "__pycache__")
 	deleteDir(annBenchmarks / "algorithms" / "__pycache__")
@@ -19,6 +20,10 @@ def cleanProject(deleteVenv: bool):
 	deleteDir(repo / "__pycache__")
 	deleteDir(src / "cmakeBuild")
 	deleteDir(src / "data")
+	deleteDir(scripts / "benchmarks" / "__pycache__")
+	deleteDir(scripts / "install" / "__pycache__")
+	deleteDir(scripts / "latex" / "__pycache__")
+	deleteDir(scripts / "recallTable" / "__pycache__")
 
 	if deleteVenv:
 		deleteDir(repo / ".venv")

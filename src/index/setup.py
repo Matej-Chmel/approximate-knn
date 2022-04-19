@@ -143,7 +143,7 @@ def main():
 				include_dirs=[
 					pybind11.get_include(),
 					np.get_include(),
-					"./chm/"
+					"."
 				],
 				language="c++"
 			)

@@ -2,12 +2,8 @@ import h5py
 import numpy
 import os
 import random
-
 from urllib.request import urlopen
 from urllib.request import urlretrieve
-
-from ann_benchmarks.distance import dataset_transform
-
 
 def download(src, dst):
     if not os.path.exists(dst):

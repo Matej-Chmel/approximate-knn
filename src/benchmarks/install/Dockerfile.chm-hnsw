@@ -3,8 +3,8 @@ FROM ann-benchmarks
 WORKDIR /home/app
 
 COPY index/chm/* ./chm/
-COPY index/executables/bindings.cpp index/LICENSE index/LICENSE_hnswlib ./
-COPY index/MANIFEST.in index/pyproject.toml index/setup.py ./
+COPY index/executables/bindings.cpp ./executables/
+COPY index/LICENSE index/LICENSE_hnswlib index/MANIFEST.in index/pyproject.toml index/setup.py ./
 
 RUN python -m pip install .
 RUN python -c 'import chm_hnsw'
