@@ -1,5 +1,0 @@
-glove-50-angular
-lastfm-64-dot
-mnist-784-euclidean
-sift-128-euclidean
-nytimes-256-angular

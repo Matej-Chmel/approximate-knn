@@ -1,0 +1,30 @@
+cmake_minimum_required(VERSION 3.0)
+
+project(approximate-knn-index)
+
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED True)
+
+if(CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
+	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}@ARCH@")
+endif()
+
+file(GLOB headers chm/*.hpp chm_tools/*.hpp)
+file(GLOB sources chm/*.cpp chm_tools/*.cpp)
+source_group("Headers" FILES ${headers})
+source_group("Sources" FILES ${sources})
+
+add_library(chmLib ${headers} ${sources})@DEFINITIONS@
+target_include_directories(chmLib PUBLIC "${PROJECT_SOURCE_DIR}")
+
+add_executable(checkDataset executables/checkDataset.cpp)
+target_compile_definitions(checkDataset PRIVATE SRC_DIR="${CMAKE_SOURCE_DIR}/..")
+target_include_directories(checkDataset PUBLIC "${PROJECT_BINARY_DIR}" "${PROJECT_SOURCE_DIR}")
+target_link_libraries(checkDataset PUBLIC chmLib)
+
+add_executable(recallTable executables/recallTable.cpp)
+target_compile_definitions(
+	recallTable PRIVATE SRC_DIR="${CMAKE_SOURCE_DIR}/.."@SIMD@
+)
+target_include_directories(recallTable PUBLIC "${PROJECT_BINARY_DIR}" "${PROJECT_SOURCE_DIR}")
+target_link_libraries(recallTable PUBLIC chmLib)

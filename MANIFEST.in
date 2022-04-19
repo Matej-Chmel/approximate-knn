@@ -1,4 +1,0 @@
-include index/chm/*.hpp
-include index/LICENSE_hnswlib
-include LICENSE
-include scripts/SIMDCapability.py
