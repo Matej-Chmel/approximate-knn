@@ -1,0 +1,156 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.3"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Index HNSW: Dokumentace souboru euclideanDistance.hpp</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">Index HNSW
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Vygenerováno programem Doxygen 1.9.3 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search",'Hledat','.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','Hledat');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('euclidean_distance_8hpp.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div class="header">
+  <div class="summary">
+<a href="#namespaces">Jmenné prostory</a> &#124;
+<a href="#func-members">Funkce</a> &#124;
+<a href="#var-members">Proměnné</a>  </div>
+  <div class="headertitle"><div class="title">Dokumentace souboru euclideanDistance.hpp</div></div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><code>#include &lt;stdexcept&gt;</code><br />
+<code>#include &quot;<a class="el" href="_distance_function_8hpp_source.html">DistanceFunction.hpp</a>&quot;</code><br />
+</div>
+<p><a href="euclidean_distance_8hpp_source.html">Zobrazit zdrojový text tohoto souboru.</a></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
+Jmenné prostory</h2></td></tr>
+<tr class="memitem:namespacechm"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacechm.html">chm</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
+Funkce</h2></td></tr>
+<tr class="memitem:a916adb6bae694df421c08bf5497872c7"><td class="memItemLeft" align="right" valign="top">static float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacechm.html#a916adb6bae694df421c08bf5497872c7">chm::euclideanDistance</a> (const float *node, const float *query, const size_t dim, const size_t, const size_t, const size_t)</td></tr>
+<tr class="separator:a916adb6bae694df421c08bf5497872c7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa64ca5c0512021227b6e8edf530639fc"><td class="memItemLeft" align="right" valign="top">static float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacechm.html#aa64ca5c0512021227b6e8edf530639fc">chm::euclideanDistance16AVX</a> (const float *node, const float *query, const size_t, const size_t, const size_t dim16, const size_t)</td></tr>
+<tr class="separator:aa64ca5c0512021227b6e8edf530639fc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7a36bbc739c565696703e8e1fbd29fc1"><td class="memItemLeft" align="right" valign="top">static float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacechm.html#a7a36bbc739c565696703e8e1fbd29fc1">chm::euclideanDistance16ResidualAVX</a> (const float *node, const float *query, const size_t, const size_t dim4, const size_t dim16, const size_t dimLeft)</td></tr>
+<tr class="separator:a7a36bbc739c565696703e8e1fbd29fc1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6cbd4d56f0da12f722f55e490e3544de"><td class="memItemLeft" align="right" valign="top">static float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacechm.html#a6cbd4d56f0da12f722f55e490e3544de">chm::euclideanDistance16AVX512</a> (const float *node, const float *query, const size_t, const size_t, const size_t dim16, const size_t)</td></tr>
+<tr class="separator:a6cbd4d56f0da12f722f55e490e3544de"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab490b3f9404bb2b0ccbcb10d6c793963"><td class="memItemLeft" align="right" valign="top">static float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacechm.html#ab490b3f9404bb2b0ccbcb10d6c793963">chm::euclideanDistance16ResidualAVX512</a> (const float *node, const float *query, const size_t, const size_t dim4, const size_t dim16, const size_t dimLeft)</td></tr>
+<tr class="separator:ab490b3f9404bb2b0ccbcb10d6c793963"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aea62b6ed85ca4f260ca8b86cbc7756f8"><td class="memItemLeft" align="right" valign="top">static float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacechm.html#aea62b6ed85ca4f260ca8b86cbc7756f8">chm::euclideanDistance16SSE</a> (const float *node, const float *query, const size_t, const size_t, const size_t dim16, const size_t)</td></tr>
+<tr class="separator:aea62b6ed85ca4f260ca8b86cbc7756f8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5bf9d1f954130cd5217fbd969e4dc09c"><td class="memItemLeft" align="right" valign="top">static float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacechm.html#a5bf9d1f954130cd5217fbd969e4dc09c">chm::euclideanDistance16ResidualSSE</a> (const float *node, const float *query, const size_t, const size_t dim4, const size_t dim16, const size_t dimLeft)</td></tr>
+<tr class="separator:a5bf9d1f954130cd5217fbd969e4dc09c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1bdeb40d27f44390f284558b45d1bbf0"><td class="memItemLeft" align="right" valign="top">static float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacechm.html#a1bdeb40d27f44390f284558b45d1bbf0">chm::euclideanDistance4SSE</a> (const float *node, const float *query, const size_t, const size_t dim4, const size_t, const size_t)</td></tr>
+<tr class="separator:a1bdeb40d27f44390f284558b45d1bbf0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aba8d0f92ac377aebf8d3e431930ae8f1"><td class="memItemLeft" align="right" valign="top">static float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacechm.html#aba8d0f92ac377aebf8d3e431930ae8f1">chm::euclideanDistance4ResidualSSE</a> (const float *node, const float *query, const size_t, const size_t dim4, const size_t dim16, const size_t dimLeft)</td></tr>
+<tr class="separator:aba8d0f92ac377aebf8d3e431930ae8f1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5267c4d3957bdf209a39888b1d9a1047"><td class="memItemLeft" align="right" valign="top">DistanceInfo&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacechm.html#a5267c4d3957bdf209a39888b1d9a1047">chm::getEuclideanInfo</a> (const size_t dim, const size_t dim4, const size_t dim16, SIMDType type)</td></tr>
+<tr class="separator:a5267c4d3957bdf209a39888b1d9a1047"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
+Proměnné</h2></td></tr>
+<tr class="memitem:a74229365282b4fba2ffd593577d306ae"><td class="memItemLeft" align="right" valign="top">FunctionInfo&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacechm.html#a74229365282b4fba2ffd593577d306ae">chm::euc</a> (euclideanDistance, &quot;euc&quot;)</td></tr>
+<tr class="separator:a74229365282b4fba2ffd593577d306ae"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a711af56286aa1a64e99e1de06bbb959f"><td class="memItemLeft" align="right" valign="top">FunctionInfo&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacechm.html#a711af56286aa1a64e99e1de06bbb959f">chm::euc16AVX</a> (euclideanDistance16AVX, &quot;euc16AVX&quot;)</td></tr>
+<tr class="separator:a711af56286aa1a64e99e1de06bbb959f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad1026b172a0087faa8d31f792b166d39"><td class="memItemLeft" align="right" valign="top">FunctionInfo&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacechm.html#ad1026b172a0087faa8d31f792b166d39">chm::euc16RAVX</a> (euclideanDistance16ResidualAVX, &quot;euc16RAVX&quot;)</td></tr>
+<tr class="separator:ad1026b172a0087faa8d31f792b166d39"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a56fb2b1367d4df125037e0d5b504c9c3"><td class="memItemLeft" align="right" valign="top">FunctionInfo&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacechm.html#a56fb2b1367d4df125037e0d5b504c9c3">chm::euc16AVX512</a> (euclideanDistance16AVX512, &quot;euc16AVX512&quot;)</td></tr>
+<tr class="separator:a56fb2b1367d4df125037e0d5b504c9c3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1de06b53b97558cb5f536b071bdabf98"><td class="memItemLeft" align="right" valign="top">FunctionInfo&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacechm.html#a1de06b53b97558cb5f536b071bdabf98">chm::euc16RAVX512</a> (euclideanDistance16ResidualAVX512, &quot;euc16RAVX512&quot;)</td></tr>
+<tr class="separator:a1de06b53b97558cb5f536b071bdabf98"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9a439098b66627e8ce8c5667289e34bb"><td class="memItemLeft" align="right" valign="top">FunctionInfo&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacechm.html#a9a439098b66627e8ce8c5667289e34bb">chm::euc16SSE</a> (euclideanDistance16SSE, &quot;euc16SSE&quot;)</td></tr>
+<tr class="separator:a9a439098b66627e8ce8c5667289e34bb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adf3856114411c261c255d9c5676dccef"><td class="memItemLeft" align="right" valign="top">FunctionInfo&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacechm.html#adf3856114411c261c255d9c5676dccef">chm::euc16RSSE</a> (euclideanDistance16ResidualSSE, &quot;euc16RSSE&quot;)</td></tr>
+<tr class="separator:adf3856114411c261c255d9c5676dccef"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abb1cf5cff07280306250cb3a272e9127"><td class="memItemLeft" align="right" valign="top">FunctionInfo&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacechm.html#abb1cf5cff07280306250cb3a272e9127">chm::euc4SSE</a> (euclideanDistance4SSE, &quot;euc4SSE&quot;)</td></tr>
+<tr class="separator:abb1cf5cff07280306250cb3a272e9127"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a86f18a92dfc408440cc9a831430a7c0f"><td class="memItemLeft" align="right" valign="top">FunctionInfo&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacechm.html#a86f18a92dfc408440cc9a831430a7c0f">chm::euc4RSSE</a> (euclideanDistance4ResidualSSE, &quot;euc4RSSE&quot;)</td></tr>
+<tr class="separator:a86f18a92dfc408440cc9a831430a7c0f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_19ac67bde96fa7098d9c89fb8e36db69.html">index</a></li><li class="navelem"><a class="el" href="dir_af831c8615c32c19b4d45f8137e9f732.html">chm</a></li><li class="navelem"><a class="el" href="euclidean_distance_8hpp.html">euclideanDistance.hpp</a></li>
+    <li class="footer">Vygenerováno programem <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.3 </li>
+  </ul>
+</div>
+</body>
+</html>

@@ -1,0 +1,126 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.3"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Index HNSW: Zdrojový soubor HeapPair.hpp</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">Index HNSW
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Vygenerováno programem Doxygen 1.9.3 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search",'Hledat','.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','Hledat');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('_heap_pair_8hpp_source.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">HeapPair.hpp</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="_heap_pair_8hpp.html">Zobrazit dokumentaci tohoto souboru.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#pragma once</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="preprocessor">#include &quot;<a class="code" href="_heap_8hpp.html">Heap.hpp</a>&quot;</span></div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span> </div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespacechm.html">chm</a> {</div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno"><a class="line" href="structchm_1_1_heap_pair.html">    8</a></span>    <span class="keyword">struct </span><a class="code hl_struct" href="structchm_1_1_heap_pair.html">HeapPair</a> {</div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno"><a class="line" href="structchm_1_1_heap_pair.html#a7658ec8722dae868f6a9f28077fe3315">   12</a></span>        <a class="code hl_class" href="classchm_1_1_heap.html">FarHeap</a> <a class="code hl_variable" href="structchm_1_1_heap_pair.html#a7658ec8722dae868f6a9f28077fe3315">far</a>;</div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno"><a class="line" href="structchm_1_1_heap_pair.html#a190eb2547537c4f9334e4192f8c2436e">   16</a></span>        <a class="code hl_class" href="classchm_1_1_heap.html">NearHeap</a> <a class="code hl_variable" href="structchm_1_1_heap_pair.html#a190eb2547537c4f9334e4192f8c2436e">near</a>;</div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span> </div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>        <a class="code hl_function" href="structchm_1_1_heap_pair.html#a9e66a1a83110f7f660b5c729d370a9d9">HeapPair</a>(<span class="keyword">const</span> <a class="code hl_typedef" href="namespacechm.html#a513a40c15e5fad57de99dabd89d0c494">uint</a> efConstruction, <span class="keyword">const</span> <a class="code hl_typedef" href="namespacechm.html#a513a40c15e5fad57de99dabd89d0c494">uint</a> mMax0);</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>        <span class="keywordtype">void</span> <a class="code hl_function" href="structchm_1_1_heap_pair.html#a5e9da841834fb0d36f9e89d73538e679">prepareHeuristic</a>();</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>        <span class="keywordtype">void</span> <a class="code hl_function" href="structchm_1_1_heap_pair.html#aeb44c9ed982084c1fdbfe99669c98d55">prepareLowerSearch</a>(<span class="keyword">const</span> <a class="code hl_struct" href="structchm_1_1_node.html">Node</a>&amp; ep);</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>        <span class="keywordtype">void</span> <a class="code hl_function" href="structchm_1_1_heap_pair.html#a6b7d85996b187ceb6fd0f01da80169dc">push</a>(<span class="keyword">const</span> <span class="keywordtype">float</span> distance, <span class="keyword">const</span> <a class="code hl_typedef" href="namespacechm.html#a513a40c15e5fad57de99dabd89d0c494">uint</a> <span class="keywordtype">id</span>);</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>        <span class="keywordtype">void</span> <a class="code hl_function" href="structchm_1_1_heap_pair.html#a29fd4e86e93f78db1511137a85474ec1">reserve</a>(<span class="keyword">const</span> <a class="code hl_typedef" href="namespacechm.html#a513a40c15e5fad57de99dabd89d0c494">uint</a> maxLen);</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>    };</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>}</div>
+<div class="ttc" id="a_heap_8hpp_html"><div class="ttname"><a href="_heap_8hpp.html">Heap.hpp</a></div></div>
+<div class="ttc" id="aclasschm_1_1_heap_html"><div class="ttname"><a href="classchm_1_1_heap.html">chm::Heap&lt; FarComparator &gt;</a></div></div>
+<div class="ttc" id="anamespacechm_html"><div class="ttname"><a href="namespacechm.html">chm</a></div><div class="ttdef"><b>Definition:</b> Configuration.cpp:5</div></div>
+<div class="ttc" id="anamespacechm_html_a513a40c15e5fad57de99dabd89d0c494"><div class="ttname"><a href="namespacechm.html#a513a40c15e5fad57de99dabd89d0c494">chm::uint</a></div><div class="ttdeci">unsigned int uint</div><div class="ttdef"><b>Definition:</b> types.hpp:7</div></div>
+<div class="ttc" id="astructchm_1_1_heap_pair_html"><div class="ttname"><a href="structchm_1_1_heap_pair.html">chm::HeapPair</a></div><div class="ttdef"><b>Definition:</b> HeapPair.hpp:8</div></div>
+<div class="ttc" id="astructchm_1_1_heap_pair_html_a190eb2547537c4f9334e4192f8c2436e"><div class="ttname"><a href="structchm_1_1_heap_pair.html#a190eb2547537c4f9334e4192f8c2436e">chm::HeapPair::near</a></div><div class="ttdeci">NearHeap near</div><div class="ttdef"><b>Definition:</b> HeapPair.hpp:16</div></div>
+<div class="ttc" id="astructchm_1_1_heap_pair_html_a29fd4e86e93f78db1511137a85474ec1"><div class="ttname"><a href="structchm_1_1_heap_pair.html#a29fd4e86e93f78db1511137a85474ec1">chm::HeapPair::reserve</a></div><div class="ttdeci">void reserve(const uint maxLen)</div><div class="ttdef"><b>Definition:</b> HeapPair.cpp:26</div></div>
+<div class="ttc" id="astructchm_1_1_heap_pair_html_a5e9da841834fb0d36f9e89d73538e679"><div class="ttname"><a href="structchm_1_1_heap_pair.html#a5e9da841834fb0d36f9e89d73538e679">chm::HeapPair::prepareHeuristic</a></div><div class="ttdeci">void prepareHeuristic()</div><div class="ttdef"><b>Definition:</b> HeapPair.cpp:10</div></div>
+<div class="ttc" id="astructchm_1_1_heap_pair_html_a6b7d85996b187ceb6fd0f01da80169dc"><div class="ttname"><a href="structchm_1_1_heap_pair.html#a6b7d85996b187ceb6fd0f01da80169dc">chm::HeapPair::push</a></div><div class="ttdeci">void push(const float distance, const uint id)</div><div class="ttdef"><b>Definition:</b> HeapPair.cpp:21</div></div>
+<div class="ttc" id="astructchm_1_1_heap_pair_html_a7658ec8722dae868f6a9f28077fe3315"><div class="ttname"><a href="structchm_1_1_heap_pair.html#a7658ec8722dae868f6a9f28077fe3315">chm::HeapPair::far</a></div><div class="ttdeci">FarHeap far</div><div class="ttdef"><b>Definition:</b> HeapPair.hpp:12</div></div>
+<div class="ttc" id="astructchm_1_1_heap_pair_html_a9e66a1a83110f7f660b5c729d370a9d9"><div class="ttname"><a href="structchm_1_1_heap_pair.html#a9e66a1a83110f7f660b5c729d370a9d9">chm::HeapPair::HeapPair</a></div><div class="ttdeci">HeapPair(const uint efConstruction, const uint mMax0)</div><div class="ttdef"><b>Definition:</b> HeapPair.cpp:4</div></div>
+<div class="ttc" id="astructchm_1_1_heap_pair_html_aeb44c9ed982084c1fdbfe99669c98d55"><div class="ttname"><a href="structchm_1_1_heap_pair.html#aeb44c9ed982084c1fdbfe99669c98d55">chm::HeapPair::prepareLowerSearch</a></div><div class="ttdeci">void prepareLowerSearch(const Node &amp;ep)</div><div class="ttdef"><b>Definition:</b> HeapPair.cpp:14</div></div>
+<div class="ttc" id="astructchm_1_1_node_html"><div class="ttname"><a href="structchm_1_1_node.html">chm::Node</a></div><div class="ttdef"><b>Definition:</b> Node.hpp:8</div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_19ac67bde96fa7098d9c89fb8e36db69.html">index</a></li><li class="navelem"><a class="el" href="dir_af831c8615c32c19b4d45f8137e9f732.html">chm</a></li><li class="navelem"><a class="el" href="_heap_pair_8hpp.html">HeapPair.hpp</a></li>
+    <li class="footer">Vygenerováno programem <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.3 </li>
+  </ul>
+</div>
+</body>
+</html>
