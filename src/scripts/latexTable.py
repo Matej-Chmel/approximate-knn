@@ -150,7 +150,8 @@ def getTable(df: pd.DataFrame, algoNames: list[str], dataset: str):
 	return table
 
 def run(args: Args):
-	srcDir = Path(__file__).parents[2]
+	scriptDir = Path(__file__).parent
+	srcDir = scriptDir.parent
 	args.output.parent.mkdir(exist_ok=True, parents=True)
 
 	with args.output.open("w", encoding="utf-8") as f:
@@ -159,7 +160,7 @@ def run(args: Args):
 		table.caption = "Tabulka časů stavby a velikostí indexu."
 		table.label = args.label
 		table.legend = args.legend
-		f.write(table.getLatex((srcDir / "templates" / "latexTable.txt").read_text(encoding="utf-8")))
+		f.write(table.getLatex((scriptDir / "templates" / "latexTable.txt").read_text(encoding="utf-8")))
 
 def tryRun(args: Args):
 	try:

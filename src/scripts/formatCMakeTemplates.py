@@ -1,7 +1,7 @@
 from pathlib import Path
 from SIMDCapability import SIMDCapability
 
-def formatCMakeTemplates(srcDir: Path):
+def formatCMakeTemplates(srcDir: Path, templatesDir: Path):
 	simd = SIMDCapability()
 	arch = simd.getMsvcArchFlag()
 	archStr = "" if arch is None else arch
@@ -9,7 +9,7 @@ def formatCMakeTemplates(srcDir: Path):
 	N = "\n"
 
 	with (srcDir / "index" / "CMakeLists.txt").open("w", encoding="utf-8") as f:
-		f.write((srcDir / "templates" / "CMake.txt").read_text(encoding="utf-8"
+		f.write((templatesDir / "CMake.txt").read_text(encoding="utf-8"
 			).replace("@ARCH@", f" {archStr}"
 			).replace(
 				"@DEFINITIONS@",
@@ -18,7 +18,8 @@ def formatCMakeTemplates(srcDir: Path):
 		))
 
 def main():
-	formatCMakeTemplates(Path(__file__).parents[2])
+	scriptDir = Path(__file__).parent
+	formatCMakeTemplates(scriptDir.parent, scriptDir / "templates")
 
 if __name__ == "__main__":
 	main()

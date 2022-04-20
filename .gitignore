@@ -12,5 +12,5 @@ __pycache__
 /src/index/CMakeLists.txt
 /src/index/dist
 /src/index/LICENSE
-/src/scripts/benchmarks/benchmarks_time.txt
+/src/scripts/benchmarks_time.txt
 /src/website

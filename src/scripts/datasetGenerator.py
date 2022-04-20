@@ -1,9 +1,9 @@
-from Dataset import Dataset
+from chmDataset.Dataset import Dataset
 import json
 from pathlib import Path
 
 def run():
-	srcDir = Path(__file__).parents[2]
+	srcDir = Path(__file__).parents[1]
 	dataDir = srcDir / "data"
 
 	with (srcDir / "config" / "datasetGeneratorConfig.json").open("r", encoding="utf-8") as f:

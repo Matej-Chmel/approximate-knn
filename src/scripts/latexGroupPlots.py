@@ -206,7 +206,7 @@ def writePlots(a: Args):
 
 	with a.outputPath.open("w", encoding="utf-8") as f:
 		df = pd.read_csv(inputPath, sep=",")
-		template = (a.srcDir / "templates" / "latexGroupPlots.txt").read_text(encoding="utf-8")
+		template = (a.srcDir / "scripts" / "templates" / "latexGroupPlots.txt").read_text(encoding="utf-8")
 
 		for plotType in a.plots:
 			f.write({
@@ -216,7 +216,7 @@ def writePlots(a: Args):
 			}[plotType](a, df).getPlotStr(template))
 
 def main():
-	writePlots(getArgs(Path(__file__).parents[2]))
+	writePlots(getArgs(Path(__file__).parents[1]))
 
 if __name__ == "__main__":
 	main()

@@ -5,7 +5,7 @@ if __package__ is None:
 
 	subprocess.call(
 		[sys.executable, "-m", "src.scripts.benchmarks.runBenchmarks", *sys.argv[1:]],
-		cwd=Path(__file__).parents[3]
+		cwd=Path(__file__).parents[2]
 	)
 	sys.exit(0)
 
@@ -18,13 +18,13 @@ import subprocess
 import sys
 import webbrowser as wb
 
-SRC_DIR = Path(__file__).parents[2]
+SCRIPT_DIR = Path(__file__).parent
+SRC_DIR = SCRIPT_DIR.parent
 BENCHMARKS_DIR = SRC_DIR / "benchmarks"
 CONFIG_DIR = SRC_DIR / "config"
 DEFAULT_ALGOS_PATH = BENCHMARKS_DIR / "algos.yaml"
 DEFAULT_DATASETS_PATH = CONFIG_DIR / "datasets.txt"
 N = "\n"
-SCRIPT_DIR = Path(__file__).parent
 
 class AppError(Exception):
 	pass

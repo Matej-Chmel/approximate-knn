@@ -1,11 +1,11 @@
-from Dataset import Dataset
+from chmDataset.Dataset import Dataset
 from pathlib import Path
 
 N = "\n"
 
 def main():
 	try:
-		dataDir = Path(__file__).parents[2] / "data"
+		dataDir = Path(__file__).parents[1] / "data"
 		datasetPath = dataDir / "test.hdf5"
 		descPath = dataDir / "testPy.txt"
 		Dataset.fromHDF(datasetPath).writeDescription(descPath)

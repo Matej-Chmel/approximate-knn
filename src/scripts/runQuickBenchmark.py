@@ -5,12 +5,12 @@ if __package__ is None:
 
 	subprocess.call(
 		[sys.executable, "-m", "src.scripts.benchmarks.runQuick", *sys.argv[1:]],
-		cwd=Path(__file__).parents[3]
+		cwd=Path(__file__).parents[2]
 	)
 	sys.exit(0)
 
 from argparse import ArgumentParser
-import src.scripts.benchmarks.runBenchmarks as r
+import src.scripts.runBenchmarks as r
 
 def main():
 	p = ArgumentParser("QUICK_BENCHMARK", description="Runs a quick benchmark.")

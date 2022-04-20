@@ -2,7 +2,7 @@ import latexTable as lt
 from pathlib import Path
 
 def main():
-	figuresDir = Path(__file__).parents[2] / "figures"
+	figuresDir = Path(__file__).parents[1] / "figures"
 	figuresDir.mkdir(exist_ok=True)
 	lt.tryRun(lt.Args(
 		algoNames=["chm-hnsw-heuristic", "chm-hnsw-naive"], calcPercent=True, dataset="lastfm-64-dot",

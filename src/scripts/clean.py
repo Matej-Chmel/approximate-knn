@@ -2,7 +2,7 @@ from pathlib import Path
 import shutil
 
 def cleanProject(deleteVenv: bool):
-	repo = Path(__file__).parents[3]
+	repo = Path(__file__).parents[2]
 
 	src = repo / "src"
 	benchmarks = src / "benchmarks"
@@ -20,10 +20,7 @@ def cleanProject(deleteVenv: bool):
 	deleteDir(repo / "__pycache__")
 	deleteDir(src / "cmakeBuild")
 	deleteDir(src / "data")
-	deleteDir(scripts / "benchmarks" / "__pycache__")
-	deleteDir(scripts / "install" / "__pycache__")
-	deleteDir(scripts / "latex" / "__pycache__")
-	deleteDir(scripts / "recallTable" / "__pycache__")
+	deleteDir(scripts / "__pycache__")
 
 	if deleteVenv:
 		deleteDir(repo / ".venv")

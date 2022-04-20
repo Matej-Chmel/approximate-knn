@@ -1,8 +1,8 @@
+from chmDataset.RecallTable import RecallTable, RecallTableConfig
 from pathlib import Path
-from RecallTable import RecallTable, RecallTableConfig
 
 def main():
-	srcDir = Path(__file__).parents[2]
+	srcDir = Path(__file__).parents[1]
 
 	try:
 		cfgPath = srcDir / "config" / "recallTableConfig.json"
