@@ -21,6 +21,7 @@ def cleanProject(deleteVenv: bool):
 	deleteDir(src / "cmakeBuild")
 	deleteDir(src / "data")
 	deleteDir(scripts / "__pycache__")
+	deleteDir(scripts / "chmDataset" / "__pycache__")
 
 	if deleteVenv:
 		deleteDir(repo / ".venv")

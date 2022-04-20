@@ -4,7 +4,7 @@ if __package__ is None:
 	import sys
 
 	subprocess.call(
-		[sys.executable, "-m", "src.scripts.benchmarks.runQuick", *sys.argv[1:]],
+		[sys.executable, "-m", "src.scripts.runQuickBenchmark", *sys.argv[1:]],
 		cwd=Path(__file__).parents[2]
 	)
 	sys.exit(0)

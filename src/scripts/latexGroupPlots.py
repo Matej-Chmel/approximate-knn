@@ -87,10 +87,11 @@ class Plot:
 	yModeLog: bool = False
 
 	def getAlgorithm(self, algoName: str, df: pd.DataFrame):
-		algoDf = df[df["algorithm"] == algoName]
+		algoDf = df[df["algorithm"] == algoName].copy()
 
 		if self.dropDuplicateParameters:
-			algoDf = algoDf.drop_duplicates(["parameters"])
+			algoDf["id"] = algoDf.apply(getBuildConfig, axis=1)
+			algoDf = algoDf.drop_duplicates(["id"])
 
 		return Algorithm(
 			algoName, [PlotValue(self.rowToX(row), self.rowToY(row)) for _, row in algoDf.iterrows()]
@@ -141,6 +142,10 @@ def getArgs(srcDir: Path):
 		args.plots, args.recompute, srcDir
 	)
 
+def getBuildConfig(s: pd.Series):
+	params: str = s["parameters"]
+	return params[:params.index(")") + 1]
+
 def getBuildSeconds(s: pd.Series):
 	return s["build"]
 
@@ -173,8 +178,8 @@ def getListOfChunks(l: list, chunkLen: int):
 def getParamsHash(s: pd.Series):
 	params = s["parameters"]
 	parseRes = (
-		parse.parse("chm(e={},m={},d={},n={},p={})", params) if params.startswith("chm")
-		else parse.parse("hnswlib(e={},m={})", params)
+		parse.parse("chm(e={},m={},{}", params) if params.startswith("chm")
+		else parse.parse("hnswlib(e={},m={}){}", params)
 	)
 	return int(parseRes[0]) + int(parseRes[1])
 

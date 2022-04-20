@@ -12,9 +12,9 @@ class Algorithm:
 		params: str = s["parameters"]
 
 		if params.startswith("chm"):
-			parsed = parse.parse("chm(e={},m={},{})", params)
+			parsed = parse.parse("chm(e={},m={},{}", params)
 		elif params.startswith("hnswlib"):
-			parsed = parse.parse("hnswlib(e={},m={})", params)
+			parsed = parse.parse("hnswlib(e={},m={}){}", params)
 		else:
 			raise ValueError(f"Unknown parameters: {params}")
 

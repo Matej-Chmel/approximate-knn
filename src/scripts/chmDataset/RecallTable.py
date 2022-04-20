@@ -1,6 +1,6 @@
 import chm_hnsw as h
 from dataclasses import dataclass
-from Dataset import Dataset
+from .Dataset import Dataset
 import json
 import pandas
 from pathlib import Path
