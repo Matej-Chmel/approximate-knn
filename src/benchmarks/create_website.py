@@ -199,7 +199,13 @@ def build_index_site(datasets, algorithms, j2_env, file_name):
             set([get_dataset_from_desc(e) for e in datasets[mode].keys()]))
 
         for dm in distance_measures:
-            d = {"name": dm.capitalize(), "entries": []}
+            d = {
+				"name": {
+					"angular": "Kosinusová podobnost",
+					"euclidean": "Eukleidovská vzdálenost"
+				}[dm],
+				"entries": []
+			}
             for ds in sorted_datasets:
                 matching_datasets = [e for e in datasets[mode].keys()
                                      if get_dataset_from_desc(e) == ds and  # noqa

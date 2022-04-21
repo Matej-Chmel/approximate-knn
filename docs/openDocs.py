@@ -32,7 +32,7 @@ def main():
 	if args.clean:
 		clean(htmlDir)
 	if args.generate:
-		subprocess.call(["doxygen", "Doxyfile"], cwd=docsDir)
+		subprocess.check_call(["doxygen", "Doxyfile"], cwd=docsDir)
 		print("Documentation generated.")
 
 	indexPath = (htmlDir / "index.html").absolute()

@@ -18,7 +18,7 @@ class Args:
 def buildBindings(executable: Path, indexDir: Path, repoDir: Path):
 	print("Building bindings.")
 	shutil.copy(repoDir / "LICENSE", indexDir / "LICENSE")
-	subprocess.call([executable, "-m", "pip", "install", "."], cwd=indexDir)
+	subprocess.check_call([executable, "-m", "pip", "install", "."], cwd=indexDir)
 	output = subprocess.check_output(
 		[executable, "-c", "import chm_hnsw as h; print(h.__doc__)"]
 	).decode("utf-8")
@@ -27,23 +27,23 @@ def buildBindings(executable: Path, indexDir: Path, repoDir: Path):
 
 def buildNativeLib(executable: Path, indexDir: Path, scriptsDir: Path, srcDir: Path):
 	print("Building build system for native library.")
-	subprocess.call([executable, "formatCMakeTemplates.py"], cwd=scriptsDir)
+	subprocess.check_call([executable, "formatCMakeTemplates.py"], cwd=scriptsDir)
 	cmakeBuildDir = srcDir / "cmakeBuild"
 	cmakeBuildDir.mkdir(exist_ok=True)
-	subprocess.call(["cmake", indexDir.absolute()], cwd=cmakeBuildDir)
+	subprocess.check_call(["cmake", indexDir.absolute()], cwd=cmakeBuildDir)
 	print("Build system for native library built.")
 
 def buildVirtualEnv(repoDir: Path, scriptsDir: Path):
 	print("Building virtual environment.")
-	subprocess.call([sys.executable, "-m", "venv", ".venv"], cwd=repoDir)
+	subprocess.check_call([sys.executable, "-m", "venv", ".venv"], cwd=repoDir)
 	executable = getVirtualEnvExecutable(repoDir)
 
 	if not executable.exists():
 		raise AppError("Python virtual environment executable not found.")
 
 	cmdline = [executable, "-m", "pip", "install"]
-	subprocess.call(cmdline + ["--upgrade", "pip"], cwd=repoDir)
-	subprocess.call(cmdline + ["-r", "requirements.txt"], cwd=scriptsDir)
+	subprocess.check_call(cmdline + ["--upgrade", "pip"], cwd=repoDir)
+	subprocess.check_call(cmdline + ["-r", "requirements.txt"], cwd=scriptsDir)
 	print("Virtual environment built.")
 	return executable
 
@@ -59,7 +59,7 @@ def cleanProject(args: Args):
 
 def generateDatasets(executable: Path, scriptsDir: Path, srcDir: Path):
 	print("Generating datasets.")
-	subprocess.call([executable, "datasetGenerator.py"], cwd=scriptsDir)
+	subprocess.check_call([executable, "datasetGenerator.py"], cwd=scriptsDir)
 	dataDir = srcDir / "data"
 
 	if not dataDir.exists():
@@ -117,7 +117,7 @@ def run():
 
 def runRecallTable(executable: Path, scriptsDir: Path):
 	print("Running recall table Python program.")
-	subprocess.call([executable, "runRecallTable.py"], cwd=scriptsDir)
+	subprocess.check_call([executable, "runRecallTable.py"], cwd=scriptsDir)
 	print("Recall table run successfully.")
 
 def main():
@@ -125,8 +125,10 @@ def main():
 		run()
 	except AppError as e:
 		print(f"[APP ERROR] {e}")
+		sys.exit(1)
 	except subprocess.SubprocessError as e:
 		print(f"[SUBPROCESS ERROR] {e}")
+		sys.exit(1)
 
 if __name__ == "__main__":
 	main()

@@ -27,17 +27,20 @@ def run():
 	configDir = srcDir / "config"
 	scriptsDir = srcDir / "scripts"
 
-	subprocess.call([sys.executable, "buildProject.py"], cwd=scriptsDir / "install")
-	executable = getVirtualEnvExecutable(repoDir)
-	subprocess.call(
-		[
-			executable, "runBenchmarks.py",
-			"-a", (configDir / "100k.yaml").absolute(), "-d", "random-s-100-angular",
-			"-f", "-r", "1", "-w", str(max(1, multiprocessing.cpu_count() - 1))
-		],
-		cwd=scriptsDir / "benchmarks"
-	)
-	subprocess.call([executable, "openDocs.py"], cwd=repoDir / "docs")
+	try:
+		subprocess.check_call([sys.executable, "buildProject.py"], cwd=scriptsDir)
+		executable = getVirtualEnvExecutable(repoDir)
+		subprocess.check_call(
+			[
+				executable, "runBenchmarks.py",
+				"-a", (configDir / "100k.yaml").absolute(), "-d", "random-s-100-angular",
+				"-f", "-r", "1", "-w", str(max(1, multiprocessing.cpu_count() - 1))
+			],
+			cwd=scriptsDir
+		)
+		subprocess.check_call([executable, "openDocs.py"], cwd=repoDir / "docs")
+	except subprocess.CalledProcessError:
+		sys.exit(1)
 
 def main():
 	try:

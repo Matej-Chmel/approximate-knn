@@ -3,10 +3,13 @@ if __package__ is None:
 	import subprocess
 	import sys
 
-	subprocess.call(
-		[sys.executable, "-m", "src.scripts.runBenchmarks", *sys.argv[1:]],
-		cwd=Path(__file__).parents[2]
-	)
+	try:
+		subprocess.check_call(
+			[sys.executable, "-m", "src.scripts.runBenchmarks", *sys.argv[1:]],
+			cwd=Path(__file__).parents[2]
+		)
+	except subprocess.CalledProcessError:
+		sys.exit(1)
 	sys.exit(0)
 
 from argparse import ArgumentParser, Namespace
@@ -24,6 +27,7 @@ BENCHMARKS_DIR = SRC_DIR / "benchmarks"
 CONFIG_DIR = SRC_DIR / "config"
 DEFAULT_ALGOS_PATH = BENCHMARKS_DIR / "algos.yaml"
 DEFAULT_DATASETS_PATH = CONFIG_DIR / "datasets.txt"
+DOCKER_ERROR = "Docker daemon is not running. Please start it and try again."
 N = "\n"
 
 class AppError(Exception):
@@ -110,7 +114,7 @@ class Config:
 def createWebsite(websiteDir: Path):
 	print("Creating website.")
 	websiteDir.mkdir(exist_ok=True)
-	subprocess.call([
+	subprocess.check_call([
 		sys.executable, "create_website.py", "--latex", "--outputdir", websiteDir.absolute()
 	], cwd=BENCHMARKS_DIR)
 	print("Website created.")
@@ -136,7 +140,12 @@ def getArgs():
 
 def installDockerImages():
 	print("Installing Docker images.")
-	subprocess.call([sys.executable, "install.py"], cwd=BENCHMARKS_DIR)
+
+	try:
+		subprocess.check_call([sys.executable, "install.py"], cwd=BENCHMARKS_DIR)
+	except subprocess.CalledProcessError:
+		raise AppError(DOCKER_ERROR)
+
 	print("Docker images installed.")
 
 def openWebsite(websiteDir: Path):
@@ -177,10 +186,15 @@ def runBenchmarks(cfg: Config):
 
 def runDataset(algoDefPath: Path, dataset: str, cfg: Config):
 	print(f"Running benchmarks for dataset {dataset}.")
-	subprocess.call([
-		sys.executable, "run.py", "--dataset", dataset, "--definitions", str(algoDefPath),
-		"--parallelism", str(cfg.dockerWorkers), "--runs", str(cfg.runs)
-	] + (["--force"] if cfg.force else []), cwd=BENCHMARKS_DIR)
+
+	try:
+		subprocess.check_call([
+			sys.executable, "run.py", "--dataset", dataset, "--definitions", str(algoDefPath),
+			"--parallelism", str(cfg.dockerWorkers), "--runs", str(cfg.runs)
+		] + (["--force"] if cfg.force else []), cwd=BENCHMARKS_DIR)
+	except subprocess.CalledProcessError:
+		raise AppError(DOCKER_ERROR)
+
 	print(f"Benchmarks for dataset {dataset} completed.")
 
 def tryRun(cfg: Config):
@@ -190,10 +204,13 @@ def tryRun(cfg: Config):
 		openWebsite(websiteDir)
 	except AppError as e:
 		print(f"[APP ERROR] {e}")
+		sys.exit(1)
 	except FileNotFoundError as e:
 		print(f"[FILE NOT FOUND] {e}")
+		sys.exit(1)
 	except subprocess.SubprocessError as e:
 		print(f"[SUBPROCESS ERROR] {e}")
+		sys.exit(1)
 
 def main():
 	tryRun(Config.fromArgs(getArgs()))

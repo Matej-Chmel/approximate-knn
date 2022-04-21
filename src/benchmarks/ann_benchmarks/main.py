@@ -174,7 +174,7 @@ def main():
 	if not args.local:
 		# Check if Docker is running.
 		try:
-			subprocess.check_output(["docker", "stats", "--no-stream"], stderr=subprocess.DEVNULL)
+			subprocess.check_call(["docker", "stats", "--no-stream"], stderr=subprocess.DEVNULL)
 		except subprocess.CalledProcessError:
 			logger.error("Docker daemon is not running. Please start it and try again.")
 			sys.exit(1)

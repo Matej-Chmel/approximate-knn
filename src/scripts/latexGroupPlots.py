@@ -204,7 +204,7 @@ def writePlots(a: Args):
 	inputPath.parent.mkdir(exist_ok=True, parents=True)
 
 	if a.recompute or not inputPath.exists():
-		subprocess.call([
+		subprocess.check_call([
 			sys.executable, "data_export.py", "-o", inputPath.absolute()] + (["-r"] if a.recompute else []),
 			cwd=a.srcDir / "benchmarks"
 		)

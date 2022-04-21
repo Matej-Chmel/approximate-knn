@@ -3,7 +3,7 @@ if __package__ is None:
 	import subprocess
 	import sys
 
-	subprocess.call(
+	subprocess.check_call(
 		[sys.executable, "-m", "src.scripts.runQuickBenchmark", *sys.argv[1:]],
 		cwd=Path(__file__).parents[2]
 	)

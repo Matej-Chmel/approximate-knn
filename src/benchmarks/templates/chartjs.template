@@ -86,7 +86,7 @@
             {% if args.latex %}
                 <div class="row">
                     <div class="col-md-4 text-center">
-                        <button type="button" id="button_{{button_label}}" class="btn btn-default" >Toggle latex code</button>
+                        <button type="button" id="button_{{button_label}}" class="btn btn-default" >Zobrazit LaTeX kód grafu</button>
                     </div>
                 </div>
                 <script>

@@ -120,7 +120,7 @@ all_metrics = {
         "worst": float("inf")
     },
     "qps": {
-        "description": "Dotazy za sekundu (1/s)",
+        "description": "Počet zpracovaných dotazů za sekundu (1/s)",
         "function": lambda true_distances, run_distances, metrics, run_attrs: queries_per_second(true_distances, run_attrs),  # noqa
         "worst": float("-inf")
     },
@@ -145,7 +145,7 @@ all_metrics = {
         "worst": float("inf")
     },
     "queriessize": {
-        "description": "Velikost indexu (kB) / Dotazy za sekundu (s)",
+        "description": "Velikost indexu (kB) / Počet zpracovaných dotazů za sekundu (s)",
         "function": lambda true_distances, run_distances, metrics, run_attrs: index_size(true_distances, run_attrs) / queries_per_second(true_distances, run_attrs), # noqa
         "worst": float("inf")
     }
