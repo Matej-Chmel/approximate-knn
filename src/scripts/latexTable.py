@@ -1,4 +1,6 @@
 from argparse import ArgumentParser
+from chmDataset import runner
+from chmDataset.export import getExportedData
 from dataclasses import dataclass, field
 from functools import cached_property
 import parse
@@ -32,6 +34,7 @@ class Args:
 	label: str
 	legend: list[str]
 	output: Path
+	recompute: bool
 
 	def __post_init__(self):
 		if len(self.algoNames) != len(self.legend):
@@ -117,22 +120,23 @@ class Table:
 		).replace("@LABEL@", self.label)
 
 def getArgs():
-	p = ArgumentParser("LATEX_TABLE", description="Generates a LaTeX table of build times and index sizes.")
+	p = ArgumentParser(
+		"LATEX_TABLE", description="Generates a LaTeX table of build times and index sizes."
+	)
 	p.add_argument("-a", "--algorithms", help="List of algorithms.", nargs="+", required=True)
 	p.add_argument("-d", "--dataset", help="Name of dataset.", required=True)
 	p.add_argument("-la", "--label", help="Label of the table.", required=True)
 	p.add_argument("-le", "--legend", help="Legend of the table.", nargs="+", required=True)
 	p.add_argument("-o", "--output", help="Path to output file.", required=True)
-	p.add_argument("-p", "--percent", action="store_true", help="Calculate percent difference in build times.")
+	p.add_argument(
+		"-p", "--percent", action="store_true", help="Calculate percent difference in build times."
+	)
+	p.add_argument("-r", "--recompute", action="store_true", help="Recompute performance metrics.")
 	args = p.parse_args()
-	return Args(args.algorithms, args.percent, args.dataset, args.label, args.legend, Path(args.output))
-
-def getExportedData(srcDir: Path):
-	p = srcDir / "figures" / "data.csv"
-
-	if not p.exists():
-		raise FileNotFoundError(f"File {p} not found.")
-	return pd.read_csv(p)
+	return Args(
+		args.algorithms, args.percent, args.dataset, args.label,
+		args.legend, Path(args.output), args.recompute
+	)
 
 def getPercentDiff(orig: float, new: float):
 	return round((new - orig) / orig * 100, 2)
@@ -149,27 +153,21 @@ def getTable(df: pd.DataFrame, algoNames: list[str], dataset: str):
 
 	return table
 
-def run(args: Args):
-	scriptDir = Path(__file__).parent
-	srcDir = scriptDir.parent
-	args.output.parent.mkdir(exist_ok=True, parents=True)
+def writeTable(a: Args):
+	a.output.parent.mkdir(exist_ok=True, parents=True)
 
-	with args.output.open("w", encoding="utf-8") as f:
-		table = getTable(getExportedData(srcDir), args.algoNames, args.dataset)
-		table.calcPercent = args.calcPercent
+	with a.output.open("w", encoding="utf-8") as f:
+		table = getTable(getExportedData(a.recompute), a.algoNames, a.dataset)
+		table.calcPercent = a.calcPercent
 		table.caption = "Tabulka časů stavby a velikostí indexu."
-		table.label = args.label
-		table.legend = args.legend
-		f.write(table.getLatex((scriptDir / "templates" / "latexTable.txt").read_text(encoding="utf-8")))
-
-def tryRun(args: Args):
-	try:
-		run(args)
-	except FileNotFoundError as e:
-		print(f"[FILE NOT FOUND] {e}")
+		table.label = a.label
+		table.legend = a.legend
+		f.write(table.getLatex(
+			(Path(__file__).parent / "templates" / "latexTable.txt").read_text(encoding="utf-8")
+		))
 
 def main():
-	tryRun(getArgs())
+	writeTable(getArgs())
 
 if __name__ == "__main__":
-	main()
+	runner.run(main)

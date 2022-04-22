@@ -1,3 +1,5 @@
+from chmDataset import runner
+from chmDataset.AppError import AppError
 from chmDataset.Dataset import Dataset
 from pathlib import Path
 
@@ -12,7 +14,7 @@ def main():
 		print(f"Description of dataset {datasetPath} written to {descPath}.")
 
 	except FileNotFoundError:
-		print("HDF5 dataset not found. Run datasetGenerator.py first.")
+		raise AppError("HDF5 dataset not found. Run datasetGenerator.py first.")
 
 if __name__ == "__main__":
-	main()
+	runner.run(main)

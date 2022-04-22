@@ -1,22 +1,21 @@
 if __package__ is None:
+	from chmDataset import runner
 	from pathlib import Path
 	import subprocess
 	import sys
 
-	try:
-		subprocess.check_call(
-			[sys.executable, "-m", "src.scripts.runBenchmarks", *sys.argv[1:]],
-			cwd=Path(__file__).parents[2]
-		)
-	except subprocess.CalledProcessError:
-		sys.exit(1)
-	sys.exit(0)
+	runner.run(lambda: subprocess.check_call(
+		[sys.executable, "-m", "src.scripts.runBenchmarks", *sys.argv[1:]],
+		cwd=Path(__file__).parents[2]
+	))
 
 from argparse import ArgumentParser, Namespace
 import pandas
 from pathlib import Path
 import time
 from src.benchmarks.ann_benchmarks.datasets import DATASETS
+from src.scripts.chmDataset import runner
+from src.scripts.chmDataset.AppError import AppError
 import subprocess
 import sys
 import webbrowser as wb
@@ -29,9 +28,6 @@ DEFAULT_ALGOS_PATH = BENCHMARKS_DIR / "algos.yaml"
 DEFAULT_DATASETS_PATH = CONFIG_DIR / "datasets.txt"
 DOCKER_ERROR = "Docker daemon is not running. Please start it and try again."
 N = "\n"
-
-class AppError(Exception):
-	pass
 
 class Config:
 	def __init__(self):
@@ -151,6 +147,11 @@ def installDockerImages():
 def openWebsite(websiteDir: Path):
 	wb.open_new_tab(f"file:///{(websiteDir / 'index.html').absolute()}")
 
+def openWebsiteAfter(cfg: Config):
+	websiteDir = SRC_DIR / "website"
+	run(cfg.checkForErrors().parseDatasetsFile().checkDatasetsForErrors(), websiteDir)
+	openWebsite(websiteDir)
+
 def parseDatasetsFile(p: Path):
 	res = []
 
@@ -197,23 +198,8 @@ def runDataset(algoDefPath: Path, dataset: str, cfg: Config):
 
 	print(f"Benchmarks for dataset {dataset} completed.")
 
-def tryRun(cfg: Config):
-	try:
-		websiteDir = SRC_DIR / "website"
-		run(cfg.checkForErrors().parseDatasetsFile().checkDatasetsForErrors(), websiteDir)
-		openWebsite(websiteDir)
-	except AppError as e:
-		print(f"[APP ERROR] {e}")
-		sys.exit(1)
-	except FileNotFoundError as e:
-		print(f"[FILE NOT FOUND] {e}")
-		sys.exit(1)
-	except subprocess.SubprocessError as e:
-		print(f"[SUBPROCESS ERROR] {e}")
-		sys.exit(1)
-
 def main():
-	tryRun(Config.fromArgs(getArgs()))
+	openWebsiteAfter(Config.fromArgs(getArgs()))
 
 if __name__ == "__main__":
-	main()
+	runner.run(main)

@@ -1,3 +1,4 @@
+from chmDataset import runner
 from pathlib import Path
 from SIMDCapability import SIMDCapability
 
@@ -22,4 +23,4 @@ def main():
 	formatCMakeTemplates(scriptDir.parent, scriptDir / "templates")
 
 if __name__ == "__main__":
-	main()
+	runner.run(main)

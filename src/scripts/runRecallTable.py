@@ -1,3 +1,5 @@
+from chmDataset import runner
+from chmDataset.AppError import AppError
 from chmDataset.RecallTable import RecallTable, RecallTableConfig
 from pathlib import Path
 
@@ -8,17 +10,16 @@ def main():
 		cfgPath = srcDir / "config" / "recallTableConfig.json"
 		cfg = RecallTableConfig.fromJSON(cfgPath)
 	except FileNotFoundError:
-		return print(f"No configuration file found at {cfgPath}.")
+		raise AppError(f"No configuration file found at {cfgPath}.")
 	except KeyError as e:
-		return print(f"Configuration file is missing key {e.args[0]}.")
+		raise AppError(f"Configuration file is missing key {e.args[0]}.")
 
 	try:
 		table = RecallTable.fromHDF(cfg, srcDir / "data" / f"{cfg.dataset}.hdf5")
 		table.run()
 		print(table)
-
 	except FileNotFoundError:
-		print("HDF5 dataset not found.")
+		raise AppError("HDF5 dataset not found.")
 
 if __name__ == "__main__":
-	main()
+	runner.run(main)

@@ -1,7 +1,9 @@
+from argparse import ArgumentParser
+from chmDataset import runner
 from pathlib import Path
 import shutil
 
-def cleanProject(deleteVenv: bool):
+def cleanProject(deleteVenv: bool, deleteResults: bool = False):
 	repo = Path(__file__).parents[2]
 
 	src = repo / "src"
@@ -10,36 +12,54 @@ def cleanProject(deleteVenv: bool):
 	index = src / "index"
 	scripts = src / "scripts"
 
-	deleteDir(annBenchmarks / "__pycache__")
-	deleteDir(annBenchmarks / "algorithms" / "__pycache__")
-	deleteDir(annBenchmarks / "plotting" / "__pycache__")
-	deleteDir(benchmarks / "__pycache__")
-	deleteDir(index / "build")
-	deleteDir(index / "chm_hnsw.egg-info")
-	deleteDir(index / "dist")
-	deleteDir(repo / "__pycache__")
-	deleteDir(src / "cmakeBuild")
-	deleteDir(src / "data")
-	deleteDir(scripts / "__pycache__")
-	deleteDir(scripts / "chmDataset" / "__pycache__")
+	deleteFile(annBenchmarks / "__pycache__")
+	deleteFile(annBenchmarks / "algorithms" / "__pycache__")
+	deleteFile(annBenchmarks / "plotting" / "__pycache__")
+	deleteFile(benchmarks / "__pycache__")
+	deleteFile(index / "build")
+	deleteFile(index / "chm_hnsw.egg-info")
+	deleteFile(index / "CMakeLists.txt")
+	deleteFile(index / "dist")
+	deleteFile(repo / "__pycache__")
+	deleteFile(scripts / "__pycache__")
+	deleteFile(scripts / "chmDataset" / "__pycache__")
+	deleteFile(src / "cmakeBuild")
+	deleteFile(src / "data")
 
 	if deleteVenv:
-		deleteDir(repo / ".venv")
+		deleteFile(repo / ".venv")
 
-def deleteDir(p: Path):
-	pathStr = f"[{p}] "
+	if deleteResults:
+		deleteFile(benchmarks / "results")
+		deleteFile(scripts / "benchmarks_time.txt")
+		deleteFile(src / "figures")
+		deleteFile(src / "website")
 
-	if p.exists():
-		try:
-			shutil.rmtree(p)
-			print(f"{pathStr}Deleted.")
-		except PermissionError:
-			print(f"{pathStr}Permission denied.")
-	else:
-		print(f"{pathStr}Does not exist.")
+def deleteFile(p: Path):
+	def delete(p: Path):
+		if p.exists():
+			try:
+				if p.is_dir():
+					shutil.rmtree(p)
+				elif p.is_file():
+					p.unlink()
+				else:
+					return "Unknown file type"
+				return "Deleted"
+			except PermissionError:
+				return "Permission denied"
+		else:
+			return "Does not exist"
+	print(f"[{p}] {delete(p)}")
 
 def main():
-	cleanProject(True)
+	p = ArgumentParser("CLEAN", description="Cleans the project.")
+	p.add_argument(
+		"-r", "--results", action="store_true",
+		help="Delete benchmark results, generated figures and website."
+	)
+	args = p.parse_args()
+	cleanProject(True, args.results)
 
 if __name__ == "__main__":
-	main()
+	runner.run(main)

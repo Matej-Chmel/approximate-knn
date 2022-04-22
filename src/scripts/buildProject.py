@@ -1,14 +1,13 @@
 from argparse import ArgumentParser
 import clean
+from chmDataset import runner
+from chmDataset.AppError import AppError
 from dataclasses import dataclass
 from pathlib import Path
 import platform
 import shutil
 import subprocess
 import sys
-
-class AppError(Exception):
-	pass
 
 @dataclass
 class Args:
@@ -98,7 +97,12 @@ def getVirtualEnvExecutable(repoDir: Path):
 def onWindows():
 	return platform.system().strip().lower() == "windows"
 
-def run():
+def runRecallTable(executable: Path, scriptsDir: Path):
+	print("Running recall table Python program.")
+	subprocess.check_call([executable, "runRecallTable.py"], cwd=scriptsDir)
+	print("Recall table run successfully.")
+
+def main():
 	args = getArgs()
 	cleanProject(args)
 	checkPythonVersion(args)
@@ -115,20 +119,5 @@ def run():
 	runRecallTable(executable, scriptsDir)
 	print("Completed.")
 
-def runRecallTable(executable: Path, scriptsDir: Path):
-	print("Running recall table Python program.")
-	subprocess.check_call([executable, "runRecallTable.py"], cwd=scriptsDir)
-	print("Recall table run successfully.")
-
-def main():
-	try:
-		run()
-	except AppError as e:
-		print(f"[APP ERROR] {e}")
-		sys.exit(1)
-	except subprocess.SubprocessError as e:
-		print(f"[SUBPROCESS ERROR] {e}")
-		sys.exit(1)
-
 if __name__ == "__main__":
-	main()
+	runner.run(main)

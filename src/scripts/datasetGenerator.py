@@ -1,8 +1,10 @@
+from chmDataset import runner
+from chmDataset.AppError import AppError
 from chmDataset.Dataset import Dataset
 import json
 from pathlib import Path
 
-def run():
+def generateDatasets():
 	srcDir = Path(__file__).parents[1]
 	dataDir = srcDir / "data"
 
@@ -19,11 +21,13 @@ def writeDataset(obj: dict, dataDir: Path):
 
 def main():
 	try:
-		run()
+		generateDatasets()
 	except FileNotFoundError:
-		print("Could not open configuration file.")
+		raise AppError("Could not open configuration file.")
 	except KeyError as e:
-		print(f"Missing key {e.args[0]}")
+		raise AppError(f"Missing key {e.args[0]}")
+	except PermissionError:
+		raise AppError("Permission denied.")
 
 if __name__ == "__main__":
-	main()
+	runner.run(main)
