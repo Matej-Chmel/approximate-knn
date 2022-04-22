@@ -28,7 +28,6 @@ def cleanProject(deleteVenv: bool, deleteResults: bool = False):
 
 	if deleteVenv:
 		deleteFile(repo / ".venv")
-
 	if deleteResults:
 		deleteFile(benchmarks / "results")
 		deleteFile(scripts / "benchmarks_time.txt")

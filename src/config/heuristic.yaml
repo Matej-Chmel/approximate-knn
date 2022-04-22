@@ -1,6 +1,6 @@
 float:
   any:
-    chm-hnsw-heuristic:
+    new-heuristic:
       docker-tag: ann-benchmarks-chm-hnsw
       module: ann_benchmarks.algorithms.chm_hnsw
       constructor: ChmHnswHeuristic

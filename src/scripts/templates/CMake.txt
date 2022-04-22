@@ -17,10 +17,10 @@ source_group("Sources" FILES ${sources})
 add_library(chmLib ${headers} ${sources})@DEFINITIONS@
 target_include_directories(chmLib PUBLIC "${PROJECT_SOURCE_DIR}")
 
-add_executable(checkDataset executables/checkDataset.cpp)
-target_compile_definitions(checkDataset PRIVATE SRC_DIR="${CMAKE_SOURCE_DIR}/..")
-target_include_directories(checkDataset PUBLIC "${PROJECT_BINARY_DIR}" "${PROJECT_SOURCE_DIR}")
-target_link_libraries(checkDataset PUBLIC chmLib)
+add_executable(datasetToText executables/datasetToText.cpp)
+target_compile_definitions(datasetToText PRIVATE SRC_DIR="${CMAKE_SOURCE_DIR}/..")
+target_include_directories(datasetToText PUBLIC "${PROJECT_BINARY_DIR}" "${PROJECT_SOURCE_DIR}")
+target_link_libraries(datasetToText PUBLIC chmLib)
 
 add_executable(recallTable executables/recallTable.cpp)
 target_compile_definitions(

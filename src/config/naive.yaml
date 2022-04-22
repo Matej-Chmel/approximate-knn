@@ -1,6 +1,6 @@
 float:
   any:
-    chm-hnsw-naive:
+    new-naive:
       docker-tag: ann-benchmarks-chm-hnsw
       module: ann_benchmarks.algorithms.chm_hnsw
       constructor: ChmHnswNaive

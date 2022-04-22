@@ -1,6 +1,6 @@
 float:
   any:
-    hnswlib:
+    original:
       docker-tag: ann-benchmarks-hnswlib
       module: ann_benchmarks.algorithms.hnswlib
       constructor: HnswLib

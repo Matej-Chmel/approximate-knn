@@ -3,6 +3,7 @@
         <div class="container">
             <div id="results">
             <h1>Výsledky</h1>
+			<p>Kliknutím na graf zobrazíte srovnání podle dalších kritérií.</p>
             {% for type in ['non-batch', 'batch'] %}
                 {% if len(dataset_with_distances[type]) > 0 %}
                     {% if type == 'batch' %}

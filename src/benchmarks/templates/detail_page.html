@@ -15,8 +15,23 @@
                     <h2>Bodové grafy pro {{title}}</h2>
                 {% endif %}
             {% endif %}
+			<h3>Konfigurace</h3>
+			<p>
+				Přemístěním kurzoru myši na bod v grafu
+				zobrazíte detaily o konfiguraci indexu v tomto bodě.
+				Význam zkratek v konfiguraci je následující.
+			</p>
+			<ul>
+				<li>b - Vlajka využití bitového pole.</li>
+				<li>d - Identifikátor vzdálenostní funkce.</li>
+				<li>e - ef<sub>construction</sub></li>
+				<li>ef - ef<sub>search</sub></li>
+				<li>m - M<sub>max</sub></li>
+				<li>n - Metoda výběru sousedů: h - heuristika, n - naivní algoritmus.</li>
+				<li>p - Vlajka využití asynchronního přístupu do paměti při výpočtu vzdáleností.</li>
+			</ul>
             {% for plot in plot_data[item] %}
-            {{ plot }}
+            	{{ plot }}
             {% endfor %}
             <hr />
         {% endfor %}

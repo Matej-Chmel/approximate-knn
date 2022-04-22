@@ -1,6 +1,6 @@
 float:
   any:
-    chm-hnsw-no-bit-array:
+    new-no-bit:
       docker-tag: ann-benchmarks-chm-hnsw
       module: ann_benchmarks.algorithms.chm_hnsw
       constructor: ChmHnswNoBitArray

@@ -7,11 +7,12 @@ namespace fs = chm::fs;
 	constexpr auto SRC_DIR = "";
 #endif
 
-int main() {
+int main(const int argsLen, const char* const* const args) {
 	try {
 		const auto dataDir = fs::absolute(fs::path(SRC_DIR)) / "data";
-		const auto datasetPath = dataDir / "test.bin";
-		const auto descPath = dataDir / "testCpp.txt";
+		const std::string datasetName = argsLen > 1 ? args[1] : "test";
+		const auto datasetPath = dataDir / (datasetName + ".bin");
+		const auto descPath = dataDir / (datasetName + ".cpp.txt");
 		chm::Dataset(datasetPath).writeLongDescription(descPath);
 		std::cout << "Description of dataset " << datasetPath << " written to " << descPath << ".\n";
 

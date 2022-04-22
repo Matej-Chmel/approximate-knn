@@ -22,3 +22,36 @@ Tento skript provede následující.
 - Spustí porovnání původní a nové implementace indexu HNSW.
 - Otevře stránku s výsledky v jedné kartě internetového prohlížeče.
 - Otevře stránku s dokumentací indexu ve druhé kartě.
+
+## Výsledky srovnání
+
+Výsledky jsou zaznačeny do grafů, které zobrazuje webová stránka. Ta je generována ve složce `src/website`. Původní implementace je v grafech označována slovem `original`, nová implementace slovem `new`.
+
+## Virtuální prostředí
+
+Skripty uvnitř složky `src/scripts` vždy spouštějte pomocí vygenerovaného virtuální prostředí. Prostředí aktivujete pomocí aktivačního skriptu ve složce `.venv/Scripts`. Výběr skriptu závisí na použitém OS a interpretu.
+
+| OS | Interpret | Cesta k aktivačnímu skriptu |
+| :-- | :-- | :-- |
+| Linux |  | ./.venv/Scripts/activate |
+| Windows | Batch | .\\.venv\Scripts\activate.bat |
+| Windows | Powershell | .\\.venv\Scripts\Activate.ps1 |
+
+## Seznam skriptů
+
+Následuje seznam skriptů ve složce `src/scripts`, které umožňují uživateli provést více operací než úvodní skript.
+
+| Název skriptu        | Stručný popis skriptu                                        |
+| -------------------- | ------------------------------------------------------------ |
+| buildProject         | Vytvoří virtuální prostředí, nativní C++ řešení a jeho Python rozhraní. |
+| clean                | Odstraní vygenerované soubory a vrátí projekt do původního stavu. |
+| datasetGenerator     | Vygeneruje datové soubory pro debugování.                    |
+| datasetToText        | Převede datový soubor do textového formátu.                  |
+| formatCMakeTemplates | Vygeneruje CMakeLists.txt.                                   |
+| generateTables       | Vygeneruje LaTeX tabulky podobné těm, které jsou v bakalářské práci. |
+| latexGroupPlots      | Vygeneruje LaTeX grafy na základě výsledků srovnání.         |
+| latexTable           | Vygeneruje LaTeX tabulku na základě výsledků srovnání.       |
+| runBenchmarks        | Spustí srovnání, vygeneruje a otevře webovou stránku s výsledky. |
+| runQuickBenchmark    | Spustí srovnání pouze dvou konfigurací.                      |
+| runRecallTable       | Postaví nový index a zobrazí tabulku závislosti přesnosti na parametru vyhledávání ef<sub>search</sub>. |
+| SIMDCapability       | Zobrazí SIMD rozšíření instrukční sady procesoru, která jsou k dispozici. |

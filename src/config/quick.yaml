@@ -1,6 +1,6 @@
 float:
   any:
-    chm-hnsw-prefetching:
+    new-prefetch:
       docker-tag: ann-benchmarks-chm-hnsw
       module: ann_benchmarks.algorithms.chm_hnsw
       constructor: ChmHnswPrefetching
@@ -14,7 +14,7 @@ float:
           arg-groups:
             - {"efConstruction": 100, "mMax": 16}
           query-args: [[10, 100, 400, 800]]
-    hnswlib:
+    original:
       docker-tag: ann-benchmarks-hnswlib
       module: ann_benchmarks.algorithms.hnswlib
       constructor: HnswLib
