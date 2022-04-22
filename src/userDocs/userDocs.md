@@ -46,12 +46,9 @@ Následuje seznam skriptů ve složce `src/scripts`, které umožňují uživate
 | buildProject         | Vytvoří virtuální prostředí, nativní C++ řešení a jeho Python rozhraní. |
 | clean                | Odstraní vygenerované soubory a vrátí projekt do původního stavu. |
 | datasetGenerator     | Vygeneruje datové soubory pro debugování.                    |
-| datasetToText        | Převede datový soubor do textového formátu.                  |
 | formatCMakeTemplates | Vygeneruje CMakeLists.txt.                                   |
 | generateTables       | Vygeneruje LaTeX tabulky podobné těm, které jsou v bakalářské práci. |
-| latexGroupPlots      | Vygeneruje LaTeX grafy na základě výsledků srovnání.         |
 | latexTable           | Vygeneruje LaTeX tabulku na základě výsledků srovnání.       |
 | runBenchmarks        | Spustí srovnání, vygeneruje a otevře webovou stránku s výsledky. |
-| runQuickBenchmark    | Spustí srovnání pouze dvou konfigurací.                      |
 | runRecallTable       | Postaví nový index a zobrazí tabulku závislosti přesnosti na parametru vyhledávání ef<sub>search</sub>. |
 | SIMDCapability       | Zobrazí SIMD rozšíření instrukční sady procesoru, která jsou k dispozici. |
