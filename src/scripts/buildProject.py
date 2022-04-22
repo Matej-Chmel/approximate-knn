@@ -34,11 +34,13 @@ def buildNativeLib(executable: Path, indexDir: Path, scriptsDir: Path, srcDir: P
 
 def buildVirtualEnv(repoDir: Path, scriptsDir: Path):
 	print("Building virtual environment.")
-	subprocess.check_call([sys.executable, "-m", "venv", ".venv"], cwd=repoDir)
 	executable = getVirtualEnvExecutable(repoDir)
 
 	if not executable.exists():
-		raise AppError("Python virtual environment executable not found.")
+		subprocess.check_call([sys.executable, "-m", "venv", ".venv"], cwd=repoDir)
+
+		if not executable.exists():
+			raise AppError("Python virtual environment executable not found.")
 
 	cmdline = [executable, "-m", "pip", "install"]
 	subprocess.check_call(cmdline + ["--upgrade", "pip"], cwd=repoDir)
