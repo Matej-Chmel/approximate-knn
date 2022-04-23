@@ -142,7 +142,8 @@ def main():
 	point_type = dataset.attrs.get('point_type', 'float')
 	distance = dataset.attrs['distance']
 	definitions = get_definitions(
-		args.definitions, dimension, point_type, distance, args.count)
+		args.definitions, dimension, point_type, distance, args.count
+	)
 
 	# Filter out, from the loaded definitions, all those query argument groups
 	# that correspond to experiments that have already been run. (This might
@@ -198,8 +199,7 @@ def main():
 			logger.info(f'not all docker images available, only: {set(docker_tags)}')
 			logger.info(f'missing docker images: '
 						f'{str(set(d.docker_tag for d in definitions).difference(docker_tags))}')
-			definitions = [
-				d for d in definitions if d.docker_tag in docker_tags]
+			definitions = [d for d in definitions if d.docker_tag in docker_tags]
 	else:
 		def _test(df):
 			status = algorithm_status(df)

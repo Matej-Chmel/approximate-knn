@@ -1,61 +1,27 @@
-float:
-  any:
-    new-no-bit:
-      docker-tag: ann-benchmarks-chm-hnsw
-      module: ann_benchmarks.algorithms.chm_hnsw
-      constructor: ChmHnswNoBitArray
-      base-args: ["@metric"]
-      run-groups:
-        efConstruction-100-mMax-4:
-          arg-groups:
-            - {"efConstruction": 100, "mMax": 4}
-          query-args: [[10, 20, 40, 80, 120, 200, 400, 600, 800, 1000, 1500]]
-        efConstruction-100-mMax-16:
-          arg-groups:
-            - {"efConstruction": 100, "mMax": 16}
-          query-args: [[10, 20, 40, 80, 120, 200, 400, 600, 800, 1000, 1500]]
-        efConstruction-100-mMax-32:
-          arg-groups:
-            - {"efConstruction": 100, "mMax": 32}
-          query-args: [[10, 20, 40, 80, 120, 200, 400, 600, 800, 1000, 1500]]
-        efConstruction-100-mMax-48:
-          arg-groups:
-            - {"efConstruction": 100, "mMax": 48}
-          query-args: [[10, 20, 40, 80, 120, 200, 400, 600, 800, 1000, 1500]]
-        efConstruction-300-mMax-4:
-          arg-groups:
-            - {"efConstruction": 300, "mMax": 4}
-          query-args: [[10, 20, 40, 80, 120, 200, 400, 600, 800, 1000, 1500]]
-        efConstruction-300-mMax-16:
-          arg-groups:
-            - {"efConstruction": 300, "mMax": 16}
-          query-args: [[10, 20, 40, 80, 120, 200, 400, 600, 800, 1000, 1500]]
-        efConstruction-300-mMax-32:
-          arg-groups:
-            - {"efConstruction": 300, "mMax": 32}
-          query-args: [[10, 20, 40, 80, 120, 200, 400, 600, 800, 1000, 1500]]
-        efConstruction-300-mMax-48:
-          arg-groups:
-            - {"efConstruction": 300, "mMax": 48}
-          query-args: [[10, 20, 40, 80, 120, 200, 400, 600, 800, 1000, 1500]]
-        efConstruction-500-mMax-4:
-          arg-groups:
-            - {"efConstruction": 500, "mMax": 4}
-          query-args: [[10, 20, 40, 80, 120, 200, 400, 600, 800, 1000, 1500]]
-        efConstruction-500-mMax-16:
-          arg-groups:
-            - {"efConstruction": 500, "mMax": 16}
-          query-args: [[10, 20, 40, 80, 120, 200, 400, 600, 800, 1000, 1500]]
-        efConstruction-500-mMax-32:
-          arg-groups:
-            - {"efConstruction": 500, "mMax": 32}
-          query-args: [[10, 20, 40, 80, 120, 200, 400, 600, 800, 1000, 1500]]
-        efConstruction-500-mMax-48:
-          arg-groups:
-            - {"efConstruction": 500, "mMax": 48}
-          query-args: [[10, 20, 40, 80, 120, 200, 400, 600, 800, 1000, 1500]]
-  euclidean: []
-  angular: []
-bit:
-  hamming: []
-  jaccard: []
+algos:
+  new-no-bit:
+    - efConstruction: 100
+      mMax: 4
+    - efConstruction: 100
+      mMax: 16
+    - efConstruction: 100
+      mMax: 32
+    - efConstruction: 100
+      mMax: 48
+    - efConstruction: 300
+      mMax: 4
+    - efConstruction: 300
+      mMax: 16
+    - efConstruction: 300
+      mMax: 32
+    - efConstruction: 300
+      mMax: 48
+    - efConstruction: 500
+      mMax: 4
+    - efConstruction: 500
+      mMax: 16
+    - efConstruction: 500
+      mMax: 32
+    - efConstruction: 500
+      mMax: 48
+efSearch: [10, 20, 40, 80, 120, 200, 400, 600, 800, 1000, 1500]

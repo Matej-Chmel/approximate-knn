@@ -324,38 +324,36 @@ Výběr implementací ke srovnání a jejich parametrů zprostředkovávají kon
 
 \* Popis šablon obsahuje kapitola `Šablony nové implementace`.
 
-Příklad konfigurace:
+Následuje příklad konfigurace. Komentáře označené znakem `#` popisují jednotlivé klíče.
 
 ```yaml
-float:
-  any:
-    original:
-      docker-tag: ann-benchmarks-hnswlib
-      module: ann_benchmarks.algorithms.hnswlib
-      constructor: HnswLib
-      base-args: ["@metric"]
-      run-groups:
-        efConstruction-100-M-4:
-          arg-groups:
-            - {"efConstruction": 100, "M": 4}
-          query-args: [[10, 100, 1000]]
-        efConstruction-200-M-16:
-          arg-groups:
-            - {"efConstruction": 200, "M": 16}
-          query-args: [[200, 400, 600, 800]]
-    new-prefetch:
-      docker-tag: ann-benchmarks-chm-hnsw
-      module: ann_benchmarks.algorithms.chm_hnsw
-      constructor: ChmHnswPrefetching
-      base-args: ["@metric"]
-      run-groups:
-        efConstruction-100-mMax-4:
-          arg-groups:
-            - {"efConstruction": 100, "mMax": 4}
-          query-args: [[10, 100, 1000]]
-  euclidean: []
-  angular: []
-bit:
-  hamming: []
-  jaccard: []
+algos: # Povinný klíč.
+  # Povinné pole implementací.
+  original: # Název implementace.
+    # Povinné pole konfigurací stavby.
+    - efConstruction: 50 # Povinný klíč parametru efConstruction.
+      mMax: 4 # Povinný klíč parametru mMax.
+    - efConstruction: 50
+      mMax: 8
+    - efConstruction: 50
+      mMax: 12
+  new-prefetch:
+    - efConstruction: 50
+      mMax: 8
+    - efConstruction: 50
+      mMax: 12
+efSearch: [10, 12, 14, 16, 18, 20, 25, 30, 40, 80] # Povinné pole hodnot parametru vyhledávání efSearch.
 ```
+
+Definované implementace popisuje následující tabulka.
+
+| Název implementace        | Druh implementace | Šablona     | SIMD rozšíření         |
+| ------------------------- | ----------------- | ----------- | ---------------------- |
+| original                  | Původní hnswlib   |             | Nejmodernější dostupné |
+| new&#x2011;avx            | Nová              | Heuristic   | AVX                    |
+| new&#x2011;heuristic      | Nová              | Heuristic   | Nejmodernější dostupné |
+| new&#x2011;naive          | Nová              | Naive       | Nejmodernější dostupné |
+| new&#x2011;no&#x2011;bit  | Nová              | NoBitArray  | Nejmodernější dostupné |
+| new&#x2011;no&#x2011;simd | Nová              | Heuristic   | Žádné                  |
+| new&#x2011;prefetch       | Nová              | Prefetching | Nejmodernější dostupné |
+| new&#x2011;sse            | Nová              | Heuristic   | SSE                    |

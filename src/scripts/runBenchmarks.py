@@ -28,7 +28,6 @@ BENCHMARKS_DIR = SRC_DIR / "benchmarks"
 CONFIG_DIR = SRC_DIR / "config"
 DEFAULT_ALGOS_PATH = CONFIG_DIR / "algos.yaml"
 DEFAULT_DATASETS_PATH = CONFIG_DIR / "datasets.txt"
-DOCKER_ERROR = "Docker daemon is not running. Please start it and try again."
 N = "\n"
 
 class Config:
@@ -143,12 +142,7 @@ def getArgs():
 
 def installDockerImages():
 	print("Installing Docker images.")
-
-	try:
-		subprocess.check_call([sys.executable, "install.py"], cwd=BENCHMARKS_DIR)
-	except subprocess.CalledProcessError:
-		raise AppError(DOCKER_ERROR)
-
+	subprocess.check_call([sys.executable, "install.py"], cwd=BENCHMARKS_DIR)
 	print("Docker images installed.")
 
 def openWebsite(websiteDir: Path):
@@ -194,15 +188,10 @@ def runBenchmarks(cfg: Config):
 
 def runDataset(algoDefPath: Path, dataset: str, cfg: Config):
 	print(f"Running benchmarks for dataset {dataset}.")
-
-	try:
-		subprocess.check_call([
-			sys.executable, "run.py", "--dataset", dataset, "--definitions", str(algoDefPath),
-			"--parallelism", str(cfg.dockerWorkers), "--runs", str(cfg.runs)
-		] + (["--force"] if cfg.force else []), cwd=BENCHMARKS_DIR)
-	except subprocess.CalledProcessError:
-		raise AppError(DOCKER_ERROR)
-
+	subprocess.check_call([
+		sys.executable, "run.py", "--dataset", dataset, "--definitions", str(algoDefPath),
+		"--parallelism", str(cfg.dockerWorkers), "--runs", str(cfg.runs)
+	] + (["--force"] if cfg.force else []), cwd=BENCHMARKS_DIR)
 	print(f"Benchmarks for dataset {dataset} completed.")
 
 def main():

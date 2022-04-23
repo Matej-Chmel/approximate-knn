@@ -16,7 +16,7 @@ def get_result_filename(dataset=None, count=None, definition=None,
         d.append(str(count))
     if definition:
         d.append(definition.algorithm + ('-batch' if batch_mode else ''))
-        data = definition.arguments + query_arguments
+        data = definition.arguments + [query_arguments]
         d.append(re.sub(r'\W+', '_', json.dumps(data, sort_keys=True))
                  .strip('_') + ".hdf5")
     return os.path.join(*d)

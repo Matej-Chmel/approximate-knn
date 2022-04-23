@@ -50,7 +50,7 @@ if __name__ == "__main__":
 	try:
 		subprocess.check_call(["docker", "stats", "--no-stream"], stderr=subprocess.DEVNULL)
 	except subprocess.CalledProcessError:
-		print("Docker daemon is not running. Please start it and try again.", file=sys.stderr)
+		print("[ERROR] Docker daemon is not running. Please start it and try again.", file=sys.stderr)
 		raise SystemExit(1)
 
 	print('Building base image...')

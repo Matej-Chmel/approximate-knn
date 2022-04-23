@@ -1,51 +1,20 @@
-float:
-  any:
-    new-prefetch:
-      docker-tag: ann-benchmarks-chm-hnsw
-      module: ann_benchmarks.algorithms.chm_hnsw
-      constructor: ChmHnswPrefetching
-      base-args: ["@metric"]
-      run-groups:
-        efConstruction-50-mMax-4:
-          arg-groups:
-            - {"efConstruction": 50, "mMax": 4}
-          query-args: [[10, 12, 14, 16, 18, 20, 25, 30, 40, 80]]
-        efConstruction-50-mMax-8:
-          arg-groups:
-            - {"efConstruction": 50, "mMax": 8}
-          query-args: [[10, 12, 14, 16, 18, 20, 25, 30, 40, 80]]
-        efConstruction-50-mMax-12:
-          arg-groups:
-            - {"efConstruction": 50, "mMax": 12}
-          query-args: [[10, 12, 14, 16, 18, 20, 25, 30, 40, 80]]
-        efConstruction-50-mMax-16:
-          arg-groups:
-            - {"efConstruction": 50, "mMax": 16}
-          query-args: [[10, 12, 14, 16, 18, 20, 25, 30, 40, 80]]
-    original:
-      docker-tag: ann-benchmarks-hnswlib
-      module: ann_benchmarks.algorithms.hnswlib
-      constructor: HnswLib
-      base-args: ["@metric"]
-      run-groups:
-        efConstruction-50-M-4:
-          arg-groups:
-            - {"efConstruction": 50, "M": 4}
-          query-args: [[10, 12, 14, 16, 18, 20, 25, 30, 40, 80]]
-        efConstruction-50-M-8:
-          arg-groups:
-            - {"efConstruction": 50, "M": 8}
-          query-args: [[10, 12, 14, 16, 18, 20, 25, 30, 40, 80]]
-        efConstruction-50-M-12:
-          arg-groups:
-            - {"efConstruction": 50, "M": 12}
-          query-args: [[10, 12, 14, 16, 18, 20, 25, 30, 40, 80]]
-        efConstruction-50-M-16:
-          arg-groups:
-            - {"efConstruction": 50, "M": 16}
-          query-args: [[10, 12, 14, 16, 18, 20, 25, 30, 40, 80]]
-  euclidean: []
-  angular: []
-bit:
-  hamming: []
-  jaccard: []
+algos:
+  new-prefetch:
+    - efConstruction: 50
+      mMax: 4
+    - efConstruction: 50
+      mMax: 8
+    - efConstruction: 50
+      mMax: 12
+    - efConstruction: 50
+      mMax: 16
+  original:
+    - efConstruction: 50
+      mMax: 4
+    - efConstruction: 50
+      mMax: 8
+    - efConstruction: 50
+      mMax: 12
+    - efConstruction: 50
+      mMax: 16
+efSearch: [10, 12, 14, 16, 18, 20, 25, 30, 40, 80]

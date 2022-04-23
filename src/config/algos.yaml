@@ -1,87 +1,26 @@
-float:
-  any:
-    original:
-      docker-tag: ann-benchmarks-hnswlib
-      module: ann_benchmarks.algorithms.hnswlib
-      constructor: HnswLib
-      base-args: ["@metric"]
-      run-groups:
-        efConstruction-100-M-4:
-          arg-groups:
-            - {"efConstruction": 100, "M": 4}
-          query-args: [[10, 100, 1000]]
-    new-avx:
-      docker-tag: ann-benchmarks-chm-hnsw
-      module: ann_benchmarks.algorithms.chm_hnsw
-      constructor: ChmHnswAVX
-      base-args: ["@metric"]
-      run-groups:
-        efConstruction-100-mMax-4:
-          arg-groups:
-            - {"efConstruction": 100, "mMax": 4}
-          query-args: [[10, 100, 1000]]
-    new-heuristic:
-      docker-tag: ann-benchmarks-chm-hnsw
-      module: ann_benchmarks.algorithms.chm_hnsw
-      constructor: ChmHnswHeuristic
-      base-args: ["@metric"]
-      run-groups:
-        efConstruction-100-mMax-4:
-          arg-groups:
-            - {"efConstruction": 100, "mMax": 4}
-          query-args: [[10, 100, 1000]]
-    new-no-bit:
-      docker-tag: ann-benchmarks-chm-hnsw
-      module: ann_benchmarks.algorithms.chm_hnsw
-      constructor: ChmHnswNoBitArray
-      base-args: ["@metric"]
-      run-groups:
-        efConstruction-100-mMax-4:
-          arg-groups:
-            - {"efConstruction": 100, "mMax": 4}
-          query-args: [[10, 100, 1000]]
-    new-no-simd:
-      docker-tag: ann-benchmarks-chm-hnsw
-      module: ann_benchmarks.algorithms.chm_hnsw
-      constructor: ChmHnswNoSIMD
-      base-args: ["@metric"]
-      run-groups:
-        efConstruction-100-mMax-4:
-          arg-groups:
-            - {"efConstruction": 100, "mMax": 4}
-          query-args: [[10, 100, 1000]]
-    new-naive:
-      docker-tag: ann-benchmarks-chm-hnsw
-      module: ann_benchmarks.algorithms.chm_hnsw
-      constructor: ChmHnswNaive
-      base-args: ["@metric"]
-      run-groups:
-        efConstruction-100-mMax-4:
-          arg-groups:
-            - {"efConstruction": 100, "mMax": 4}
-          query-args: [[10, 100, 1000]]
-    new-prefetch:
-      docker-tag: ann-benchmarks-chm-hnsw
-      module: ann_benchmarks.algorithms.chm_hnsw
-      constructor: ChmHnswPrefetching
-      base-args: ["@metric"]
-      run-groups:
-        efConstruction-100-mMax-4:
-          arg-groups:
-            - {"efConstruction": 100, "mMax": 4}
-          query-args: [[10, 100, 1000]]
-    new-sse:
-      docker-tag: ann-benchmarks-chm-hnsw
-      module: ann_benchmarks.algorithms.chm_hnsw
-      constructor: ChmHnswSSE
-      base-args: ["@metric"]
-      run-groups:
-        efConstruction-100-mMax-4:
-          arg-groups:
-            - {"efConstruction": 100, "mMax": 4}
-          query-args: [[10, 100, 1000]]
-  euclidean: []
-  angular: []
-bit:
-  hamming: []
-  jaccard: []
+algos:
+  original:
+    - efConstruction: 100
+      mMax: 4
+  new-avx:
+    - efConstruction: 100
+      mMax: 4
+  new-heuristic:
+    - efConstruction: 100
+      mMax: 4
+  new-naive:
+    - efConstruction: 100
+      mMax: 4
+  new-no-bit:
+    - efConstruction: 100
+      mMax: 4
+  new-no-simd:
+    - efConstruction: 100
+      mMax: 4
+  new-prefetch:
+    - efConstruction: 100
+      mMax: 4
+  new-sse:
+    - efConstruction: 100
+      mMax: 4
+efSearch: [10, 100, 1000]

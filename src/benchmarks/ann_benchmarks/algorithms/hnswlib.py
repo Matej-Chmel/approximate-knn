@@ -5,10 +5,11 @@ from ann_benchmarks.algorithms.base import BaseANN
 
 
 class HnswLib(BaseANN):
-	def __init__(self, metric, method_param):
+	def __init__(self, efConstruction: int, M: int, metric: str):
+		self.efConstruction = efConstruction
+		self.M = M
 		self.metric = {'angular': 'cosine', 'euclidean': 'l2'}[metric]
-		self.method_param = method_param
-		self.name = f"hnswlib(e={self.method_param['efConstruction']},m={self.method_param['M']})"
+		self.name = f"hnswlib(e={self.efConstruction},m={self.M})"
 
 	def __str__(self):
 		return f"{self.name}[ef={self.ef}]"
@@ -18,10 +19,7 @@ class HnswLib(BaseANN):
 
 	def fit(self, X):
 		self.p = hnswlib.Index(space=self.metric, dim=len(X[0]))
-		self.p.init_index(
-			max_elements=len(X), ef_construction=self.method_param["efConstruction"],
-			M=self.method_param["M"]
-		)
+		self.p.init_index(max_elements=len(X), ef_construction=self.efConstruction, M=self.M)
 		data_labels = np.arange(len(X))
 		self.p.set_num_threads(1)
 		self.p.add_items(np.asarray(X), data_labels)
@@ -32,5 +30,3 @@ class HnswLib(BaseANN):
 	def set_query_arguments(self, ef):
 		self.ef = ef
 		self.p.set_ef(ef)
-
-
