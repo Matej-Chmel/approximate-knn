@@ -25,8 +25,9 @@ import webbrowser as wb
 SCRIPT_DIR = Path(__file__).parent
 SRC_DIR = SCRIPT_DIR.parent
 BENCHMARKS_DIR = SRC_DIR / "benchmarks"
-DEFAULT_ALGOS_PATH = BENCHMARKS_DIR / "algos.yaml"
-DEFAULT_DATASETS_PATH = SRC_DIR / "config" / "datasets.txt"
+CONFIG_DIR = SRC_DIR / "config"
+DEFAULT_ALGOS_PATH = CONFIG_DIR / "algos.yaml"
+DEFAULT_DATASETS_PATH = CONFIG_DIR / "datasets.txt"
 DOCKER_ERROR = "Docker daemon is not running. Please start it and try again."
 N = "\n"
 

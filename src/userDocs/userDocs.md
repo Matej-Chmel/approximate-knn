@@ -1,8 +1,8 @@
 # Uživatelská dokumentace
 
-Tato dokumentace obsahuje návod jak spustit ukázku nové implementace indexu HNSW, která je součástí bakalářské práce na téma "Aproximace KNN problému".
+Tato dokumentace obsahuje návod jak spustit ukázku nové implementace indexu HNSW, která je součástí bakalářské práce na téma "Aproximace KNN problému". Také obsahuje podrobný návod ke všem programům, které obsahuje příloha práce.
 
-Všechny cesty uvedené v tomto souboru jsou relativní k cestě složky, která obsahuje tuto dokumentaci.
+Všechny cesty uvedené v tomto souboru jsou relativní k cestě složky, která obsahuje PDF soubor této dokumentace.
 
 ## Potřebné programy
 - Docker
@@ -97,7 +97,7 @@ py clean.py --results
 
 ### datasetGenerator
 
-Vygeneruje datové soubory pro debugování uvedené v konfiguračním souboru `src/config/debugDatasets.json`. O konfiguraci tohoto skriptu se více dočtete v kapitole `Datové soubory` níže v této dokumentaci.
+Vygeneruje datové soubory pro debugování uvedené v konfiguračním souboru `src/config/debugDatasets.json`. O konfiguraci tohoto skriptu se více dočtete v kapitole `Datové soubory pro debugování` níže v této dokumentaci.
 
 Příklad spuštění:
 
@@ -107,7 +107,7 @@ py datasetGenerator.py
 
 ### datasetToText
 
-Převede vybraný datový soubor ze složky `src/data` do textového formátu.
+Převede vybraný datový soubor ze složky `src/data` do textového formátu. Výstupní textový soubor zapíše pod jménem datového souboru do stejné složky.
 
 | Parametr, zkratka        | Význam                                                       |
 | ------------------------ | ------------------------------------------------------------ |
@@ -189,7 +189,7 @@ py runBenchmarks.py -a ..\config\noBit.yaml -f -p ..\config\datasets.txt -r 5 -w
 
 ### runRecallTable
 
-Postaví index nové implementace a vyhledá v něm nejbližší sousedy s různými hodnotami parametru vyhledávání ef<sub>search</sub>. Poté vypíše tabulku závislosti přesnosti vyhledávání na tomto parametru. Konfigurace tohoto skriptu se nachází v souboru `src/config/recallTable.json` a více se o ní dočtete v kapitole `Konfigurace recallTable`.
+Postaví index nové implementace a vyhledá v něm nejbližší sousedy s různými hodnotami parametru vyhledávání ef<sub>search</sub>. Poté vypíše tabulku závislosti přesnosti vyhledávání na tomto parametru. Konfigurace tohoto skriptu se nachází v souboru `src/config/recallTable.json` a více se o ní dočtete v kapitole `Konfigurace programů recallTable`.
 
 Příklad spuštění:
 
@@ -205,4 +205,157 @@ Příklad spuštění:
 
 ```bash
 py SIMDCapability.py
+```
+
+## Nativní knihovna
+
+C++ řešení vygenerujete pomocí skriptu `RUNME.py` nebo `src/scripts/buildProject.py`. Řešení bude vytvořeno ve složce `src/cmakeBuild`. V každém systému vypadají soubory řešení jinak. Např. při použití Windows s Visual Studiem je řešením `.sln` soubor a projekty jsou `.vcxproj` soubory. Pro spuštění projektů je doporučena konfigurace `Release`. Řešení obsahuje dva projekty.
+
+- *datasetToText* - Vypíše textový popis datové kolekce do souboru. Slouží pro ověření konzistence mezi binárními a HDF5 soubory. Název datového souboru je prvním parametrem programu. Výchozí hodnotou je `angular-small`.
+- *recallTable* - Postaví HNSW index a vypíše tabulku závislosti přesnosti na parametru vyhledávání ef<sub>search</sub>. Konfigurace programu se nachází v souboru `src/config/recallTable.json` a více se o ní dočtete v kapitole `Konfigurace programů recallTable`.
+
+## Datové soubory pro debugování
+
+Pro vygenerování jiných datových souborů pro debugování změňte konfiguraci v souboru `src/config/debugDatasets.json` a spusťte skript `src/scripts/datasetGenerator.py`. Konfigurace je JSON soubor s polem objektů, kde každý objekt popisuje jeden datový soubor.
+
+```json
+{
+    "name": "angular-small",
+    "angular": true,
+    "dim": 25,
+    "k": 10,
+    "testCount": 200,
+    "trainCount": 20000,
+    "seed": 104
+}
+```
+
+| Klíč       | Typ hodnoty | Význam                                                       |
+| :--------- | :---------- | :----------------------------------------------------------- |
+| name       | string      | Unikátní název souboru sloužící k identifikaci.              |
+| angular    | boolean     | Pokud je nastaven na `true`, využívá soubor kosinusové podobnosti. Jinak využívá Eukleidovské vzdálenosti. |
+| dim        | int         | Počet dimenzí prostoru.                                      |
+| k          | int         | Počet hledaných nejbližších sousedů dotazovaného prvku.      |
+| testCount  | int         | Počet dotazů.                                                |
+| trainCount | int         | Počet prvků použitých k sestavení indexu.                    |
+| seed       | int         | Nastavení generátoru náhodných čísel.                        |
+
+## Konfigurace programů *recallTable*
+Pro změnu datového souboru nebo nastavení indexu v programech `recallTable.cpp` a `recallTable.py` upravte soubor `src/config/recallTable.json`. Konfigurace je JSON soubor s jediným objektem.
+
+```json
+{
+	"dataset": "angular-small",
+	"efConstruction": 200,
+	"efSearch": [10, 15, 20, 40, 80, 120, 200],
+	"mMax": 16,
+	"seed": 200,
+	"SIMD": "best",
+	"template": "prefetching"
+}
+```
+
+| Klíč           | Typ hodnoty | Význam                                                       |
+| :------------- | :---------- | :----------------------------------------------------------- |
+| dataset        | string      | Identifikace datového souboru. Odpovídá klíči `name` v souboru `src/config/debugDatasets.json`. |
+| efConstruction | int         | Počet uvažovaných sousedů při vytváření nových hran v indexu. |
+| efSearch       | array       | Pole hodnot parametru vyhledávání ef<sub>search</sub>.       |
+| mMax           | int         | Maximální povolený počet sousedů jednoho prvku v indexu na vrstvě vyšší než vrstva 0. |
+| seed           | int         | Nastavení generátoru náhodných úrovní v indexu.              |
+| SIMD           | string      | Upřednostňovaný typ SIMD instrukcí. Možnosti jsou `avx`, `avx512`, `best`, `null`, a `sse`.* |
+| template       | string      | Šablona indexu. Možnosti jsou `Heuristic`, `Naive`, `NoBitArray` a `Prefetching`. |
+
+\* Zvolením hodnoty `best` zvolíte nejmodernější dostupné SIMD rozšíření. Hodnotou `null` zakážete použití SIMD instrukcí.
+
+## Šablony nové implementace
+
+| Šablona     | Metoda výběru sousedů | Seznam navštívených vrcholů | Asynchronní přístup do paměti                                |
+| ----------- | --------------------- | --------------------------- | ------------------------------------------------------------ |
+| Heuristic   | Heuristika            | Bitové pole                 | Ne                                                           |
+| Naive       | Naivní algoritmus     | Bitové pole                 | Ne                                                           |
+| NoBitArray  | Heuristika            | Obyčejné pole               | Při výpočtu vzdáleností<br />Při načítání dat seznamu navštívených vrcholů |
+| Prefetching | Heuristika            | Bitové pole                 | Při výpočtu vzdáleností                                      |
+
+## Testované datové soubory
+
+Pro srovnání implementací je možno využít následujících datových souborů.
+
+| Název                                            | Dimenze | Počet prvků při stavbě | Dotazy | Metrika                 |
+| ------------------------------------------------ | ------- | ---------------------- | ------ | ----------------------- |
+| deep&#x2011;image&#x2011;96&#x2011;angular       | 96      | 9 990 000              | 10 000 | Kosinusová podobnost    |
+| fashion&#x2011;mnist&#x2011;784&#x2011;euclidean | 784     | 60 000                 | 10 000 | Eukleidovská vzdálenost |
+| gist&#x2011;960&#x2011;euclidean                 | 960     | 1 000 000              | 1 000  | Eukleidovská vzdálenost |
+| glove&#x2011;25&#x2011;angular                   | 25      | 1 183 514              | 10 000 | Kosinusová podobnost    |
+| glove&#x2011;50&#x2011;angular                   | 50      | 1 183 514              | 10 000 | Kosinusová podobnost    |
+| glove&#x2011;100&#x2011;angular                  | 100     | 1 183 514              | 10 000 | Kosinusová podobnost    |
+| glove&#x2011;200&#x2011;angular                  | 200     | 1 183 514              | 10 000 | Kosinusová podobnost    |
+| lastfm&#x2011;64&#x2011;dot                      | 64      | 292 385                | 50 000 | Kosinusová podobnost    |
+| mnist&#x2011;784&#x2011;euclidean                | 784     | 60 000                 | 10 000 | Eukleidovská vzdálenost |
+| nytimes&#x2011;16&#x2011;angular                 | 16      | 290 000                | 10 000 | Kosinusová podobnost    |
+| nytimes&#x2011;256&#x2011;angular                | 256     | 290 000                | 10 000 | Kosinusová podobnost    |
+| random&#x2011;s&#x2011;100&#x2011;angular        | 100     | 100 000                | 10 000 | Kosinusová podobnost    |
+| random&#x2011;s&#x2011;100&#x2011;euclidean      | 100     | 100 000                | 10 000 | Eukleidovská vzdálenost |
+| random&#x2011;xs&#x2011;20&#x2011;angular        | 20      | 10 000                 | 10 000 | Kosinusová podobnost    |
+| random&#x2011;xs&#x2011;20&#x2011;euclidean      | 20      | 10 000                 | 10 000 | Eukleidovská vzdálenost |
+| sift&#x2011;128&#x2011;euclidean                 | 128     | 1 000 000              | 10 000 | Eukleidovská vzdálenost |
+
+Pro spuštění srovnání nad více soubory lze využít textového formátu, kde každý řádek reprezentuje jeden datový soubor. Řádky, které začínají znakem `#` jsou ignorovány. Příklad:
+
+```bash
+# deep-image-96-angular
+glove-25-angular
+sift-128-euclidean
+```
+
+## Konfigurace srovnání
+
+Výběr implementací ke srovnání a jejich parametrů zprostředkovávají konfigurační soubory ve formátu YAML. Příklad takového souboru je `src/config/algos.yaml`. Ve složce `src/config` se nacházejí předem vytvořené konfigurace. Jejich význam popisuje následující tabulka.
+
+| Název souboru          | Význam                                                       |
+| ---------------------- | ------------------------------------------------------------ |
+| 100k&#x2011;large.yaml | 12 stejných konfigurací pro novou a původní implementaci. Vhodné pro malé datové soubory. |
+| 100k&#x2011;small.yaml | 4 stejné konfigurace pro novou a původní implementaci. Vhodné pro malé datové soubory. |
+| algos.yaml             | 1 konfigurace pro každou šablonu nové a původní implementace. |
+| heuristic.yaml         | 12 konfigurací pro šablonu *Heuristic* nové implementace.\*  |
+| naive.yaml             | 12 konfigurací pro šablonu *Naive* nové implementace.\*      |
+| noBit.yaml             | 12 konfigurací pro šablonu *NoBitArray* nové implementace.\* |
+| original.yaml          | 12 konfigurací pro původní implementaci.                     |
+| prefetch.yaml          | 12 konfigurací pro šablonu *Prefetching* nové implementace.\* |
+
+\* Popis šablon obsahuje kapitola `Šablony nové implementace`.
+
+Příklad konfigurace:
+
+```yaml
+float:
+  any:
+    original:
+      docker-tag: ann-benchmarks-hnswlib
+      module: ann_benchmarks.algorithms.hnswlib
+      constructor: HnswLib
+      base-args: ["@metric"]
+      run-groups:
+        efConstruction-100-M-4:
+          arg-groups:
+            - {"efConstruction": 100, "M": 4}
+          query-args: [[10, 100, 1000]]
+        efConstruction-200-M-16:
+          arg-groups:
+            - {"efConstruction": 200, "M": 16}
+          query-args: [[200, 400, 600, 800]]
+    new-prefetch:
+      docker-tag: ann-benchmarks-chm-hnsw
+      module: ann_benchmarks.algorithms.chm_hnsw
+      constructor: ChmHnswPrefetching
+      base-args: ["@metric"]
+      run-groups:
+        efConstruction-100-mMax-4:
+          arg-groups:
+            - {"efConstruction": 100, "mMax": 4}
+          query-args: [[10, 100, 1000]]
+  euclidean: []
+  angular: []
+bit:
+  hamming: []
+  jaccard: []
 ```

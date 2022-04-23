@@ -5,11 +5,11 @@ import logging
 import logging.config
 import multiprocessing
 import os
+from pathlib import Path
 import psutil
 import random
 import shutil
 import subprocess
-import sys
 from ann_benchmarks.algorithms.definitions import (
 	algorithm_status, get_definitions, InstantiationStatus, list_algorithms
 )
@@ -63,8 +63,9 @@ def main():
 	parser.add_argument(
 		'--definitions',
 		metavar='FILE',
+		default=Path(__file__).parents[2] / "config" / "algos.yaml",
 		help='load algorithm definitions from FILE',
-		default='algos.yaml')
+		type=Path)
 	parser.add_argument(
 		'--algorithm',
 		metavar='NAME',
@@ -121,12 +122,13 @@ def main():
 		default=1)
 
 	args = parser.parse_args()
+
 	if args.timeout == -1:
 		args.timeout = None
 
 	if args.list_algorithms:
 		list_algorithms(args.definitions)
-		sys.exit(0)
+		raise SystemExit(0)
 
 	logging.config.fileConfig("logging.conf")
 	logger = logging.getLogger("annb")
@@ -177,7 +179,7 @@ def main():
 			subprocess.check_call(["docker", "stats", "--no-stream"], stderr=subprocess.DEVNULL)
 		except subprocess.CalledProcessError:
 			logger.error("Docker daemon is not running. Please start it and try again.")
-			sys.exit(1)
+			raise SystemExit(1)
 
 		# See which Docker images we have available
 		docker_client = docker.from_env()
