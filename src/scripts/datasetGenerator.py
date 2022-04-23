@@ -1,6 +1,4 @@
-from chmDataset import runner
-from chmDataset.AppError import AppError
-from chmDataset.Dataset import Dataset
+from chmTools.module import AppError, Dataset, wrapMain
 import json
 from pathlib import Path
 
@@ -30,4 +28,4 @@ def main():
 		raise AppError("Permission denied.")
 
 if __name__ == "__main__":
-	runner.run(main)
+	wrapMain(main)

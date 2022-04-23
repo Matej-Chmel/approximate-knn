@@ -1,4 +1,4 @@
-from chmDataset import runner
+from chmTools.runner import wrapMain
 from pathlib import Path
 from SIMDCapability import SIMDCapability
 
@@ -23,4 +23,4 @@ def main():
 	formatCMakeTemplates(scriptDir.parent, scriptDir / "templates")
 
 if __name__ == "__main__":
-	runner.run(main)
+	wrapMain(main)

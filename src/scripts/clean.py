@@ -1,5 +1,5 @@
 from argparse import ArgumentParser
-from chmDataset import runner
+from chmTools.runner import insideVenv, wrapMain
 from pathlib import Path
 import shutil
 
@@ -58,7 +58,7 @@ def main():
 		help="Delete benchmark results, generated figures and website."
 	)
 	args = p.parse_args()
-	cleanProject(True, args.results)
+	cleanProject(not insideVenv(), args.results)
 
 if __name__ == "__main__":
-	runner.run(main)
+	wrapMain(main)

@@ -3,7 +3,7 @@ import argparse
 import docker
 import logging
 import logging.config
-import multiprocessing.pool
+import multiprocessing
 import os
 import psutil
 import random
@@ -235,17 +235,34 @@ def main():
 		logger.info(f'Order: {definitions}')
 
 	if args.parallelism > multiprocessing.cpu_count() - 1:
-		raise Exception('Parallelism larger than %d! (CPU count minus one)' % (multiprocessing.cpu_count() - 1))
+		raise Exception(
+			f"Parallelism larger than {multiprocessing.cpu_count() - 1}! (CPU count minus one)"
+		)
 
 	# Multiprocessing magic to farm this out to all CPUs
 	queue = multiprocessing.Queue()
+
 	for definition in definitions:
 		queue.put(definition)
+
 	if args.batch and args.parallelism > 1:
-		raise Exception(f"Batch mode uses all available CPU resources, --parallelism should be set to 1. (Was: {args.parallelism})")
-	workers = [multiprocessing.Process(target=run_worker, args=(i+1, args, queue))
-			   for i in range(args.parallelism)]
+		raise Exception(
+			f"Batch mode uses all available CPU resources, "
+			f"--parallelism should be set to 1. (Was: {args.parallelism})"
+		)
+
+	workers = [
+		multiprocessing.Process(target=run_worker, args=(i+1, args, queue))
+		for i in range(args.parallelism)
+	]
+
 	[worker.start() for worker in workers]
-	[worker.join() for worker in workers]
+
+	try:
+		[worker.join() for worker in workers]
+	except KeyboardInterrupt:
+		logger.info('Keyboard interrupt received, terminating workers.')
+		[worker.terminate() for worker in workers]
+		[worker.join() for worker in workers]
 
 	# TODO: need to figure out cleanup handling here

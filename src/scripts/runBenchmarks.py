@@ -1,10 +1,10 @@
 if __package__ is None:
-	from chmDataset import runner
+	from chmTools.runner import wrapMain
 	from pathlib import Path
 	import subprocess
 	import sys
 
-	runner.run(lambda: subprocess.check_call(
+	wrapMain(lambda: subprocess.check_call(
 		[sys.executable, "-m", "src.scripts.runBenchmarks", *sys.argv[1:]],
 		cwd=Path(__file__).parents[2]
 	))
@@ -14,8 +14,7 @@ import pandas
 from pathlib import Path
 import time
 from src.benchmarks.ann_benchmarks.datasets import DATASETS
-from src.scripts.chmDataset import runner
-from src.scripts.chmDataset.AppError import AppError
+from src.scripts.chmTools.module import AppError, wrapMain
 import subprocess
 import sys
 import webbrowser as wb
@@ -202,4 +201,4 @@ def main():
 	openWebsiteAfter(Config.fromArgs(getArgs()))
 
 if __name__ == "__main__":
-	runner.run(main)
+	wrapMain(main)

@@ -1,6 +1,5 @@
 from argparse import ArgumentParser
-from chmDataset import runner
-from chmDataset.export import getExportedData
+from chmTools.module import getExportedData, wrapMain
 from dataclasses import dataclass, field
 from functools import cached_property
 import parse
@@ -170,4 +169,4 @@ def main():
 	writeTable(getArgs())
 
 if __name__ == "__main__":
-	runner.run(main)
+	wrapMain(main)

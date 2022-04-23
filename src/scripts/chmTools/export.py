@@ -1,6 +1,6 @@
-from .AppError import AppError
 import pandas as pd
 from pathlib import Path
+from .runner import AppError
 import subprocess
 import sys
 

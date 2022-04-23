@@ -1,6 +1,4 @@
-from chmDataset import runner
-from chmDataset.AppError import AppError
-from chmDataset.RecallTable import RecallTable, RecallTableConfig
+from chmTools.module import AppError, RecallTable, RecallTableConfig, wrapMain
 from pathlib import Path
 
 def main():
@@ -22,4 +20,4 @@ def main():
 		raise AppError("HDF5 dataset not found.")
 
 if __name__ == "__main__":
-	runner.run(main)
+	wrapMain(main)

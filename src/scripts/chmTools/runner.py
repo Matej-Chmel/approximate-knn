@@ -1,7 +1,14 @@
 import subprocess
+import sys
 from typing import Callable
 
-def run(f: Callable):
+class AppError(Exception):
+	pass
+
+def insideVenv():
+	return sys.base_prefix != sys.prefix
+
+def wrapMain(f: Callable):
 	try:
 		f()
 		raise SystemExit(0)

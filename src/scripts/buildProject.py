@@ -1,7 +1,6 @@
 from argparse import ArgumentParser
 import clean
-from chmDataset import runner
-from chmDataset.AppError import AppError
+from chmTools.runner import AppError, wrapMain
 from dataclasses import dataclass
 from pathlib import Path
 import platform
@@ -122,4 +121,4 @@ def main():
 	print("Completed.")
 
 if __name__ == "__main__":
-	runner.run(main)
+	wrapMain(main)

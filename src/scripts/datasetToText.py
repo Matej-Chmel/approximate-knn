@@ -1,7 +1,5 @@
 from argparse import ArgumentParser
-from chmDataset import runner
-from chmDataset.AppError import AppError
-from chmDataset.Dataset import Dataset
+from chmTools.module import AppError, Dataset, wrapMain
 from pathlib import Path
 
 N = "\n"
@@ -23,4 +21,4 @@ def main():
 	writeDescription(p.parse_args().name)
 
 if __name__ == "__main__":
-	runner.run(main)
+	wrapMain(main)

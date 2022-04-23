@@ -1,4 +1,4 @@
-from chmDataset import runner
+from chmTools.runner import wrapMain
 import latexTable as lt
 from pathlib import Path
 
@@ -19,4 +19,4 @@ def main():
 	))
 
 if __name__ == "__main__":
-	runner.run(main)
+	wrapMain(main)
