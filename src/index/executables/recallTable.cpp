@@ -38,7 +38,7 @@ void runRecallTable(const fs::path& cfgPath, const fs::path& dataDir) {
 int main() {
 	try {
 		const auto srcDir = fs::path(SRC_DIR);
-		const auto cfgPath = srcDir / "config" / "recallTableConfig.json";
+		const auto cfgPath = srcDir / "config" / "recallTable.json";
 		const auto dataDir = srcDir / "data";
 		runRecallTable(cfgPath, dataDir);
 

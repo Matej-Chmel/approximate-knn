@@ -6,7 +6,7 @@ def generateDatasets():
 	srcDir = Path(__file__).parents[1]
 	dataDir = srcDir / "data"
 
-	with (srcDir / "config" / "datasetGeneratorConfig.json").open("r", encoding="utf-8") as f:
+	with (srcDir / "config" / "debugDatasets.json").open("r", encoding="utf-8") as f:
 		arr = json.load(f)
 
 	for obj in arr:

@@ -36,7 +36,9 @@ class Args:
 	recompute: bool
 
 	def __post_init__(self):
-		if len(self.algoNames) != len(self.legend):
+		if not self.legend:
+			self.legend = self.algoNames
+		elif len(self.algoNames) != len(self.legend):
 			raise ValueError("Algorithms names and legend must have the same length.")
 
 @dataclass
@@ -124,8 +126,8 @@ def getArgs():
 	)
 	p.add_argument("-a", "--algorithms", help="List of algorithms.", nargs="+", required=True)
 	p.add_argument("-d", "--dataset", help="Name of dataset.", required=True)
-	p.add_argument("-la", "--label", help="Label of the table.", required=True)
-	p.add_argument("-le", "--legend", help="Legend of the table.", nargs="+", required=True)
+	p.add_argument("-la", "--label", default="BenchmarkTable", help="Label of the table.")
+	p.add_argument("-le", "--legend", help="Legend of the table.", nargs="+")
 	p.add_argument("-o", "--output", help="Path to output file.", required=True)
 	p.add_argument(
 		"-p", "--percent", action="store_true", help="Calculate percent difference in build times."

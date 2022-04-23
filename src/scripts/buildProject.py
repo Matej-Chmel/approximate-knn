@@ -11,6 +11,7 @@ import sys
 @dataclass
 class Args:
 	clean: bool
+	cleanResults: bool
 	ignorePythonVersion: bool
 
 def buildBindings(executable: Path, indexDir: Path, repoDir: Path):
@@ -54,7 +55,7 @@ def checkPythonVersion(args: Args):
 def cleanProject(args: Args):
 	if args.clean:
 		print("Cleaning project.")
-		clean.cleanProject(False)
+		clean.cleanProject(args.cleanResults)
 		print("Project cleaned.")
 
 def generateDatasets(executable: Path, scriptsDir: Path, srcDir: Path):
@@ -81,11 +82,16 @@ def getArgs():
 		help="Cleans the project before the build."
 	)
 	p.add_argument(
+		"-r", "--cleanResults", action="store_true",
+		help="Delete benchmark results, generated figures and website. "
+		"Used only if --clean is also specified."
+	)
+	p.add_argument(
 		"-i", "--ignorePythonVersion", action="store_true",
 		help="Skips Python version check."
 	)
 	args = p.parse_args()
-	return Args(args.clean, args.ignorePythonVersion)
+	return Args(args.clean, args.cleanResults, args.ignorePythonVersion)
 
 def getVirtualEnvExecutable(repoDir: Path):
 	p = repoDir / ".venv" / "Scripts" / "python"

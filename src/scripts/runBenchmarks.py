@@ -1,20 +1,23 @@
 if __package__ is None:
-	from chmTools.runner import wrapMain
+	from chmTools.runner import checkInsideVenv, wrapMain
 	from pathlib import Path
 	import subprocess
 	import sys
 
+	checkInsideVenv()
 	wrapMain(lambda: subprocess.check_call(
-		[sys.executable, "-m", "src.scripts.runBenchmarks", *sys.argv[1:]],
+		[sys.executable, "-m", "src.scripts.runBenchmarks", "--cwd", Path.cwd(), *sys.argv[1:]],
 		cwd=Path(__file__).parents[2]
 	))
 
-from argparse import ArgumentParser, Namespace
+from src.scripts.chmTools.runner import AppError, checkInsideVenv, wrapMain
+checkInsideVenv()
+
+from argparse import ArgumentParser, Namespace, SUPPRESS
 import pandas
 from pathlib import Path
 import time
 from src.benchmarks.ann_benchmarks.datasets import DATASETS
-from src.scripts.chmTools.module import AppError, wrapMain
 import subprocess
 import sys
 import webbrowser as wb
@@ -22,15 +25,15 @@ import webbrowser as wb
 SCRIPT_DIR = Path(__file__).parent
 SRC_DIR = SCRIPT_DIR.parent
 BENCHMARKS_DIR = SRC_DIR / "benchmarks"
-CONFIG_DIR = SRC_DIR / "config"
 DEFAULT_ALGOS_PATH = BENCHMARKS_DIR / "algos.yaml"
-DEFAULT_DATASETS_PATH = CONFIG_DIR / "datasets.txt"
+DEFAULT_DATASETS_PATH = SRC_DIR / "config" / "datasets.txt"
 DOCKER_ERROR = "Docker daemon is not running. Please start it and try again."
 N = "\n"
 
 class Config:
-	def __init__(self):
+	def __init__(self, cwd: Path):
 		self.algoDefPaths = [DEFAULT_ALGOS_PATH]
+		self.cwd = cwd
 		self.datasets = None
 		self.datasetsPath = DEFAULT_DATASETS_PATH
 		self.dockerWorkers = 1
@@ -55,10 +58,10 @@ class Config:
 
 	def checkForErrors(self):
 		for a in self.algoDefPaths:
-			if not a.exists():
+			if not fileExists(a):
 				raise FileNotFoundError(f"Algorithm definitions file {a} does not exist.")
 
-		if self.datasets is None and not self.datasetsPath.exists():
+		if self.datasets is None and not fileExists(self.datasetsPath):
 			raise FileNotFoundError(f"Datasets file {self.datasetsPath} does not exist.")
 
 		return self
@@ -69,7 +72,7 @@ class Config:
 		return self
 
 	def setAlgoDefPaths(self, algoDefPaths: list[str]):
-		self.algoDefPaths = [Path(a).absolute() for a in algoDefPaths]
+		self.algoDefPaths = [self.cwd.joinpath(a).absolute() for a in algoDefPaths]
 		return self
 
 	def setDatasets(self, datasets: list[str]):
@@ -79,7 +82,7 @@ class Config:
 
 	def setDatasetsPath(self, datasetsPath: str):
 		self.datasets = None
-		self.datasetsPath = Path(datasetsPath).absolute()
+		self.datasetsPath = self.cwd.joinpath(datasetsPath).absolute()
 		return self
 
 	def setDockerWorkers(self, workers: int):
@@ -96,7 +99,7 @@ class Config:
 
 	@classmethod
 	def fromArgs(cls, args: Namespace):
-		cfg = cls().setAlgoDefPaths(args.algoDefPaths).setDockerWorkers(args.workers
+		cfg = cls(Path(args.cwd)).setAlgoDefPaths(args.algoDefPaths).setDockerWorkers(args.workers
 			).setForce(args.force).setRuns(args.runs)
 
 		if args.datasets:
@@ -114,12 +117,16 @@ def createWebsite(websiteDir: Path):
 	], cwd=BENCHMARKS_DIR)
 	print("Website created.")
 
+def fileExists(p: Path):
+	return p.exists() and p.is_file()
+
 def getArgs():
 	p = ArgumentParser("BENCHMARK_MULTIPLE", description="Runs multiple benchmarks.")
 	p.add_argument(
 		"-a", "--algoDefPaths", help="Paths to YAML files with algorithm definitions.",
 		nargs="+", required=True
 	)
+	p.add_argument("--cwd", default=Path.cwd(), help=SUPPRESS)
 	p.add_argument(
 		"-d", "--datasets", help="Names of datasets to benchmark on.", nargs="*"
 	)

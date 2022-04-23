@@ -3,7 +3,7 @@ from chmTools.runner import insideVenv, wrapMain
 from pathlib import Path
 import shutil
 
-def cleanProject(deleteVenv: bool, deleteResults: bool = False):
+def cleanProject(deleteResults: bool = False):
 	repo = Path(__file__).parents[2]
 
 	src = repo / "src"
@@ -26,7 +26,7 @@ def cleanProject(deleteVenv: bool, deleteResults: bool = False):
 	deleteFile(src / "cmakeBuild")
 	deleteFile(src / "data")
 
-	if deleteVenv:
+	if not insideVenv():
 		deleteFile(repo / ".venv")
 	if deleteResults:
 		deleteFile(benchmarks / "results")
@@ -58,7 +58,7 @@ def main():
 		help="Delete benchmark results, generated figures and website."
 	)
 	args = p.parse_args()
-	cleanProject(not insideVenv(), args.results)
+	cleanProject(args.results)
 
 if __name__ == "__main__":
 	wrapMain(main)

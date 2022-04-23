@@ -1,4 +1,8 @@
-import cpufeature as cf
+try:
+	import cpufeature as cf
+except ImportError:
+	print("[ERROR] This script must be run inside a virtual environment.")
+	raise SystemExit(1)
 
 class SIMDCapability:
 	def __init__(self):
