@@ -67,13 +67,11 @@ Tento skript lze spustit bez virtuálního prostředí.
 
 Vytvoří virtuální prostředí interpretu Python, stáhne potřebné softwarové balíčky, vygeneruje nativní C++ řešení pro knihovnu nového indexu, vytvoří rozhraní v jazyce Python pro nový index a otestuje funkčnost tohoto indexu spuštěním skriptu `runRecallTable`.
 
-| Parametr              | Zkratka | Vyžadován | Význam                                                       |
-| --------------------- | ------- | --------- | ------------------------------------------------------------ |
-| --clean               | -c      | Ne        | Vrátí projekt do původního stavu před jeho opětovným sestavením. |
-| --cleanResults        | -r      | Ne        | Pokud je `--clean` nastaven, odstraní naměřené výsledky.     |
-| --ignorePythonVersion | -i      | Ne        | Umožňuje spustit skript s libovolnou verzí interpretu Python. |
-
-Pokud je specifikován parametr `ignorePythonVersion`, skript nemusí fungovat správně.
+| Parametr, zkratka                              | Význam                                                       |
+| ---------------------------------------------- | ------------------------------------------------------------ |
+| &#x2011;&#x2011;clean, &#x2011;c               | Vrátí projekt do původního stavu před jeho opětovným sestavením. |
+| &#x2011;&#x2011;cleanResults, &#x2011;r        | Pokud je `--clean` nastaven, odstraní naměřené výsledky.     |
+| &#x2011;&#x2011;ignorePythonVersion, &#x2011;i | Umožňuje spustit skript s libovolnou verzí interpretu Python. Skript poté nemusí fungovat správně. |
 
 Příklad spuštění:
 
@@ -87,9 +85,9 @@ Tento skript lze spustit bez virtuálního prostředí.
 
 Odstraní datové soubory pro debugování, C++ nativní řešení a Python rozhraní. Pokud je spuštěn mimo virtuální prostředí, pak odstraní toto prostředí. Naměřené výsledky odstraněny nebudou, pokud o to uživatel nepožádá.
 
-| Parametr  | Zkratka | Vyžadován | Význam                                                       |
-| --------- | ------- | --------- | ------------------------------------------------------------ |
-| --results | -r      | Ne        | Odstraní naměřené výsledky srovnání, vygenerované grafy a tabulky. |
+| Parametr, zkratka                  | Význam                                                       |
+| ---------------------------------- | ------------------------------------------------------------ |
+| &#x2011;&#x2011;results, &#x2011;r | Odstraní naměřené výsledky srovnání, vygenerované grafy a tabulky. |
 
 Příklad spuštění:
 
@@ -111,9 +109,9 @@ py datasetGenerator.py
 
 Převede vybraný datový soubor ze složky `src/data` do textového formátu.
 
-| Parametr | Zkratka | Vyžadován | Význam                                                       |
-| -------- | ------- | --------- | ------------------------------------------------------------ |
-| --name   | -n      | Ne        | Název datového souboru bez přípony. Pokud není uveden, výchozím souborem je `angular-small`. |
+| Parametr, zkratka        | Význam                                                       |
+| ------------------------ | ------------------------------------------------------------ |
+| &#x2011;&#x2011;name, -n | Název datového souboru bez přípony. Pokud není uveden, výchozím souborem je `angular-small`. |
 
 Příklad spuštění:
 
@@ -148,15 +146,15 @@ Vygenerované tabulky jsou dostupné ve složce `src/figures`.
 
 Vygeneruje jednu LaTeX tabulku na základě výsledků srovnání implementací.
 
-| Parametr     | Zkratka | Vyžadován | Význam                                                       |
-| ------------ | ------- | --------- | ------------------------------------------------------------ |
-| --algorithms | -a      | Ano       | Seznam implementací oddělený mezerami.                       |
-| --dataset    | -d      | Ano       | Název datového souboru.                                      |
-| --label      | -la     | Ne        | Identifikátor tabulky.                                       |
-| --legend     | -le     | Ne        | Názvy implementací v tabulce. Pokud není uveden, budou použity původní názvy. |
-| --output     | -o      | Ano       | Cesta k výstupnímu souboru.                                  |
-| --percent    | -p      | Ne        | Přidá do tabulky sloupec s procentuálním rozdílem časů stavby. |
-| --recompute  | -r      | Ne        | Znovu vypočítá výkonnostní metriky z naměřených výsledků. Tato operace může trvat více než 10 minut. |
+| Parametr, zkratka                     | Význam                                                       |
+| ------------------------------------- | ------------------------------------------------------------ |
+| &#x2011;&#x2011;algorithms, &#x2011;a | Vyžadován. Seznam implementací oddělený mezerami.            |
+| &#x2011;&#x2011;dataset, &#x2011;d    | Vyžadován. Název datového souboru.                           |
+| &#x2011;&#x2011;label, &#x2011;la     | Identifikátor tabulky.                                       |
+| &#x2011;&#x2011;legend, &#x2011;le    | Názvy implementací v tabulce. Pokud není uveden, budou použity původní názvy. |
+| &#x2011;&#x2011;output, &#x2011;o     | Vyžadován. Cesta k výstupnímu souboru.                       |
+| &#x2011;&#x2011;percent, &#x2011;p    | Přidá do tabulky sloupec s procentuálním rozdílem časů stavby. |
+| &#x2011;&#x2011;recompute, &#x2011;r  | Znovu vypočítá výkonnostní metriky z naměřených výsledků. Tato operace může trvat více než 10 minut. |
 
 Příklad spuštění:
 
@@ -170,16 +168,16 @@ py latexTable.py -a new-prefetch original -d sift-128-euclidean -le "Nová impl.
 
 Spustí srovnání implementací v jednom nebo více Docker kontejnerech, vypočítá výkonnostní metrika, vygeneruje webovou stránku s výsledky a otevře ji v nové kartě internetového prohlížeče. Kód vygenerované stránky lze poté najít ve složce `src/website` a můžete ji opětovně zobrazit otevřením souboru `index.html`.
 
-| Parametr       | Zkratka | Vyžadován | Význam                                                       |
-| -------------- | ------- | --------- | ------------------------------------------------------------ |
-| --algoDefPaths | -a      | Ano       | Seznam cest ke konfiguračním souborům oddělených mezerami.   |
-| --datasets     | -d      | Ano*      | Seznam datových souborů oddělených mezerami.                 |
-| --force        | -f      | Ne        | Spustí již provedená měření znovu.                           |
-| --datasetsPath | -p      | Ano*      | Cesta k textovému souboru se seznamem datových souborů.      |
-| --runs         | -r      | Ne        | Počet opakování měření. Výchozí hodnota je 1.                |
-| --workers      | -w      | Ne        | Počet paralelně spuštěných Docker kontejnerů. Výchozí hodnota je 1. |
+| Parametr, zkratka                       | Význam                                                       |
+| --------------------------------------- | ------------------------------------------------------------ |
+| &#x2011;&#x2011;algoDefPaths, &#x2011;a | Vyžadován. Seznam cest ke konfiguračním souborům oddělených mezerami. O konfiguraci se více dočtete v kapitole `Konfigurace srovnání`. |
+| &#x2011;&#x2011;datasets, &#x2011;d     | Vyžadován\*. Seznam datových souborů oddělených mezerami.    |
+| &#x2011;&#x2011;datasetsPath, &#x2011;p | Vyžadován\*. Cesta k textovému souboru se seznamem datových souborů. |
+| &#x2011;&#x2011;force, &#x2011;f        | Spustí již provedená měření znovu.&#x2011;                   |
+| &#x2011;&#x2011;runs, &#x2011;r         | Počet opakování měření. Výchozí hodnota je 1.                |
+| &#x2011;&#x2011;workers, &#x2011;w      | Počet paralelně spuštěných Docker kontejnerů. Výchozí hodnota je 1. |
 
-O konfiguraci srovnání se více dočtete v kapitole `Konfigurace srovnání`. Datové soubory využité ke srovnání nejsou ty samé, které jsou využívány k debugování. Jejich seznam najdete v kapitole `Testované datové soubory`.
+Datové soubory využité ke srovnání nejsou ty samé, které jsou využívány k debugování. Jejich seznam najdete v kapitole `Testované datové soubory`.
 
 \* Pouze jeden z parametrů označených hvězdičkou by měl být uveden.
 
