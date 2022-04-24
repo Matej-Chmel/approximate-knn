@@ -56,6 +56,7 @@ var namespacechm =
     [ "euclideanDistance4ResidualSSE", "namespacechm.html#a81c1d3efe3ab304097bac16cf3f06e36", null ],
     [ "euclideanDistance4SSE", "namespacechm.html#a1bdeb40d27f44390f284558b45d1bbf0", null ],
     [ "freeWhenDone", "namespacechm.html#ab8a2a14107617be5b306e80d546f017a", null ],
+    [ "getAvailableSIMD", "namespacechm.html#a246c5100d95586fee906819cc1eecdae", null ],
     [ "getBestSIMDType", "namespacechm.html#a515bfcb5a313fbac8979ec2186820ac9", null ],
     [ "getEuclideanInfo", "namespacechm.html#a5267c4d3957bdf209a39888b1d9a1047", null ],
     [ "getIndexTemplate", "namespacechm.html#aa7ce8356c08662c060751062d74c6061", null ],

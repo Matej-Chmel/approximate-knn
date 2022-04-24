@@ -12,6 +12,7 @@ var _distance_function_8hpp =
       [ "NONE", "_distance_function_8hpp.html#a32cb02ac8c02f0f27c921c284020ab51ab50339a10e1de285ac99d4c3990b8693", null ],
       [ "SSE", "_distance_function_8hpp.html#a32cb02ac8c02f0f27c921c284020ab51a5fc53fc8197865c63285f74b1e147013", null ]
     ] ],
+    [ "getAvailableSIMD", "_distance_function_8hpp.html#a246c5100d95586fee906819cc1eecdae", null ],
     [ "getBestSIMDType", "_distance_function_8hpp.html#a515bfcb5a313fbac8979ec2186820ac9", null ],
     [ "getSIMDType", "_distance_function_8hpp.html#a1784e09c5179b094d1f696f496c0b592", null ]
 ];

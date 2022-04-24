@@ -67,7 +67,7 @@ namespace chm {
 
 	/**
 	 * Vrátí všechny dostupné SIMD rozšíření.
-	 * @return Všechny dostupné SIMD rozšíření.
+	 * @return Kolekce všech dostupných druhů SIMD instrukcí.
 	 * @see @ref SIMDType
 	 */
 	std::vector<SIMDType> getAvailableSIMD();

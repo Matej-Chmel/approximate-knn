@@ -58,8 +58,8 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "_configuration_8cpp.html",
-"classchm_1_1_labels_wrapper.html#a92e28de5321dbed1cb0cb95fa9e4d6fb",
-"namespacechm.html#afaabb8aa029c7a0dea22ba278f579d8e"
+"classchm_1_1_labels_wrapper.html#a92944149d4aa27f82d3ee6a0d9464b1b",
+"namespacechm.html#ae8aaa888331b74f27b6d0a1fa3b7756f"
 ];
 
 var SYNCONMSG = 'zakázat synchronizaci panelů';
