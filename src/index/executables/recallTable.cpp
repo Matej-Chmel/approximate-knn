@@ -7,40 +7,24 @@ namespace fs = std::filesystem;
 	constexpr auto SRC_DIR = "";
 #endif
 
-template<class T>
-inline void runRecallTable(const chm::RecallTableConfig& cfg) {
-	chm::RecallTable<T> table(cfg);
-	table.run(std::cout);
-	table.print(std::cout);
-}
-
-void runRecallTable(const fs::path& cfgPath, const fs::path& dataDir) {
-	chm::RecallTableConfig cfg(cfgPath, dataDir);
-
-	switch(cfg.indexTemplate) {
-		case chm::IndexTemplate::HEURISTIC:
-			runRecallTable<chm::HeuristicTemplate>(cfg);
-			break;
-		case chm::IndexTemplate::NAIVE:
-			runRecallTable<chm::NaiveTemplate>(cfg);
-			break;
-		case chm::IndexTemplate::NO_BIT_ARRAY:
-			runRecallTable<chm::NoBitArrayTemplate>(cfg);
-			break;
-		case chm::IndexTemplate::PREFETCHING:
-			runRecallTable<chm::PrefetchingTemplate>(cfg);
-			break;
-		default:
-			throw std::runtime_error("Invalid index template.");
-	}
-}
-
 int main() {
 	try {
 		const auto srcDir = fs::path(SRC_DIR);
 		const auto cfgPath = srcDir / "config" / "recallTable.json";
 		const auto dataDir = srcDir / "data";
-		runRecallTable(cfgPath, dataDir);
+		const auto configs = chm::RecallTableConfig::getVectorFromJSON(cfgPath, dataDir);
+
+		std::vector<chm::RecallTablePtr> tables;
+
+		for(const auto& cfg : configs) {
+			chm::RecallTablePtr t = chm::getRecallTable(cfg);
+			t->run(std::cout);
+			tables.push_back(t);
+		}
+		for(const auto& t : tables) {
+			t->print(std::cout);
+			std::cout << '\n';
+		}
 
 	} catch(const std::exception& e) {
 		std::cerr << "[ERROR] " << e.what() << '\n';

@@ -4,6 +4,7 @@ from .Dataset import Dataset
 import json
 import pandas
 from pathlib import Path
+from .runner import AppError
 import time
 
 EF_SEARCH_WIDTH = 8
@@ -23,16 +24,19 @@ class RecallTableConfig:
 	simdType: h.SIMDType
 
 	@classmethod
-	def fromJSON(cls, p: Path):
-		with p.open("r", encoding="utf-8") as f:
-			obj = json.load(f)
+	def fromDict(cls, d: dict):
+		if not isinstance(d, dict):
+			raise AppError(f"Index configuration must be a JSON object. Was:{N}{d}")
+		try:
 			return RecallTableConfig(
-				obj["dataset"], obj["efConstruction"], obj["efSearch"],
-				h.getIndexTemplate(obj["template"]), obj["mMax"], obj["seed"],
+				d["dataset"], d["efConstruction"], d["efSearch"],
+				h.getIndexTemplate(d["template"]), d["mMax"], d["seed"],
 				h.SIMDType.NONE
-				if "SIMD" not in obj or obj["SIMD"] is None
-				else h.getSIMDType(obj["SIMD"])
+				if "SIMD" not in d or d["SIMD"] is None
+				else h.getSIMDType(d["SIMD"])
 			)
+		except KeyError as e:
+			raise AppError(f'Missing key {e.args[0]} in object:{N}{d}')
 
 	def getIndexCls(self):
 		return {
@@ -41,6 +45,15 @@ class RecallTableConfig:
 			h.IndexTemplate.NO_BIT_ARRAY: h.NoBitArrayIndex,
 			h.IndexTemplate.PREFETCHING: h.PrefetchingIndex
 		}[self.indexTemplate]
+
+	@classmethod
+	def listFromJSON(cls, p: Path):
+		with p.open("r", encoding="utf-8") as f:
+			arr = json.load(f)
+
+			if not isinstance(arr, list):
+				raise AppError(f'Root element of "recallTable.json" must be a JSON array. Was:{N}{arr}')
+			return [cls.fromDict(e) for e in arr]
 
 def getPrettyElapsedStr(elapsedNS: int):
 	return str(pandas.Timedelta(nanoseconds=elapsedNS))
@@ -60,12 +73,15 @@ class RecallTable:
 		self.buildElapsedNS: int = None
 		self.cfg = cfg
 		self.dataset = dataset
+		self.indexStr: str = None
 		self.space = h.Space.ANGULAR if self.dataset.angular else h.Space.EUCLIDEAN
 
 	def __str__(self):
+		if self.indexStr is None:
+			raise AppError("Recall table not yet computed.")
 		return "\n".join([
 			str(self.dataset),
-			str(self.index),
+			self.indexStr,
 			f"Build time: [{getPrettyElapsedStr(self.buildElapsedNS)}], {self.buildElapsedNS} ns{N}",
 			f"{'EfSearch':>{EF_SEARCH_WIDTH}}{'Recall':>{RECALL_WIDTH}}{'Elapsed (pretty)':>{ELAPSED_PRETTY_WIDTH}}{'Elapsed (ns)':>{ELAPSED_WIDTH}}",
 			*[
@@ -83,13 +99,14 @@ class RecallTable:
 		print("Building index.")
 
 		start = time.perf_counter_ns()
-		self.index = self.cfg.getIndexCls()(
+		index = self.cfg.getIndexCls()(
 			self.dataset.dim, self.dataset.trainCount,
 			self.cfg.efConstruction, self.cfg.mMax, self.cfg.seed, self.cfg.simdType, self.space
 		)
-		self.index.push(self.dataset.train)
+		index.push(self.dataset.train)
 		end = time.perf_counter_ns()
 
+		self.indexStr = str(index)
 		self.buildElapsedNS = end - start
 		print(f"Index built in {getPrettyElapsedStr(self.buildElapsedNS)}.", end = "\n\n")
 
@@ -99,8 +116,8 @@ class RecallTable:
 			print(f"Querying with efSearch = {efSearch}.")
 
 			start = time.perf_counter_ns()
-			self.index.setEfSearch(efSearch)
-			knnResults = self.index.queryBatch(self.dataset.test, self.dataset.k)
+			index.setEfSearch(efSearch)
+			knnResults = index.queryBatch(self.dataset.test, self.dataset.k)
 			end = time.perf_counter_ns()
 			benchmark.elapsedNS = end - start
 			print(f"Completed in {benchmark.getPrettyElapsedStr()}.")

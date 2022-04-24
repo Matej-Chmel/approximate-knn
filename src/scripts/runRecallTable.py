@@ -1,23 +1,27 @@
 from chmTools.module import AppError, RecallTable, RecallTableConfig, wrapMain
 from pathlib import Path
 
+def computeTable(cfg: RecallTableConfig, dataDir: Path):
+	try:
+		datasetPath = dataDir / f"{cfg.dataset}.hdf5"
+		table = RecallTable.fromHDF(cfg, datasetPath)
+		table.run()
+		return table
+	except FileNotFoundError:
+		raise AppError(f'Dataset "{datasetPath}" not found.')
+
 def main():
 	srcDir = Path(__file__).parents[1]
 
 	try:
 		cfgPath = srcDir / "config" / "recallTable.json"
-		cfg = RecallTableConfig.fromJSON(cfgPath)
+		configs = RecallTableConfig.listFromJSON(cfgPath)
 	except FileNotFoundError:
 		raise AppError(f"No configuration file found at {cfgPath}.")
-	except KeyError as e:
-		raise AppError(f"Configuration file is missing key {e.args[0]}.")
 
-	try:
-		table = RecallTable.fromHDF(cfg, srcDir / "data" / f"{cfg.dataset}.hdf5")
-		table.run()
-		print(table)
-	except FileNotFoundError:
-		raise AppError("HDF5 dataset not found.")
+	dataDir = srcDir / "data"
+	tables = [computeTable(cfg, dataDir) for cfg in configs]
+	print("\n\n".join(map(str, tables)))
 
 if __name__ == "__main__":
 	wrapMain(main)

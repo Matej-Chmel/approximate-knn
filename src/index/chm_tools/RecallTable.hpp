@@ -6,6 +6,7 @@
 namespace chm {
 	namespace chr = std::chrono;
 	namespace fs = std::filesystem;
+	namespace nl = nlohmann;
 
 	constexpr std::streamsize EF_SEARCH_WIDTH = 8;
 	constexpr std::streamsize ELAPSED_PRETTY_WIDTH = 29;
@@ -36,11 +37,21 @@ namespace chm {
 		uint seed;
 		SIMDType simdType;
 
-		RecallTableConfig(const fs::path& jsonPath, const fs::path& dataDir);
+		static std::vector<RecallTableConfig> getVectorFromJSON(
+			const fs::path& p, const fs::path& dataDir
+		);
+		RecallTableConfig(const nl::json& obj, const fs::path& dataDir);
 	};
 
+	struct AbstractRecallTable {
+		virtual void print(std::ostream& s) const = 0;
+		virtual void run(std::ostream& s) = 0;
+	};
+
+	using RecallTablePtr = std::shared_ptr<AbstractRecallTable>;
+
 	template<class T = NaiveTemplate>
-	class RecallTable {
+	class RecallTable : public AbstractRecallTable {
 		std::vector<QueryBenchmark> benchmarks;
 		chr::nanoseconds buildElapsed;
 		const RecallTableConfig cfg;
@@ -49,8 +60,8 @@ namespace chm {
 
 	public:
 		RecallTable(const RecallTableConfig& cfg);
-		void print(std::ostream& s) const;
-		void run(std::ostream& s);
+		void print(std::ostream& s) const override;
+		void run(std::ostream& s) override;
 	};
 
 	class Timer {
@@ -63,10 +74,14 @@ namespace chm {
 	};
 
 	template<typename T> long long convert(chr::nanoseconds& t);
+	template<typename T> T getJSONValue(const nl::json& obj, const std::string& key);
+	RecallTablePtr getRecallTable(const RecallTableConfig& cfg);
 	void prettyPrint(const chr::nanoseconds& elapsed, std::ostream& s);
 	void print(const float number, std::ostream& s, const std::streamsize places = 2);
 	void print(const long long number, std::ostream& s, const std::streamsize places = 2);
 	template<typename T> void printField(const T& field, std::ostream& s, const std::streamsize width);
+	void throwMissingKey(const std::string& key);
+	void throwWrongType(const std::string& key, const std::string& expectedType);
 
 	template<class T>
 	inline RecallTable<T>::RecallTable(const RecallTableConfig& cfg)
@@ -77,6 +92,9 @@ namespace chm {
 
 	template<class T>
 	inline void RecallTable<T>::print(std::ostream& s) const {
+		if (this->indexStr.empty())
+			throw std::runtime_error("Recall table not yet computed.");
+
 		std::ios streamState(nullptr);
 		streamState.copyfmt(s);
 
@@ -153,6 +171,21 @@ namespace chm {
 		const auto res = chr::duration_cast<T>(t);
 		t -= res;
 		return res.count();
+	}
+
+	template<typename T>
+	inline T getJSONValue(const nl::json& obj, const std::string& key) {
+		if(!obj.contains(key))
+			throwMissingKey(key);
+
+		const auto& value = obj.at(key);
+
+		try {
+			return value.get<T>();
+		} catch(const nl::json::exception&) {
+			throwWrongType(key, typeid(T).name());
+		}
+		return T();
 	}
 
 	template<typename T>

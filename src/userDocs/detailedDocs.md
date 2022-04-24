@@ -238,7 +238,7 @@ Pro vygenerování jiných datových souborů pro debugování změňte konfigur
 | seed       | int         | Nastavení generátoru náhodných čísel.                        |
 
 ## Konfigurace programů *recallTable*
-Pro změnu datového souboru nebo nastavení indexu v programech `recallTable.cpp` a `recallTable.py` upravte soubor `src/config/recallTable.json`. Konfigurace je JSON soubor s jediným objektem.
+Pro změnu sestavovaných konfigurací programy `recallTable.cpp` a `recallTable.py` upravte soubor `src/config/recallTable.json`. Konfigurace je JSON soubor s polem objektů, kde každý objekt popisuje jednu konfiguraci.
 
 ```json
 {

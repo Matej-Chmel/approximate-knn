@@ -74,6 +74,11 @@ class BuildExt(build_ext):
 		addPreprocessorMacro("VERSION_INFO", ct, opts, self.distribution.get_version())
 		addSIMDMacros(ct, opts)
 
+		# Options visible only in verbose mode which can be enabled by following command.
+		# py -m pip install . --verbose
+		N = "\n"
+		print(f"{N}Options:{N}{N.join(opts)}{N}")
+
 		for ext in self.extensions:
 			ext.extra_compile_args.extend(opts)
 			ext.extra_link_args.extend(self.link_opts.get(ct, []))

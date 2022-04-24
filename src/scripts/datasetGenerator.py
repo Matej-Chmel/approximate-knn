@@ -1,4 +1,7 @@
-from chmTools.module import AppError, Dataset, wrapMain
+from chmTools.runner import AppError, checkInsideVenv, wrapMain
+checkInsideVenv()
+
+from chmTools.Dataset import Dataset
 import json
 from pathlib import Path
 
