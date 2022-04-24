@@ -304,20 +304,7 @@ sift-128-euclidean
 
 ## Konfigurace srovnání
 
-Výběr implementací ke srovnání a jejich parametrů zprostředkovávají konfigurační soubory ve formátu YAML. Příklad takového souboru je `src/config/algos.yaml`. Ve složce `src/config` se nacházejí předem vytvořené konfigurace. Jejich význam popisuje následující tabulka.
-
-| Název souboru          | Význam                                                       |
-| ---------------------- | ------------------------------------------------------------ |
-| 100k&#x2011;large.yaml | 12 stejných konfigurací pro novou a původní implementaci. Vhodné pro malé datové soubory. |
-| 100k&#x2011;small.yaml | 4 stejné konfigurace pro novou a původní implementaci. Vhodné pro malé datové soubory. |
-| algos.yaml             | 1 konfigurace pro každou šablonu nové a původní implementace. |
-| heuristic.yaml         | 12 konfigurací pro šablonu *Heuristic* nové implementace.\*  |
-| naive.yaml             | 12 konfigurací pro šablonu *Naive* nové implementace.\*      |
-| noBit.yaml             | 12 konfigurací pro šablonu *NoBitArray* nové implementace.\* |
-| original.yaml          | 12 konfigurací pro původní implementaci.                     |
-| prefetch.yaml          | 12 konfigurací pro šablonu *Prefetching* nové implementace.\* |
-
-\* Popis šablon obsahuje kapitola `Šablony nové implementace`.
+Výběr implementací ke srovnání a jejich parametrů zprostředkovávají konfigurační soubory ve formátu YAML. Příklad takového souboru je `src/config/algos.yaml`. Ve složce `src/config` se nacházejí předem vytvořené konfigurace.
 
 Následuje příklad konfigurace. Komentáře označené znakem `#` popisují jednotlivé klíče.
 
@@ -342,9 +329,12 @@ Definované implementace popisuje následující tabulka.
 | ------------------------- | ----------------- | ----------- | ---------------------- |
 | original                  | Původní hnswlib   |             | Nejmodernější dostupné |
 | new&#x2011;avx            | Nová              | Heuristic   | AVX                    |
+| new&#x2011;avx&#x2011;512 | Nová              | Heuristic   | AVX&#x2011;512         |
 | new&#x2011;heuristic      | Nová              | Heuristic   | Nejmodernější dostupné |
 | new&#x2011;naive          | Nová              | Naive       | Nejmodernější dostupné |
 | new&#x2011;no&#x2011;bit  | Nová              | NoBitArray  | Nejmodernější dostupné |
 | new&#x2011;no&#x2011;simd | Nová              | Heuristic   | Žádné                  |
 | new&#x2011;prefetch       | Nová              | Prefetching | Nejmodernější dostupné |
 | new&#x2011;sse            | Nová              | Heuristic   | SSE                    |
+
+Popis šablon obsahuje kapitola `Šablony nové implementace`.

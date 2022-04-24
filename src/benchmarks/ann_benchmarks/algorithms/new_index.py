@@ -35,6 +35,9 @@ class ChmHnsw(BaseANN):
 def ChmHnswAVX(efConstruction: int, mMax: int, metric: str):
 	return ChmHnsw(h.HeuristicIndex, efConstruction, metric, mMax, h.SIMDType.AVX)
 
+def ChmHnswAVX512(efConstruction: int, mMax: int, metric: str):
+	return ChmHnsw(h.HeuristicIndex, efConstruction, metric, mMax, h.SIMDType.AVX512)
+
 def ChmHnswHeuristic(efConstruction: int, mMax: int, metric: str):
 	return ChmHnsw(h.HeuristicIndex, efConstruction, metric, mMax, h.SIMDType.BEST)
 

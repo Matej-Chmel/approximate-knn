@@ -2,6 +2,7 @@
 	#define PYBIND_INCLUDED
 #endif
 
+#include <pybind11/stl.h>
 #include "chm/Index.hpp"
 #include "chm/recall.hpp"
 
@@ -34,6 +35,8 @@ namespace chm {
 	}
 
 	PYBIND11_MODULE(chm_hnsw, m) {
+		m.def("getAvailableSIMD", getAvailableSIMD);
+		m.def("getBestSIMDType", getBestSIMDType);
 		m.def("getIndexTemplate", getIndexTemplate, py::arg("s"));
 		m.def(
 			"getRecall", py::overload_cast<const NumpyArray<uint>, const NumpyArray<uint>>(getRecall),

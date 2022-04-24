@@ -4,6 +4,18 @@
 #include "DistanceFunction.hpp"
 
 namespace chm {
+	std::vector<SIMDType> getAvailableSIMD() {
+		#if defined(AVX512_CAPABLE)
+			return {SIMDType::AVX512, SIMDType::AVX, SIMDType::SSE};
+		#elif defined(AVX_CAPABLE)
+			return {SIMDType::AVX, SIMDType::SSE};
+		#elif defined(SSE_CAPABLE)
+			return {SIMDType::SSE};
+		#else
+			return {};
+		#endif
+	}
+
 	SIMDType getBestSIMDType() {
 		#if defined(AVX512_CAPABLE)
 			return SIMDType::AVX512;

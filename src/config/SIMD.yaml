@@ -1,0 +1,10 @@
+algos:
+  - new-avx
+  - new-no-simd
+  - new-sse
+build:
+  - efConstruction: 100
+    mMax: 4
+  - efConstruction: 100
+    mMax: 16
+efSearch: [10, 12, 14, 16, 18, 20, 25, 30, 40, 80, 120, 200]

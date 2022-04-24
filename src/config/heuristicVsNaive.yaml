@@ -1,5 +1,6 @@
 algos:
-  - new-no-bit
+  - new-heuristic
+  - new-naive
 build:
   - efConstruction: 100
     mMax: 4

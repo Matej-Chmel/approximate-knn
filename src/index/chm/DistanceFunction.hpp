@@ -1,5 +1,6 @@
 #pragma once
 #include <string>
+#include <vector>
 
 #if defined(SIMD_CAPABLE)
 	#include <immintrin.h>
@@ -64,6 +65,12 @@ namespace chm {
 		SSE
 	};
 
+	/**
+	 * Vrátí všechny dostupné SIMD rozšíření.
+	 * @return Všechny dostupné SIMD rozšíření.
+	 * @see @ref SIMDType
+	 */
+	std::vector<SIMDType> getAvailableSIMD();
 	/**
 	 * Získá nejlepší @ref SIMDType dle počtu dvojic čísel, které zpracuje jedna instrukce.
 	 * @return Nejlepší @ref SIMDType.
