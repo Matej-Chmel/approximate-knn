@@ -1,34 +1,7 @@
 from __future__ import absolute_import
 import numpy
-import sklearn.neighbors
-from ann_benchmarks.distance import metrics as pd
 from ann_benchmarks.algorithms.base import BaseANN
-
-
-class BruteForce(BaseANN):
-    def __init__(self, metric):
-        if metric not in ('angular', 'euclidean', 'hamming'):
-            raise NotImplementedError(
-                "BruteForce doesn't support metric %s" % metric)
-        self._metric = metric
-        self.name = 'BruteForce()'
-
-    def fit(self, X):
-        metric = {'angular': 'cosine', 'euclidean': 'l2',
-                  'hamming': 'hamming'}[self._metric]
-        self._nbrs = sklearn.neighbors.NearestNeighbors(
-            algorithm='brute', metric=metric)
-        self._nbrs.fit(X)
-
-    def query(self, v, n):
-        return list(self._nbrs.kneighbors(
-            [v], return_distance=False, n_neighbors=n)[0])
-
-    def query_with_distances(self, v, n):
-        (distances, positions) = self._nbrs.kneighbors(
-            [v], return_distance=True, n_neighbors=n)
-        return zip(list(positions[0]), list(distances[0]))
-
+from ann_benchmarks.distance import metrics as pd
 
 class BruteForceBLAS(BaseANN):
     """kNN search that uses a linear scan = brute force."""

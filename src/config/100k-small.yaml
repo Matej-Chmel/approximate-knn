@@ -1,20 +1,13 @@
 algos:
-  new-prefetch:
-    - efConstruction: 50
-      mMax: 4
-    - efConstruction: 50
-      mMax: 8
-    - efConstruction: 50
-      mMax: 12
-    - efConstruction: 50
-      mMax: 16
-  original:
-    - efConstruction: 50
-      mMax: 4
-    - efConstruction: 50
-      mMax: 8
-    - efConstruction: 50
-      mMax: 12
-    - efConstruction: 50
-      mMax: 16
+  - new-prefetch
+  - original
+build:
+  - efConstruction: 50
+    mMax: 4
+  - efConstruction: 50
+    mMax: 8
+  - efConstruction: 50
+    mMax: 12
+  - efConstruction: 50
+    mMax: 16
 efSearch: [10, 12, 14, 16, 18, 20, 25, 30, 40, 80]

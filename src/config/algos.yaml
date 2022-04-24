@@ -1,26 +1,13 @@
 algos:
-  original:
-    - efConstruction: 100
-      mMax: 4
-  new-avx:
-    - efConstruction: 100
-      mMax: 4
-  new-heuristic:
-    - efConstruction: 100
-      mMax: 4
-  new-naive:
-    - efConstruction: 100
-      mMax: 4
-  new-no-bit:
-    - efConstruction: 100
-      mMax: 4
-  new-no-simd:
-    - efConstruction: 100
-      mMax: 4
-  new-prefetch:
-    - efConstruction: 100
-      mMax: 4
-  new-sse:
-    - efConstruction: 100
-      mMax: 4
+  - original
+  - new-avx
+  - new-heuristic
+  - new-naive
+  - new-no-bit
+  - new-no-simd
+  - new-prefetch
+  - new-sse
+build:
+  - efConstruction: 100
+    mMax: 4
 efSearch: [10, 100, 1000]

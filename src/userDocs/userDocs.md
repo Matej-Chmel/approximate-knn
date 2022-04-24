@@ -328,20 +328,16 @@ Následuje příklad konfigurace. Komentáře označené znakem `#` popisují je
 
 ```yaml
 algos: # Povinný klíč.
-  # Povinné pole implementací.
-  original: # Název implementace.
-    # Povinné pole konfigurací stavby.
-    - efConstruction: 50 # Povinný klíč parametru efConstruction.
-      mMax: 4 # Povinný klíč parametru mMax.
-    - efConstruction: 50
-      mMax: 8
-    - efConstruction: 50
-      mMax: 12
-  new-prefetch:
-    - efConstruction: 50
-      mMax: 8
-    - efConstruction: 50
-      mMax: 12
+  # Povinné pole názvů porovnávaných implementací.
+  - original
+  - new-prefetch
+build: # Povinný klíč.
+  # Povinné pole objektů konfigurace stavby.
+  # Pro každou konfiguraci musí být uvedeny hodnoty parametrů efConstruction a mMax.
+  - efConstruction: 50
+    mMax: 4
+  - efConstruction: 100
+    mMax: 8
 efSearch: [10, 12, 14, 16, 18, 20, 25, 30, 40, 80] # Povinné pole hodnot parametru vyhledávání efSearch.
 ```
 

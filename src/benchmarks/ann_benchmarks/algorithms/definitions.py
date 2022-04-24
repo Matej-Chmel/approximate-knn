@@ -1,48 +1,62 @@
 from __future__ import absolute_import
-import collections
+from dataclasses import dataclass
 from enum import Enum
 import importlib
 from pathlib import Path
 import yaml
 
-Definition = collections.namedtuple(
-	"Definition", [
-		"algorithm", "arguments", "constructor", "disabled",
-		"docker_tag", "module", "query_argument_groups"
-	]
-)
+@dataclass
+class Definition:
+	algorithm: str
+	buildArgs: list
+	constructor: str
+	dockerTag: str
+	disabled: bool
+	efSearchValues: list[int]
+	module: str
 
+	@property
+	def efConstruction(self):
+		return self.buildArgs[0]
 
-def instantiate_algorithm(definition):
+	def getFilename(self, efSearch: int):
+		return f"{self.metric}_e_{self.efConstruction}_m_{self.mMax}_ef_{efSearch}.hdf5"
+
+	@property
+	def metric(self):
+		return self.buildArgs[2]
+
+	@property
+	def mMax(self):
+		return self.buildArgs[1]
+
+def instantiate_algorithm(d: Definition):
 	print(
-		f"Trying to instantiate {definition.module}.{definition.constructor}({definition.arguments})"
+		f"Trying to instantiate {d.module}.{d.constructor}("
+		f"efConstruction={d.efConstruction}, mMax={d.mMax}, metric={d.metric})"
 	)
-	module = importlib.import_module(definition.module)
-	constructor = getattr(module, definition.constructor)
-	return constructor(*definition.arguments)
-
+	module = importlib.import_module(d.module)
+	constructor = getattr(module, d.constructor)
+	return constructor(d.efConstruction, d.mMax, d.metric)
 
 class InstantiationStatus(Enum):
 	AVAILABLE = 0
 	NO_CONSTRUCTOR = 1
 	NO_MODULE = 2
 
-
-def algorithm_status(definition):
+def algorithm_status(d: Definition):
 	try:
-		module = importlib.import_module(definition.module)
-		if hasattr(module, definition.constructor):
+		module = importlib.import_module(d.module)
+		if hasattr(module, d.constructor):
 			return InstantiationStatus.AVAILABLE
 		else:
 			return InstantiationStatus.NO_CONSTRUCTOR
 	except ImportError:
 		return InstantiationStatus.NO_MODULE
 
-
 def _get_definitions(definition_file: Path):
 	with definition_file.open("r", encoding="utf-8") as f:
 		return yaml.load(f, yaml.SafeLoader)
-
 
 def list_algorithms(definition_file):
 	definitions = _get_definitions(definition_file)
@@ -55,20 +69,17 @@ def get_unique_algorithms(definition_file):
 	definitions = _get_definitions(definition_file)
 	return list(sorted(set(a for a in definitions["algos"])))
 
-def get_definitions(
-	definition_file: Path, dimension, point_type="float", distance_metric="euclidean", count=10
-):
+def get_definitions(definition_file: Path, point_type: str, metric: str):
 	parsedCfg = _get_definitions(definition_file)
 
 	if point_type != "float":
 		print("[ERROR] Only float type is supported.")
 		raise SystemExit(1)
 
-	algorithm_definitions = parsedCfg["algos"]
 	definitions = []
 
-	for name, configs in algorithm_definitions.items():
-		if name.startswith("new"):
+	for algo in parsedCfg["algos"]:
+		if algo.startswith("new"):
 			constructor = "ChmHnsw" + {
 				"new-avx": "AVX",
 				"new-heuristic": "Heuristic",
@@ -77,7 +88,7 @@ def get_definitions(
 				"new-naive": "Naive",
 				"new-prefetch": "Prefetching",
 				"new-sse": "SSE"
-			}[name]
+			}[algo]
 			dockerTag = "ann-benchmarks-chm-hnsw"
 			module = "ann_benchmarks.algorithms.chm_hnsw"
 		else:
@@ -85,15 +96,15 @@ def get_definitions(
 			dockerTag = "ann-benchmarks-hnswlib"
 			module = "ann_benchmarks.algorithms.hnswlib"
 
-		for cfg in configs:
+		for cfg in parsedCfg["build"]:
 			definitions.append(Definition(
-				algorithm=name,
-				arguments=[cfg["efConstruction"], cfg["mMax"], distance_metric],
+				algorithm=algo,
+				buildArgs=[cfg["efConstruction"], cfg["mMax"], metric],
 				constructor=constructor,
-				docker_tag=dockerTag,
+				dockerTag=dockerTag,
 				disabled=False,
-				module=module,
-				query_argument_groups=parsedCfg["efSearch"]
+				efSearchValues=parsedCfg["efSearch"],
+				module=module
 			))
 
 	return definitions

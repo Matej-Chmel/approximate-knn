@@ -1,52 +1,29 @@
 algos:
-  new-prefetch:
-    - efConstruction: 100
-      mMax: 4
-    - efConstruction: 100
-      mMax: 16
-    - efConstruction: 100
-      mMax: 32
-    - efConstruction: 100
-      mMax: 48
-    - efConstruction: 300
-      mMax: 4
-    - efConstruction: 300
-      mMax: 16
-    - efConstruction: 300
-      mMax: 32
-    - efConstruction: 300
-      mMax: 48
-    - efConstruction: 500
-      mMax: 4
-    - efConstruction: 500
-      mMax: 16
-    - efConstruction: 500
-      mMax: 32
-    - efConstruction: 500
-      mMax: 48
-  original:
-    - efConstruction: 100
-      mMax: 4
-    - efConstruction: 100
-      mMax: 16
-    - efConstruction: 100
-      mMax: 32
-    - efConstruction: 100
-      mMax: 48
-    - efConstruction: 300
-      mMax: 4
-    - efConstruction: 300
-      mMax: 16
-    - efConstruction: 300
-      mMax: 32
-    - efConstruction: 300
-      mMax: 48
-    - efConstruction: 500
-      mMax: 4
-    - efConstruction: 500
-      mMax: 16
-    - efConstruction: 500
-      mMax: 32
-    - efConstruction: 500
-      mMax: 48
+  - new-prefetch
+  - original
+build:
+  - efConstruction: 100
+    mMax: 4
+  - efConstruction: 100
+    mMax: 16
+  - efConstruction: 100
+    mMax: 32
+  - efConstruction: 100
+    mMax: 48
+  - efConstruction: 300
+    mMax: 4
+  - efConstruction: 300
+    mMax: 16
+  - efConstruction: 300
+    mMax: 32
+  - efConstruction: 300
+    mMax: 48
+  - efConstruction: 500
+    mMax: 4
+  - efConstruction: 500
+    mMax: 16
+  - efConstruction: 500
+    mMax: 32
+  - efConstruction: 500
+    mMax: 48
 efSearch: [10, 12, 14, 16, 18, 20, 25, 30, 40, 80, 120, 200, 400, 600, 800]

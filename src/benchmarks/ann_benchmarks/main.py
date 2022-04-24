@@ -138,12 +138,10 @@ def main():
 	if os.path.exists(INDEX_DIR):
 		shutil.rmtree(INDEX_DIR)
 
-	dataset, dimension = get_dataset(args.dataset)
+	dataset, _ = get_dataset(args.dataset)
 	point_type = dataset.attrs.get('point_type', 'float')
 	distance = dataset.attrs['distance']
-	definitions = get_definitions(
-		args.definitions, dimension, point_type, distance, args.count
-	)
+	definitions = get_definitions(args.definitions, point_type, distance)
 
 	# Filter out, from the loaded definitions, all those query argument groups
 	# that correspond to experiments that have already been run. (This might
@@ -151,20 +149,23 @@ def main():
 	# comprehension.)
 	filtered_definitions = []
 	for definition in definitions:
-		query_argument_groups = definition.query_argument_groups
-		if not query_argument_groups:
-			query_argument_groups = [[]]
+		queryArgs = definition.efSearchValues
+		if not queryArgs:
+			queryArgs = [None]
 		not_yet_run = []
-		for query_arguments in query_argument_groups:
-			fn = get_result_filename(args.dataset,
-									 args.count, definition,
-									 query_arguments, args.batch)
+
+		for efSearch in queryArgs:
+			fn = get_result_filename(
+				args.dataset,
+				args.count, definition,
+				efSearch, args.batch
+			)
+
 			if args.force or not os.path.exists(fn):
-				not_yet_run.append(query_arguments)
+				not_yet_run.append(efSearch)
 		if not_yet_run:
-			if definition.query_argument_groups:
-				definition = definition._replace(
-					query_argument_groups=not_yet_run)
+			if definition.efSearchValues:
+				definition.efSearchValues = not_yet_run
 			filtered_definitions.append(definition)
 	definitions = filtered_definitions
 
@@ -193,34 +194,25 @@ def main():
 		if args.docker_tag:
 			logger.info(f'running only {args.docker_tag}')
 			definitions = [
-				d for d in definitions if d.docker_tag == args.docker_tag]
+				d for d in definitions if d.dockerTag == args.docker_tag]
 
-		if set(d.docker_tag for d in definitions).difference(docker_tags):
+		if set(d.dockerTag for d in definitions).difference(docker_tags):
 			logger.info(f'not all docker images available, only: {set(docker_tags)}')
 			logger.info(f'missing docker images: '
-						f'{str(set(d.docker_tag for d in definitions).difference(docker_tags))}')
-			definitions = [d for d in definitions if d.docker_tag in docker_tags]
+						f'{str(set(d.dockerTag for d in definitions).difference(docker_tags))}')
+			definitions = [d for d in definitions if d.dockerTag in docker_tags]
 	else:
 		def _test(df):
 			status = algorithm_status(df)
-			# If the module was loaded but doesn't actually have a constructor
-			# of the right name, then the definition is broken
-			if status == InstantiationStatus.NO_CONSTRUCTOR:
-				raise Exception("%s.%s(%s): error: the module '%s' does not"
-								" expose the named constructor" % (
-									df.module, df.constructor,
-									df.arguments, df.module))
 
+			if status == InstantiationStatus.NO_CONSTRUCTOR:
+				raise Exception(
+					f"[ERROR] Module {df.module} doesn't expose constructor {df.constructor}."
+				)
 			if status == InstantiationStatus.NO_MODULE:
-				# If the module couldn't be loaded (presumably because
-				# of a missing dependency), print a warning and remove
-				# this definition from the list of things to be run
-				logging.warning("%s.%s(%s): the module '%s' could not be "
-					  "loaded; skipping" % (df.module, df.constructor,
-											df.arguments, df.module))
-				return False
-			else:
-				return True
+				raise Exception(f"[ERROR] Could not load module {df.module}.")
+			return True
+
 		definitions = [d for d in definitions if _test(d)]
 
 	if not args.run_disabled:
@@ -257,14 +249,7 @@ def main():
 		multiprocessing.Process(target=run_worker, args=(i+1, args, queue))
 		for i in range(args.parallelism)
 	]
-
 	[worker.start() for worker in workers]
-
-	try:
-		[worker.join() for worker in workers]
-	except KeyboardInterrupt:
-		logger.info('Keyboard interrupt received, terminating workers.')
-		[worker.terminate() for worker in workers]
-		[worker.join() for worker in workers]
+	[worker.join() for worker in workers]
 
 	# TODO: need to figure out cleanup handling here

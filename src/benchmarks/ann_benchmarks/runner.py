@@ -1,25 +1,20 @@
 import argparse
+import colors
+import docker
 import json
 import logging
+import numpy
 import os
+import psutil
 import threading
 import time
 import traceback
-
-import colors
-import docker
-import numpy
-import psutil
-
-from ann_benchmarks.algorithms.definitions import (Definition,
-												   instantiate_algorithm)
+from ann_benchmarks.algorithms.definitions import Definition, instantiate_algorithm
 from ann_benchmarks.datasets import get_dataset, DATASETS
 from ann_benchmarks.distance import metrics, dataset_transform
 from ann_benchmarks.results import store_results
 
-
-def run_individual_query(algo, X_train, X_test, distance, count, run_count,
-						 batch):
+def run_individual_query(algo, X_train, X_test, distance, count, run_count, batch):
 	prepared_queries = \
 		(batch and hasattr(algo, "prepare_batch_query")) or \
 		((not batch) and hasattr(algo, "prepare_query"))
@@ -94,14 +89,13 @@ def run_individual_query(algo, X_train, X_test, distance, count, run_count,
 		attrs[k] = additional[k]
 	return (attrs, results)
 
-
 def run(definition, dataset, count, run_count, batch):
 	algo = instantiate_algorithm(definition)
-	assert not definition.query_argument_groups \
+	assert not definition.efSearchValues \
 		   or hasattr(algo, "set_query_arguments"), """\
 error: query argument groups have been specified for %s.%s(%s), but the \
 algorithm instantiated from it does not implement the set_query_arguments \
-function""" % (definition.module, definition.constructor, definition.arguments)
+function""" % (definition.module, definition.constructor, definition.buildArgs)
 
 	D, dimension = get_dataset(dataset)
 	X_train = numpy.array(D['train'])
@@ -121,14 +115,14 @@ function""" % (definition.module, definition.constructor, definition.arguments)
 		print('Built index in', build_time)
 		print('Index size: ', index_size)
 
-		query_argument_groups = definition.query_argument_groups
+		queryArgs = definition.efSearchValues
 		# Make sure that algorithms with no query argument groups still get run once.
-		if not query_argument_groups:
-			query_argument_groups = [None]
+		if not queryArgs:
+			queryArgs = [None]
 
-		for pos, query_arguments in enumerate(query_argument_groups):
+		for pos, query_arguments in enumerate(queryArgs):
 			print("Running query argument group %d of %d..." %
-				(pos + 1, len(query_argument_groups))
+				(pos + 1, len(queryArgs))
 			)
 
 			if query_arguments is not None:
@@ -145,13 +139,8 @@ function""" % (definition.module, definition.constructor, definition.arguments)
 	finally:
 		algo.done()
 
-
 def run_from_cmdline():
-	parser = argparse.ArgumentParser('''
-
-			NOTICE: You probably want to run.py rather than this script.
-
-''')
+	parser = argparse.ArgumentParser("NOTICE: You probably want to run.py rather than this script.")
 	parser.add_argument(
 		'--dataset',
 		choices=DATASETS.keys(),
@@ -167,7 +156,7 @@ def run_from_cmdline():
 		required=True)
 	parser.add_argument(
 		'--constructor',
-		help='Constructer to load from modulel. E.g. "Annoy"',
+		help='Constructor to load from module. E.g. "Annoy"',
 		required=True)
 	parser.add_argument(
 		'--count',
@@ -176,7 +165,7 @@ def run_from_cmdline():
 		type=int)
 	parser.add_argument(
 		'--runs',
-		help='Number of times to run the algorihm. Will use the fastest run-time over the bunch.',
+		help='Number of times to run the algorithm. Will use the fastest run-time over the bunch.',
 		required=True,
 		type=int)
 	parser.add_argument(
@@ -185,49 +174,47 @@ def run_from_cmdline():
 		action='store_true')
 	parser.add_argument(
 		'build',
-		help='JSON of arguments to pass to the constructor. E.g. ["angular", 100]'
-		)
+		help='JSON of arguments to pass to the constructor. E.g. ["angular", 100]')
 	parser.add_argument(
 		'queries',
 		help='JSON of arguments to pass to the queries. E.g. [100]',
 		nargs='*',
 		default=[])
 	args = parser.parse_args()
-	algo_args = json.loads(args.build)
-	print(algo_args)
-	query_args = [json.loads(q) for q in args.queries]
+	buildArgs = json.loads(args.build)
+	efSearchValues = list(map(int, args.queries))
 
 	definition = Definition(
 		algorithm=args.algorithm,
-		docker_tag=None,  # not needed
-		module=args.module,
+		buildArgs=buildArgs,
 		constructor=args.constructor,
-		arguments=algo_args,
-		query_argument_groups=query_args,
-		disabled=False
+		disabled=False,
+		dockerTag=None,
+		efSearchValues=efSearchValues,
+		module=args.module
 	)
 	run(definition, args.dataset, args.count, args.runs, args.batch)
 
-
-def run_docker(definition, dataset, count, runs, timeout, batch, cpu_limit,
-			   mem_limit=None):
-	cmd = ['--dataset', dataset,
-		   '--algorithm', definition.algorithm,
-		   '--module', definition.module,
-		   '--constructor', definition.constructor,
-		   '--runs', str(runs),
-		   '--count', str(count)]
+def run_docker(definition, dataset, count, runs, timeout, batch, cpu_limit, mem_limit=None):
+	cmd = [
+		'--dataset', dataset,
+		'--algorithm', definition.algorithm,
+		'--module', definition.module,
+		'--constructor', definition.constructor,
+		'--runs', str(runs),
+		'--count', str(count)
+	]
 	if batch:
 		cmd += ['--batch']
-	cmd.append(json.dumps(definition.arguments))
-	cmd += [json.dumps(qag) for qag in definition.query_argument_groups]
+	cmd.append(json.dumps(definition.buildArgs))
+	cmd.extend(map(str, definition.efSearchValues))
 
 	client = docker.from_env()
 	if mem_limit is None:
 		mem_limit = psutil.virtual_memory().available
 
 	container = client.containers.run(
-		definition.docker_tag,
+		definition.dockerTag,
 		cmd,
 		volumes={
 			os.path.abspath('ann_benchmarks'):
@@ -263,7 +250,9 @@ def run_docker(definition, dataset, count, runs, timeout, batch, cpu_limit,
 
 def _handle_container_return_value(return_value, container, logger):
 	base_msg = 'Child process for container %s' % (container.short_id)
-	if type(return_value) is dict: # The return value from container.wait changes from int to dict in docker 3.0.0
+
+	# The return value from container.wait changes from int to dict in docker 3.0.0
+	if type(return_value) is dict:
 		error_msg = return_value['Error']
 		exit_code = return_value['StatusCode']
 		msg = base_msg + 'returned exit code %d with message %s' %(exit_code, error_msg)
