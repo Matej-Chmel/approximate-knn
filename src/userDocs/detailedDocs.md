@@ -279,9 +279,7 @@ Pro srovnání implementací je možno využít následujících datových soubo
 
 | Název                                            | Dimenze | Počet prvků při stavbě | Dotazy | Metrika                 |
 | ------------------------------------------------ | ------- | ---------------------- | ------ | ----------------------- |
-| deep&#x2011;image&#x2011;96&#x2011;angular       | 96      | 9 990 000              | 10 000 | Kosinusová podobnost    |
 | fashion&#x2011;mnist&#x2011;784&#x2011;euclidean | 784     | 60 000                 | 10 000 | Eukleidovská vzdálenost |
-| gist&#x2011;960&#x2011;euclidean                 | 960     | 1 000 000              | 1 000  | Eukleidovská vzdálenost |
 | glove&#x2011;25&#x2011;angular                   | 25      | 1 183 514              | 10 000 | Kosinusová podobnost    |
 | glove&#x2011;50&#x2011;angular                   | 50      | 1 183 514              | 10 000 | Kosinusová podobnost    |
 | glove&#x2011;100&#x2011;angular                  | 100     | 1 183 514              | 10 000 | Kosinusová podobnost    |
@@ -299,8 +297,8 @@ Pro srovnání implementací je možno využít následujících datových soubo
 Pro spuštění srovnání nad více soubory lze využít textového formátu, kde každý řádek reprezentuje jeden datový soubor. Řádky, které začínají znakem `#` jsou ignorovány. Příklad:
 
 ```bash
-# deep-image-96-angular
-glove-25-angular
+# glove-25-angular
+nytimes-256-angular
 sift-128-euclidean
 ```
 

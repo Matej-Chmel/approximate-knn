@@ -13,9 +13,7 @@ ENGLISH_TO_CZECH_DATASET = {
 	"random-xs-20-euclidean": "10 000 náhodných prvků, Eukleidovská vzdálenost"
 }
 LONG_TO_SHORT_DATASET_NAMES = {
-	"deep-image-96-angular": "DEEP1B",
 	"fashion-mnist-784-euclidean": "Fashion-MNIST",
-	"gist-960-euclidean": "GIST",
 	"glove-25-angular": "GloVe-25",
 	"glove-50-angular": "GloVe-50",
 	"glove-100-angular": "GloVe-100",
