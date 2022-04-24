@@ -74,16 +74,15 @@ namespace chm {
 		 * v prostoru o počtu dimenzí dělitelných 16 se zbytkem.
 		 * @param[in] node Vektor prvního prvku.
 		 * @param[in] query Vektor druhého prvku.
-		 * @param[in] dim4 Počet dimenzí prostoru po dělení 4.
 		 * @param[in] dim16 Počet dimenzí prostoru po dělení 16.
 		 * @param[in] dimLeft Zbytek po dělení počtu dimenzí 16.
 		 * @return Eukleidovská vzdálenost.
 		 */
 		static float euclideanDistance16ResidualAVX(
 			const float* node, const float* query, const size_t,
-			const size_t dim4, const size_t dim16, const size_t dimLeft
+			const size_t, const size_t dim16, const size_t dimLeft
 		) {
-			const float front = euclideanDistance16AVX(node, query, 0, dim4, dim16, 0);
+			const float front = euclideanDistance16AVX(node, query, 0, 0, dim16, 0);
 			const float back = euclideanDistance(node + dim16, query + dim16, dimLeft, 0, 0, 0);
 			return front + back;
 		}
@@ -138,16 +137,15 @@ namespace chm {
 		 * v prostoru o počtu dimenzí dělitelných 16 se zbytkem.
 		 * @param[in] node Vektor prvního prvku.
 		 * @param[in] query Vektor druhého prvku.
-		 * @param[in] dim4 Počet dimenzí prostoru po dělení 4.
 		 * @param[in] dim16 Počet dimenzí prostoru po dělení 16.
 		 * @param[in] dimLeft Zbytek po dělení počtu dimenzí 16.
 		 * @return Eukleidovská vzdálenost.
 		 */
 		static float euclideanDistance16ResidualAVX512(
 			const float* node, const float* query, const size_t,
-			const size_t dim4, const size_t dim16, const size_t dimLeft
+			const size_t, const size_t dim16, const size_t dimLeft
 		) {
-			const float front = euclideanDistance16AVX512(node, query, 0, dim4, dim16, 0);
+			const float front = euclideanDistance16AVX512(node, query, 0, 0, dim16, 0);
 			const float back = euclideanDistance(node + dim16, query + dim16, dimLeft, 0, 0, 0);
 			return front + back;
 		}
@@ -219,16 +217,15 @@ namespace chm {
 		 * v prostoru o počtu dimenzí dělitelných 16 se zbytkem.
 		 * @param[in] node Vektor prvního prvku.
 		 * @param[in] query Vektor druhého prvku.
-		 * @param[in] dim4 Počet dimenzí prostoru po dělení 4.
 		 * @param[in] dim16 Počet dimenzí prostoru po dělení 16.
 		 * @param[in] dimLeft Zbytek po dělení počtu dimenzí 16.
 		 * @return Eukleidovská vzdálenost.
 		 */
 		static float euclideanDistance16ResidualSSE(
 			const float* node, const float* query, const size_t,
-			const size_t dim4, const size_t dim16, const size_t dimLeft
+			const size_t, const size_t dim16, const size_t dimLeft
 		) {
-			const float front = euclideanDistance16SSE(node, query, 0, dim4, dim16, 0);
+			const float front = euclideanDistance16SSE(node, query, 0, 0, dim16, 0);
 			const float back = euclideanDistance(node + dim16, query + dim16, dimLeft, 0, 0, 0);
 			return front + back;
 		}
@@ -269,15 +266,14 @@ namespace chm {
 		 * @param[in] node Vektor prvního prvku.
 		 * @param[in] query Vektor druhého prvku.
 		 * @param[in] dim4 Počet dimenzí prostoru po dělení 4.
-		 * @param[in] dim16 Počet dimenzí prostoru po dělení 16.
 		 * @param[in] dimLeft Zbytek po dělení počtu dimenzí 4.
 		 * @return Eukleidovská vzdálenost.
 		 */
 		static float euclideanDistance4ResidualSSE(
 			const float* node, const float* query, const size_t,
-			const size_t dim4, const size_t dim16, const size_t dimLeft
+			const size_t dim4, const size_t, const size_t dimLeft
 		) {
-			const float front = euclideanDistance4SSE(node, query, 0, dim4, dim16, 0);
+			const float front = euclideanDistance4SSE(node, query, 0, dim4, 0, 0);
 			const float back = euclideanDistance(node + dim4, query + dim4, dimLeft, 0, 0, 0);
 			return front + back;
 		}

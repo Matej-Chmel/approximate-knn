@@ -118,7 +118,7 @@ namespace chm {
 		/**
 		 * Výsledky nelze kopírovat pomocí konstruktoru.
 		 */
-		KnnResults(const KnnResults& o) = delete;
+		KnnResults(const KnnResults&) = delete;
 		/**
 		 * Konstruktor přemístění výsledků z jiného objektu.
 		 */
@@ -136,7 +136,7 @@ namespace chm {
 		/**
 		 * Data výsledků nelze přemístit pomocí operátoru přiřazení.
 		 */
-		KnnResults& operator=(KnnResults&& o) noexcept = delete;
+		KnnResults& operator=(KnnResults&&) noexcept = delete;
 		/**
 		 * Nastaví identitu a vzdálenost jednoho souseda od dotazovaného prvku.
 		 * @param[in] queryIdx Pozice dotazu.

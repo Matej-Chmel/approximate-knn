@@ -91,14 +91,13 @@ namespace chm {
 		 * v prostoru o počtu dimenzí dělitelných 16 se zbytkem.
 		 * @param[in] node Vektor prvního prvku.
 		 * @param[in] query Vektor druhého prvku.
-		 * @param[in] dim4 Počet dimenzí prostoru po dělení 4.
 		 * @param[in] dim16 Počet dimenzí prostoru po dělení 16.
 		 * @param[in] dimLeft Zbytek po dělení počtu dimenzí 16.
 		 * @return Kosinusová vzdálenost.
 		 */
 		static float innerProduct16ResidualAVX(
 			const float* node, const float* query, const size_t,
-			const size_t dim4, const size_t dim16, const size_t dimLeft
+			const size_t, const size_t dim16, const size_t dimLeft
 		) {
 			const float front = innerProductSum16AVX(node, query, dim16);
 			const float back = innerProductSum(node + dim16, query + dim16, dimLeft);
@@ -256,14 +255,13 @@ namespace chm {
 		 * v prostoru o počtu dimenzí dělitelných 16 se zbytkem.
 		 * @param[in] node Vektor prvního prvku.
 		 * @param[in] query Vektor druhého prvku.
-		 * @param[in] dim4 Počet dimenzí prostoru po dělení 4.
 		 * @param[in] dim16 Počet dimenzí prostoru po dělení 16.
 		 * @param[in] dimLeft Zbytek po dělení počtu dimenzí 16.
 		 * @return Kosinusová vzdálenost.
 		 */
 		static float innerProduct16ResidualAVX512(
 			const float* node, const float* query, const size_t,
-			const size_t dim4, const size_t dim16, const size_t dimLeft
+			const size_t, const size_t dim16, const size_t dimLeft
 		) {
 			const float front = innerProductSum16AVX512(node, query, dim16);
 			const float back = innerProductSum(node + dim16, query + dim16, dimLeft);
@@ -347,14 +345,13 @@ namespace chm {
 		 * v prostoru o počtu dimenzí dělitelných 16 se zbytkem.
 		 * @param[in] node Vektor prvního prvku.
 		 * @param[in] query Vektor druhého prvku.
-		 * @param[in] dim4 Počet dimenzí prostoru po dělení 4.
 		 * @param[in] dim16 Počet dimenzí prostoru po dělení 16.
 		 * @param[in] dimLeft Zbytek po dělení počtu dimenzí 16.
 		 * @return Kosinusová vzdálenost.
 		 */
 		static float innerProduct16ResidualSSE(
 			const float* node, const float* query, const size_t,
-			const size_t dim4, const size_t dim16, const size_t dimLeft
+			const size_t, const size_t dim16, const size_t dimLeft
 		) {
 			const float front = innerProductSum16SSE(node, query, dim16);
 			const float back = innerProductSum(node + dim16, query + dim16, dimLeft);
