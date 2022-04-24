@@ -1,8 +1,12 @@
 # Aproximace KNN problému
 
-Vlastní implementace techniky HNSW pro vyhledávání *k* nejbližších sousedů v prostoru a její srovnání s původní implementací [hnswlib](https://github.com/nmslib/hnswlib/tree/7cc0ecbd43723418f43b8e73a46debbbc3940346).
+Příloha bakalářské práce na téma "Aproximace KNN problému".
 
-Uživatelská dokumentace se nachází v souboru `Uživatelská dokumentace.pdf`. Také ji můžete zobrazit v Markdown formátu ze souboru [userDocs.md](src/userDocs/userDocs.md).
+Obsahem přílohy je nová implementace indexu HNSW ve složce [src/index/chm](src/index/chm), kód srovnání s původní implementací [hnswlib](https://github.com/nmslib/hnswlib/releases/tag/v0.6.2) a dokumentace.
+
+Návod jak spustit ukázku obsahuje soubor `Uživatelská dokumentace.pdf`. Podrobný návod ke všem programům v této příloze obsahuje soubor `Podrobná uživatelská dokumentace.pdf`. Uživatelské dokumentace můžete také zobrazit v Markdown formátu ze složky [src/userDocs](src/userDocs).
+
+Programátorskou dokumentaci generovanou programem [Doxygen](https://www.doxygen.nl/index.html) naleznete v souboru [docs/html/index.html](docs/html/index.html).
 
 ## Software třetích stran
 - Srovnávací metoda převzata z [ann-benchmarks](https://github.com/erikbern/ann-benchmarks/tree/2b40b3ea988c77822cbe3a1df2b8d047805a2282) a poté upravena. [Licence](src/benchmarks/LICENSE_ann-benchmarks).

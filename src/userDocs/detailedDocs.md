@@ -10,6 +10,22 @@ Všechny cesty uvedené v tomto souboru jsou relativní k cestě složky, která
 - Překladač C++17
 - Python 3.9
 
+## Programátorská dokumentace
+
+C++ kód nového indexu naleznete ve složce `src/index/chm`. Webovou stránku s programátorskou dokumentací nového indexu HNSW zobrazíte pomocí skriptu `docs/openDocs.py`. Spustíte jej pomocí následujícího příkazu.
+
+*OS Windows*
+```bash
+py .\docs\openDocs.py
+```
+
+*OS Linux*
+```
+python docs/openDocs.py
+```
+
+Dokumentaci můžete také zobrazit otevřením souboru `docs/html/index.html` v internetovém prohlížeči.
+
 ## Virtuální prostředí
 
 Pokud není uvedeno jinak, skripty uvnitř složky `src/scripts` vždy spouštějte pomocí vygenerovaného virtuální prostředí. Prostředí aktivujete pomocí aktivačního skriptu ve složce `.venv/Scripts`. Výběr skriptu závisí na použitém OS a interpretu.

@@ -36,4 +36,16 @@ Více informací obsahuje dokument `Podrobná uživatelská dokumentace.pdf`.
 
 ## Programátorská dokumentace
 
-Programátorskou dokumentaci obsahuje soubor `docs/html/index.html`, který lze otevřít v internetovém prohlížeči.
+C++ kód nového indexu naleznete ve složce `src/index/chm`. Webovou stránku s programátorskou dokumentací nového indexu HNSW zobrazíte pomocí skriptu `docs/openDocs.py`. Spustíte jej pomocí následujícího příkazu.
+
+*OS Windows*
+```bash
+py .\docs\openDocs.py
+```
+
+*OS Linux*
+```
+python docs/openDocs.py
+```
+
+Dokumentaci můžete také zobrazit otevřením souboru `docs/html/index.html` v internetovém prohlížeči.
