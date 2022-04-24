@@ -4,9 +4,10 @@ Tato dokumentace obsahuje podrobný návod ke všem programům, které obsahuje 
 
 Všechny cesty uvedené v tomto souboru jsou relativní k cestě složky, která obsahuje PDF soubor této dokumentace.
 
-## Potřebné programy
-
+## Systémové požadavky
+- 64bitový operační systém Linux nebo Windows 10
 - Docker
+- Internetové připojení
 - Překladač C++17
 - Python 3.9
 

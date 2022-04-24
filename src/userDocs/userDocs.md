@@ -4,14 +4,16 @@ Tato dokumentace obsahuje návod jak spustit ukázku nové implementace indexu H
 
 Všechny cesty uvedené v tomto souboru jsou relativní k cestě složky, která obsahuje PDF soubor této dokumentace.
 
-## Potřebné programy
+## Systémové požadavky
+- 64bitový operační systém Linux nebo Windows 10
 - Docker
+- Internetové připojení
 - Překladač C++17
 - Python 3.9
 
 ## Ukázka
 
-1. Ujistěte se, že služba Docker je zapnutá.
+1. Ujistěte se, že je služba Docker zapnutá.
 2. Spusťte skript `RUNME.py` pomocí interpretu Python verze 3.9. Na Windows například takto:
 
 ```none
