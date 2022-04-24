@@ -1,11 +1,31 @@
 from argparse import ArgumentParser
-from chmTools.module import getExportedData, wrapMain
+from chmTools.module import AppError, getExportedData, wrapMain
 from dataclasses import dataclass, field
 from functools import cached_property
 import parse
 import pandas as pd
 from pathlib import Path
 
+ENGLISH_TO_CZECH_DATASET = {
+	"random-s-100-angular": "100 000 náhodných prvků, kosinusová podobnost",
+	"random-s-100-euclidean": "100 000 náhodných prvků, Eukleidovská vzdálenost",
+	"random-xs-20-angular": "10 000 náhodných prvků, kosinusová podobnost",
+	"random-xs-20-euclidean": "10 000 náhodných prvků, Eukleidovská vzdálenost"
+}
+LONG_TO_SHORT_DATASET_NAMES = {
+	"deep-image-96-angular": "DEEP1B",
+	"fashion-mnist-784-euclidean": "Fashion-MNIST",
+	"gist-960-euclidean": "GIST",
+	"glove-25-angular": "GloVe-25",
+	"glove-50-angular": "GloVe-50",
+	"glove-100-angular": "GloVe-100",
+	"glove-200-angular": "GloVe-200",
+	"lastfm-64-dot": "Last.fm",
+	"mnist-784-euclidean": "MNIST",
+	"nytimes-16-angular": "NYTimes-16",
+	"nytimes-256-angular": "NYTimes",
+	"sift-128-euclidean": "SIFT"
+}
 N = "\n"
 
 class Algorithm:
@@ -71,6 +91,7 @@ class Row:
 @dataclass
 class Table:
 	algoNames: list[str]
+	dataset: str
 	calcPercent: bool = False
 	caption: str = ""
 	label: str = ""
@@ -91,13 +112,28 @@ class Table:
 		row.algoToIndexSize[algo.name] = algo.indexSize
 
 	def getColumns(self):
-		return "r" * (7 if self.calcPercent else 6)
+		return "r" * self.getColumnNum()
+
+	def getColumnNum(self):
+		return 7 if self.calcPercent else 6
 
 	def getContent(self):
 		return N.join(map(
 			lambda row: row.getString(self.algoNames, self.calcPercent),
 			sorted(self.rows, key=lambda row: row.paramHash)
 		))
+
+	def getDatasetName(self) -> str:
+		try:
+			name = LONG_TO_SHORT_DATASET_NAMES[self.dataset]
+		except KeyError:
+			try:
+				name = ENGLISH_TO_CZECH_DATASET[self.dataset]
+			except KeyError:
+				available = ", ".join([*LONG_TO_SHORT_DATASET_NAMES, *ENGLISH_TO_CZECH_DATASET])
+				raise AppError(f"Unknown dataset name. Available names: {available}")
+
+		return f"Datový soubor \\textit{{{name}}}"
 
 	def getHeaders(self):
 		algoLen = len(self.algoNames)
@@ -106,6 +142,7 @@ class Table:
 		names = " & ".join(legend)
 		buildNames = f"{legend[0]} & Rozdíl (\\%) & {' & '.join(legend[1:])}" if self.calcPercent else names
 		return (
+			f"\multicolumn{{{self.getColumnNum()}}}{{c}}{{{self.getDatasetName()}}}\\\\{N}"
 			r"\multicolumn{2}{c}{Konfigurace} & "
 			f"\multicolumn{{{buildLen}}}{{c}}{{Čas stavby (s)}} & "
 			f"\multicolumn{{{algoLen}}}{{c}}{{Velikost indexu (1000 kB)}}\\\\{N}"
@@ -143,7 +180,7 @@ def getPercentDiff(orig: float, new: float):
 	return round((new - orig) / orig * 100, 2)
 
 def getTable(df: pd.DataFrame, algoNames: list[str], dataset: str):
-	table = Table(algoNames)
+	table = Table(algoNames, dataset)
 	df = df[df["dataset"] == dataset]
 
 	for algo in algoNames:

@@ -4,7 +4,6 @@ from pathlib import Path
 
 def main():
 	figuresDir = Path(__file__).parents[1] / "figures"
-	figuresDir.mkdir(exist_ok=True)
 	lt.writeTable(lt.Args(
 		algoNames=["new-heuristic", "new-naive"], calcPercent=True, dataset="lastfm-64-dot",
 		label="NaiveTab", legend=["Heuristika", "Naivní alg."], output=figuresDir / "NaiveTab.tex"

@@ -9,7 +9,7 @@ def getExportedData(recompute: bool):
 	csvPath = (srcDir / "figures" / "data.csv").absolute()
 
 	if recompute or not csvPath.exists():
-		csvPath.mkdir(exist_ok=True, parents=True)
+		csvPath.parent.mkdir(exist_ok=True, parents=True)
 		try:
 			subprocess.check_call(
 				[sys.executable, "data_export.py", "-o", csvPath] + (["-r"] if recompute else []),
