@@ -1,0 +1,6 @@
+algos:
+  - original
+build:
+  - efConstruction: 50
+    mMax: 4
+efSearch: [10, 50, 100]

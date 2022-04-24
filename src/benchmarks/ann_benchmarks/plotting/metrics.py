@@ -76,20 +76,20 @@ def rel(dataset_distances, run_distances, metrics):
     return metrics.attrs['rel']
 
 
-def queries_per_second(queries, attrs):
+def queries_per_second(_, attrs):
     return 1.0 / attrs["best_search_time"]
 
 
-def index_size(queries, attrs):
+def index_size(_, attrs):
     # TODO(erikbern): should replace this with peak memory usage or something
     return attrs.get("index_size", 0)
 
 
-def build_time(queries, attrs):
+def build_time(_, attrs):
     return attrs["build_time"]
 
 
-def candidates(queries, attrs):
+def candidates(_, attrs):
     return attrs["candidates"]
 
 

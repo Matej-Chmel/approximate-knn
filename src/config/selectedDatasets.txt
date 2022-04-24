@@ -5,12 +5,12 @@
 glove-50-angular
 # glove-100-angular
 # glove-200-angular
+# lastfm-64-dot
 mnist-784-euclidean
-# random-xs-20-euclidean
+# nytimes-16-angular
+nytimes-256-angular
+# random-s-100-angular
 # random-s-100-euclidean
 # random-xs-20-angular
-# random-s-100-angular
+# random-xs-20-euclidean
 sift-128-euclidean
-nytimes-256-angular
-# nytimes-16-angular
-# lastfm-64-dot

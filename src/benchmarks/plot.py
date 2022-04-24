@@ -14,8 +14,9 @@ from ann_benchmarks.results import (
 )
 
 
-def create_plot(all_data, raw, x_scale, y_scale, xn, yn, fn_out, linestyles, batch):
+def create_plot(all_data, raw, x_scale, y_scale, xn, yn, fn_out, linestyles, _):
 	xm, ym = (metrics[xn], metrics[yn])
+
 	# Now generate each plot
 	handles = []
 	labels = []
@@ -25,21 +26,27 @@ def create_plot(all_data, raw, x_scale, y_scale, xn, yn, fn_out, linestyles, bat
 	def mean_y(algo):
 		xs, ys, ls, axs, ays, als = create_pointset(all_data[algo], xn, yn)
 		return -np.log(np.array(ys)).mean()
+
 	# Find range for logit x-scale
 	min_x, max_x = 1, 0
+
 	for algo in sorted(all_data.keys(), key=mean_y):
 		xs, ys, ls, axs, ays, als = create_pointset(all_data[algo], xn, yn)
 		min_x = min([min_x]+[x for x in xs if x > 0])
 		max_x = max([max_x]+[x for x in xs if x < 1])
 		color, faded, linestyle, marker = linestyles[algo]
-		handle, = plt.plot(xs, ys, '-', label=algo, color=color,
-						   ms=7, mew=3, lw=3, linestyle=linestyle,
-						   marker=marker)
+		handle, = plt.plot(
+			xs, ys, label=algo, color=color, ms=7, mew=3,
+			lw=3, linestyle=linestyle, marker=marker
+		)
 		handles.append(handle)
+
 		if raw:
-			handle2, = plt.plot(axs, ays, '-', label=algo, color=faded,
-								ms=5, mew=2, lw=2, linestyle=linestyle,
-								marker=marker)
+			plt.plot(
+				axs, ays, label=algo, color=faded, ms=5, mew=2,
+				lw=2, linestyle=linestyle, marker=marker
+			)
+
 		labels.append(algo)
 
 	ax = plt.gca()
