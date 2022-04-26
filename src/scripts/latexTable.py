@@ -199,7 +199,7 @@ def writeTable(a: Args):
 		table.label = a.label
 		table.legend = a.legend
 		f.write(table.getLatex(
-			(Path(__file__).parent / "templates" / "latexTable.txt").read_text(encoding="utf-8")
+			(Path(__file__).absolute().parent / "templates" / "latexTable.txt").read_text(encoding="utf-8")
 		))
 
 def main():

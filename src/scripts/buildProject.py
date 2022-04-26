@@ -29,7 +29,8 @@ def buildNativeLib(executable: Path, indexDir: Path, scriptsDir: Path, srcDir: P
 	subprocess.check_call([executable, "formatCMakeTemplates.py"], cwd=scriptsDir)
 	cmakeBuildDir = srcDir / "cmakeBuild"
 	cmakeBuildDir.mkdir(exist_ok=True)
-	subprocess.check_call(["cmake", indexDir.absolute()], cwd=cmakeBuildDir)
+	subprocess.check_call(["cmake", indexDir], cwd=cmakeBuildDir)
+	subprocess.check_call(["cmake", "--build", "."], cwd=cmakeBuildDir)
 	print("Build system for native library built.")
 
 def buildVirtualEnv(repoDir: Path, scriptsDir: Path):
@@ -94,12 +95,11 @@ def getArgs():
 	return Args(args.clean, args.cleanResults, args.ignorePythonVersion)
 
 def getVirtualEnvExecutable(repoDir: Path):
-	p = repoDir / ".venv" / "Scripts" / "python"
+	venvDir = repoDir / ".venv"
 
 	if onWindows():
-		p = p.with_suffix(".exe")
-
-	return p
+		return venvDir / "Scripts" / "python.exe"
+	return venvDir / "bin" / "python"
 
 def onWindows():
 	return platform.system().strip().lower() == "windows"
@@ -114,7 +114,7 @@ def main():
 	cleanProject(args)
 	checkPythonVersion(args)
 
-	repoDir = Path(__file__).parents[2]
+	repoDir = Path(__file__).absolute().parents[2]
 	srcDir = repoDir / "src"
 	indexDir = srcDir / "index"
 	scriptsDir = srcDir / "scripts"

@@ -1,34 +1,12 @@
 # Podrobná uživatelská dokumentace
 
-Tato dokumentace obsahuje podrobný návod ke všem programům, které obsahuje příloha práce. Stručnou ukázku obsahuje dokument `Uživatelská dokumentace.pdf`.
+Tato dokumentace obsahuje podrobný návod ke všem programům, které obsahuje příloha práce. Popis systémových požadavků, přístupu k programátorské dokumentaci a návod jak spustit ukázku projektu obsahuje dokument `Uživatelská dokumentace.pdf`.
 
 Všechny cesty uvedené v tomto souboru jsou relativní k cestě složky, která obsahuje PDF soubor této dokumentace.
 
-## Systémové požadavky
-- 64bitový operační systém Linux nebo Windows 10
-- CMake, verze 3.0 nebo vyšší
-- Docker
-- Internetové připojení
-- Překladač C++17
-- Python, verze 3.9
+## Sestavení projektu
 
-Cesty k požadovaným programům musí být obsaženy v proměnné prostředí `PATH`.
-
-## Programátorská dokumentace
-
-C++ kód nového indexu naleznete ve složce `src/index/chm`. Webovou stránku s programátorskou dokumentací nového indexu HNSW zobrazíte pomocí skriptu `docs/openDocs.py`. Spustíte jej pomocí následujícího příkazu.
-
-*OS Windows*
-```bash
-py .\docs\openDocs.py
-```
-
-*OS Linux*
-```
-python docs/openDocs.py
-```
-
-Dokumentaci můžete také zobrazit otevřením souboru `docs/html/index.html` v internetovém prohlížeči.
+Spusťte skript `src/scripts/buildProject.py` pomocí interpretu Python verze 3.9. Tento skript vygeneruje virtuální prostředí, stáhne potřebné balíčky a zkompiluje knihovnu nové implementace indexu HNSW.
 
 ## Virtuální prostředí
 
@@ -36,9 +14,15 @@ Pokud není uvedeno jinak, skripty uvnitř složky `src/scripts` vždy spouště
 
 | OS | Interpret | Cesta k aktivačnímu skriptu |
 | :-- | :-- | :-- |
-| Linux |  | ./.venv/Scripts/activate |
+| Linux |  | ./.venv/bin/activate |
 | Windows | Batch | .\\.venv\Scripts\activate.bat |
 | Windows | Powershell | .\\.venv\Scripts\Activate.ps1 |
+
+Pokud používáte OS Linux specifikujte zvolený interpret při volání aktivačního skriptu.
+
+```none
+source ./.venv/bin/activate
+```
 
 ## Seznam skriptů
 

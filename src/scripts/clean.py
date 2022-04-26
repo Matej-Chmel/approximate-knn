@@ -4,7 +4,7 @@ from pathlib import Path
 import shutil
 
 def cleanProject(deleteResults: bool = False):
-	repo = Path(__file__).parents[2]
+	repo = Path(__file__).absolute().absolute().parents[2]
 
 	src = repo / "src"
 	benchmarks = src / "benchmarks"

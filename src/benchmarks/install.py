@@ -17,7 +17,7 @@ def build(library, args):
 		subprocess.check_call(
 			'docker build %s --rm -t ann-benchmarks-%s -f'
 			' benchmarks/install/Dockerfile.%s .' % (q, library, library),
-			shell=True, cwd=Path(__file__).parents[1])
+			shell=True, cwd=Path(__file__).absolute().parents[1])
 		return {library: 'success'}
 	except subprocess.CalledProcessError:
 		return {library: 'fail'}
@@ -56,7 +56,7 @@ if __name__ == "__main__":
 	print('Building base image...')
 	subprocess.check_call(
 		'docker build \
-		--rm -t ann-benchmarks -f benchmarks/install/Dockerfile .', shell=True, cwd=Path(__file__).parents[1])
+		--rm -t ann-benchmarks -f benchmarks/install/Dockerfile .', shell=True, cwd=Path(__file__).absolute().parents[1])
 
 	if args.algorithm:
 		tags = [args.algorithm]

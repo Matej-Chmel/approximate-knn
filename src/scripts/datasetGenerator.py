@@ -6,7 +6,7 @@ import json
 from pathlib import Path
 
 def generateDatasets():
-	srcDir = Path(__file__).parents[1]
+	srcDir = Path(__file__).absolute().parents[1]
 	dataDir = srcDir / "data"
 
 	with (srcDir / "config" / "debugDatasets.json").open("r", encoding="utf-8") as f:

@@ -120,7 +120,7 @@ namespace chm {
 		s << '.';
 		print(convert<chr::microseconds>(elapsedCopy), s, 3);
 		s << '.';
-		print(elapsedCopy.count(), s, 3);
+		print((long long)(elapsedCopy.count()), s, 3);
 
 		s.copyfmt(streamState);
 	}

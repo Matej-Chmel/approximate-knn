@@ -11,7 +11,7 @@ def computeTable(cfg: RecallTableConfig, dataDir: Path):
 		raise AppError(f'Dataset "{datasetPath}" not found.')
 
 def main():
-	srcDir = Path(__file__).parents[1]
+	srcDir = Path(__file__).absolute().parents[1]
 
 	try:
 		cfgPath = srcDir / "config" / "recallTable.json"

@@ -63,7 +63,7 @@ def main():
 	parser.add_argument(
 		'--definitions',
 		metavar='FILE',
-		default=Path(__file__).parents[2] / "config" / "algos.yaml",
+		default=Path(__file__).absolute().parents[2] / "config" / "algos.yaml",
 		help='load algorithm definitions from FILE',
 		type=Path)
 	parser.add_argument(

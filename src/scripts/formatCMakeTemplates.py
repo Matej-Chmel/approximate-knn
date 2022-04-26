@@ -19,7 +19,7 @@ def formatCMakeTemplates(srcDir: Path, templatesDir: Path):
 		))
 
 def main():
-	scriptDir = Path(__file__).parent
+	scriptDir = Path(__file__).absolute().parent
 	formatCMakeTemplates(scriptDir.parent, scriptDir / "templates")
 
 if __name__ == "__main__":

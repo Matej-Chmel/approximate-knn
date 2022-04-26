@@ -12,17 +12,19 @@ def checkPythonVersion():
 		raise AppError("Python 3.9 is required to build the project.")
 
 def getVirtualEnvExecutable(repoDir: Path):
-	p = repoDir / ".venv" / "Scripts" / "python"
+	venvDir = repoDir / ".venv"
 
 	if platform.system().strip().lower() == "windows":
-		p = p.with_suffix(".exe")
+		p = venvDir / "Scripts" / "python.exe"
+	p = venvDir / "bin" / "python"
+
 	if not p.exists():
 		raise AppError(f"Virtual environment not found at {p}.")
 	return p
 
 def main():
 	checkPythonVersion()
-	repoDir = Path(__file__).parent
+	repoDir = Path(__file__).absolute().parent
 	srcDir = repoDir / "src"
 	configDir = srcDir / "config"
 	scriptsDir = srcDir / "scripts"

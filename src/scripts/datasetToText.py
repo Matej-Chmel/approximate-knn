@@ -6,7 +6,7 @@ N = "\n"
 
 def writeDescription(datasetName: str):
 	try:
-		dataDir = Path(__file__).parents[1] / "data"
+		dataDir = Path(__file__).absolute().parents[1] / "data"
 		datasetPath = (dataDir / datasetName).with_suffix(".hdf5")
 		descPath = (dataDir / datasetName).with_suffix(".py.txt")
 		Dataset.fromHDF(datasetPath).writeDescription(descPath)

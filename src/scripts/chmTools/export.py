@@ -5,7 +5,7 @@ import subprocess
 import sys
 
 def getExportedData(recompute: bool):
-	srcDir = Path(__file__).parents[2]
+	srcDir = Path(__file__).absolute().parents[2]
 	csvPath = (srcDir / "figures" / "data.csv").absolute()
 
 	if recompute or not csvPath.exists():

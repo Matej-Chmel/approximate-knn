@@ -26,7 +26,7 @@ def clean(htmlDir: Path):
 
 def main():
 	args = Args()
-	docsDir = Path(__file__).parent
+	docsDir = Path(__file__).absolute().parent
 	htmlDir = docsDir / "html"
 
 	if args.clean:

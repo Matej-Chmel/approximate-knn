@@ -14,11 +14,28 @@ Všechny cesty uvedené v tomto souboru jsou relativní k cestě složky, která
 
 Cesty k požadovaným programům musí být obsaženy v proměnné prostředí `PATH`.
 
+### Další potřebné balíčky na OS Linux
+ - build-essential
+ - python3.9-dev
+ - python3.9-venv
+
+Pokud používáte APT, využijte následující kód.
+
+```none
+apt install build-essential cmake python3.9-dev python3.9-venv
+```
+
 ## Ukázka
 
 1. Ujistěte se, že je služba Docker zapnutá.
-2. Spusťte skript `RUNME.py` pomocí interpretu Python verze 3.9. Na Windows například takto:
+2. Spusťte skript `RUNME.py` pomocí interpretu Python verze 3.9.
 
+*OS Linux*
+```none
+python3.9 docs/openDocs.py
+```
+
+*OS Windows*
 ```none
 py -3.9 RUNME.py
 ```
@@ -39,14 +56,14 @@ Výsledky jsou zaznačeny do grafů, které zobrazuje webová stránka. Ta je ge
 
 C++ kód nového indexu naleznete ve složce `src/index/chm`. Webovou stránku s programátorskou dokumentací nového indexu HNSW zobrazíte pomocí skriptu `docs/openDocs.py`. Spustíte jej pomocí následujícího příkazu.
 
-*OS Windows*
-```bash
-py .\docs\openDocs.py
+*OS Linux*
+```none
+python3 docs/openDocs.py
 ```
 
-*OS Linux*
-```
-python docs/openDocs.py
+*OS Windows*
+```none
+py .\docs\openDocs.py
 ```
 
 Dokumentaci můžete také zobrazit otevřením souboru `docs/html/index.html` v internetovém prohlížeči.

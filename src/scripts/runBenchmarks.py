@@ -7,7 +7,7 @@ if __package__ is None:
 	checkInsideVenv()
 	wrapMain(lambda: subprocess.check_call(
 		[sys.executable, "-m", "src.scripts.runBenchmarks", "--cwd", Path.cwd(), *sys.argv[1:]],
-		cwd=Path(__file__).parents[2]
+		cwd=Path(__file__).absolute().parents[2]
 	))
 
 from src.scripts.chmTools.runner import AppError, checkInsideVenv, wrapMain
@@ -22,7 +22,7 @@ import subprocess
 import sys
 import webbrowser as wb
 
-SCRIPT_DIR = Path(__file__).parent
+SCRIPT_DIR = Path(__file__).absolute().parent
 SRC_DIR = SCRIPT_DIR.parent
 BENCHMARKS_DIR = SRC_DIR / "benchmarks"
 CONFIG_DIR = SRC_DIR / "config"
