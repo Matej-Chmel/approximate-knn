@@ -6,10 +6,13 @@ Všechny cesty uvedené v tomto souboru jsou relativní k cestě složky, která
 
 ## Systémové požadavky
 - 64bitový operační systém Linux nebo Windows 10
+- CMake, verze 3.0 nebo vyšší
 - Docker
 - Internetové připojení
 - Překladač C++17
-- Python 3.9
+- Python, verze 3.9
+
+Cesty k požadovaným programům musí být obsaženy v proměnné prostředí `PATH`.
 
 ## Programátorská dokumentace
 

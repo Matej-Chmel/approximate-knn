@@ -6,10 +6,13 @@ Všechny cesty uvedené v tomto souboru jsou relativní k cestě složky, která
 
 ## Systémové požadavky
 - 64bitový operační systém Linux nebo Windows 10
+- CMake, verze 3.0 nebo vyšší
 - Docker
 - Internetové připojení
 - Překladač C++17
-- Python 3.9
+- Python, verze 3.9
+
+Cesty k požadovaným programům musí být obsaženy v proměnné prostředí `PATH`.
 
 ## Ukázka
 
@@ -32,10 +35,6 @@ Tento skript provede následující.
 
 Výsledky jsou zaznačeny do grafů, které zobrazuje webová stránka. Ta je generována ve složce `src/website`. Původní implementace je v grafech označována slovem `original`, nová implementace slovem `new`.
 
-## Podrobná dokumentace
-
-Více informací obsahuje dokument `Podrobná uživatelská dokumentace.pdf`.
-
 ## Programátorská dokumentace
 
 C++ kód nového indexu naleznete ve složce `src/index/chm`. Webovou stránku s programátorskou dokumentací nového indexu HNSW zobrazíte pomocí skriptu `docs/openDocs.py`. Spustíte jej pomocí následujícího příkazu.
@@ -51,3 +50,7 @@ python docs/openDocs.py
 ```
 
 Dokumentaci můžete také zobrazit otevřením souboru `docs/html/index.html` v internetovém prohlížeči.
+
+## Podrobná dokumentace
+
+Více informací obsahuje dokument `Podrobná uživatelská dokumentace.pdf`.
