@@ -103,8 +103,8 @@ namespace chm {
 		readBinary(file, this->testCount);
 		readBinary(file, this->trainCount);
 		readBinary(file, this->neighbors, size_t(this->k) * size_t(this->testCount));
-		readBinary(file, this->test, size_t(this->dim) * size_t(this->testCount));
-		readBinary(file, this->train, size_t(this->dim) * size_t(this->trainCount));
+		readBinary(file, this->test, this->dim * size_t(this->testCount));
+		readBinary(file, this->train, this->dim * size_t(this->trainCount));
 	}
 
 	template<class T>
