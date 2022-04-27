@@ -8,6 +8,18 @@ Všechny cesty uvedené v tomto souboru jsou relativní k cestě složky, která
 
 Spusťte skript `src/scripts/buildProject.py` pomocí interpretu Python verze 3.9. Tento skript vygeneruje virtuální prostředí, stáhne potřebné balíčky a zkompiluje knihovnu nové implementace indexu HNSW.
 
+*OS Windows*
+
+```none
+py -3.9 .\src\scripts\buildProject.py
+```
+
+*OS Linux*
+
+```none
+python3.9 ./src/scripts/buildProject.py
+```
+
 ## Virtuální prostředí
 
 Pokud není uvedeno jinak, skripty uvnitř složky `src/scripts` vždy spouštějte pomocí vygenerovaného virtuální prostředí. Prostředí aktivujete pomocí aktivačního skriptu ve složce `.venv/Scripts`. Výběr skriptu závisí na použitém OS a interpretu.
@@ -76,7 +88,7 @@ Odstraní datové soubory pro debugování, C++ nativní řešení a Python rozh
 Příklad spuštění:
 
 ```bash
-py clean.py --results
+python clean.py --results
 ```
 
 ### datasetGenerator
@@ -86,7 +98,7 @@ Vygeneruje datové soubory pro debugování uvedené v konfiguračním souboru `
 Příklad spuštění:
 
 ```bash
-py datasetGenerator.py
+python datasetGenerator.py
 ```
 
 ### datasetToText
@@ -100,7 +112,7 @@ Převede vybraný datový soubor ze složky `src/data` do textového formátu. V
 Příklad spuštění:
 
 ```bash
-py datasetToText --name euclidean-medium
+python datasetToText --name euclidean-medium
 ```
 
 ### formatCMakeTemplates
@@ -110,7 +122,7 @@ Vygeneruje soubor `src/index/CMakeLists.txt` a doplní do něj správnou definic
 Příklad spuštění:
 
 ```bash
-py formatCMakeTemplates.py
+python formatCMakeTemplates.py
 ```
 
 ### generateTables
@@ -118,10 +130,10 @@ py formatCMakeTemplates.py
 Vygeneruje LaTeX tabulky podobné těm, které jsou v bakalářské práci, ale pouze v případě, že jsou pro ně dostupné naměřené výsledky. Tyto výsledky lze získat spuštěním následujících příkazů. Avšak tato měření mohou trvat více než 12 hodin.
 
 ```bash
-py runBenchmarks.py -a ..\config\heuristic.yaml ..\config\naive.yaml -d lastfm-64-dot -r 5
-py runBenchmarks.py -a ..\config\heuristic.yaml ..\config\prefetch.yaml -d glove-50-angular -r 5
-py runBenchmarks.py -a ..\config\original.yaml ..\config\prefetch.yaml -d sift-128-euclidean -r 5
-py generateTables.py
+python runBenchmarks.py -a ..\config\heuristic.yaml ..\config\naive.yaml -d lastfm-64-dot -r 5
+python runBenchmarks.py -a ..\config\heuristic.yaml ..\config\prefetch.yaml -d glove-50-angular -r 5
+python runBenchmarks.py -a ..\config\original.yaml ..\config\prefetch.yaml -d sift-128-euclidean -r 5
+python generateTables.py
 ```
 
 Vygenerované tabulky jsou dostupné ve složce `src/figures`.
@@ -143,7 +155,7 @@ Vygeneruje jednu LaTeX tabulku na základě výsledků srovnání implementací.
 Příklad spuštění:
 
 ```bash
-py latexTable.py -a new-prefetch original -d sift-128-euclidean -le "Nová impl." "Původní impl." -o ..\figures\table.tex -p
+python latexTable.py -a new-prefetch original -d sift-128-euclidean -le "Nová impl." "Původní impl." -o ..\figures\table.tex -p
 ```
 
 ### runBenchmarks
@@ -168,7 +180,7 @@ Datové soubory využité ke srovnání nejsou ty samé, které jsou využíván
 Příklad spuštění:
 
 ```bash
-py runBenchmarks.py -a ..\config\noBit.yaml -f -p ..\config\datasets.txt -r 5 -w 2
+python runBenchmarks.py -a ..\config\noBit.yaml -f -p ..\config\datasets.txt -r 5 -w 2
 ```
 
 ### runRecallTable
@@ -178,7 +190,7 @@ Postaví index nové implementace a vyhledá v něm nejbližší sousedy s různ
 Příklad spuštění:
 
 ```bash
-py runRecallTable.py
+python runRecallTable.py
 ```
 
 ### SIMDCapability
@@ -188,7 +200,7 @@ Zobrazí SIMD rozšíření instrukční sady procesoru, která jsou k dispozici
 Příklad spuštění:
 
 ```bash
-py SIMDCapability.py
+python SIMDCapability.py
 ```
 
 ## Nativní knihovna
