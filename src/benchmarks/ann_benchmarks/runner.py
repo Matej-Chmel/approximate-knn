@@ -213,16 +213,19 @@ def run_docker(definition, dataset, count, runs, timeout, batch, cpu_limit, mem_
 	if mem_limit is None:
 		mem_limit = psutil.virtual_memory().available
 
+	resultsPath = os.path.abspath('results')
+
+	if not os.path.isdir(resultsPath):
+		os.umask(0)
+		os.makedirs(resultsPath, mode=0o777, exist_ok=True)
+
 	container = client.containers.run(
 		definition.dockerTag,
 		cmd,
 		volumes={
-			os.path.abspath('ann_benchmarks'):
-				{'bind': '/home/app/ann_benchmarks', 'mode': 'ro'},
-			os.path.abspath('data'):
-				{'bind': '/home/app/data', 'mode': 'ro'},
-			os.path.abspath('results'):
-				{'bind': '/home/app/results', 'mode': 'rw'},
+			os.path.abspath('ann_benchmarks'): {'bind': '/home/app/ann_benchmarks', 'mode': 'ro'},
+			os.path.abspath('data'): {'bind': '/home/app/data', 'mode': 'ro'},
+			resultsPath: {'bind': '/home/app/results', 'mode': 'rw'}
 		},
 		cpuset_cpus=cpu_limit,
 		mem_limit=mem_limit,

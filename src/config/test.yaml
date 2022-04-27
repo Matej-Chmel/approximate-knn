@@ -1,6 +1,6 @@
 algos:
   - original
 build:
-  - efConstruction: 50
+  - efConstruction: 20
     mMax: 4
-efSearch: [10, 50, 100]
+efSearch: [10]

@@ -14,6 +14,7 @@ from src.scripts.chmTools.runner import AppError, checkInsideVenv, wrapMain
 checkInsideVenv()
 
 from argparse import ArgumentParser, Namespace, SUPPRESS
+import multiprocessing as mp
 import pandas
 from pathlib import Path
 import time
@@ -86,6 +87,14 @@ class Config:
 		return self
 
 	def setDockerWorkers(self, workers: int):
+		cpuCount = mp.cpu_count()
+
+		if workers > cpuCount:
+			raise AppError(
+				"Number of Docker workers larger number of available CPUs."
+				f"CPU count: {cpuCount}, workers: {workers}."
+			)
+
 		self.dockerWorkers = workers
 		return self
 

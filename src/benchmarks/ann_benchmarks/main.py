@@ -228,9 +228,12 @@ def main():
 	else:
 		logger.info(f'Order: {definitions}')
 
-	if args.parallelism > multiprocessing.cpu_count() - 1:
+	cpuCount = multiprocessing.cpu_count()
+
+	if args.parallelism > cpuCount:
 		raise Exception(
-			f"Parallelism larger than {multiprocessing.cpu_count() - 1}! (CPU count minus one)"
+			"Number of workers is larger than number of available CPUs."
+			f"CPU count: {cpuCount}, workers: {args.parallelism}"
 		)
 
 	# Multiprocessing magic to farm this out to all CPUs
@@ -246,7 +249,7 @@ def main():
 		)
 
 	workers = [
-		multiprocessing.Process(target=run_worker, args=(i+1, args, queue))
+		multiprocessing.Process(target=run_worker, args=(i, args, queue))
 		for i in range(args.parallelism)
 	]
 	[worker.start() for worker in workers]

@@ -21,7 +21,8 @@ def store_results(dataset, count, definition, efSearch, attrs, results, batch):
 	head, _ = os.path.split(fn)
 
 	if not os.path.isdir(head):
-		os.makedirs(head)
+		os.umask(0)
+		os.makedirs(head, mode=0o777, exist_ok=True)
 
 	with hdf.File(fn, 'w') as f:
 		for k, v in attrs.items():
