@@ -1,3 +1,4 @@
 include chm/*.hpp
 include LICENSE
 include LICENSE_hnswlib
+include README.md

@@ -16,7 +16,8 @@ def getVirtualEnvExecutable(repoDir: Path):
 
 	if platform.system().strip().lower() == "windows":
 		p = venvDir / "Scripts" / "python.exe"
-	p = venvDir / "bin" / "python"
+	else:
+		p = venvDir / "bin" / "python"
 
 	if not p.exists():
 		raise AppError(f"Virtual environment not found at {p}.")
