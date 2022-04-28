@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['prefetchingtemplate_0',['PrefetchingTemplate',['../structchm_1_1_prefetching_template.html',1,'chm']]]
+  ['labelswrapper_0',['LabelsWrapper',['../classchm_1_1_labels_wrapper.html',1,'chm']]],
+  ['levelgenerator_1',['LevelGenerator',['../classchm_1_1_level_generator.html',1,'chm']]]
 ];

@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['visitedset_2ecpp_0',['VisitedSet.cpp',['../_visited_set_8cpp.html',1,'']]],
-  ['visitedset_2ehpp_1',['VisitedSet.hpp',['../_visited_set_8hpp.html',1,'']]]
+  ['space_2ecpp_0',['Space.cpp',['../_space_8cpp.html',1,'']]],
+  ['space_2ehpp_1',['Space.hpp',['../_space_8hpp.html',1,'']]]
 ];

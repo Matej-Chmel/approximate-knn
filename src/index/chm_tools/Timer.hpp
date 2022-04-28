@@ -40,7 +40,7 @@ namespace chm {
 	template<typename T> long long convert(chr::nanoseconds& t);
 	/**
 	 * Pěkně vypíše čas v nanosekundách.
-	 * @param[in] t Čas v nanosekundách.
+	 * @param[in] elapsed Čas v nanosekundách.
 	 * @param[out] s Výstupní stream.
 	 */
 	void prettyPrint(const chr::nanoseconds& elapsed, std::ostream& s);

@@ -1,8 +1,11 @@
 var annotated_dup =
 [
     [ "chm", "namespacechm.html", [
+      [ "AbstractRecallTable", "structchm_1_1_abstract_recall_table.html", "structchm_1_1_abstract_recall_table" ],
+      [ "Bruteforce", "classchm_1_1_bruteforce.html", "classchm_1_1_bruteforce" ],
       [ "Configuration", "classchm_1_1_configuration.html", "classchm_1_1_configuration" ],
       [ "Connections", "classchm_1_1_connections.html", "classchm_1_1_connections" ],
+      [ "Dataset", "classchm_1_1_dataset.html", "classchm_1_1_dataset" ],
       [ "DistanceInfo", "structchm_1_1_distance_info.html", "structchm_1_1_distance_info" ],
       [ "FarComparator", "structchm_1_1_far_comparator.html", "structchm_1_1_far_comparator" ],
       [ "FloatArray", "structchm_1_1_float_array.html", "structchm_1_1_float_array" ],
@@ -19,8 +22,13 @@ var annotated_dup =
       [ "Neighbors", "classchm_1_1_neighbors.html", "classchm_1_1_neighbors" ],
       [ "NoBitArrayTemplate", "structchm_1_1_no_bit_array_template.html", "structchm_1_1_no_bit_array_template" ],
       [ "Node", "structchm_1_1_node.html", "structchm_1_1_node" ],
+      [ "NodeCmp", "structchm_1_1_node_cmp.html", "structchm_1_1_node_cmp" ],
       [ "PrefetchingTemplate", "structchm_1_1_prefetching_template.html", "structchm_1_1_prefetching_template" ],
+      [ "QueryBenchmark", "classchm_1_1_query_benchmark.html", "classchm_1_1_query_benchmark" ],
+      [ "RecallTable", "classchm_1_1_recall_table.html", "classchm_1_1_recall_table" ],
+      [ "RecallTableConfig", "structchm_1_1_recall_table_config.html", "structchm_1_1_recall_table_config" ],
       [ "Space", "classchm_1_1_space.html", "classchm_1_1_space" ],
+      [ "Timer", "classchm_1_1_timer.html", "classchm_1_1_timer" ],
       [ "VisitedSet", "classchm_1_1_visited_set.html", "classchm_1_1_visited_set" ],
       [ "VisitResult", "structchm_1_1_visit_result.html", "structchm_1_1_visit_result" ]
     ] ]

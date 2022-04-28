@@ -1,14 +1,8 @@
 var searchData=
 [
-  ['pop_0',['pop',['../classchm_1_1_heap.html#a726395eb66a10eaaccec7a72a79c5fa3',1,'chm::Heap']]],
-  ['portable_5falign32_1',['PORTABLE_ALIGN32',['../_distance_function_8hpp.html#af972c2f24aeb5cb9f10349feb9afdf6c',1,'DistanceFunction.hpp']]],
-  ['portable_5falign64_2',['PORTABLE_ALIGN64',['../_distance_function_8hpp.html#a4601795d7c62cdcc0a987b3acac85862',1,'DistanceFunction.hpp']]],
-  ['prefetch_3',['prefetch',['../classchm_1_1_space.html#aba53e9a8194f0f1cb7a3737518d1ca41',1,'chm::Space::prefetch()'],['../classchm_1_1_visited_set.html#a6408bffacac773a37424a1ed4baed35c',1,'chm::VisitedSet::prefetch()']]],
-  ['prefetching_4',['PREFETCHING',['../namespacechm.html#a5bcdd7899f173819f94ba423007d85bcabe1ba7d80db8fca351718cea0f243002',1,'chm']]],
-  ['prefetchingtemplate_5',['PrefetchingTemplate',['../structchm_1_1_prefetching_template.html',1,'chm']]],
-  ['prepare_6',['prepare',['../classchm_1_1_visited_set.html#a587a40f8687fdda65348f6ef8116cf2d',1,'chm::VisitedSet']]],
-  ['prepareheuristic_7',['prepareHeuristic',['../structchm_1_1_heap_pair.html#a5e9da841834fb0d36f9e89d73538e679',1,'chm::HeapPair']]],
-  ['preparelowersearch_8',['prepareLowerSearch',['../structchm_1_1_heap_pair.html#aeb44c9ed982084c1fdbfe99669c98d55',1,'chm::HeapPair']]],
-  ['processneighbor_9',['processNeighbor',['../classchm_1_1_index.html#a3856eca5ec01a1f3d2d380306e40bb48',1,'chm::Index']]],
-  ['push_10',['push',['../classchm_1_1_heap.html#ad2fb242be4fae5f3aa12b4a647e73c6e',1,'chm::Heap::push(const Node &amp;n)'],['../classchm_1_1_heap.html#ad34017c68012e15724d78e5e50ddfca3',1,'chm::Heap::push(const float distance, const uint id)'],['../structchm_1_1_heap_pair.html#a6b7d85996b187ceb6fd0f01da80169dc',1,'chm::HeapPair::push()'],['../classchm_1_1_index.html#a8ec9fa25c06b0080f0642683ff4448ab',1,'chm::Index::push(const FloatArray &amp;arr)'],['../classchm_1_1_index.html#a24bf42adc496408a97fa18e802a90d66',1,'chm::Index::push(const float *const data, const uint count)'],['../classchm_1_1_index.html#a271f8653dce0d69c2b58cdf9b4890204',1,'chm::Index::push(const NumpyArray&lt; float &gt; data)'],['../classchm_1_1_neighbors.html#a2238f4389c75b0516790fd53873478cd',1,'chm::Neighbors::push()'],['../classchm_1_1_space.html#a891198511334ffcc5b9ab167c3c74c10',1,'chm::Space::push()']]]
+  ['operator_22_22_5ff_0',['operator&quot;&quot;_f',['../namespacechm_1_1literals.html#a4f526f252896b7204ab2766e6d856f5f',1,'chm::literals']]],
+  ['operator_28_29_1',['operator()',['../structchm_1_1_far_comparator.html#a3de018ebc50033346f3ae2651f95b7a6',1,'chm::FarComparator::operator()()'],['../structchm_1_1_near_comparator.html#ab964992385b4531512bf7d7ef3ad83b1',1,'chm::NearComparator::operator()()'],['../structchm_1_1_node_cmp.html#ab89379ba7d6db8c985aec795b5e81e5e',1,'chm::NodeCmp::operator()()']]],
+  ['operator_3d_2',['operator=',['../classchm_1_1_knn_results.html#a618c8075430826e1dbd231eef20670f5',1,'chm::KnnResults::operator=(const KnnResults &amp;)=delete'],['../classchm_1_1_knn_results.html#a709709821952233b3ed7598e6e662c13',1,'chm::KnnResults::operator=(KnnResults &amp;&amp;) noexcept=delete']]],
+  ['operator_5b_5d_3',['operator[]',['../classchm_1_1_heap.html#aed7e55b6a9546f7c1388a147cc4dddbd',1,'chm::Heap']]],
+  ['owningdata_4',['owningData',['../classchm_1_1_knn_results.html#a4c50fa8f12937baa8531c74443b420c2',1,'chm::KnnResults']]]
 ];

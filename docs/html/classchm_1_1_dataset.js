@@ -1,0 +1,25 @@
+var classchm_1_1_dataset =
+[
+    [ "Ptr", "classchm_1_1_dataset.html#a564ea17a3047d4130606f7d96d276260", null ],
+    [ "Dataset", "classchm_1_1_dataset.html#a09b9fec04ee79c38710a631930a30969", null ],
+    [ "Dataset", "classchm_1_1_dataset.html#a2f21dca3507da16e4d0ef4ed5f5d32bc", null ],
+    [ "build", "classchm_1_1_dataset.html#a1b4c3168c266d21fed3d3725e1a76ed2", null ],
+    [ "getDataset", "classchm_1_1_dataset.html#ad3c78ae18eaa165ec6d06f6c472f2583", null ],
+    [ "getIndex", "classchm_1_1_dataset.html#a010bfa308d086032db8b8a80aab7aa36", null ],
+    [ "getRecall", "classchm_1_1_dataset.html#aed2d17b7bb32b0b874e7f36bf363d066", null ],
+    [ "getString", "classchm_1_1_dataset.html#ab51798221243fca5b112ba20eb54c8c9", null ],
+    [ "isAngular", "classchm_1_1_dataset.html#a5229eb90f47e81b45aed9ec682d6c4d8", null ],
+    [ "query", "classchm_1_1_dataset.html#a968e69f23623865268e70e2507213727", null ],
+    [ "writeLongDescription", "classchm_1_1_dataset.html#a8abec117499ccee641ae19bc9b13f448", null ],
+    [ "writeLongDescription", "classchm_1_1_dataset.html#abd9d472fdd3f31abaac39a2d9404145d", null ],
+    [ "writeShortDescription", "classchm_1_1_dataset.html#a73e806f27cc00b7f8f27d0e5f7e1f7cf", null ],
+    [ "dim", "classchm_1_1_dataset.html#a51b503f729f261383beb6c5051d38dcd", null ],
+    [ "k", "classchm_1_1_dataset.html#a6ed9e3db7c7f8bfda4361c0073b57ca1", null ],
+    [ "name", "classchm_1_1_dataset.html#a8c453f82acb4e1dcc8cbcc5c3d765585", null ],
+    [ "neighbors", "classchm_1_1_dataset.html#a45b3481d77142e3d27bfbbf726b4f85f", null ],
+    [ "space", "classchm_1_1_dataset.html#a5f9e7e616380bbb7d05c36177c08ddf5", null ],
+    [ "test", "classchm_1_1_dataset.html#aec83482a05062176f57ce1cc7b43f08a", null ],
+    [ "testCount", "classchm_1_1_dataset.html#a1441596dd5ac6b8e93794b772a420cab", null ],
+    [ "train", "classchm_1_1_dataset.html#ab2ab560d8ae33247f1132eceadcc5284", null ],
+    [ "trainCount", "classchm_1_1_dataset.html#a7f0e825d6a6e809283cabb9fcac90ea6", null ]
+];

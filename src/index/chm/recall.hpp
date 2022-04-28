@@ -62,6 +62,7 @@ namespace chm {
 	 * @param[in] correctLabels Výsledky exaktní metody KNNS.
 	 * @param[in] testedLabels Výsledky testované metody ANNS.
 	 * @param[in] queryCount Počet dotazů.
+	 * @param[in] k Počet hledaných sousedů pro každý dotaz.
 	 * @return Přesnost.
 	 */
 	float getRecall(const uint* const correctLabels, const uint* const testedLabels, const size_t queryCount, const size_t k);

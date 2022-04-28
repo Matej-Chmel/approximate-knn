@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['ydim_0',['yDim',['../classchm_1_1_labels_wrapper.html#a92944149d4aa27f82d3ee6a0d9464b1b',1,'chm::LabelsWrapper']]]
+  ['wrong_5fdim_0',['WRONG_DIM',['../namespacechm.html#a119ef9c7b3b7976a1a02e7bfb3402e49',1,'chm']]],
+  ['wrong_5ffeatures_1',['WRONG_FEATURES',['../namespacechm.html#a83c4b64d79a90fe243a92e9057af76ab',1,'chm']]]
 ];

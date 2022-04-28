@@ -1,5 +1,26 @@
 var searchData=
 [
-  ['top_0',['top',['../classchm_1_1_heap.html#a64d71d28fe2516387dff956d96f6200d',1,'chm::Heap']]],
-  ['types_2ehpp_1',['types.hpp',['../types_8hpp.html',1,'']]]
+  ['searchlowerlayer_0',['searchLowerLayer',['../classchm_1_1_index.html#a84ea48b3e6292299ea2c64ce6a01f621',1,'chm::Index']]],
+  ['searchupperlayer_1',['searchUpperLayer',['../classchm_1_1_index.html#a9feedbfd86658ac844dd78dd9ea0b05a',1,'chm::Index']]],
+  ['seed_2',['seed',['../structchm_1_1_recall_table_config.html#af22ef66e670b702ca8a5565d2a9f30bd',1,'chm::RecallTableConfig']]],
+  ['selectnewneighbors_3',['selectNewNeighbors',['../classchm_1_1_index.html#a291f66a90b0874dfb63423ff0731d9a5',1,'chm::Index']]],
+  ['selectnewneighborsheuristic_4',['selectNewNeighborsHeuristic',['../classchm_1_1_index.html#a370e2d7a03c75be31006655e1aea1a22',1,'chm::Index']]],
+  ['selectnewneighborsnaive_5',['selectNewNeighborsNaive',['../classchm_1_1_index.html#a7f17a89c936d81da91bb33c810420f73',1,'chm::Index']]],
+  ['setdata_6',['setData',['../classchm_1_1_knn_results.html#a1b8854a264f226af591af56bf2ba6450',1,'chm::KnnResults']]],
+  ['setefsearch_7',['setEfSearch',['../classchm_1_1_configuration.html#adaee256edb3a479b5aad532dccccee16',1,'chm::Configuration::setEfSearch()'],['../classchm_1_1_index.html#a01d9318f4c96920aa860c4c9fa04fceb',1,'chm::Index::setEfSearch()']]],
+  ['setelapsed_8',['setElapsed',['../classchm_1_1_query_benchmark.html#a69ebd904689ef211dc6f7469f6ff5398',1,'chm::QueryBenchmark']]],
+  ['setrecall_9',['setRecall',['../classchm_1_1_query_benchmark.html#a782e9d02571f524162937672818c49d6',1,'chm::QueryBenchmark']]],
+  ['shrinkneighbors_10',['shrinkNeighbors',['../classchm_1_1_index.html#a729adaf978a942aeeb8ca989122ffe14',1,'chm::Index']]],
+  ['shrinkneighborsheuristic_11',['shrinkNeighborsHeuristic',['../classchm_1_1_index.html#a9c0345fffbfbcb600189b0be9715b858',1,'chm::Index']]],
+  ['shrinkneighborsnaive_12',['shrinkNeighborsNaive',['../classchm_1_1_index.html#a33018f7b7c458c82865bc47b44e4af9c',1,'chm::Index']]],
+  ['simdtype_13',['simdType',['../structchm_1_1_recall_table_config.html#a9ee7cba9bf82617d61a70304fec3546f',1,'chm::RecallTableConfig']]],
+  ['simdtype_14',['SIMDType',['../namespacechm.html#a32cb02ac8c02f0f27c921c284020ab51',1,'chm']]],
+  ['space_15',['Space',['../classchm_1_1_space.html',1,'chm::Space'],['../classchm_1_1_space.html#abd4b7f155069f3c1879393d8b0ab0793',1,'chm::Space::Space()']]],
+  ['space_16',['space',['../classchm_1_1_index.html#a8a0673d3e8ee7b3e5e0519f1b3783064',1,'chm::Index::space()'],['../classchm_1_1_bruteforce.html#a59dfb366f88bd7e267eb2737d1518817',1,'chm::Bruteforce::space()'],['../classchm_1_1_dataset.html#a5f9e7e616380bbb7d05c36177c08ddf5',1,'chm::Dataset::space()']]],
+  ['space_2ecpp_17',['Space.cpp',['../_space_8cpp.html',1,'']]],
+  ['space_2ehpp_18',['Space.hpp',['../_space_8hpp.html',1,'']]],
+  ['spacekind_19',['SpaceKind',['../namespacechm.html#a95dbf9aaea0c82a192fc3cc7a04d145c',1,'chm']]],
+  ['sse_20',['SSE',['../namespacechm.html#a32cb02ac8c02f0f27c921c284020ab51a5fc53fc8197865c63285f74b1e147013',1,'chm']]],
+  ['start_21',['start',['../classchm_1_1_timer.html#aeddb8f67ad593c6ec6420fe19cbea918',1,'chm::Timer']]],
+  ['success_22',['success',['../structchm_1_1_visit_result.html#a7b5ccc4fccab6955416e1e67e4cbc8a6',1,'chm::VisitResult']]]
 ];

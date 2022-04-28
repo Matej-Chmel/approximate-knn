@@ -107,7 +107,7 @@ namespace chm {
 		float getDistance(const float* const aData, const uint bID) const;
 		/**
 		 * Vrátí název funkce metriky vzdálenosti.
-		 * @return @ref distInfo::funcInfo::name.
+		 * @return Název funkce metriky vzdálenosti.
 		 */
 		std::string getDistanceName() const;
 		/**

@@ -1,0 +1,907 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.3"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Index HNSW: Dokumentace šablony třídy chm::Dataset&lt; T &gt;</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">Index HNSW
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Vygenerováno programem Doxygen 1.9.3 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search",'Hledat','.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','Hledat');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('classchm_1_1_dataset.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div class="header">
+  <div class="summary">
+<a href="#pub-types">Veřejné typy</a> &#124;
+<a href="#pub-methods">Veřejné metody</a> &#124;
+<a href="#pub-static-methods">Statické veřejné metody</a> &#124;
+<a href="#pri-attribs">Privátní atributy</a> &#124;
+<a href="classchm_1_1_dataset-members.html">Seznam všech členů</a>  </div>
+  <div class="headertitle"><div class="title">Dokumentace šablony třídy chm::Dataset&lt; T &gt;</div></div>
+</div><!--header-->
+<div class="contents">
+
+<p><code>#include &lt;<a class="el" href="_dataset_8hpp_source.html">Dataset.hpp</a>&gt;</code></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-types" name="pub-types"></a>
+Veřejné typy</h2></td></tr>
+<tr class="memitem:a564ea17a3047d4130606f7d96d276260"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchm_1_1_dataset.html#a564ea17a3047d4130606f7d96d276260">Ptr</a> = std::shared_ptr&lt; const <a class="el" href="classchm_1_1_dataset.html">Dataset</a>&lt; T &gt; &gt;</td></tr>
+<tr class="separator:a564ea17a3047d4130606f7d96d276260"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Veřejné metody</h2></td></tr>
+<tr class="memitem:a1b4c3168c266d21fed3d3725e1a76ed2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchm_1_1_dataset.html#a1b4c3168c266d21fed3d3725e1a76ed2">build</a> (const <a class="el" href="namespacechm.html#a35d80924d8e2e607c5a39e3815cbf32e">IndexPtr</a>&lt; T &gt; &amp;index) const</td></tr>
+<tr class="separator:a1b4c3168c266d21fed3d3725e1a76ed2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a09b9fec04ee79c38710a631930a30969"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchm_1_1_dataset.html#a09b9fec04ee79c38710a631930a30969">Dataset</a> (const fs::path &amp;p)</td></tr>
+<tr class="separator:a09b9fec04ee79c38710a631930a30969"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2f21dca3507da16e4d0ef4ed5f5d32bc"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchm_1_1_dataset.html#a2f21dca3507da16e4d0ef4ed5f5d32bc">Dataset</a> (const nl::json &amp;obj, const fs::path &amp;configPath, const fs::path &amp;datasetPath, std::ostream &amp;s)</td></tr>
+<tr class="separator:a2f21dca3507da16e4d0ef4ed5f5d32bc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a010bfa308d086032db8b8a80aab7aa36"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacechm.html#a35d80924d8e2e607c5a39e3815cbf32e">IndexPtr</a>&lt; T &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchm_1_1_dataset.html#a010bfa308d086032db8b8a80aab7aa36">getIndex</a> (const <a class="el" href="namespacechm.html#a513a40c15e5fad57de99dabd89d0c494">uint</a> efConstruction=200, const <a class="el" href="namespacechm.html#a513a40c15e5fad57de99dabd89d0c494">uint</a> mMax=16, const <a class="el" href="namespacechm.html#a513a40c15e5fad57de99dabd89d0c494">uint</a> seed=100, const <a class="el" href="namespacechm.html#a32cb02ac8c02f0f27c921c284020ab51">SIMDType</a> simdType=<a class="el" href="namespacechm.html#a32cb02ac8c02f0f27c921c284020ab51ab50339a10e1de285ac99d4c3990b8693">SIMDType::NONE</a>) const</td></tr>
+<tr class="separator:a010bfa308d086032db8b8a80aab7aa36"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aed2d17b7bb32b0b874e7f36bf363d066"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchm_1_1_dataset.html#aed2d17b7bb32b0b874e7f36bf363d066">getRecall</a> (const <a class="el" href="classchm_1_1_knn_results.html">KnnResults</a> &amp;results) const</td></tr>
+<tr class="separator:aed2d17b7bb32b0b874e7f36bf363d066"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab51798221243fca5b112ba20eb54c8c9"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchm_1_1_dataset.html#ab51798221243fca5b112ba20eb54c8c9">getString</a> () const</td></tr>
+<tr class="separator:ab51798221243fca5b112ba20eb54c8c9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5229eb90f47e81b45aed9ec682d6c4d8"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchm_1_1_dataset.html#a5229eb90f47e81b45aed9ec682d6c4d8">isAngular</a> () const</td></tr>
+<tr class="separator:a5229eb90f47e81b45aed9ec682d6c4d8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a968e69f23623865268e70e2507213727"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classchm_1_1_knn_results.html">KnnResults</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchm_1_1_dataset.html#a968e69f23623865268e70e2507213727">query</a> (const <a class="el" href="namespacechm.html#a35d80924d8e2e607c5a39e3815cbf32e">IndexPtr</a>&lt; T &gt; &amp;index, const <a class="el" href="namespacechm.html#a513a40c15e5fad57de99dabd89d0c494">uint</a> efSearch) const</td></tr>
+<tr class="separator:a968e69f23623865268e70e2507213727"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8abec117499ccee641ae19bc9b13f448"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchm_1_1_dataset.html#a8abec117499ccee641ae19bc9b13f448">writeLongDescription</a> (const fs::path &amp;p) const</td></tr>
+<tr class="separator:a8abec117499ccee641ae19bc9b13f448"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abd9d472fdd3f31abaac39a2d9404145d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchm_1_1_dataset.html#abd9d472fdd3f31abaac39a2d9404145d">writeLongDescription</a> (std::ostream &amp;s) const</td></tr>
+<tr class="separator:abd9d472fdd3f31abaac39a2d9404145d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a73e806f27cc00b7f8f27d0e5f7e1f7cf"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchm_1_1_dataset.html#a73e806f27cc00b7f8f27d0e5f7e1f7cf">writeShortDescription</a> (std::ostream &amp;s) const</td></tr>
+<tr class="separator:a73e806f27cc00b7f8f27d0e5f7e1f7cf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
+Statické veřejné metody</h2></td></tr>
+<tr class="memitem:ad3c78ae18eaa165ec6d06f6c472f2583"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classchm_1_1_dataset.html#a564ea17a3047d4130606f7d96d276260">Ptr</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchm_1_1_dataset.html#ad3c78ae18eaa165ec6d06f6c472f2583">getDataset</a> (const fs::path &amp;configPath, const fs::path &amp;dataDir, const nl::json &amp;datasets, const std::string &amp;<a class="el" href="classchm_1_1_dataset.html#a8c453f82acb4e1dcc8cbcc5c3d765585">name</a>, std::ostream &amp;s)</td></tr>
+<tr class="separator:ad3c78ae18eaa165ec6d06f6c472f2583"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
+Privátní atributy</h2></td></tr>
+<tr class="memitem:a51b503f729f261383beb6c5051d38dcd"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchm_1_1_dataset.html#a51b503f729f261383beb6c5051d38dcd">dim</a></td></tr>
+<tr class="separator:a51b503f729f261383beb6c5051d38dcd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6ed9e3db7c7f8bfda4361c0073b57ca1"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacechm.html#a513a40c15e5fad57de99dabd89d0c494">uint</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchm_1_1_dataset.html#a6ed9e3db7c7f8bfda4361c0073b57ca1">k</a></td></tr>
+<tr class="separator:a6ed9e3db7c7f8bfda4361c0073b57ca1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8c453f82acb4e1dcc8cbcc5c3d765585"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchm_1_1_dataset.html#a8c453f82acb4e1dcc8cbcc5c3d765585">name</a></td></tr>
+<tr class="separator:a8c453f82acb4e1dcc8cbcc5c3d765585"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5f9e7e616380bbb7d05c36177c08ddf5"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacechm.html#a95dbf9aaea0c82a192fc3cc7a04d145c">SpaceKind</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchm_1_1_dataset.html#a5f9e7e616380bbb7d05c36177c08ddf5">space</a></td></tr>
+<tr class="separator:a5f9e7e616380bbb7d05c36177c08ddf5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1441596dd5ac6b8e93794b772a420cab"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacechm.html#a513a40c15e5fad57de99dabd89d0c494">uint</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchm_1_1_dataset.html#a1441596dd5ac6b8e93794b772a420cab">testCount</a></td></tr>
+<tr class="separator:a1441596dd5ac6b8e93794b772a420cab"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7f0e825d6a6e809283cabb9fcac90ea6"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacechm.html#a513a40c15e5fad57de99dabd89d0c494">uint</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchm_1_1_dataset.html#a7f0e825d6a6e809283cabb9fcac90ea6">trainCount</a></td></tr>
+<tr class="separator:a7f0e825d6a6e809283cabb9fcac90ea6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a45b3481d77142e3d27bfbbf726b4f85f"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="namespacechm.html#a513a40c15e5fad57de99dabd89d0c494">uint</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchm_1_1_dataset.html#a45b3481d77142e3d27bfbbf726b4f85f">neighbors</a></td></tr>
+<tr class="separator:a45b3481d77142e3d27bfbbf726b4f85f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aec83482a05062176f57ce1cc7b43f08a"><td class="memItemLeft" align="right" valign="top">std::vector&lt; float &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchm_1_1_dataset.html#aec83482a05062176f57ce1cc7b43f08a">test</a></td></tr>
+<tr class="separator:aec83482a05062176f57ce1cc7b43f08a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab2ab560d8ae33247f1132eceadcc5284"><td class="memItemLeft" align="right" valign="top">std::vector&lt; float &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchm_1_1_dataset.html#ab2ab560d8ae33247f1132eceadcc5284">train</a></td></tr>
+<tr class="separator:ab2ab560d8ae33247f1132eceadcc5284"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailní popis</h2>
+<div class="textblock"><div class="compoundTemplParams">template&lt;class T = NaiveTemplate&gt;<br />
+class chm::Dataset&lt; T &gt;</div><p >Datový soubor. </p><dl class="tparams"><dt>Parametry šablon</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">T</td><td>Šablona sestavovaného indexu. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section see"><dt>Viz také</dt><dd><a class="el" href="namespacechm.html#a5bcdd7899f173819f94ba423007d85bc">IndexTemplate</a>. </dd></dl>
+</div><h2 class="groupheader">Dokumentace k členským typům</h2>
+<a id="a564ea17a3047d4130606f7d96d276260" name="a564ea17a3047d4130606f7d96d276260"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a564ea17a3047d4130606f7d96d276260">&#9670;&nbsp;</a></span>Ptr</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class T  = NaiveTemplate&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="classchm_1_1_dataset.html">chm::Dataset</a>&lt; T &gt;::Ptr =  std::shared_ptr&lt;const <a class="el" href="classchm_1_1_dataset.html">Dataset</a>&lt;T&gt; &gt;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p >Typ sdíleného ukazatele na datový soubor. </p>
+
+</div>
+</div>
+<h2 class="groupheader">Dokumentace konstruktoru a destruktoru</h2>
+<a id="a09b9fec04ee79c38710a631930a30969" name="a09b9fec04ee79c38710a631930a30969"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a09b9fec04ee79c38710a631930a30969">&#9670;&nbsp;</a></span>Dataset() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class T &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classchm_1_1_dataset.html">chm::Dataset</a>&lt; T &gt;::Dataset </td>
+          <td>(</td>
+          <td class="paramtype">const fs::path &amp;&#160;</td>
+          <td class="paramname"><em>p</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p >Konstruktor z již existujícího souboru. </p><dl class="params"><dt>Parametry</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">p</td><td>Cesta k souboru. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a2f21dca3507da16e4d0ef4ed5f5d32bc" name="a2f21dca3507da16e4d0ef4ed5f5d32bc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2f21dca3507da16e4d0ef4ed5f5d32bc">&#9670;&nbsp;</a></span>Dataset() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class T &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classchm_1_1_dataset.html">chm::Dataset</a>&lt; T &gt;::Dataset </td>
+          <td>(</td>
+          <td class="paramtype">const nl::json &amp;&#160;</td>
+          <td class="paramname"><em>obj</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const fs::path &amp;&#160;</td>
+          <td class="paramname"><em>configPath</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const fs::path &amp;&#160;</td>
+          <td class="paramname"><em>datasetPath</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::ostream &amp;&#160;</td>
+          <td class="paramname"><em>s</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p >Konstruktor pro vytvoření nového datového souboru. </p><dl class="params"><dt>Parametry</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">obj</td><td>JSON objekt s popisem datového souboru. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">configPath</td><td>Cesta k souboru s JSON konfigurací. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">datasetPath</td><td>Cesta k datovému souboru. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">s</td><td>Stream pro zapisování stavu. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<h2 class="groupheader">Dokumentace k metodám</h2>
+<a id="a1b4c3168c266d21fed3d3725e1a76ed2" name="a1b4c3168c266d21fed3d3725e1a76ed2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1b4c3168c266d21fed3d3725e1a76ed2">&#9670;&nbsp;</a></span>build()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class T &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="classchm_1_1_dataset.html">chm::Dataset</a>&lt; T &gt;::build </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="namespacechm.html#a35d80924d8e2e607c5a39e3815cbf32e">IndexPtr</a>&lt; T &gt; &amp;&#160;</td>
+          <td class="paramname"><em>index</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p >Vloží prvky z datové kolekce <a class="el" href="classchm_1_1_dataset.html#ab2ab560d8ae33247f1132eceadcc5284">train</a> do indexu. </p><dl class="params"><dt>Parametry</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">index</td><td>Ukazatel na index. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ad3c78ae18eaa165ec6d06f6c472f2583" name="ad3c78ae18eaa165ec6d06f6c472f2583"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad3c78ae18eaa165ec6d06f6c472f2583">&#9670;&nbsp;</a></span>getDataset()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class T &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classchm_1_1_dataset.html">Dataset</a>&lt; T &gt;<a class="el" href="classchm_1_1_dataset.html#a564ea17a3047d4130606f7d96d276260">::Ptr</a> <a class="el" href="classchm_1_1_dataset.html">chm::Dataset</a>&lt; T &gt;::getDataset </td>
+          <td>(</td>
+          <td class="paramtype">const fs::path &amp;&#160;</td>
+          <td class="paramname"><em>configPath</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const fs::path &amp;&#160;</td>
+          <td class="paramname"><em>dataDir</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const nl::json &amp;&#160;</td>
+          <td class="paramname"><em>datasets</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::ostream &amp;&#160;</td>
+          <td class="paramname"><em>s</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p >Statická metoda pro získání již existujícího nebo vytvoření nového datového souboru. </p><dl class="params"><dt>Parametry</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">configPath</td><td>Cesta k souboru s JSON konfigurací. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">dataDir</td><td>Cesta k adresáři s datovými soubory. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">datasets</td><td>JSON objekt s popisem datových souborů. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">name</td><td><a class="el" href="classchm_1_1_dataset.html#a8c453f82acb4e1dcc8cbcc5c3d765585">name</a> </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">s</td><td>Stream pro zapisování stavu. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Návratová hodnota</dt><dd>Ukazatel na datový soubor. </dd></dl>
+
+</div>
+</div>
+<a id="a010bfa308d086032db8b8a80aab7aa36" name="a010bfa308d086032db8b8a80aab7aa36"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a010bfa308d086032db8b8a80aab7aa36">&#9670;&nbsp;</a></span>getIndex()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class T &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespacechm.html#a35d80924d8e2e607c5a39e3815cbf32e">IndexPtr</a>&lt; T &gt; <a class="el" href="classchm_1_1_dataset.html">chm::Dataset</a>&lt; T &gt;::getIndex </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="namespacechm.html#a513a40c15e5fad57de99dabd89d0c494">uint</a>&#160;</td>
+          <td class="paramname"><em>efConstruction</em> = <code>200</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="namespacechm.html#a513a40c15e5fad57de99dabd89d0c494">uint</a>&#160;</td>
+          <td class="paramname"><em>mMax</em> = <code>16</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="namespacechm.html#a513a40c15e5fad57de99dabd89d0c494">uint</a>&#160;</td>
+          <td class="paramname"><em>seed</em> = <code>100</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="namespacechm.html#a32cb02ac8c02f0f27c921c284020ab51">SIMDType</a>&#160;</td>
+          <td class="paramname"><em>simdType</em> = <code><a class="el" href="namespacechm.html#a32cb02ac8c02f0f27c921c284020ab51ab50339a10e1de285ac99d4c3990b8693">SIMDType::NONE</a></code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p >Vrátí prázdný index. </p><dl class="params"><dt>Parametry</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">efConstruction</td><td><a class="el" href="classchm_1_1_configuration.html#a5d8c65f4bcaec3a6de50cd06600c0e58">Configuration::efConstruction</a> </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">mMax</td><td><a class="el" href="classchm_1_1_configuration.html#a2e5e9df295d1690659bb7abd0a40e51f">Configuration::mMax</a> </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">seed</td><td>Nastavení generátoru náhodných úrovní nových prvků. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">simdType</td><td>SIMD rozšíření použité pro výpočet vzdálenosti. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Návratová hodnota</dt><dd>Ukazatel na prázdný index. </dd></dl>
+
+</div>
+</div>
+<a id="aed2d17b7bb32b0b874e7f36bf363d066" name="aed2d17b7bb32b0b874e7f36bf363d066"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aed2d17b7bb32b0b874e7f36bf363d066">&#9670;&nbsp;</a></span>getRecall()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class T &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">float <a class="el" href="classchm_1_1_dataset.html">chm::Dataset</a>&lt; T &gt;::getRecall </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classchm_1_1_knn_results.html">KnnResults</a> &amp;&#160;</td>
+          <td class="paramname"><em>results</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p >Vrátí přesnost výsledků indexu. </p><dl class="params"><dt>Parametry</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">results</td><td>Výsledky indexu. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Návratová hodnota</dt><dd>Přesnost výsledků. </dd></dl>
+
+</div>
+</div>
+<a id="ab51798221243fca5b112ba20eb54c8c9" name="ab51798221243fca5b112ba20eb54c8c9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab51798221243fca5b112ba20eb54c8c9">&#9670;&nbsp;</a></span>getString()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class T &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string <a class="el" href="classchm_1_1_dataset.html">chm::Dataset</a>&lt; T &gt;::getString</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p >Vrátí krátký popis datového souboru. </p><dl class="section return"><dt>Návratová hodnota</dt><dd>Krátký popis datového souboru. </dd></dl>
+
+</div>
+</div>
+<a id="a5229eb90f47e81b45aed9ec682d6c4d8" name="a5229eb90f47e81b45aed9ec682d6c4d8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5229eb90f47e81b45aed9ec682d6c4d8">&#9670;&nbsp;</a></span>isAngular()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class T &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool <a class="el" href="classchm_1_1_dataset.html">chm::Dataset</a>&lt; T &gt;::isAngular</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p >Vrátí vlajku využití kosinusové vzdálenosti. </p><dl class="section return"><dt>Návratová hodnota</dt><dd>Vlajka využití kosinusové vzdálenosti. </dd></dl>
+
+</div>
+</div>
+<a id="a968e69f23623865268e70e2507213727" name="a968e69f23623865268e70e2507213727"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a968e69f23623865268e70e2507213727">&#9670;&nbsp;</a></span>query()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class T &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classchm_1_1_knn_results.html">KnnResults</a> <a class="el" href="classchm_1_1_dataset.html">chm::Dataset</a>&lt; T &gt;::query </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="namespacechm.html#a35d80924d8e2e607c5a39e3815cbf32e">IndexPtr</a>&lt; T &gt; &amp;&#160;</td>
+          <td class="paramname"><em>index</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="namespacechm.html#a513a40c15e5fad57de99dabd89d0c494">uint</a>&#160;</td>
+          <td class="paramname"><em>efSearch</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p >Zpracuje kolekci dotazů. </p><dl class="params"><dt>Parametry</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">index</td><td>Ukazatel na index, který kolekci zpracuje. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">efSearch</td><td><a class="el" href="classchm_1_1_configuration.html#aa20967f3afb254519e54b5b11ed00b13">Configuration::efSearch</a> </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a8abec117499ccee641ae19bc9b13f448" name="a8abec117499ccee641ae19bc9b13f448"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8abec117499ccee641ae19bc9b13f448">&#9670;&nbsp;</a></span>writeLongDescription() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class T &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="classchm_1_1_dataset.html">chm::Dataset</a>&lt; T &gt;::writeLongDescription </td>
+          <td>(</td>
+          <td class="paramtype">const fs::path &amp;&#160;</td>
+          <td class="paramname"><em>p</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p >Převede datový soubor na textový formát. </p><dl class="params"><dt>Parametry</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">p</td><td>Cesta k výstupnímu souboru. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="abd9d472fdd3f31abaac39a2d9404145d" name="abd9d472fdd3f31abaac39a2d9404145d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abd9d472fdd3f31abaac39a2d9404145d">&#9670;&nbsp;</a></span>writeLongDescription() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class T &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="classchm_1_1_dataset.html">chm::Dataset</a>&lt; T &gt;::writeLongDescription </td>
+          <td>(</td>
+          <td class="paramtype">std::ostream &amp;&#160;</td>
+          <td class="paramname"><em>s</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p >Převede datový soubor na textový formát. </p><dl class="params"><dt>Parametry</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[out]</td><td class="paramname">s</td><td>Výstupní stream. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a73e806f27cc00b7f8f27d0e5f7e1f7cf" name="a73e806f27cc00b7f8f27d0e5f7e1f7cf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a73e806f27cc00b7f8f27d0e5f7e1f7cf">&#9670;&nbsp;</a></span>writeShortDescription()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class T &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="classchm_1_1_dataset.html">chm::Dataset</a>&lt; T &gt;::writeShortDescription </td>
+          <td>(</td>
+          <td class="paramtype">std::ostream &amp;&#160;</td>
+          <td class="paramname"><em>s</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p >Zapíše krátký popis datového souboru do streamu. </p><dl class="params"><dt>Parametry</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[out]</td><td class="paramname">s</td><td>Výstupní stream. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<h2 class="groupheader">Dokumentace k datovým členům</h2>
+<a id="a51b503f729f261383beb6c5051d38dcd" name="a51b503f729f261383beb6c5051d38dcd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a51b503f729f261383beb6c5051d38dcd">&#9670;&nbsp;</a></span>dim</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class T  = NaiveTemplate&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">size_t <a class="el" href="classchm_1_1_dataset.html">chm::Dataset</a>&lt; T &gt;::dim</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p >Počet dimenzí prostoru. </p>
+
+</div>
+</div>
+<a id="a6ed9e3db7c7f8bfda4361c0073b57ca1" name="a6ed9e3db7c7f8bfda4361c0073b57ca1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6ed9e3db7c7f8bfda4361c0073b57ca1">&#9670;&nbsp;</a></span>k</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class T  = NaiveTemplate&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespacechm.html#a513a40c15e5fad57de99dabd89d0c494">uint</a> <a class="el" href="classchm_1_1_dataset.html">chm::Dataset</a>&lt; T &gt;::k</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p >Počet hledaných sousedů pro jeden dotaz. </p>
+
+</div>
+</div>
+<a id="a8c453f82acb4e1dcc8cbcc5c3d765585" name="a8c453f82acb4e1dcc8cbcc5c3d765585"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8c453f82acb4e1dcc8cbcc5c3d765585">&#9670;&nbsp;</a></span>name</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class T  = NaiveTemplate&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string <a class="el" href="classchm_1_1_dataset.html">chm::Dataset</a>&lt; T &gt;::name</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p >Název datového souboru bez přípony. </p>
+
+</div>
+</div>
+<a id="a45b3481d77142e3d27bfbbf726b4f85f" name="a45b3481d77142e3d27bfbbf726b4f85f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a45b3481d77142e3d27bfbbf726b4f85f">&#9670;&nbsp;</a></span>neighbors</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class T  = NaiveTemplate&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt;<a class="el" href="namespacechm.html#a513a40c15e5fad57de99dabd89d0c494">uint</a>&gt; <a class="el" href="classchm_1_1_dataset.html">chm::Dataset</a>&lt; T &gt;::neighbors</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p >Identity skutečných nejbližších sousedů pro všechny dotazy. </p><dl class="section see"><dt>Viz také</dt><dd><a class="el" href="classchm_1_1_bruteforce.html">Bruteforce</a> </dd></dl>
+
+</div>
+</div>
+<a id="a5f9e7e616380bbb7d05c36177c08ddf5" name="a5f9e7e616380bbb7d05c36177c08ddf5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5f9e7e616380bbb7d05c36177c08ddf5">&#9670;&nbsp;</a></span>space</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class T  = NaiveTemplate&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespacechm.html#a95dbf9aaea0c82a192fc3cc7a04d145c">SpaceKind</a> <a class="el" href="classchm_1_1_dataset.html">chm::Dataset</a>&lt; T &gt;::space</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p >Druh prostoru dle metriky. </p>
+
+</div>
+</div>
+<a id="aec83482a05062176f57ce1cc7b43f08a" name="aec83482a05062176f57ce1cc7b43f08a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aec83482a05062176f57ce1cc7b43f08a">&#9670;&nbsp;</a></span>test</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class T  = NaiveTemplate&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt;float&gt; <a class="el" href="classchm_1_1_dataset.html">chm::Dataset</a>&lt; T &gt;::test</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p >Pole vektorů dotazovaných prvků. </p>
+
+</div>
+</div>
+<a id="a1441596dd5ac6b8e93794b772a420cab" name="a1441596dd5ac6b8e93794b772a420cab"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1441596dd5ac6b8e93794b772a420cab">&#9670;&nbsp;</a></span>testCount</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class T  = NaiveTemplate&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespacechm.html#a513a40c15e5fad57de99dabd89d0c494">uint</a> <a class="el" href="classchm_1_1_dataset.html">chm::Dataset</a>&lt; T &gt;::testCount</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p >Počet dotazů. </p>
+
+</div>
+</div>
+<a id="ab2ab560d8ae33247f1132eceadcc5284" name="ab2ab560d8ae33247f1132eceadcc5284"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab2ab560d8ae33247f1132eceadcc5284">&#9670;&nbsp;</a></span>train</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class T  = NaiveTemplate&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt;float&gt; <a class="el" href="classchm_1_1_dataset.html">chm::Dataset</a>&lt; T &gt;::train</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p >Datová kolekce pro stavbu indexu. </p>
+
+</div>
+</div>
+<a id="a7f0e825d6a6e809283cabb9fcac90ea6" name="a7f0e825d6a6e809283cabb9fcac90ea6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7f0e825d6a6e809283cabb9fcac90ea6">&#9670;&nbsp;</a></span>trainCount</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class T  = NaiveTemplate&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespacechm.html#a513a40c15e5fad57de99dabd89d0c494">uint</a> <a class="el" href="classchm_1_1_dataset.html">chm::Dataset</a>&lt; T &gt;::trainCount</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p >Počet prvků v datové kolekce pro stavbu indexu. </p>
+
+</div>
+</div>
+<hr/>Dokumentace pro tuto třídu byla vygenerována z následujícího souboru:<ul>
+<li><a class="el" href="_dataset_8hpp_source.html">Dataset.hpp</a></li>
+</ul>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="namespacechm.html">chm</a></li><li class="navelem"><a class="el" href="classchm_1_1_dataset.html">Dataset</a></li>
+    <li class="footer">Vygenerováno programem <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.3 </li>
+  </ul>
+</div>
+</body>
+</html>

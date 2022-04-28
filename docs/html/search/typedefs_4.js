@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['uint_0',['uint',['../namespacechm.html#a513a40c15e5fad57de99dabd89d0c494',1,'chm']]]
+  ['ptr_0',['Ptr',['../classchm_1_1_dataset.html#a564ea17a3047d4130606f7d96d276260',1,'chm::Dataset']]]
 ];

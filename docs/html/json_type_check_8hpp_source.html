@@ -1,0 +1,194 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.3"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Index HNSW: Zdrojový soubor jsonTypeCheck.hpp</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">Index HNSW
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Vygenerováno programem Doxygen 1.9.3 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search",'Hledat','.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','Hledat');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('json_type_check_8hpp_source.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">jsonTypeCheck.hpp</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="json_type_check_8hpp.html">Zobrazit dokumentaci tohoto souboru.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#pragma once</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="preprocessor">#include &lt;filesystem&gt;</span></div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &lt;fstream&gt;</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &lt;sstream&gt;</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &lt;stdexcept&gt;</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#include &lt;streambuf&gt;</span></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="preprocessor">#include &lt;string&gt;</span></div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="preprocessor">#include &lt;type_traits&gt;</span></div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="preprocessor">#include &lt;vector&gt;</span></div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="preprocessor">#include &quot;libs/json.hpp&quot;</span></div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span> </div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespacechm.html">chm</a> {</div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span>    <span class="keyword">namespace </span>fs = std::filesystem;</div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span>    <span class="keyword">namespace </span>nl = nlohmann;</div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span> </div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>    <span class="keyword">namespace </span>literals {</div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>        std::stringstream <span class="keyword">operator</span><span class="stringliteral">&quot;&quot;</span> _f(<span class="keyword">const</span> <span class="keywordtype">char</span>* <span class="keyword">const</span> s, <span class="keyword">const</span> <span class="keywordtype">size_t</span> _);</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>    }</div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span> </div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>    <span class="keyword">using namespace </span>literals;</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span> </div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>    std::stringstream <a class="code hl_function" href="namespacechm.html#a73af4ed17794030e7e6408cc4810343f">configStream</a>(<span class="keyword">const</span> fs::path&amp; p);</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>    <span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt; std::vector&lt;T&gt; <a class="code hl_function" href="namespacechm.html#ab5c6492dd34815f65c0b8fd4d8b62cd3">getJSONArray</a>(</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>        <span class="keyword">const</span> nl::json&amp; obj, <span class="keyword">const</span> std::string&amp; key, <span class="keyword">const</span> fs::path&amp; path</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>    );</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>    <span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt; T <a class="code hl_function" href="namespacechm.html#ae4b1abce013de5e1d8efbf3de888e280">getJSONValue</a>(</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>        <span class="keyword">const</span> nl::json&amp; obj, <span class="keyword">const</span> std::string&amp; key, <span class="keyword">const</span> fs::path&amp; path</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>    );</div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>    nl::json <a class="code hl_function" href="namespacechm.html#a4e474449f1399b3e1d2ca7f2ea1c1a1f">getRoot</a>(<span class="keyword">const</span> fs::path&amp; p);</div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="namespacechm.html#a99a4302b3f1ca44fe0adeed8481d245b">throwCouldNotOpen</a>(<span class="keyword">const</span> fs::path&amp; p);</div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="namespacechm.html#adef5e055777c7f899183495af08d6092">throwMissingKey</a>(<span class="keyword">const</span> std::string&amp; key, <span class="keyword">const</span> fs::path&amp; path);</div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span> </div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>    <span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno"><a class="line" href="namespacechm.html#ae4b1abce013de5e1d8efbf3de888e280">   74</a></span>    <span class="keyword">inline</span> T <a class="code hl_function" href="namespacechm.html#ae4b1abce013de5e1d8efbf3de888e280">getJSONValue</a>(<span class="keyword">const</span> nl::json&amp; obj, <span class="keyword">const</span> std::string&amp; key, <span class="keyword">const</span> fs::path&amp; path) {</div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>        <span class="keywordflow">if</span>(!obj.contains(key))</div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>            <a class="code hl_function" href="namespacechm.html#adef5e055777c7f899183495af08d6092">throwMissingKey</a>(key, path);</div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span> </div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>        <span class="keywordflow">try</span> {</div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>            <span class="keywordflow">return</span> obj.at(key).get&lt;T&gt;();</div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>        } <span class="keywordflow">catch</span>(<span class="keyword">const</span> nl::json::exception&amp;) {</div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span>            <span class="keywordflow">throw</span> std::runtime_error((</div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>                <a class="code hl_function" href="namespacechm.html#a73af4ed17794030e7e6408cc4810343f">configStream</a>(path) &lt;&lt; <span class="stringliteral">&quot;Key: &quot;</span> &lt;&lt; key &lt;&lt;</div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span>                <span class="stringliteral">&quot;\nExpected type: &quot;</span> &lt;&lt; <span class="keyword">typeid</span>(T).name() &lt;&lt;</div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>                <span class="stringliteral">&quot;\nActual type: &quot;</span> &lt;&lt; obj.at(key).type_name()</div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>            ).str());</div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>        }</div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>        <span class="keywordflow">return</span> obj.at(key).get&lt;T&gt;();</div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span>    }</div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span> </div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span>    <span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno"><a class="line" href="namespacechm.html#ab5c6492dd34815f65c0b8fd4d8b62cd3">   91</a></span>    <span class="keyword">inline</span> std::vector&lt;T&gt; <a class="code hl_function" href="namespacechm.html#ab5c6492dd34815f65c0b8fd4d8b62cd3">getJSONArray</a>(</div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>        <span class="keyword">const</span> nl::json&amp; obj, <span class="keyword">const</span> std::string&amp; key, <span class="keyword">const</span> fs::path&amp; path</div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>    ) {</div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>        <span class="keywordflow">if</span>(!obj.contains(key))</div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span>            <a class="code hl_function" href="namespacechm.html#adef5e055777c7f899183495af08d6092">throwMissingKey</a>(key, path);</div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span> </div>
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span>        <span class="keyword">const</span> <span class="keyword">auto</span>&amp; arr = obj.at(key);</div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span> </div>
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>        <span class="keywordflow">if</span>(!arr.is_array())</div>
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>            <span class="keywordflow">throw</span> std::runtime_error((</div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span>                <a class="code hl_function" href="namespacechm.html#a73af4ed17794030e7e6408cc4810343f">configStream</a>(path) &lt;&lt; <span class="stringliteral">&quot;Key: &quot;</span> &lt;&lt; key &lt;&lt;</div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>                <span class="stringliteral">&quot;\nExpected type: JSON array\nActual type: &quot;</span> &lt;&lt; arr.type_name()</div>
+<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span>            ).str());</div>
+<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span> </div>
+<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span>        std::vector&lt;T&gt; res;</div>
+<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span> </div>
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span>        <span class="keywordflow">if</span> <span class="keyword">constexpr</span>(std::is_same&lt;T, nl::json&gt;::value) {</div>
+<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span>            <span class="keywordflow">for</span>(<span class="keyword">const</span> <span class="keyword">auto</span>&amp; item : arr) {</div>
+<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span>                <span class="keywordflow">if</span>(!item.is_object())</div>
+<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span>                    <span class="keywordflow">throw</span> std::runtime_error((</div>
+<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span>                        <a class="code hl_function" href="namespacechm.html#a73af4ed17794030e7e6408cc4810343f">configStream</a>(path) &lt;&lt; <span class="stringliteral">&quot;Key: &quot;</span> &lt;&lt; key &lt;&lt;</div>
+<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span>                        <span class="stringliteral">&quot;\nExpected type: JSON object\nActual type: &quot;</span> &lt;&lt; item.type_name()</div>
+<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span>                    ).str());</div>
+<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span>                res.push_back(item);</div>
+<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span>            }</div>
+<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span>        } <span class="keywordflow">else</span> {</div>
+<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span>            <span class="keywordflow">try</span> {</div>
+<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span>                <span class="keywordflow">for</span>(<span class="keyword">const</span> <span class="keyword">auto</span>&amp; item : arr)</div>
+<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span>                    res.push_back(item.get&lt;T&gt;());</div>
+<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span>            } <span class="keywordflow">catch</span>(<span class="keyword">const</span> nl::json::exception&amp;) {</div>
+<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span>                <span class="keywordflow">throw</span> std::runtime_error((</div>
+<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span>                    <a class="code hl_function" href="namespacechm.html#a73af4ed17794030e7e6408cc4810343f">configStream</a>(path) &lt;&lt; <span class="stringliteral">&quot;Key: &quot;</span> &lt;&lt; key &lt;&lt;</div>
+<div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span>                    <span class="stringliteral">&quot;\nExpected type: JSON array of &quot;</span> &lt;&lt; <span class="keyword">typeid</span>(T).name()</div>
+<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span>                ).str());</div>
+<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span>            }</div>
+<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span>        }</div>
+<div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span>        <span class="keywordflow">return</span> res;</div>
+<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span>    }</div>
+<div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span>}</div>
+<div class="ttc" id="anamespacechm_html"><div class="ttname"><a href="namespacechm.html">chm</a></div><div class="ttdef"><b>Definition:</b> Configuration.cpp:5</div></div>
+<div class="ttc" id="anamespacechm_html_a4e474449f1399b3e1d2ca7f2ea1c1a1f"><div class="ttname"><a href="namespacechm.html#a4e474449f1399b3e1d2ca7f2ea1c1a1f">chm::getRoot</a></div><div class="ttdeci">nl::json getRoot(const fs::path &amp;p)</div><div class="ttdef"><b>Definition:</b> jsonTypeCheck.cpp:14</div></div>
+<div class="ttc" id="anamespacechm_html_a73af4ed17794030e7e6408cc4810343f"><div class="ttname"><a href="namespacechm.html#a73af4ed17794030e7e6408cc4810343f">chm::configStream</a></div><div class="ttdeci">std::stringstream configStream(const fs::path &amp;p)</div><div class="ttdef"><b>Definition:</b> jsonTypeCheck.cpp:10</div></div>
+<div class="ttc" id="anamespacechm_html_a99a4302b3f1ca44fe0adeed8481d245b"><div class="ttname"><a href="namespacechm.html#a99a4302b3f1ca44fe0adeed8481d245b">chm::throwCouldNotOpen</a></div><div class="ttdeci">void throwCouldNotOpen(const fs::path &amp;p)</div><div class="ttdef"><b>Definition:</b> jsonTypeCheck.cpp:31</div></div>
+<div class="ttc" id="anamespacechm_html_ab5c6492dd34815f65c0b8fd4d8b62cd3"><div class="ttname"><a href="namespacechm.html#ab5c6492dd34815f65c0b8fd4d8b62cd3">chm::getJSONArray</a></div><div class="ttdeci">std::vector&lt; T &gt; getJSONArray(const nl::json &amp;obj, const std::string &amp;key, const fs::path &amp;path)</div><div class="ttdef"><b>Definition:</b> jsonTypeCheck.hpp:91</div></div>
+<div class="ttc" id="anamespacechm_html_adef5e055777c7f899183495af08d6092"><div class="ttname"><a href="namespacechm.html#adef5e055777c7f899183495af08d6092">chm::throwMissingKey</a></div><div class="ttdeci">void throwMissingKey(const std::string &amp;key, const fs::path &amp;path)</div><div class="ttdef"><b>Definition:</b> jsonTypeCheck.cpp:35</div></div>
+<div class="ttc" id="anamespacechm_html_ae4b1abce013de5e1d8efbf3de888e280"><div class="ttname"><a href="namespacechm.html#ae4b1abce013de5e1d8efbf3de888e280">chm::getJSONValue</a></div><div class="ttdeci">T getJSONValue(const nl::json &amp;obj, const std::string &amp;key, const fs::path &amp;path)</div><div class="ttdef"><b>Definition:</b> jsonTypeCheck.hpp:74</div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_19ac67bde96fa7098d9c89fb8e36db69.html">index</a></li><li class="navelem"><a class="el" href="dir_b11899e6c60cefa819da2283f39628c2.html">chm_tools</a></li><li class="navelem"><a class="el" href="json_type_check_8hpp.html">jsonTypeCheck.hpp</a></li>
+    <li class="footer">Vygenerováno programem <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.3 </li>
+  </ul>
+</div>
+</body>
+</html>

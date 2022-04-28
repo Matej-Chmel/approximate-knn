@@ -38,8 +38,9 @@ var NAVTREE =
     [ "Třídy", "annotated.html", [
       [ "Seznam tříd", "annotated.html", "annotated_dup" ],
       [ "Rejstřík tříd", "classes.html", null ],
+      [ "Hierarchie tříd", "hierarchy.html", "hierarchy" ],
       [ "Seznam členů tříd", "functions.html", [
-        [ "Vše", "functions.html", null ],
+        [ "Vše", "functions.html", "functions_dup" ],
         [ "Funkce", "functions_func.html", null ],
         [ "Proměnné", "functions_vars.html", null ],
         [ "Definice typů", "functions_type.html", null ]
@@ -57,9 +58,10 @@ var NAVTREE =
 
 var NAVTREEINDEX =
 [
-"_configuration_8cpp.html",
-"classchm_1_1_labels_wrapper.html#a92944149d4aa27f82d3ee6a0d9464b1b",
-"namespacechm.html#ae8aaa888331b74f27b6d0a1fa3b7756f"
+"_bruteforce_8cpp.html",
+"classchm_1_1_index.html#a271f8653dce0d69c2b58cdf9b4890204",
+"classchm_1_1_visited_set.html#ad489a1c9096bc95d78104f2440e9bc6d",
+"structchm_1_1_far_comparator.html#a3de018ebc50033346f3ae2651f95b7a6"
 ];
 
 var SYNCONMSG = 'zakázat synchronizaci panelů';

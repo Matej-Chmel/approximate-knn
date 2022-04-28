@@ -273,7 +273,7 @@ template&lt;class T &gt; </div>
 <dl class="params"><dt>Parametry</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">simdType</td><td>Druh SIMD instrukcí použitých při výpočtu vzdáleností. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">Druh</td><td>prostoru dle metriky. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">spaceKind</td><td>Druh prostoru dle metriky. </td></tr>
   </table>
   </dd>
 </dl>
@@ -682,7 +682,7 @@ template&lt;class T &gt; </div>
 <p >Zpracuje kolekci dotazů. </p><dl class="params"><dt>Parametry</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">arr</td><td>Kolekce dotazů. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">k</td><td>Počet sousedů hledaných pro každý dotaz. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">k</td><td>Počet hledaných sousedů pro každý dotaz. </td></tr>
   </table>
   </dd>
 </dl>
@@ -865,7 +865,7 @@ template&lt;bool searching&gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
-<p >Najde sousedy zkoumaného prvku na nižší vrstvě a zapíše je do haldy far. </p><dl class="tparams"><dt>Parametry šablon</dt><dd>
+<p >Najde sousedy zkoumaného prvku na nižší vrstvě a zapíše je do haldy <a class="el" href="structchm_1_1_heap_pair.html#a7658ec8722dae868f6a9f28077fe3315">HeapPair::far</a>. </p><dl class="tparams"><dt>Parametry šablon</dt><dd>
   <table class="tparams">
     <tr><td class="paramname">searching</td><td>Pravda, pokud je tato metoda volána z metody <a class="el" href="classchm_1_1_index.html#a299308fe82ee36a60d0c75fa97a0dabc">queryOne</a>. </td></tr>
   </table>

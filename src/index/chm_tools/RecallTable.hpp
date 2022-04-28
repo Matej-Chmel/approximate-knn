@@ -54,7 +54,7 @@ namespace chm {
 		float getRecall() const;
 		/**
 		 * Pěkně vypíše uplynulý čas.
-		 * @param[out] Výstupní stream.
+		 * @param[out] s Výstupní stream.
 		 */
 		void prettyPrintElapsed(std::ostream& s) const;
 		/**

@@ -1,5 +1,7 @@
 var searchData=
 [
-  ['v_0',['v',['../classchm_1_1_visited_set.html#a47b5b34fe2020d6e72b58310aabb736a',1,'chm::VisitedSet']]],
-  ['visited_1',['visited',['../classchm_1_1_index.html#a98a3bf5c695b5871fde4ff7f14a7694d',1,'chm::Index']]]
+  ['test_0',['test',['../classchm_1_1_dataset.html#aec83482a05062176f57ce1cc7b43f08a',1,'chm::Dataset']]],
+  ['testcount_1',['testCount',['../classchm_1_1_dataset.html#a1441596dd5ac6b8e93794b772a420cab',1,'chm::Dataset']]],
+  ['train_2',['train',['../classchm_1_1_dataset.html#ab2ab560d8ae33247f1132eceadcc5284',1,'chm::Dataset']]],
+  ['traincount_3',['trainCount',['../classchm_1_1_dataset.html#a7f0e825d6a6e809283cabb9fcac90ea6',1,'chm::Dataset']]]
 ];

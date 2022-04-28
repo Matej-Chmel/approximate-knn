@@ -1,7 +1,26 @@
 var searchData=
 [
-  ['operator_28_29_0',['operator()',['../structchm_1_1_far_comparator.html#a3de018ebc50033346f3ae2651f95b7a6',1,'chm::FarComparator::operator()()'],['../structchm_1_1_near_comparator.html#ab964992385b4531512bf7d7ef3ad83b1',1,'chm::NearComparator::operator()()']]],
-  ['operator_3d_1',['operator=',['../classchm_1_1_knn_results.html#a618c8075430826e1dbd231eef20670f5',1,'chm::KnnResults::operator=(const KnnResults &amp;)=delete'],['../classchm_1_1_knn_results.html#a709709821952233b3ed7598e6e662c13',1,'chm::KnnResults::operator=(KnnResults &amp;&amp;) noexcept=delete']]],
-  ['operator_5b_5d_2',['operator[]',['../classchm_1_1_heap.html#aed7e55b6a9546f7c1388a147cc4dddbd',1,'chm::Heap']]],
-  ['owningdata_3',['owningData',['../classchm_1_1_knn_results.html#a4c50fa8f12937baa8531c74443b420c2',1,'chm::KnnResults']]]
+  ['naive_0',['NAIVE',['../namespacechm.html#a5bcdd7899f173819f94ba423007d85bca33e8270128b994b16da5c9e367bb94cf',1,'chm']]],
+  ['naivetemplate_1',['NaiveTemplate',['../structchm_1_1_naive_template.html',1,'chm']]],
+  ['name_2',['name',['../structchm_1_1_function_info.html#a20a765dacabf0ce8e68b6f131e0bd23d',1,'chm::FunctionInfo::name()'],['../classchm_1_1_dataset.html#a8c453f82acb4e1dcc8cbcc5c3d765585',1,'chm::Dataset::name()']]],
+  ['near_3',['near',['../structchm_1_1_heap_pair.html#a190eb2547537c4f9334e4192f8c2436e',1,'chm::HeapPair']]],
+  ['nearcomparator_4',['NearComparator',['../structchm_1_1_near_comparator.html',1,'chm']]],
+  ['nearheap_5',['NearHeap',['../namespacechm.html#ad8121a6669c58f9a7350ca8e2b5b592d',1,'chm']]],
+  ['neighborid_6',['neighborID',['../structchm_1_1_visit_result.html#a7754ce5f13ac9c656d36590196b59f46',1,'chm::VisitResult']]],
+  ['neighbors_7',['Neighbors',['../classchm_1_1_neighbors.html',1,'chm']]],
+  ['neighbors_8',['neighbors',['../classchm_1_1_dataset.html#a45b3481d77142e3d27bfbbf726b4f85f',1,'chm::Dataset']]],
+  ['neighbors_9',['Neighbors',['../classchm_1_1_neighbors.html#a99bebe994397e88060a2a9b33e0dc0bb',1,'chm::Neighbors']]],
+  ['neighbors_2ecpp_10',['Neighbors.cpp',['../_neighbors_8cpp.html',1,'']]],
+  ['neighbors_2ehpp_11',['Neighbors.hpp',['../_neighbors_8hpp.html',1,'']]],
+  ['no_5fbit_5farray_12',['NO_BIT_ARRAY',['../namespacechm.html#a5bcdd7899f173819f94ba423007d85bcabda48827ea6dce80671c3b88f00c58e4',1,'chm']]],
+  ['nobitarraytemplate_13',['NoBitArrayTemplate',['../structchm_1_1_no_bit_array_template.html',1,'chm']]],
+  ['node_14',['Node',['../structchm_1_1_node.html',1,'chm::Node'],['../structchm_1_1_node.html#a644c17d256c4a7948b281a6df19ecf56',1,'chm::Node::Node()'],['../structchm_1_1_node.html#a364708057eddb8063c5c153e3102a8a4',1,'chm::Node::Node(const float distance, const uint id)']]],
+  ['node_2ecpp_15',['Node.cpp',['../_node_8cpp.html',1,'']]],
+  ['node_2ehpp_16',['Node.hpp',['../_node_8hpp.html',1,'']]],
+  ['nodecmp_17',['NodeCmp',['../structchm_1_1_node_cmp.html',1,'chm']]],
+  ['nodes_18',['nodes',['../classchm_1_1_heap.html#a4abeb17108d44f1c733285bb2d933c72',1,'chm::Heap::nodes()'],['../classchm_1_1_bruteforce.html#a50eb9c84f8ad8cbe1415320a581d8459',1,'chm::Bruteforce::nodes()']]],
+  ['none_19',['NONE',['../namespacechm.html#a32cb02ac8c02f0f27c921c284020ab51ab50339a10e1de285ac99d4c3990b8693',1,'chm']]],
+  ['normalize_20',['normalize',['../classchm_1_1_space.html#af6e1aa45657743f184ed17d8ae06ca35',1,'chm::Space']]],
+  ['normalizedata_21',['normalizeData',['../classchm_1_1_space.html#a8968e0c744aa592ac15831b50aa2c5aa',1,'chm::Space']]],
+  ['numpyarray_22',['NumpyArray',['../namespacechm.html#a553e7185c00722ad59564ad770dea432',1,'chm']]]
 ];

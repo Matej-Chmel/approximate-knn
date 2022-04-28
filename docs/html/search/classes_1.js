@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['distanceinfo_0',['DistanceInfo',['../structchm_1_1_distance_info.html',1,'chm']]]
+  ['bruteforce_0',['Bruteforce',['../classchm_1_1_bruteforce.html',1,'chm']]]
 ];

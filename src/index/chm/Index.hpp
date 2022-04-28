@@ -110,7 +110,7 @@ namespace chm {
 		 */
 		void resetEp(const float* const query);
 		/**
-		 * Najde sousedy zkoumaného prvku na nižší vrstvě a zapíše je do haldy @ref far.
+		 * Najde sousedy zkoumaného prvku na nižší vrstvě a zapíše je do haldy @ref HeapPair::far.
 		 * @tparam searching Pravda, pokud je tato metoda volána z metody @ref queryOne.
 		 * @param[in] query Vektor zkoumaného prvku.
 		 * @param[in] ef Maximální počet výsledných sousedů.
@@ -213,7 +213,7 @@ namespace chm {
 		 * @param[in] seed Konfigurace generátoru náhodných úrovní nových prvků.
 		 * @see LevelGenerator
 		 * @param[in] simdType Druh SIMD instrukcí použitých při výpočtu vzdáleností.
-		 * @param[in] Druh prostoru dle metriky.
+		 * @param[in] spaceKind Druh prostoru dle metriky.
 		 */
 		Index(
 			const size_t dim, const uint maxCount,

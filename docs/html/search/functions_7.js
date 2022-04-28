@@ -21,6 +21,7 @@ var searchData=
   ['innerproductsum4sse_18',['innerProductSum4SSE',['../namespacechm.html#aba4ac4aa9d63e87ea81b59e8b45a3f5a',1,'chm']]],
   ['insert_19',['insert',['../classchm_1_1_index.html#a2ebf7fc10bdb768dca12a8b27ce81121',1,'chm::Index::insert()'],['../classchm_1_1_visited_set.html#ad489a1c9096bc95d78104f2440e9bc6d',1,'chm::VisitedSet::insert(const uint id)']]],
   ['insertnext_20',['insertNext',['../classchm_1_1_visited_set.html#aadee01ccf42bbd0b9900cb8b8768f59e',1,'chm::VisitedSet']]],
-  ['isbitarray_21',['isBitArray',['../classchm_1_1_visited_set.html#a4b389ecc8dedbefe44dfe10c53ca3fbc',1,'chm::VisitedSet']]],
-  ['isempty_22',['isEmpty',['../classchm_1_1_space.html#a4de0e9ea6b8c78a9cb4ea86e53aca2f7',1,'chm::Space']]]
+  ['isangular_21',['isAngular',['../classchm_1_1_dataset.html#a5229eb90f47e81b45aed9ec682d6c4d8',1,'chm::Dataset']]],
+  ['isbitarray_22',['isBitArray',['../classchm_1_1_visited_set.html#a4b389ecc8dedbefe44dfe10c53ca3fbc',1,'chm::VisitedSet']]],
+  ['isempty_23',['isEmpty',['../classchm_1_1_space.html#a4de0e9ea6b8c78a9cb4ea86e53aca2f7',1,'chm::Space']]]
 ];

@@ -1,0 +1,36 @@
+var hierarchy =
+[
+    [ "chm::AbstractRecallTable", "structchm_1_1_abstract_recall_table.html", [
+      [ "chm::RecallTable< T >", "classchm_1_1_recall_table.html", null ]
+    ] ],
+    [ "chm::Bruteforce", "classchm_1_1_bruteforce.html", null ],
+    [ "chm::Configuration", "classchm_1_1_configuration.html", null ],
+    [ "chm::Connections", "classchm_1_1_connections.html", null ],
+    [ "chm::Dataset< T >", "classchm_1_1_dataset.html", null ],
+    [ "chm::DistanceInfo", "structchm_1_1_distance_info.html", null ],
+    [ "chm::FarComparator", "structchm_1_1_far_comparator.html", null ],
+    [ "chm::FloatArray", "structchm_1_1_float_array.html", null ],
+    [ "chm::FunctionInfo", "structchm_1_1_function_info.html", null ],
+    [ "chm::Heap< Comparator >", "classchm_1_1_heap.html", null ],
+    [ "chm::Heap< FarComparator >", "classchm_1_1_heap.html", null ],
+    [ "chm::Heap< NearComparator >", "classchm_1_1_heap.html", null ],
+    [ "chm::HeapPair", "structchm_1_1_heap_pair.html", null ],
+    [ "chm::HeuristicTemplate", "structchm_1_1_heuristic_template.html", null ],
+    [ "chm::Index< T >", "classchm_1_1_index.html", null ],
+    [ "chm::KnnResults", "classchm_1_1_knn_results.html", null ],
+    [ "chm::LabelsWrapper", "classchm_1_1_labels_wrapper.html", null ],
+    [ "chm::LevelGenerator", "classchm_1_1_level_generator.html", null ],
+    [ "chm::NaiveTemplate", "structchm_1_1_naive_template.html", null ],
+    [ "chm::NearComparator", "structchm_1_1_near_comparator.html", null ],
+    [ "chm::Neighbors", "classchm_1_1_neighbors.html", null ],
+    [ "chm::NoBitArrayTemplate", "structchm_1_1_no_bit_array_template.html", null ],
+    [ "chm::Node", "structchm_1_1_node.html", null ],
+    [ "chm::NodeCmp", "structchm_1_1_node_cmp.html", null ],
+    [ "chm::PrefetchingTemplate", "structchm_1_1_prefetching_template.html", null ],
+    [ "chm::QueryBenchmark", "classchm_1_1_query_benchmark.html", null ],
+    [ "chm::RecallTableConfig", "structchm_1_1_recall_table_config.html", null ],
+    [ "chm::Space", "classchm_1_1_space.html", null ],
+    [ "chm::Timer", "classchm_1_1_timer.html", null ],
+    [ "chm::VisitedSet< T >", "classchm_1_1_visited_set.html", null ],
+    [ "chm::VisitResult", "structchm_1_1_visit_result.html", null ]
+];

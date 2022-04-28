@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['configuration_0',['Configuration',['../classchm_1_1_configuration.html',1,'chm']]],
-  ['connections_1',['Connections',['../classchm_1_1_connections.html',1,'chm']]]
+  ['abstractrecalltable_0',['AbstractRecallTable',['../structchm_1_1_abstract_recall_table.html',1,'chm']]]
 ];
