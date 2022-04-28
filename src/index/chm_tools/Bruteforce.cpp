@@ -5,7 +5,7 @@ namespace chm {
 	void Bruteforce::queryOne(
 		const std::vector<float>& v, std::vector<uint>& neighbors, const size_t queryIdx
 	) {
-		const auto& queryData = v.data() + queryIdx * this->space.dim;
+		const auto& queryData = this->space.getNormalizedQuery(v.data() + queryIdx * this->space.dim);
 
 		for(auto& n : this->nodes)
 			n.distance = this->space.getDistance(queryData, n.id);
@@ -36,6 +36,7 @@ namespace chm {
 
 	void Bruteforce::query(const std::vector<float>& v, std::vector<uint>& neighbors) {
 		const auto len = v.size() / this->space.dim;
+		neighbors.resize(len * this->k, 0);
 
 		for(size_t i = 0; i < len; i++)
 			this->queryOne(v, neighbors, i);

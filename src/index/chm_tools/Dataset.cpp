@@ -7,6 +7,7 @@ namespace chm {
 		const auto components = count * dim;
 		std::uniform_real_distribution<float> dist{};
 		std::default_random_engine gen(seed);
+		v.resize(components);
 
 		for(size_t i = 0; i < components; i++)
 			v[i] = dist(gen);

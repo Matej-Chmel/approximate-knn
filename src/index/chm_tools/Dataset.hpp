@@ -67,7 +67,7 @@ namespace chm {
 	}
 
 	template<typename T>
-	inline void writeBinary(std::ofstream& s, std::vector<T>& v) {
+	inline void writeBinary(std::ofstream& s, const std::vector<T>& v) {
 		s.write(reinterpret_cast<const std::ofstream::char_type*>(v.data()), v.size() * sizeof(T));
 	}
 
@@ -161,7 +161,7 @@ namespace chm {
 		{
 			s << "Generating dataset.\n";
 			Timer timer{};
-			generateRandomData(this->test, this->testCount, this->dim, seed);
+			generateRandomData(this->test, this->testCount, this->dim, seed + 1);
 			generateRandomData(this->train, this->trainCount, this->dim, seed);
 			const auto elapsed = timer.getElapsed();
 			s << "Dataset generated in ";
@@ -179,11 +179,16 @@ namespace chm {
 			prettyPrint(elapsed, s);
 		}
 
+		const auto dataDir = datasetPath.parent_path();
+
+		if(!fs::exists(dataDir))
+			fs::create_directories(dataDir);
+
 		s << "\nWriting dataset.\n";
 		{
-			std::ofstream datasetFile(datasetPath);
+			std::ofstream datasetFile(datasetPath, std::ios::binary);
 			writeBinary(datasetFile, angular);
-			writeBinary(datasetFile, this->dim);
+			writeBinary(datasetFile, uint(this->dim));
 			writeBinary(datasetFile, this->k);
 			writeBinary(datasetFile, this->testCount);
 			writeBinary(datasetFile, this->trainCount);
