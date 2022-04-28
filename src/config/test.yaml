@@ -3,4 +3,4 @@ algos:
 build:
   - efConstruction: 20
     mMax: 4
-efSearch: [10]
+efSearch: [10, 50, 100]

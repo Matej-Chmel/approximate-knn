@@ -1,0 +1,2 @@
+lastfm-64-dot
+# sift-128-euclidean
