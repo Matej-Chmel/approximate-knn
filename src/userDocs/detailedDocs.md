@@ -192,17 +192,17 @@ Pro srovnání implementací je možno využít následujících datových soubo
 | Název                                            | Dimenze | Počet prvků při stavbě | Dotazy | Metrika                 |
 | ------------------------------------------------ | ------- | ---------------------- | ------ | ----------------------- |
 | fashion&#x2011;mnist&#x2011;784&#x2011;euclidean | 784     | 60 000                 | 10 000 | Eukleidovská vzdálenost |
-| glove&#x2011;25&#x2011;angular                   | 25      | 1 183 514              | 10 000 | Kosinusová podobnost    |
-| glove&#x2011;50&#x2011;angular                   | 50      | 1 183 514              | 10 000 | Kosinusová podobnost    |
-| glove&#x2011;100&#x2011;angular                  | 100     | 1 183 514              | 10 000 | Kosinusová podobnost    |
-| glove&#x2011;200&#x2011;angular                  | 200     | 1 183 514              | 10 000 | Kosinusová podobnost    |
-| lastfm&#x2011;64&#x2011;dot                      | 64      | 292 385                | 50 000 | Kosinusová podobnost    |
+| glove&#x2011;25&#x2011;angular                   | 25      | 1 183 514              | 10 000 | Kosinusová vzdálenost    |
+| glove&#x2011;50&#x2011;angular                   | 50      | 1 183 514              | 10 000 | Kosinusová vzdálenost    |
+| glove&#x2011;100&#x2011;angular                  | 100     | 1 183 514              | 10 000 | Kosinusová vzdálenost    |
+| glove&#x2011;200&#x2011;angular                  | 200     | 1 183 514              | 10 000 | Kosinusová vzdálenost    |
+| lastfm&#x2011;64&#x2011;dot                      | 64      | 292 385                | 50 000 | Kosinusová vzdálenost    |
 | mnist&#x2011;784&#x2011;euclidean                | 784     | 60 000                 | 10 000 | Eukleidovská vzdálenost |
-| nytimes&#x2011;16&#x2011;angular                 | 16      | 290 000                | 10 000 | Kosinusová podobnost    |
-| nytimes&#x2011;256&#x2011;angular                | 256     | 290 000                | 10 000 | Kosinusová podobnost    |
-| random&#x2011;s&#x2011;100&#x2011;angular        | 100     | 100 000                | 10 000 | Kosinusová podobnost    |
+| nytimes&#x2011;16&#x2011;angular                 | 16      | 290 000                | 10 000 | Kosinusová vzdálenost    |
+| nytimes&#x2011;256&#x2011;angular                | 256     | 290 000                | 10 000 | Kosinusová vzdálenost    |
+| random&#x2011;s&#x2011;100&#x2011;angular        | 100     | 100 000                | 10 000 | Kosinusová vzdálenost    |
 | random&#x2011;s&#x2011;100&#x2011;euclidean      | 100     | 100 000                | 10 000 | Eukleidovská vzdálenost |
-| random&#x2011;xs&#x2011;20&#x2011;angular        | 20      | 10 000                 | 10 000 | Kosinusová podobnost    |
+| random&#x2011;xs&#x2011;20&#x2011;angular        | 20      | 10 000                 | 10 000 | Kosinusová vzdálenost    |
 | random&#x2011;xs&#x2011;20&#x2011;euclidean      | 20      | 10 000                 | 10 000 | Eukleidovská vzdálenost |
 | sift&#x2011;128&#x2011;euclidean                 | 128     | 1 000 000              | 10 000 | Eukleidovská vzdálenost |
 

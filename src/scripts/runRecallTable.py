@@ -1,6 +1,6 @@
 from argparse import ArgumentParser
 from chmTools.module import (
-	getDictValue, getRoot,
+	getConfigPath, getDictValue, getRoot,
 	RecallTable, RecallTableConfig, wrapMain
 )
 from pathlib import Path
@@ -10,18 +10,10 @@ def computeTable(cfg: RecallTableConfig, dataDir: Path, datasets: list, jsonPath
 	table.run()
 	return table
 
-def getConfigPath(srcDir: Path):
-	p = ArgumentParser("RECALL_TABLE", description="Computes recall table.")
-	p.add_argument(
-		"-c", "--config", default=srcDir / "config" / "config.json",
-		help="Path to JSON configuration file.", type=Path
-	)
-	return p.parse_args().config
-
 def main():
 	srcDir = Path(__file__).absolute().parents[1]
 
-	jsonPath = getConfigPath(srcDir)
+	jsonPath = getConfigPath("RECALL_TABLE", "Computes recall table.", srcDir)
 	configObj = getRoot(jsonPath, dict)
 	datasets = getDictValue(configObj, "datasets", list, jsonPath, dict)
 	indexConfigs = getDictValue(configObj, "index", list, jsonPath, dict)

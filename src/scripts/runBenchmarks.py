@@ -73,7 +73,10 @@ class Config:
 		return self
 
 	def setAlgoDefPaths(self, algoDefPaths: list[str]):
-		self.algoDefPaths = [self.cwd.joinpath(a).absolute() for a in algoDefPaths]
+		self.algoDefPaths = [
+			self.cwd.joinpath(a).absolute().resolve(strict=False)
+			for a in algoDefPaths
+		]
 		return self
 
 	def setDatasets(self, datasets: list[str]):
@@ -83,7 +86,7 @@ class Config:
 
 	def setDatasetsPath(self, datasetsPath: str):
 		self.datasets = None
-		self.datasetsPath = self.cwd.joinpath(datasetsPath).absolute()
+		self.datasetsPath = self.cwd.joinpath(datasetsPath).absolute().resolve(strict=False)
 		return self
 
 	def setDockerWorkers(self, workers: int):

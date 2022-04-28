@@ -184,7 +184,7 @@ def build_index_site(datasets, algorithms, j2_env, _):
 		for dm in distance_measures:
 			d = {
 				"name": {
-					"angular": "Kosinusová podobnost",
+					"angular": "Kosinusová vzdálenost",
 					"euclidean": "Eukleidovská vzdálenost"
 				}[dm],
 				"entries": []

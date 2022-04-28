@@ -7,9 +7,9 @@ import pandas as pd
 from pathlib import Path
 
 ENGLISH_TO_CZECH_DATASET = {
-	"random-s-100-angular": "100 000 náhodných prvků, kosinusová podobnost",
+	"random-s-100-angular": "100 000 náhodných prvků, kosinusová vzdálenost",
 	"random-s-100-euclidean": "100 000 náhodných prvků, Eukleidovská vzdálenost",
-	"random-xs-20-angular": "10 000 náhodných prvků, kosinusová podobnost",
+	"random-xs-20-angular": "10 000 náhodných prvků, kosinusová vzdálenost",
 	"random-xs-20-euclidean": "10 000 náhodných prvků, Eukleidovská vzdálenost"
 }
 LONG_TO_SHORT_DATASET_NAMES = {
@@ -171,7 +171,7 @@ def getArgs():
 	args = p.parse_args()
 	return Args(
 		args.algorithms, args.percent, args.dataset, args.label,
-		args.legend, Path(args.output), args.recompute
+		args.legend, Path(args.output).absolute().resolve(strict=False), args.recompute
 	)
 
 def getPercentDiff(orig: float, new: float):

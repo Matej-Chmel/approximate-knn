@@ -10,9 +10,9 @@ int main(const int argsLen, const char* const * const args) {
 	using namespace chm;
 
 	try {
-		const auto srcDir = fs::path(SRC_DIR);
+		const auto srcDir = fs::weakly_canonical(fs::path(SRC_DIR));
 		const auto cfgPath = argsLen > 1
-			? fs::path(args[1])
+			? fs::weakly_canonical(fs::path(args[1]))
 			: srcDir / "config" / "config.json";
 		const auto dataDir = srcDir / "data";
 
