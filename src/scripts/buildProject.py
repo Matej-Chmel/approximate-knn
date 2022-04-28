@@ -30,7 +30,7 @@ def buildNativeLib(executable: Path, indexDir: Path, scriptsDir: Path, srcDir: P
 	cmakeBuildDir = srcDir / "cmakeBuild"
 	cmakeBuildDir.mkdir(exist_ok=True)
 	subprocess.check_call(["cmake", "-DCMAKE_BUILD_TYPE=Release", indexDir], cwd=cmakeBuildDir)
-	subprocess.check_call(["cmake", "--build", "."], cwd=cmakeBuildDir)
+	subprocess.check_call(["cmake", "--build", ".", "--config", "Release"], cwd=cmakeBuildDir)
 	print("Build system for native library built.")
 
 def buildVirtualEnv(repoDir: Path, scriptsDir: Path):

@@ -18,7 +18,6 @@ def cleanProject(deleteResults: bool = False):
 	deleteFile(benchmarks / "__pycache__")
 	deleteFile(index / "build")
 	deleteFile(index / "chm_hnsw.egg-info")
-	deleteFile(index / "CMakeLists.txt")
 	deleteFile(index / "dist")
 	deleteFile(repo / "__pycache__")
 	deleteFile(scripts / "__pycache__")
