@@ -1,16 +1,13 @@
 #pragma once
-#include <filesystem>
-#include <fstream>
 #include <iomanip>
 #include <ios>
-#include <ostream>
-#include <stdexcept>
+#include "Bruteforce.hpp"
 #include "chm/Index.hpp"
 #include "chm/recall.hpp"
+#include "jsonTypeCheck.hpp"
+#include "Timer.hpp"
 
 namespace chm {
-	namespace fs = std::filesystem;
-
 	template<class T = NaiveTemplate>
 	class Dataset {
 		size_t dim;
@@ -23,8 +20,20 @@ namespace chm {
 		std::vector<float> test, train;
 
 	public:
+		using Ptr = std::shared_ptr<const Dataset<T>>;
+
+		static Ptr getDataset(
+			const fs::path& configPath, const fs::path& dataDir,
+			const nl::json& datasets, const std::string& name,
+			std::ostream& s
+		);
+
 		void build(const IndexPtr<T>& index) const;
 		Dataset(const fs::path& p);
+		Dataset(
+			const nl::json& obj, const fs::path& configPath,
+			const fs::path& datasetPath, std::ostream& s
+		);
 		IndexPtr<T> getIndex(
 			const uint efConstruction = 200, const uint mMax = 16,
 			const uint seed = 100, const SIMDType simdType = SIMDType::NONE
@@ -38,9 +47,7 @@ namespace chm {
 		void writeShortDescription(std::ostream& s) const;
 	};
 
-	template<class T>
-	using DatasetPtr = std::shared_ptr<const Dataset<T>>;
-
+	void generateRandomData(std::vector<float>& v, const size_t count, const size_t dim, const uint seed);
 	void throwCouldNotOpen(const fs::path& p);
 
 	template<typename T>
@@ -52,6 +59,16 @@ namespace chm {
 	inline void readBinary(std::ifstream& s, std::vector<T>& v, const size_t len) {
 		v.resize(len);
 		s.read(reinterpret_cast<std::ifstream::char_type*>(v.data()), len * sizeof(T));
+	}
+
+	template<typename T>
+	inline void writeBinary(std::ofstream& s, const T& value) {
+		s.write(reinterpret_cast<const std::ofstream::char_type*>(&value), sizeof(T));
+	}
+
+	template<typename T>
+	inline void writeBinary(std::ofstream& s, std::vector<T>& v) {
+		s.write(reinterpret_cast<const std::ofstream::char_type*>(v.data()), v.size() * sizeof(T));
 	}
 
 	template<typename T>
@@ -80,6 +97,26 @@ namespace chm {
 	}
 
 	template<class T>
+	inline typename Dataset<T>::Ptr Dataset<T>::getDataset(
+		const fs::path& configPath, const fs::path& dataDir,
+		const nl::json& datasets, const std::string& name,
+		std::ostream& s
+	) {
+		const auto datasetPath = dataDir / (name + ".bin");
+
+		if(fs::exists(datasetPath))
+			return std::make_shared<const Dataset<T>>(datasetPath);
+
+		for(const auto& obj : datasets) {
+			if(getJSONValue<std::string>(obj, "name", configPath) == name)
+				return std::make_shared<const Dataset<T>>(obj, configPath, datasetPath, s);
+		}
+
+		throw std::runtime_error(("Could not find dataset "_f << name).str());
+		return nullptr;
+	}
+
+	template<class T>
 	inline void Dataset<T>::build(
 		const IndexPtr<T>& index
 	) const {
@@ -90,7 +127,7 @@ namespace chm {
 	inline Dataset<T>::Dataset(const fs::path& p) : name(p.stem().string()) {
 		std::ifstream file(p, std::ios::binary);
 
-		if (!file.is_open())
+		if(!file.is_open())
 			throwCouldNotOpen(p);
 
 		bool angular;
@@ -105,6 +142,56 @@ namespace chm {
 		readBinary(file, this->neighbors, size_t(this->k) * size_t(this->testCount));
 		readBinary(file, this->test, this->dim * size_t(this->testCount));
 		readBinary(file, this->train, this->dim * size_t(this->trainCount));
+	}
+
+	template<class T>
+	inline Dataset<T>::Dataset(
+		const nl::json& obj, const fs::path& configPath,
+		const fs::path& datasetPath, std::ostream& s
+	) {
+		const bool angular = getJSONValue<bool>(obj, "angular", configPath);
+		this->space = angular ? SpaceKind::ANGULAR : SpaceKind::EUCLIDEAN;
+		this->dim = getJSONValue<size_t>(obj, "dim", configPath);
+		this->k = getJSONValue<uint>(obj, "k", configPath);
+		this->name = getJSONValue<std::string>(obj, "name", configPath);
+		const uint seed = getJSONValue<uint>(obj, "seed", configPath);
+		this->testCount = getJSONValue<uint>(obj, "testCount", configPath);
+		this->trainCount = getJSONValue<uint>(obj, "trainCount", configPath);
+
+		{
+			s << "Generating dataset.\n";
+			Timer timer{};
+			generateRandomData(this->test, this->testCount, this->dim, seed);
+			generateRandomData(this->train, this->trainCount, this->dim, seed);
+			const auto elapsed = timer.getElapsed();
+			s << "Dataset generated in ";
+			prettyPrint(elapsed, s);
+		}
+
+		{
+			s << "\nComputing nearest neighbors with bruteforce.\n";
+			Timer timer{};
+			Bruteforce bf(this->dim, this->k, this->trainCount, SIMDType::BEST, this->space);
+			bf.push(this->train);
+			bf.query(this->test, this->neighbors);
+			const auto elapsed = timer.getElapsed();
+			s << "Nearest neighbors computed in ";
+			prettyPrint(elapsed, s);
+		}
+
+		s << "\nWriting dataset.\n";
+		{
+			std::ofstream datasetFile(datasetPath);
+			writeBinary(datasetFile, angular);
+			writeBinary(datasetFile, this->dim);
+			writeBinary(datasetFile, this->k);
+			writeBinary(datasetFile, this->testCount);
+			writeBinary(datasetFile, this->trainCount);
+			writeBinary(datasetFile, this->neighbors);
+			writeBinary(datasetFile, this->test);
+			writeBinary(datasetFile, this->train);
+		}
+		s << "Dataset written to " << datasetPath << '\n';
 	}
 
 	template<class T>

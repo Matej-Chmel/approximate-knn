@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 from io import BufferedWriter
 import h5py as hdf
+from .jsonTypeCheck import getDictValue
 from pathlib import Path
 import numpy as np
 from sklearn.neighbors import NearestNeighbors
@@ -43,6 +44,17 @@ class Dataset:
 			f"Dataset {self.name}: {'angular' if self.angular else 'euclidean'} space, "
 			f"dimension = {self.dim}, trainCount = {self.trainCount}, "
 			f"testCount = {self.testCount}, k = {self.k}"
+		)
+
+	@classmethod
+	def fromDict(cls, d: dict, jsonPath: Path):
+		return cls(
+			angular=getDictValue(d, "angular", bool, jsonPath),
+			dim=getDictValue(d, "dim", int, jsonPath),
+			k=getDictValue(d, "k", int, jsonPath),
+			testCount=getDictValue(d, "testCount", int, jsonPath),
+			trainCount=getDictValue(d, "trainCount", int, jsonPath),
+			seed=getDictValue(d, "seed", int, jsonPath)
 		)
 
 	@classmethod

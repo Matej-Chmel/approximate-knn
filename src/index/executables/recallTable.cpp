@@ -1,24 +1,29 @@
 #include <cstdlib>
 #include <iostream>
 #include "chm_tools/RecallTable.hpp"
-namespace fs = std::filesystem;
 
 #ifndef SRC_DIR
 	constexpr auto SRC_DIR = "";
 #endif
 
 int main() {
+	using namespace chm;
+
 	try {
 		const auto srcDir = fs::path(SRC_DIR);
-		const auto cfgPath = srcDir / "config" / "recallTable.json";
+		const auto cfgPath = srcDir / "config" / "config.json";
 		const auto dataDir = srcDir / "data";
-		const auto configs = chm::RecallTableConfig::getVectorFromJSON(cfgPath, dataDir);
+
+		const auto configRoot = getRoot(cfgPath);
+		const auto datasets = getJSONArray<nl::json>(configRoot, "datasets", cfgPath);
+		const auto indexConfigs = getJSONArray<nl::json>(configRoot, "index", cfgPath);
+		const auto configs = chm::RecallTableConfig::getVectorFromJSON(indexConfigs, cfgPath);
 
 		std::vector<chm::RecallTablePtr> tables;
 
 		for(const auto& cfg : configs) {
 			chm::RecallTablePtr t = chm::getRecallTable(cfg);
-			t->run(std::cout);
+			t->run(cfgPath, dataDir, datasets, std::cout);
 			tables.push_back(t);
 		}
 		for(const auto& t : tables) {

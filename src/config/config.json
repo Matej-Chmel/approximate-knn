@@ -1,0 +1,60 @@
+{
+	"datasets": [
+		{
+			"name": "angular-small",
+			"angular": true,
+			"dim": 25,
+			"k": 10,
+			"testCount": 200,
+			"trainCount": 20000,
+			"seed": 104
+		},
+		{
+			"name": "angular-medium",
+			"angular": true,
+			"dim": 64,
+			"k": 10,
+			"testCount": 1000,
+			"trainCount": 35000,
+			"seed": 120
+		},
+		{
+			"name": "euclidean-small",
+			"angular": false,
+			"dim": 25,
+			"k": 10,
+			"testCount": 200,
+			"trainCount": 20000,
+			"seed": 104
+		},
+		{
+			"name": "euclidean-medium",
+			"angular": false,
+			"dim": 64,
+			"k": 10,
+			"testCount": 1000,
+			"trainCount": 35000,
+			"seed": 120
+		}
+	],
+	"index": [
+		{
+			"dataset": "angular-small",
+			"efConstruction": 200,
+			"efSearch": [10, 15, 20, 40, 80, 120, 200],
+			"mMax": 16,
+			"seed": 200,
+			"SIMD": "best",
+			"template": "prefetching"
+		},
+		{
+			"dataset": "euclidean-small",
+			"efConstruction": 200,
+			"efSearch": [10, 15, 20, 40, 80, 120, 200],
+			"mMax": 16,
+			"seed": 200,
+			"SIMD": "best",
+			"template": "prefetching"
+		}
+	]
+}

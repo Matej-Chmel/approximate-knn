@@ -1,13 +1,7 @@
 #pragma once
-#include <chrono>
 #include "Dataset.hpp"
-#include "libs/json.hpp"
 
 namespace chm {
-	namespace chr = std::chrono;
-	namespace fs = std::filesystem;
-	namespace nl = nlohmann;
-
 	constexpr std::streamsize EF_SEARCH_WIDTH = 8;
 	constexpr std::streamsize ELAPSED_PRETTY_WIDTH = 29;
 	constexpr std::streamsize ELAPSED_WIDTH = 29;
@@ -29,7 +23,7 @@ namespace chm {
 	};
 
 	struct RecallTableConfig {
-		fs::path datasetPath;
+		std::string datasetName;
 		uint efConstruction;
 		std::vector<chm::uint> efSearchValues;
 		IndexTemplate indexTemplate;
@@ -38,14 +32,17 @@ namespace chm {
 		SIMDType simdType;
 
 		static std::vector<RecallTableConfig> getVectorFromJSON(
-			const fs::path& p, const fs::path& dataDir
+			const nl::json& arr, const fs::path& configPath
 		);
-		RecallTableConfig(const nl::json& obj, const fs::path& dataDir);
+		RecallTableConfig(const nl::json& obj, const fs::path& configPath);
 	};
 
 	struct AbstractRecallTable {
 		virtual void print(std::ostream& s) const = 0;
-		virtual void run(std::ostream& s) = 0;
+		virtual void run(
+			const fs::path& configPath, const fs::path& dataDir,
+			const nl::json& datasets, std::ostream& s
+		) = 0;
 	};
 
 	using RecallTablePtr = std::shared_ptr<AbstractRecallTable>;
@@ -61,27 +58,14 @@ namespace chm {
 	public:
 		RecallTable(const RecallTableConfig& cfg);
 		void print(std::ostream& s) const override;
-		void run(std::ostream& s) override;
+		void run(
+			const fs::path& configPath, const fs::path& dataDir,
+			const nl::json& datasets, std::ostream& s
+		) override;
 	};
 
-	class Timer {
-		chr::steady_clock::time_point start;
-
-	public:
-		chr::nanoseconds getElapsed() const;
-		void reset();
-		Timer();
-	};
-
-	template<typename T> long long convert(chr::nanoseconds& t);
-	template<typename T> T getJSONValue(const nl::json& obj, const std::string& key);
 	RecallTablePtr getRecallTable(const RecallTableConfig& cfg);
-	void prettyPrint(const chr::nanoseconds& elapsed, std::ostream& s);
-	void print(const float number, std::ostream& s, const std::streamsize places = 2);
-	void print(const long long number, std::ostream& s, const std::streamsize places = 2);
 	template<typename T> void printField(const T& field, std::ostream& s, const std::streamsize width);
-	void throwMissingKey(const std::string& key);
-	void throwWrongType(const std::string& key, const std::string& expectedType);
 
 	template<class T>
 	inline RecallTable<T>::RecallTable(const RecallTableConfig& cfg)
@@ -123,21 +107,26 @@ namespace chm {
 	}
 
 	template<class T>
-	inline void RecallTable<T>::run(std::ostream& s) {
+	inline void RecallTable<T>::run(
+		const fs::path& configPath, const fs::path& dataDir,
+		const nl::json& datasets, std::ostream& s
+	) {
 		Timer timer{};
 		this->benchmarks.clear();
 
 		s << "Building index.\n";
 
 		timer.reset();
-		const Dataset<T> dataset(this->cfg.datasetPath);
-		auto index = dataset.getIndex(
+		const typename Dataset<T>::Ptr dataset = Dataset<T>::getDataset(
+			configPath, dataDir, datasets, this->cfg.datasetName, s
+		);
+		auto index = dataset->getIndex(
 			this->cfg.efConstruction, this->cfg.mMax, this->cfg.seed, this->cfg.simdType
 		);
-		dataset.build(index);
+		dataset->build(index);
 		this->buildElapsed = timer.getElapsed();
 
-		this->datasetStr = dataset.getString();
+		this->datasetStr = dataset->getString();
 		this->indexStr = index->getString();
 
 		s << "Index built in ";
@@ -150,7 +139,7 @@ namespace chm {
 			s << "Querying with efSearch = " << efSearch << ".\n";
 
 			timer.reset();
-			const auto knnResults = dataset.query(index, efSearch);
+			const auto knnResults = dataset->query(index, efSearch);
 			benchmark.setElapsed(timer.getElapsed());
 
 			s << "Completed in ";
@@ -158,34 +147,12 @@ namespace chm {
 			s << "\nComputing recall.\n";
 
 			timer.reset();
-			benchmark.setRecall(dataset.getRecall(knnResults));
+			benchmark.setRecall(dataset->getRecall(knnResults));
 			const auto recallElapsed = timer.getElapsed();
 			s << "Recall " << benchmark.getRecall() << " computed in ";
 			prettyPrint(recallElapsed, s);
 			s << "\n\n";
 		}
-	}
-
-	template<typename T>
-	inline long long convert(chr::nanoseconds& t) {
-		const auto res = chr::duration_cast<T>(t);
-		t -= res;
-		return res.count();
-	}
-
-	template<typename T>
-	inline T getJSONValue(const nl::json& obj, const std::string& key) {
-		if(!obj.contains(key))
-			throwMissingKey(key);
-
-		const auto& value = obj.at(key);
-
-		try {
-			return value.get<T>();
-		} catch(const nl::json::exception&) {
-			throwWrongType(key, typeid(T).name());
-		}
-		return T();
 	}
 
 	template<typename T>

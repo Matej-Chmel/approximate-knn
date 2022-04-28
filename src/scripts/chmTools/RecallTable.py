@@ -1,7 +1,7 @@
 import chm_hnsw as h
 from dataclasses import dataclass
 from .Dataset import Dataset
-import json
+from .jsonTypeCheck import getDictValue, getRoot
 import pandas
 from pathlib import Path
 from .runner import AppError
@@ -24,19 +24,18 @@ class RecallTableConfig:
 	simdType: h.SIMDType
 
 	@classmethod
-	def fromDict(cls, d: dict):
-		if not isinstance(d, dict):
-			raise AppError(f"Index configuration must be a JSON object. Was:{N}{d}")
-		try:
-			return RecallTableConfig(
-				d["dataset"], d["efConstruction"], d["efSearch"],
-				h.getIndexTemplate(d["template"]), d["mMax"], d["seed"],
-				h.SIMDType.NONE
-				if "SIMD" not in d or d["SIMD"] is None
-				else h.getSIMDType(d["SIMD"])
-			)
-		except KeyError as e:
-			raise AppError(f'Missing key {e.args[0]} in object:{N}{d}')
+	def fromDict(cls, d: dict, jsonPath: Path):
+		return cls(
+			dataset=getDictValue(d, "dataset", str, jsonPath),
+			efConstruction=getDictValue(d, "efConstruction", int, jsonPath),
+			efSearch=getDictValue(d, "efSearch", list, jsonPath, int),
+			indexTemplate=h.getIndexTemplate(getDictValue(d, "template", str, jsonPath)),
+			mMax=getDictValue(d, "mMax", int, jsonPath),
+			seed=getDictValue(d, "seed", int, jsonPath),
+			simdType=h.SIMDType.NONE
+			if "SIMD" not in d or d["SIMD"] is None
+			else h.getSIMDType(d["SIMD"])
+		)
 
 	def getIndexCls(self):
 		return {
@@ -48,12 +47,10 @@ class RecallTableConfig:
 
 	@classmethod
 	def listFromJSON(cls, p: Path):
-		with p.open("r", encoding="utf-8") as f:
-			arr = json.load(f)
-
-			if not isinstance(arr, list):
-				raise AppError(f'Root element of "recallTable.json" must be a JSON array. Was:{N}{arr}')
-			return [cls.fromDict(e) for e in arr]
+		return [
+			cls.fromDict(item, p)
+			for item in getDictValue(getRoot(p, dict), "index", list, p, dict)
+		]
 
 def getPrettyElapsedStr(elapsedNS: int):
 	return str(pandas.Timedelta(nanoseconds=elapsedNS))

@@ -14,7 +14,7 @@ def main():
 	srcDir = Path(__file__).absolute().parents[1]
 
 	try:
-		cfgPath = srcDir / "config" / "recallTable.json"
+		cfgPath = srcDir / "config" / "config.json"
 		configs = RecallTableConfig.listFromJSON(cfgPath)
 	except FileNotFoundError:
 		raise AppError(f"No configuration file found at {cfgPath}.")
