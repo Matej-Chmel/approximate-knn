@@ -6,12 +6,14 @@
 	constexpr auto SRC_DIR = "";
 #endif
 
-int main() {
+int main(const int argsLen, const char* const * const args) {
 	using namespace chm;
 
 	try {
 		const auto srcDir = fs::path(SRC_DIR);
-		const auto cfgPath = srcDir / "config" / "config.json";
+		const auto cfgPath = argsLen > 1
+			? fs::path(args[1])
+			: srcDir / "config" / "config.json";
 		const auto dataDir = srcDir / "data";
 
 		const auto configRoot = getRoot(cfgPath);

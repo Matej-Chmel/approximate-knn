@@ -4,7 +4,96 @@ Tato dokumentace obsahuje podrobný návod ke všem programům, které obsahuje 
 
 Všechny cesty uvedené v tomto souboru jsou relativní k cestě složky, která obsahuje PDF soubor této dokumentace.
 
-## Sestavení projektu
+## Nativní knihovna
+
+Pokud neplánujete používat skripty v jazyce Python, můžete sestavit nativní knihovnu samostatně pomocí následujících příkazů. Vygenerované řešení nebude využívat SIMD instrukcí. Pokud těchto instrukcí chcete využít, vygenerujte řešení pomocí skriptu `src/scripts/buildProject.py`.
+
+```bash
+mkdir src/cmakeBuild
+cd src/cmakeBuild
+cmake -DCMAKE_BUILD_TYPE=Release ../index
+cmake --build . --config Release
+```
+
+Řešení bude vytvořeno ve složce `src/cmakeBuild`. V každém systému vypadají soubory řešení jinak. Např. při použití Windows s Visual Studiem je řešením `.sln` soubor a projekty jsou `.vcxproj` soubory. Pro spuštění projektů je doporučena konfigurace `Release`. Řešení obsahuje dva projekty.
+
+- *recallTable* - Postaví HNSW index nové implementace a vypíše tabulku závislosti přesnosti na parametru vyhledávání ef<sub>search</sub>. Více o konfiguraci tohoto projektu v kapitole `JSON konfigurace`.
+
+  | Parametr | Význam                                     | Výchozí hodnota          |
+  | -------- | ------------------------------------------ | ------------------------ |
+  | První    | Cesta ke konfiguračnímu souboru typu JSON. | `src/config/config.json` |
+
+- *datasetToText* - Vypíše textový popis datové kolekce do souboru. Slouží pro ověření konzistence mezi binárními a HDF5 soubory. Název datového souboru je prvním parametrem programu. Výchozí hodnotou je `angular-small`.
+
+## JSON Konfigurace
+
+Pro změnu sestavovaných konfigurací programy `recallTable.cpp` a `recallTable.py` upravte soubor `src/config/config.json`. V souboru je jediný JSON objekt, který obsahuje dva povinné klíče.
+
+```json
+{
+	"datasets": [
+		{
+			"name": "angular-small",
+			"angular": true,
+			"dim": 25,
+			"k": 10,
+			"testCount": 200,
+			"trainCount": 20000,
+			"seed": 104
+		}
+	],
+	"index": [
+		{
+			"dataset": "angular-small",
+			"efConstruction": 200,
+			"efSearch": [10, 15, 20, 40, 80, 120, 200],
+			"mMax": 16,
+			"seed": 200,
+			"SIMD": "best",
+			"template": "prefetching"
+		}
+	]
+}
+```
+
+Klíč `datasets` je pole objektů, kde každý objekt popisuje jeden datový soubor.
+
+| Klíč       | Typ hodnoty | Význam                                                       |
+| :--------- | :---------- | :----------------------------------------------------------- |
+| name       | string      | Unikátní název souboru sloužící k identifikaci.              |
+| angular    | boolean     | Pokud je nastaven na `true`, využívá soubor kosinusové vzdálenosti. Jinak využívá Eukleidovské vzdálenosti. |
+| dim        | int         | Počet dimenzí prostoru.                                      |
+| k          | int         | Počet hledaných nejbližších sousedů dotazovaného prvku.      |
+| testCount  | int         | Počet dotazů.                                                |
+| trainCount | int         | Počet prvků použitých k sestavení indexu.                    |
+| seed       | int         | Nastavení generátoru náhodných čísel.                        |
+
+Klíč `index` je pole objektů, kde každý objekt popisuje jednu konfiguraci indexu.
+
+| Klíč           | Typ hodnoty | Význam                                                       |
+| :------------- | :---------- | :----------------------------------------------------------- |
+| dataset        | string      | Identifikace datového souboru. Odpovídá klíči `name` v souboru `src/config/debugDatasets.json`. |
+| efConstruction | int         | Počet uvažovaných sousedů při vytváření nových hran v indexu. |
+| efSearch       | array       | Pole hodnot parametru vyhledávání ef<sub>search</sub>.       |
+| mMax           | int         | Maximální povolený počet sousedů jednoho prvku v indexu na vrstvě vyšší než vrstva 0. |
+| seed           | int         | Nastavení generátoru náhodných úrovní v indexu.              |
+| SIMD           | string      | Upřednostňovaný typ SIMD instrukcí. Možnosti jsou `avx`, `avx512`, `best`, `null`, a `sse`.* |
+| template       | string      | Šablona indexu. Možnosti jsou `Heuristic`, `Naive`, `NoBitArray` a `Prefetching`. |
+
+\* Zvolením hodnoty `best` zvolíte nejmodernější dostupné SIMD rozšíření. Hodnotou `null` zakážete použití SIMD instrukcí.
+
+## Šablony nové implementace
+
+| Šablona     | Metoda výběru sousedů | Seznam navštívených vrcholů | Asynchronní přístup do paměti                                |
+| ----------- | --------------------- | --------------------------- | ------------------------------------------------------------ |
+| Heuristic   | Heuristika            | Bitové pole                 | Ne                                                           |
+| Naive       | Naivní algoritmus     | Bitové pole                 | Ne                                                           |
+| NoBitArray  | Heuristika            | Obyčejné pole               | Při výpočtu vzdáleností<br />Při načítání dat seznamu navštívených vrcholů |
+| Prefetching | Heuristika            | Bitové pole                 | Při výpočtu vzdáleností                                      |
+
+## Sestavení rozhraní v jazyce Python
+
+Pokud chcete využít skriptů jazyka Python, musíte vygenerovat správné virtuální prostředí. Pokud jste již alespoň jednou spustili ukázku pomocí skriptu `RUNME.py`, můžete tuto sekci přeskočit.
 
 Spusťte skript `src/scripts/buildProject.py` pomocí interpretu Python verze 3.9. Tento skript vygeneruje virtuální prostředí, stáhne potřebné balíčky a zkompiluje knihovnu nové implementace indexu HNSW.
 
@@ -22,23 +111,112 @@ python3.9 ./src/scripts/buildProject.py
 
 ## Virtuální prostředí
 
-Pokud není uvedeno jinak, skripty uvnitř složky `src/scripts` vždy spouštějte pomocí vygenerovaného virtuální prostředí. Prostředí aktivujete pomocí aktivačního skriptu ve složce `.venv/Scripts`. Výběr skriptu závisí na použitém OS a interpretu.
+Pokud není uvedeno jinak, skripty uvnitř složky `src/scripts` vždy spouštějte pomocí vygenerovaného virtuální prostředí. Prostředí aktivujete pomocí aktivačního skriptu. Výběr skriptu závisí na použitém OS a interpretu.
 
 | OS | Interpret | Cesta k aktivačnímu skriptu |
 | :-- | :-- | :-- |
-| Linux |  | ./.venv/bin/activate |
+| Linux | * | ./.venv/bin/activate |
 | Windows | Batch | .\\.venv\Scripts\activate.bat |
 | Windows | Powershell | .\\.venv\Scripts\Activate.ps1 |
 
-Pokud používáte OS Linux specifikujte zvolený interpret při volání aktivačního skriptu.
+\* Pokud používáte OS Linux specifikujte zvolený interpret při volání aktivačního skriptu.
 
 ```none
 source ./.venv/bin/activate
 ```
 
-## Seznam skriptů
+## Srovnání implementací
 
-Následuje seznam skriptů ve složce `src/scripts`.
+Skript `src/runBenchmarks.py` spustí srovnání implementací v jednom nebo více Docker kontejnerech, vypočítá výkonnostní metriku, vygeneruje webovou stránku s výsledky a otevře ji v nové kartě internetového prohlížeče. Kód vygenerované stránky lze poté najít ve složce `src/website` a můžete ji opětovně zobrazit otevřením souboru `index.html`.
+
+*Před spuštěním se ujistěte, že je služba Docker zapnutá.*
+
+| Parametr, zkratka                       | Význam                                                       |
+| --------------------------------------- | ------------------------------------------------------------ |
+| &#x2011;&#x2011;algoDefPaths, &#x2011;a | Vyžadován. Seznam cest ke konfiguračním souborům oddělených mezerami. O konfiguraci se více dočtete v kapitole `Konfigurace srovnání`. |
+| &#x2011;&#x2011;datasets, &#x2011;d     | Vyžadován\*. Seznam datových souborů oddělených mezerami.    |
+| &#x2011;&#x2011;datasetsPath, &#x2011;p | Vyžadován\*. Cesta k textovému souboru se seznamem datových souborů. |
+| &#x2011;&#x2011;force, &#x2011;f        | Spustí již provedená měření znovu.&#x2011;                   |
+| &#x2011;&#x2011;runs, &#x2011;r         | Počet opakování měření. Výchozí hodnota je 1.                |
+| &#x2011;&#x2011;workers, &#x2011;w      | Počet paralelně spuštěných Docker kontejnerů. Výchozí hodnota je 1. |
+
+\* Pouze jeden z parametrů označených hvězdičkou by měl být uveden.
+
+Datové soubory využité ke srovnání nejsou ty samé, které jsou využívány k debugování nativní knihovny. Jejich seznam najdete v kapitole `Testované datové soubory`. Příklad spuštění:
+
+```bash
+python runBenchmarks.py -a ..\config\noBit.yaml -f -p ..\config\datasets.txt -r 5 -w 2
+```
+
+## Konfigurace srovnání
+
+Výběr implementací ke srovnání a jejich parametrů zprostředkovávají konfigurační soubory ve formátu YAML. Příklad takového souboru je `src/config/algos.yaml`. Ve složce `src/config` se nacházejí předem vytvořené konfigurace.
+
+Následuje příklad konfigurace. Komentáře označené znakem `#` popisují jednotlivé klíče.
+
+```yaml
+algos: # Povinný klíč.
+  # Povinné pole názvů porovnávaných implementací.
+  - original
+  - new-prefetch
+build: # Povinný klíč.
+  # Povinné pole objektů konfigurace stavby.
+  # Pro každou konfiguraci musí být uvedeny hodnoty parametrů efConstruction a mMax.
+  - efConstruction: 50
+    mMax: 4
+  - efConstruction: 100
+    mMax: 8
+efSearch: [10, 12, 14, 16, 18, 20, 25, 30, 40, 80] # Povinné pole hodnot parametru vyhledávání efSearch.
+```
+
+Definované implementace popisuje následující tabulka.
+
+| Název implementace        | Druh implementace | Šablona     | SIMD rozšíření         |
+| ------------------------- | ----------------- | ----------- | ---------------------- |
+| original                  | Původní hnswlib   |             | Nejmodernější dostupné |
+| new&#x2011;avx            | Nová              | Heuristic   | AVX                    |
+| new&#x2011;avx&#x2011;512 | Nová              | Heuristic   | AVX&#x2011;512         |
+| new&#x2011;heuristic      | Nová              | Heuristic   | Nejmodernější dostupné |
+| new&#x2011;naive          | Nová              | Naive       | Nejmodernější dostupné |
+| new&#x2011;no&#x2011;bit  | Nová              | NoBitArray  | Nejmodernější dostupné |
+| new&#x2011;no&#x2011;simd | Nová              | Heuristic   | Žádné                  |
+| new&#x2011;prefetch       | Nová              | Prefetching | Nejmodernější dostupné |
+| new&#x2011;sse            | Nová              | Heuristic   | SSE                    |
+
+Popis šablon obsahuje kapitola `Šablony nové implementace`.
+
+## Testované datové soubory
+
+Pro srovnání implementací je možno využít následujících datových souborů.
+
+| Název                                            | Dimenze | Počet prvků při stavbě | Dotazy | Metrika                 |
+| ------------------------------------------------ | ------- | ---------------------- | ------ | ----------------------- |
+| fashion&#x2011;mnist&#x2011;784&#x2011;euclidean | 784     | 60 000                 | 10 000 | Eukleidovská vzdálenost |
+| glove&#x2011;25&#x2011;angular                   | 25      | 1 183 514              | 10 000 | Kosinusová podobnost    |
+| glove&#x2011;50&#x2011;angular                   | 50      | 1 183 514              | 10 000 | Kosinusová podobnost    |
+| glove&#x2011;100&#x2011;angular                  | 100     | 1 183 514              | 10 000 | Kosinusová podobnost    |
+| glove&#x2011;200&#x2011;angular                  | 200     | 1 183 514              | 10 000 | Kosinusová podobnost    |
+| lastfm&#x2011;64&#x2011;dot                      | 64      | 292 385                | 50 000 | Kosinusová podobnost    |
+| mnist&#x2011;784&#x2011;euclidean                | 784     | 60 000                 | 10 000 | Eukleidovská vzdálenost |
+| nytimes&#x2011;16&#x2011;angular                 | 16      | 290 000                | 10 000 | Kosinusová podobnost    |
+| nytimes&#x2011;256&#x2011;angular                | 256     | 290 000                | 10 000 | Kosinusová podobnost    |
+| random&#x2011;s&#x2011;100&#x2011;angular        | 100     | 100 000                | 10 000 | Kosinusová podobnost    |
+| random&#x2011;s&#x2011;100&#x2011;euclidean      | 100     | 100 000                | 10 000 | Eukleidovská vzdálenost |
+| random&#x2011;xs&#x2011;20&#x2011;angular        | 20      | 10 000                 | 10 000 | Kosinusová podobnost    |
+| random&#x2011;xs&#x2011;20&#x2011;euclidean      | 20      | 10 000                 | 10 000 | Eukleidovská vzdálenost |
+| sift&#x2011;128&#x2011;euclidean                 | 128     | 1 000 000              | 10 000 | Eukleidovská vzdálenost |
+
+Pro spuštění srovnání nad více soubory lze využít textového formátu, kde každý řádek reprezentuje jeden datový soubor. Řádky, které začínají znakem `#` jsou ignorovány. Příklad:
+
+```bash
+# glove-25-angular
+nytimes-256-angular
+sift-128-euclidean
+```
+
+## Seznam dalších skriptů
+
+Následuje seznam dalších skriptů ve složce `src/scripts`.
 
 | Název skriptu        | Stručný popis skriptu                                        |
 | -------------------- | ------------------------------------------------------------ |
@@ -49,7 +227,6 @@ Následuje seznam skriptů ve složce `src/scripts`.
 | formatCMakeTemplates | Vygeneruje CMakeLists.txt.                                   |
 | generateTables       | Vygeneruje LaTeX tabulky podobné těm, které jsou v bakalářské práci. |
 | latexTable           | Vygeneruje LaTeX tabulku na základě výsledků srovnání.       |
-| **runBenchmarks**    | Spustí srovnání, vygeneruje a otevře webovou stránku s výsledky. |
 | runRecallTable       | Postaví nový index a zobrazí tabulku závislosti přesnosti na parametru vyhledávání ef<sub>search</sub>. |
 | SIMDCapability       | Zobrazí SIMD rozšíření instrukční sady procesoru, která jsou k dispozici. |
 
@@ -93,7 +270,11 @@ python clean.py --results
 
 ### datasetGenerator
 
-Vygeneruje datové soubory pro debugování uvedené v konfiguračním souboru `src/config/debugDatasets.json`. O konfiguraci tohoto skriptu se více dočtete v kapitole `Datové soubory pro debugování` níže v této dokumentaci.
+Vygeneruje datové soubory pro debugování. O konfiguraci tohoto skriptu se více dočtete výše v kapitole `JSON Konfigurace`.
+
+| Parametr, zkratka                 | Význam                                     | Výchozí hodnota          |
+| --------------------------------- | ------------------------------------------ | ------------------------ |
+| &#x2011;&#x2011;config, &#x2011;c | Cesta ke konfiguračnímu souboru typu JSON. | `src/config/config.json` |
 
 Příklad spuštění:
 
@@ -158,31 +339,6 @@ Příklad spuštění:
 python latexTable.py -a new-prefetch original -d sift-128-euclidean -le "Nová impl." "Původní impl." -o ..\figures\table.tex -p
 ```
 
-### runBenchmarks
-
-*Před spuštěním se ujistěte, že je služba Docker zapnutá.*
-
-Spustí srovnání implementací v jednom nebo více Docker kontejnerech, vypočítá výkonnostní metrika, vygeneruje webovou stránku s výsledky a otevře ji v nové kartě internetového prohlížeče. Kód vygenerované stránky lze poté najít ve složce `src/website` a můžete ji opětovně zobrazit otevřením souboru `index.html`.
-
-| Parametr, zkratka                       | Význam                                                       |
-| --------------------------------------- | ------------------------------------------------------------ |
-| &#x2011;&#x2011;algoDefPaths, &#x2011;a | Vyžadován. Seznam cest ke konfiguračním souborům oddělených mezerami. O konfiguraci se více dočtete v kapitole `Konfigurace srovnání`. |
-| &#x2011;&#x2011;datasets, &#x2011;d     | Vyžadován\*. Seznam datových souborů oddělených mezerami.    |
-| &#x2011;&#x2011;datasetsPath, &#x2011;p | Vyžadován\*. Cesta k textovému souboru se seznamem datových souborů. |
-| &#x2011;&#x2011;force, &#x2011;f        | Spustí již provedená měření znovu.&#x2011;                   |
-| &#x2011;&#x2011;runs, &#x2011;r         | Počet opakování měření. Výchozí hodnota je 1.                |
-| &#x2011;&#x2011;workers, &#x2011;w      | Počet paralelně spuštěných Docker kontejnerů. Výchozí hodnota je 1. |
-
-Datové soubory využité ke srovnání nejsou ty samé, které jsou využívány k debugování. Jejich seznam najdete v kapitole `Testované datové soubory`.
-
-\* Pouze jeden z parametrů označených hvězdičkou by měl být uveden.
-
-Příklad spuštění:
-
-```bash
-python runBenchmarks.py -a ..\config\noBit.yaml -f -p ..\config\datasets.txt -r 5 -w 2
-```
-
 ### runRecallTable
 
 Postaví index nové implementace a vyhledá v něm nejbližší sousedy s různými hodnotami parametru vyhledávání ef<sub>search</sub>. Poté vypíše tabulku závislosti přesnosti vyhledávání na tomto parametru. Konfigurace tohoto skriptu se nachází v souboru `src/config/recallTable.json` a více se o ní dočtete v kapitole `Konfigurace programů recallTable`.
@@ -202,138 +358,3 @@ Příklad spuštění:
 ```bash
 python SIMDCapability.py
 ```
-
-## Nativní knihovna
-
-C++ řešení vygenerujete pomocí skriptu `RUNME.py` nebo `src/scripts/buildProject.py`. Řešení bude vytvořeno ve složce `src/cmakeBuild`. V každém systému vypadají soubory řešení jinak. Např. při použití Windows s Visual Studiem je řešením `.sln` soubor a projekty jsou `.vcxproj` soubory. Pro spuštění projektů je doporučena konfigurace `Release`. Řešení obsahuje dva projekty.
-
-- *datasetToText* - Vypíše textový popis datové kolekce do souboru. Slouží pro ověření konzistence mezi binárními a HDF5 soubory. Název datového souboru je prvním parametrem programu. Výchozí hodnotou je `angular-small`.
-- *recallTable* - Postaví HNSW index a vypíše tabulku závislosti přesnosti na parametru vyhledávání ef<sub>search</sub>. Konfigurace programu se nachází v souboru `src/config/recallTable.json` a více se o ní dočtete v kapitole `Konfigurace programů recallTable`.
-
-## Datové soubory pro debugování
-
-Pro vygenerování jiných datových souborů pro debugování změňte konfiguraci v souboru `src/config/debugDatasets.json` a spusťte skript `src/scripts/datasetGenerator.py`. Konfigurace je JSON soubor s polem objektů, kde každý objekt popisuje jeden datový soubor.
-
-```json
-{
-    "name": "angular-small",
-    "angular": true,
-    "dim": 25,
-    "k": 10,
-    "testCount": 200,
-    "trainCount": 20000,
-    "seed": 104
-}
-```
-
-| Klíč       | Typ hodnoty | Význam                                                       |
-| :--------- | :---------- | :----------------------------------------------------------- |
-| name       | string      | Unikátní název souboru sloužící k identifikaci.              |
-| angular    | boolean     | Pokud je nastaven na `true`, využívá soubor kosinusové podobnosti. Jinak využívá Eukleidovské vzdálenosti. |
-| dim        | int         | Počet dimenzí prostoru.                                      |
-| k          | int         | Počet hledaných nejbližších sousedů dotazovaného prvku.      |
-| testCount  | int         | Počet dotazů.                                                |
-| trainCount | int         | Počet prvků použitých k sestavení indexu.                    |
-| seed       | int         | Nastavení generátoru náhodných čísel.                        |
-
-## Konfigurace programů *recallTable*
-Pro změnu sestavovaných konfigurací programy `recallTable.cpp` a `recallTable.py` upravte soubor `src/config/recallTable.json`. Konfigurace je JSON soubor s polem objektů, kde každý objekt popisuje jednu konfiguraci.
-
-```json
-{
-	"dataset": "angular-small",
-	"efConstruction": 200,
-	"efSearch": [10, 15, 20, 40, 80, 120, 200],
-	"mMax": 16,
-	"seed": 200,
-	"SIMD": "best",
-	"template": "prefetching"
-}
-```
-
-| Klíč           | Typ hodnoty | Význam                                                       |
-| :------------- | :---------- | :----------------------------------------------------------- |
-| dataset        | string      | Identifikace datového souboru. Odpovídá klíči `name` v souboru `src/config/debugDatasets.json`. |
-| efConstruction | int         | Počet uvažovaných sousedů při vytváření nových hran v indexu. |
-| efSearch       | array       | Pole hodnot parametru vyhledávání ef<sub>search</sub>.       |
-| mMax           | int         | Maximální povolený počet sousedů jednoho prvku v indexu na vrstvě vyšší než vrstva 0. |
-| seed           | int         | Nastavení generátoru náhodných úrovní v indexu.              |
-| SIMD           | string      | Upřednostňovaný typ SIMD instrukcí. Možnosti jsou `avx`, `avx512`, `best`, `null`, a `sse`.* |
-| template       | string      | Šablona indexu. Možnosti jsou `Heuristic`, `Naive`, `NoBitArray` a `Prefetching`. |
-
-\* Zvolením hodnoty `best` zvolíte nejmodernější dostupné SIMD rozšíření. Hodnotou `null` zakážete použití SIMD instrukcí.
-
-## Šablony nové implementace
-
-| Šablona     | Metoda výběru sousedů | Seznam navštívených vrcholů | Asynchronní přístup do paměti                                |
-| ----------- | --------------------- | --------------------------- | ------------------------------------------------------------ |
-| Heuristic   | Heuristika            | Bitové pole                 | Ne                                                           |
-| Naive       | Naivní algoritmus     | Bitové pole                 | Ne                                                           |
-| NoBitArray  | Heuristika            | Obyčejné pole               | Při výpočtu vzdáleností<br />Při načítání dat seznamu navštívených vrcholů |
-| Prefetching | Heuristika            | Bitové pole                 | Při výpočtu vzdáleností                                      |
-
-## Testované datové soubory
-
-Pro srovnání implementací je možno využít následujících datových souborů.
-
-| Název                                            | Dimenze | Počet prvků při stavbě | Dotazy | Metrika                 |
-| ------------------------------------------------ | ------- | ---------------------- | ------ | ----------------------- |
-| fashion&#x2011;mnist&#x2011;784&#x2011;euclidean | 784     | 60 000                 | 10 000 | Eukleidovská vzdálenost |
-| glove&#x2011;25&#x2011;angular                   | 25      | 1 183 514              | 10 000 | Kosinusová podobnost    |
-| glove&#x2011;50&#x2011;angular                   | 50      | 1 183 514              | 10 000 | Kosinusová podobnost    |
-| glove&#x2011;100&#x2011;angular                  | 100     | 1 183 514              | 10 000 | Kosinusová podobnost    |
-| glove&#x2011;200&#x2011;angular                  | 200     | 1 183 514              | 10 000 | Kosinusová podobnost    |
-| lastfm&#x2011;64&#x2011;dot                      | 64      | 292 385                | 50 000 | Kosinusová podobnost    |
-| mnist&#x2011;784&#x2011;euclidean                | 784     | 60 000                 | 10 000 | Eukleidovská vzdálenost |
-| nytimes&#x2011;16&#x2011;angular                 | 16      | 290 000                | 10 000 | Kosinusová podobnost    |
-| nytimes&#x2011;256&#x2011;angular                | 256     | 290 000                | 10 000 | Kosinusová podobnost    |
-| random&#x2011;s&#x2011;100&#x2011;angular        | 100     | 100 000                | 10 000 | Kosinusová podobnost    |
-| random&#x2011;s&#x2011;100&#x2011;euclidean      | 100     | 100 000                | 10 000 | Eukleidovská vzdálenost |
-| random&#x2011;xs&#x2011;20&#x2011;angular        | 20      | 10 000                 | 10 000 | Kosinusová podobnost    |
-| random&#x2011;xs&#x2011;20&#x2011;euclidean      | 20      | 10 000                 | 10 000 | Eukleidovská vzdálenost |
-| sift&#x2011;128&#x2011;euclidean                 | 128     | 1 000 000              | 10 000 | Eukleidovská vzdálenost |
-
-Pro spuštění srovnání nad více soubory lze využít textového formátu, kde každý řádek reprezentuje jeden datový soubor. Řádky, které začínají znakem `#` jsou ignorovány. Příklad:
-
-```bash
-# glove-25-angular
-nytimes-256-angular
-sift-128-euclidean
-```
-
-## Konfigurace srovnání
-
-Výběr implementací ke srovnání a jejich parametrů zprostředkovávají konfigurační soubory ve formátu YAML. Příklad takového souboru je `src/config/algos.yaml`. Ve složce `src/config` se nacházejí předem vytvořené konfigurace.
-
-Následuje příklad konfigurace. Komentáře označené znakem `#` popisují jednotlivé klíče.
-
-```yaml
-algos: # Povinný klíč.
-  # Povinné pole názvů porovnávaných implementací.
-  - original
-  - new-prefetch
-build: # Povinný klíč.
-  # Povinné pole objektů konfigurace stavby.
-  # Pro každou konfiguraci musí být uvedeny hodnoty parametrů efConstruction a mMax.
-  - efConstruction: 50
-    mMax: 4
-  - efConstruction: 100
-    mMax: 8
-efSearch: [10, 12, 14, 16, 18, 20, 25, 30, 40, 80] # Povinné pole hodnot parametru vyhledávání efSearch.
-```
-
-Definované implementace popisuje následující tabulka.
-
-| Název implementace        | Druh implementace | Šablona     | SIMD rozšíření         |
-| ------------------------- | ----------------- | ----------- | ---------------------- |
-| original                  | Původní hnswlib   |             | Nejmodernější dostupné |
-| new&#x2011;avx            | Nová              | Heuristic   | AVX                    |
-| new&#x2011;avx&#x2011;512 | Nová              | Heuristic   | AVX&#x2011;512         |
-| new&#x2011;heuristic      | Nová              | Heuristic   | Nejmodernější dostupné |
-| new&#x2011;naive          | Nová              | Naive       | Nejmodernější dostupné |
-| new&#x2011;no&#x2011;bit  | Nová              | NoBitArray  | Nejmodernější dostupné |
-| new&#x2011;no&#x2011;simd | Nová              | Heuristic   | Žádné                  |
-| new&#x2011;prefetch       | Nová              | Prefetching | Nejmodernější dostupné |
-| new&#x2011;sse            | Nová              | Heuristic   | SSE                    |
-
-Popis šablon obsahuje kapitola `Šablony nové implementace`.
