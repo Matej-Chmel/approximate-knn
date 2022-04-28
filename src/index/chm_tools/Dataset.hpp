@@ -265,12 +265,13 @@ namespace chm {
 		if(fs::exists(datasetPath))
 			return std::make_shared<const Dataset<T>>(datasetPath);
 
-		for(const auto& obj : datasets) {
+		for(const auto& obj : datasets)
 			if(getJSONValue<std::string>(obj, "name", configPath) == name)
 				return std::make_shared<const Dataset<T>>(obj, configPath, datasetPath, s);
-		}
 
-		throw std::runtime_error(("Could not find dataset "_f << name).str());
+		std::stringstream strStream;
+		strStream << "Could not find dataset " << name;
+		throw std::runtime_error(strStream.str());
 		return nullptr;
 	}
 

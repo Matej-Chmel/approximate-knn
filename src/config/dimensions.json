@@ -1,0 +1,186 @@
+{
+	"datasets": [
+		{
+			"name": "angular-d3-20000",
+			"angular": true,
+			"dim": 3,
+			"k": 10,
+			"testCount": 200,
+			"trainCount": 20000,
+			"seed": 100
+		},
+		{
+			"name": "angular-d4-20000",
+			"angular": true,
+			"dim": 4,
+			"k": 10,
+			"testCount": 200,
+			"trainCount": 20000,
+			"seed": 101
+		},
+		{
+			"name": "angular-d9-20000",
+			"angular": true,
+			"dim": 9,
+			"k": 10,
+			"testCount": 200,
+			"trainCount": 20000,
+			"seed": 102
+		},
+		{
+			"name": "angular-d16-20000",
+			"angular": true,
+			"dim": 16,
+			"k": 10,
+			"testCount": 200,
+			"trainCount": 20000,
+			"seed": 103
+		},
+		{
+			"name": "angular-d25-20000",
+			"angular": true,
+			"dim": 25,
+			"k": 10,
+			"testCount": 200,
+			"trainCount": 20000,
+			"seed": 104
+		},
+		{
+			"name": "euclidean-d3-20000",
+			"angular": false,
+			"dim": 3,
+			"k": 10,
+			"testCount": 200,
+			"trainCount": 20000,
+			"seed": 100
+		},
+		{
+			"name": "euclidean-d4-20000",
+			"angular": false,
+			"dim": 4,
+			"k": 10,
+			"testCount": 200,
+			"trainCount": 20000,
+			"seed": 101
+		},
+		{
+			"name": "euclidean-d9-20000",
+			"angular": false,
+			"dim": 9,
+			"k": 10,
+			"testCount": 200,
+			"trainCount": 20000,
+			"seed": 102
+		},
+		{
+			"name": "euclidean-d16-20000",
+			"angular": false,
+			"dim": 16,
+			"k": 10,
+			"testCount": 200,
+			"trainCount": 20000,
+			"seed": 103
+		},
+		{
+			"name": "euclidean-d25-20000",
+			"angular": false,
+			"dim": 25,
+			"k": 10,
+			"testCount": 200,
+			"trainCount": 20000,
+			"seed": 104
+		}
+	],
+	"index": [
+		{
+			"dataset": "angular-d3-20000",
+			"efConstruction": 50,
+			"efSearch": [10, 15, 20, 30, 40, 60, 80],
+			"mMax": 10,
+			"seed": 2,
+			"SIMD": "best",
+			"template": "prefetching"
+		},
+		{
+			"dataset": "angular-d4-20000",
+			"efConstruction": 50,
+			"efSearch": [10, 15, 20, 30, 40, 60, 80],
+			"mMax": 10,
+			"seed": 2,
+			"SIMD": "best",
+			"template": "prefetching"
+		},
+		{
+			"dataset": "angular-d9-20000",
+			"efConstruction": 50,
+			"efSearch": [10, 15, 20, 30, 40, 60, 80],
+			"mMax": 10,
+			"seed": 2,
+			"SIMD": "best",
+			"template": "prefetching"
+		},
+		{
+			"dataset": "angular-d16-20000",
+			"efConstruction": 50,
+			"efSearch": [10, 15, 20, 30, 40, 60, 80],
+			"mMax": 10,
+			"seed": 2,
+			"SIMD": "best",
+			"template": "prefetching"
+		},
+		{
+			"dataset": "angular-d25-20000",
+			"efConstruction": 50,
+			"efSearch": [10, 15, 20, 30, 40, 60, 80],
+			"mMax": 10,
+			"seed": 2,
+			"SIMD": "best",
+			"template": "prefetching"
+		},
+		{
+			"dataset": "euclidean-d3-20000",
+			"efConstruction": 50,
+			"efSearch": [10, 15, 20, 30, 40, 60, 80],
+			"mMax": 10,
+			"seed": 2,
+			"SIMD": "best",
+			"template": "prefetching"
+		},
+		{
+			"dataset": "euclidean-d4-20000",
+			"efConstruction": 50,
+			"efSearch": [10, 15, 20, 30, 40, 60, 80],
+			"mMax": 10,
+			"seed": 2,
+			"SIMD": "best",
+			"template": "prefetching"
+		},
+		{
+			"dataset": "euclidean-d9-20000",
+			"efConstruction": 50,
+			"efSearch": [10, 15, 20, 30, 40, 60, 80],
+			"mMax": 10,
+			"seed": 2,
+			"SIMD": "best",
+			"template": "prefetching"
+		},
+		{
+			"dataset": "euclidean-d16-20000",
+			"efConstruction": 50,
+			"efSearch": [10, 15, 20, 30, 40, 60, 80],
+			"mMax": 10,
+			"seed": 2,
+			"SIMD": "best",
+			"template": "prefetching"
+		},
+		{
+			"dataset": "euclidean-d25-20000",
+			"efConstruction": 50,
+			"efSearch": [10, 15, 20, 30, 40, 60, 80],
+			"mMax": 10,
+			"seed": 2,
+			"SIMD": "best",
+			"template": "prefetching"
+		}
+	]
+}
