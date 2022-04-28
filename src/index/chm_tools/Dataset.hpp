@@ -8,47 +8,203 @@
 #include "Timer.hpp"
 
 namespace chm {
+	/**
+	 * Datový soubor.
+	 * @tparam T Šablona sestavovaného indexu. @see IndexTemplate.
+	 */
 	template<class T = NaiveTemplate>
 	class Dataset {
+		/**
+		 * Počet dimenzí prostoru.
+		 */
 		size_t dim;
+		/**
+		 * Počet hledaných sousedů pro jeden dotaz.
+		 */
 		uint k;
+		/**
+		 * Název datového souboru bez přípony.
+		 */
 		std::string name;
+		/**
+		 * Druh prostoru dle metriky.
+		 */
 		SpaceKind space;
+		/**
+		 * Počet dotazů.
+		 */
 		uint testCount;
+		/**
+		 * Počet prvků v datové kolekce pro stavbu indexu.
+		 */
 		uint trainCount;
+		/**
+		 * Identity skutečných nejbližších sousedů pro všechny dotazy.
+		 * @see Bruteforce
+		 */
 		std::vector<uint> neighbors;
-		std::vector<float> test, train;
+		/**
+		 * Pole vektorů dotazovaných prvků.
+		 */
+		std::vector<float> test;
+		/**
+		 * Datová kolekce pro stavbu indexu.
+		 */
+		std::vector<float> train;
 
 	public:
+		/**
+		 * Typ sdíleného ukazatele na datový soubor.
+		 */
 		using Ptr = std::shared_ptr<const Dataset<T>>;
 
+		/**
+		 * Statická metoda pro získání již existujícího nebo
+		 * vytvoření nového datového souboru.
+		 * @param[in] configPath Cesta k souboru s JSON konfigurací.
+		 * @param[in] dataDir Cesta k adresáři s datovými soubory.
+		 * @param[in] datasets JSON objekt s popisem datových souborů.
+		 * @param[in] name @ref name
+		 * @param[out] s Stream pro zapisování stavu.
+		 * @return Ukazatel na datový soubor.
+		 */
 		static Ptr getDataset(
 			const fs::path& configPath, const fs::path& dataDir,
 			const nl::json& datasets, const std::string& name,
 			std::ostream& s
 		);
 
+		/**
+		 * Vloží prvky z datové kolekce @ref train do indexu.
+		 * @param[in] index Ukazatel na index.
+		 */
 		void build(const IndexPtr<T>& index) const;
+		/**
+		 * Konstruktor z již existujícího souboru.
+		 * @param[in] p Cesta k souboru.
+		 */
 		Dataset(const fs::path& p);
+		/**
+		 * Konstruktor pro vytvoření nového datového souboru.
+		 * @param[in] obj JSON objekt s popisem datového souboru.
+		 * @param[in] configPath Cesta k souboru s JSON konfigurací.
+		 * @param[in] datasetPath Cesta k datovému souboru.
+		 * @param[out] s Stream pro zapisování stavu.
+		 */
 		Dataset(
 			const nl::json& obj, const fs::path& configPath,
 			const fs::path& datasetPath, std::ostream& s
 		);
+		/**
+		 * Vrátí prázdný index.
+		 * @param[in] efConstruction @ref Configuration::efConstruction
+		 * @param[in] mMax @ref Configuration::mMax
+		 * @param[in] seed Nastavení generátoru náhodných úrovní nových prvků.
+		 * @param[in] simdType SIMD rozšíření použité pro výpočet vzdálenosti.
+		 * @return Ukazatel na prázdný index.
+		 */
 		IndexPtr<T> getIndex(
 			const uint efConstruction = 200, const uint mMax = 16,
 			const uint seed = 100, const SIMDType simdType = SIMDType::NONE
 		) const;
+		/**
+		 * Vrátí přesnost výsledků indexu.
+		 * @param[in] results Výsledky indexu.
+		 * @return Přesnost výsledků.
+		 */
 		float getRecall(const KnnResults& results) const;
+		/**
+		 * Vrátí krátký popis datového souboru.
+		 * @return Krátký popis datového souboru.
+		 */
 		std::string getString() const;
+		/**
+		 * Vrátí vlajku využití kosinusové vzdálenosti.
+		 * @return Vlajka využití kosinusové vzdálenosti.
+		 */
 		bool isAngular() const;
+		/**
+		 * Zpracuje kolekci dotazů.
+		 * @param[in] index Ukazatel na index, který kolekci zpracuje.
+		 * @param[in] efSearch @ref Configuration::efSearch
+		 */
 		KnnResults query(const IndexPtr<T>& index, const uint efSearch) const;
+		/**
+		 * Převede datový soubor na textový formát.
+		 * @param[in] p Cesta k výstupnímu souboru.
+		 */
 		void writeLongDescription(const fs::path& p) const;
+		/**
+		 * Převede datový soubor na textový formát.
+		 * @param[out] s Výstupní stream.
+		 */
 		void writeLongDescription(std::ostream& s) const;
+		/**
+		 * Zapíše krátký popis datového souboru do streamu.
+		 * @param[out] s Výstupní stream.
+		 */
 		void writeShortDescription(std::ostream& s) const;
 	};
 
+	/**
+	 * Vygeneruje náhodnou datovou kolekci.
+	 * @param[out] v Výsledná datová kolekce.
+	 * @param[in] count Počet generovaných prvků.
+	 * @param[in] dim Počet dimenzí prostoru.
+	 * @param[in] seed Nastavení generátoru náhodných čísel.
+	 */
 	void generateRandomData(std::vector<float>& v, const size_t count, const size_t dim, const uint seed);
-	void throwCouldNotOpen(const fs::path& p);
+	/**
+	 * Přečte data z binárního souboru do proměnné.
+	 * @tparam T Primitivní datový typ.
+	 * @param[in] s Vstupní stream.
+	 * @param[out] value Výstupní proměnná.
+	 */
+	template<typename T> void readBinary(std::ifstream& s, T& value);
+	/**
+	 * Přečte pole dat z binárního souboru do vektoru.
+	 * @tparam T Primitivní datový typ.
+	 * @param[in] s Vstupní stream.
+	 * @param[out] v Výstupní vektor.
+	 * @param[in] len Počet složek vektoru.
+	 */
+	template<typename T> void readBinary(std::ifstream& s, std::vector<T>& v, const size_t len);
+	/**
+	 * Zapíše data z proměnné do binárního souboru.
+	 * @tparam T Primitivní datový typ.
+	 * @param[out] s Výstupní stream.
+	 * @param[in] value Vstupní proměnná.
+	 */
+	template<typename T> void writeBinary(std::ofstream& s, const T& value);
+	/**
+	 * Zapíše data vektoru do binárního souboru.
+	 * @tparam T Primitivní datový typ.
+	 * @param[out] s Výstupní stream.
+	 * @param[in] v Vstupní vektor.
+	 */
+	template<typename T> void writeBinary(std::ofstream& s, const std::vector<T>& v);
+	/**
+	 * Převede pole dat na textový formát.
+	 * @tparam T Primitivní datový typ.
+	 * @param[out] s Výstupní stream.
+	 * @param[in] v Vstupní pole.
+	 * @param[in] name Název pole.
+	 */
+	template<typename T> void writeDescription(
+		std::ostream& s, const std::vector<T>& v, const std::string& name
+	);
+	/**
+	 * Převede pole dat na textový formát a upraví počet desetinných míst.
+	 * @tparam T Primitivní datový typ.
+	 * @param[out] s Výstupní stream.
+	 * @param[in] v Vstupní pole.
+	 * @param[in] name Název pole.
+	 * @param[in] decimalPlaces Počet desetinných míst.
+	 */
+	template<typename T> void writeDescription(
+		std::ostream& s, const std::vector<T>& v, const std::string& name,
+		const std::streamsize decimalPlaces
+	);
 
 	template<typename T>
 	inline void readBinary(std::ifstream& s, T& value) {
@@ -72,7 +228,9 @@ namespace chm {
 	}
 
 	template<typename T>
-	inline void writeDescription(std::ostream& s, const std::vector<T>& v, const std::string& name) {
+	inline void writeDescription(
+		std::ostream& s, const std::vector<T>& v, const std::string& name
+	) {
 		s << name << "[length " << v.size() << "]\n";
 
 		for(const auto& item : v)

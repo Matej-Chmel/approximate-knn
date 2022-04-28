@@ -14,20 +14,60 @@ namespace chm {
 	namespace nl = nlohmann;
 
 	namespace literals {
+		/**
+		 * Literál, který převede řetězec na stringstream.
+		 * @param[in] s Řetězec.
+		 * @return Stringstream obsahující řetězec @p s.
+		 */
 		std::stringstream operator"" _f(const char* const s, const size_t _);
 	}
 
 	using namespace literals;
 
+	/**
+	 * Vrátí chybový text s cestou konfigurace.
+	 * @param[in] p Cesta ke konfiguračnímu souboru.
+	 * @return Stream obsahující chybový text.
+	 */
 	std::stringstream configStream(const fs::path& p);
-
-	template<typename T>
-	std::vector<T> getJSONArray(const nl::json& obj, const std::string& key, const fs::path& path);
-
-	template<typename T>
-	T getJSONValue(const nl::json& obj, const std::string& key, const fs::path& path);
-
+	/**
+	 * Pokusí se o získání pole z JSON objektu.
+	 * @tparam T Primitivní typ položky pole.
+	 * @param[in] obj JSON objekt.
+	 * @param[in] key Klíč pole.
+	 * @param[in] path Cesta původního JSON souboru.
+	 * @return Pole.
+	 */
+	template<typename T> std::vector<T> getJSONArray(
+		const nl::json& obj, const std::string& key, const fs::path& path
+	);
+	/**
+	 * Pokusí se o získání hodnoty z JSON objektu.
+	 * @tparam T Primitivní typ hodnoty.
+	 * @param[in] obj JSON objekt.
+	 * @param[in] key Klíč hodnoty.
+	 * @param[in] path Cesta původního JSON souboru.
+	 * @return Získaná hodnota.
+	 */
+	template<typename T> T getJSONValue(
+		const nl::json& obj, const std::string& key, const fs::path& path
+	);
+	/**
+	 * Pokusí se o získání objektu v JSON souboru.
+	 * @param[in] p Cesta k JSON souboru.
+	 * @return Kořenový JSON objekt.
+	 */
 	nl::json getRoot(const fs::path& p);
+	/**
+	 * Vyhodí výjimku při chybě během otevírání souboru.
+	 * @param[in] p Cesta k souboru.
+	 */
+	void throwCouldNotOpen(const fs::path& p);
+	/**
+	 * Vyhodí výjimku, když hledaný klíč v JSON objektu neexistuje.
+	 * @param[in] key Klíč.
+	 * @param[in] path Cesta původního JSON souboru.
+	 */
 	void throwMissingKey(const std::string& key, const fs::path& path);
 
 	template<typename T>

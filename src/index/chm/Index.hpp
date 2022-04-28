@@ -93,7 +93,7 @@ namespace chm {
 		/**
 		 * Zpracuje kolekci dotazů.
 		 * @param[in] arr Kolekce dotazů.
-		 * @param[in] k Počet sousedů hledaných pro každý dotaz.
+		 * @param[in] k Počet hledaných sousedů pro každý dotaz.
 		 * @return Výsledek hledání.
 		 */
 		KnnResults queryBatch(const FloatArray& arr, const uint k);

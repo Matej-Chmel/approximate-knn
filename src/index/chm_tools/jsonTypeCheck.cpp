@@ -15,7 +15,7 @@ namespace chm {
 		std::ifstream s(p);
 
 		if(!s.is_open())
-			throw std::runtime_error(("Could not open file "_f << p << '.').str());
+			throwCouldNotOpen(p);
 
 		const auto res = nl::json::parse(std::string(
 			std::istreambuf_iterator(s), std::istreambuf_iterator<char>())
@@ -26,6 +26,10 @@ namespace chm {
 				configStream(p) << "Root element must be an JSON object."
 			).str());
 		return res;
+	}
+
+	void throwCouldNotOpen(const fs::path& p) {
+		throw std::runtime_error(("Could not open file "_f << p << '.').str());
 	}
 
 	void throwMissingKey(const std::string& key, const fs::path& path) {
