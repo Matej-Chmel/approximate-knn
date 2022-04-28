@@ -61,7 +61,7 @@ var NAVTREEINDEX =
 "_bruteforce_8cpp.html",
 "classchm_1_1_index.html#a271f8653dce0d69c2b58cdf9b4890204",
 "classchm_1_1_visited_set.html#ad489a1c9096bc95d78104f2440e9bc6d",
-"structchm_1_1_far_comparator.html#a3de018ebc50033346f3ae2651f95b7a6"
+"structchm_1_1_float_array.html"
 ];
 
 var SYNCONMSG = 'zakázat synchronizaci panelů';

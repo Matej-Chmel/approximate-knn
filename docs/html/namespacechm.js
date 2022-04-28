@@ -1,8 +1,5 @@
 var namespacechm =
 [
-    [ "literals", "namespacechm_1_1literals.html", [
-      [ "operator\"\"_f", "namespacechm_1_1literals.html#a4f526f252896b7204ab2766e6d856f5f", null ]
-    ] ],
     [ "AbstractRecallTable", "structchm_1_1_abstract_recall_table.html", "structchm_1_1_abstract_recall_table" ],
     [ "Bruteforce", "classchm_1_1_bruteforce.html", "classchm_1_1_bruteforce" ],
     [ "Configuration", "classchm_1_1_configuration.html", "classchm_1_1_configuration" ],
@@ -58,7 +55,7 @@ var namespacechm =
       [ "EUCLIDEAN", "namespacechm.html#a95dbf9aaea0c82a192fc3cc7a04d145cab142d642e537e694b9314e1a56835f8d", null ],
       [ "INNER_PRODUCT", "namespacechm.html#a95dbf9aaea0c82a192fc3cc7a04d145ca5dbd0030546e2ee560ccd7c5e4bfcfc8", null ]
     ] ],
-    [ "configStream", "namespacechm.html#a73af4ed17794030e7e6408cc4810343f", null ],
+    [ "configStream", "namespacechm.html#a7280a4dc64b0b4b4ed99fdc77b05d390", null ],
     [ "convert", "namespacechm.html#a70351cfb4304d858e3afd3d503ae7547", null ],
     [ "euclideanDistance", "namespacechm.html#a916adb6bae694df421c08bf5497872c7", null ],
     [ "euclideanDistance16AVX", "namespacechm.html#aa64ca5c0512021227b6e8edf530639fc", null ],
@@ -112,6 +109,7 @@ var namespacechm =
     [ "readBinary", "namespacechm.html#a50760324a643e3194a68de17c8fee9f7", null ],
     [ "throwCouldNotOpen", "namespacechm.html#a99a4302b3f1ca44fe0adeed8481d245b", null ],
     [ "throwMissingKey", "namespacechm.html#adef5e055777c7f899183495af08d6092", null ],
+    [ "throwWrongType", "namespacechm.html#ae185f7609366cc4d28ec4998c105b27e", null ],
     [ "writeBinary", "namespacechm.html#a523752b936dabd4786681595b881ab58", null ],
     [ "writeBinary", "namespacechm.html#afe2727ec5dcd9c4df16a408c34bc8716", null ],
     [ "writeDescription", "namespacechm.html#a6c4d9005ff10e2b36f9fe99355d66906", null ],

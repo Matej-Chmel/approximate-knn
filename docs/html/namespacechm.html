@@ -83,7 +83,6 @@ $(document).ready(function(){initNavTree('namespacechm.html',''); initResizable(
 
 <div class="header">
   <div class="summary">
-<a href="#namespaces">Jmenné prostory</a> &#124;
 <a href="#nested-classes">Třídy</a> &#124;
 <a href="#typedef-members">Definice typů</a> &#124;
 <a href="#enum-members">Výčty</a> &#124;
@@ -93,11 +92,6 @@ $(document).ready(function(){initNavTree('namespacechm.html',''); initResizable(
 </div><!--header-->
 <div class="contents">
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
-Jmenné prostory</h2></td></tr>
-<tr class="memitem:namespacechm_1_1literals"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacechm_1_1literals.html">literals</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Třídy</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structchm_1_1_abstract_recall_table.html">AbstractRecallTable</a></td></tr>
@@ -307,14 +301,16 @@ Funkce</h2></td></tr>
 <tr class="memitem:aa9c7cd9ebb9502f0e9c6c417dd6bee1f"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
 <tr class="memitem:aa9c7cd9ebb9502f0e9c6c417dd6bee1f"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacechm.html#aa9c7cd9ebb9502f0e9c6c417dd6bee1f">writeDescription</a> (std::ostream &amp;s, const std::vector&lt; T &gt; &amp;v, const std::string &amp;name, const std::streamsize decimalPlaces)</td></tr>
 <tr class="separator:aa9c7cd9ebb9502f0e9c6c417dd6bee1f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a73af4ed17794030e7e6408cc4810343f"><td class="memItemLeft" align="right" valign="top">std::stringstream&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacechm.html#a73af4ed17794030e7e6408cc4810343f">configStream</a> (const fs::path &amp;p)</td></tr>
-<tr class="separator:a73af4ed17794030e7e6408cc4810343f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7280a4dc64b0b4b4ed99fdc77b05d390"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacechm.html#a7280a4dc64b0b4b4ed99fdc77b05d390">configStream</a> (const fs::path &amp;p)</td></tr>
+<tr class="separator:a7280a4dc64b0b4b4ed99fdc77b05d390"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4e474449f1399b3e1d2ca7f2ea1c1a1f"><td class="memItemLeft" align="right" valign="top">nl::json&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacechm.html#a4e474449f1399b3e1d2ca7f2ea1c1a1f">getRoot</a> (const fs::path &amp;p)</td></tr>
 <tr class="separator:a4e474449f1399b3e1d2ca7f2ea1c1a1f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a99a4302b3f1ca44fe0adeed8481d245b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacechm.html#a99a4302b3f1ca44fe0adeed8481d245b">throwCouldNotOpen</a> (const fs::path &amp;p)</td></tr>
 <tr class="separator:a99a4302b3f1ca44fe0adeed8481d245b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adef5e055777c7f899183495af08d6092"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacechm.html#adef5e055777c7f899183495af08d6092">throwMissingKey</a> (const std::string &amp;key, const fs::path &amp;path)</td></tr>
 <tr class="separator:adef5e055777c7f899183495af08d6092"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae185f7609366cc4d28ec4998c105b27e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacechm.html#ae185f7609366cc4d28ec4998c105b27e">throwWrongType</a> (const std::string &amp;key, const nl::json &amp;val, const std::string &amp;expectedType, const fs::path &amp;path)</td></tr>
+<tr class="separator:ae185f7609366cc4d28ec4998c105b27e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab5c6492dd34815f65c0b8fd4d8b62cd3"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
 <tr class="memitem:ab5c6492dd34815f65c0b8fd4d8b62cd3"><td class="memTemplItemLeft" align="right" valign="top">std::vector&lt; T &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacechm.html#ab5c6492dd34815f65c0b8fd4d8b62cd3">getJSONArray</a> (const nl::json &amp;obj, const std::string &amp;key, const fs::path &amp;path)</td></tr>
 <tr class="separator:ab5c6492dd34815f65c0b8fd4d8b62cd3"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -615,14 +611,14 @@ template&lt;typename T &gt; </div>
 </div>
 </div>
 <h2 class="groupheader">Dokumentace funkcí</h2>
-<a id="a73af4ed17794030e7e6408cc4810343f" name="a73af4ed17794030e7e6408cc4810343f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a73af4ed17794030e7e6408cc4810343f">&#9670;&nbsp;</a></span>configStream()</h2>
+<a id="a7280a4dc64b0b4b4ed99fdc77b05d390" name="a7280a4dc64b0b4b4ed99fdc77b05d390"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7280a4dc64b0b4b4ed99fdc77b05d390">&#9670;&nbsp;</a></span>configStream()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">std::stringstream chm::configStream </td>
+          <td class="memname">std::string chm::configStream </td>
           <td>(</td>
           <td class="paramtype">const fs::path &amp;&#160;</td>
           <td class="paramname"><em>p</em></td><td>)</td>
@@ -636,7 +632,7 @@ template&lt;typename T &gt; </div>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Návratová hodnota</dt><dd>Stream obsahující chybový text. </dd></dl>
+<dl class="section return"><dt>Návratová hodnota</dt><dd>Chybový text. </dd></dl>
 
 </div>
 </div>
@@ -3384,6 +3380,55 @@ template&lt;typename T &gt; </div>
 <p >Vyhodí výjimku, když hledaný klíč v JSON objektu neexistuje. </p><dl class="params"><dt>Parametry</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">key</td><td>Klíč. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">path</td><td>Cesta původního JSON souboru. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ae185f7609366cc4d28ec4998c105b27e" name="ae185f7609366cc4d28ec4998c105b27e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae185f7609366cc4d28ec4998c105b27e">&#9670;&nbsp;</a></span>throwWrongType()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void chm::throwWrongType </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>key</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const nl::json &amp;&#160;</td>
+          <td class="paramname"><em>val</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>expectedType</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const fs::path &amp;&#160;</td>
+          <td class="paramname"><em>path</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p >Vyhodí výjimku, když hodnota v JSON objektu není správného typu. </p><dl class="params"><dt>Parametry</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">key</td><td>Klíč hodnoty. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">val</td><td>Hodnota. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">expectedType</td><td>Očekávaný typ. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">path</td><td>Cesta původního JSON souboru. </td></tr>
   </table>
   </dd>
