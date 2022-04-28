@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.0)
+cmake_minimum_required(VERSION 3.6)
 
 project(approximate-knn-index)
 
@@ -23,3 +23,5 @@ add_executable(recallTable executables/recallTable.cpp)
 target_compile_definitions(recallTable PRIVATE SRC_DIR="${CMAKE_SOURCE_DIR}/..")
 target_include_directories(recallTable PUBLIC "${PROJECT_BINARY_DIR}" "${PROJECT_SOURCE_DIR}")
 target_link_libraries(recallTable PUBLIC chmLib)
+
+set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT recallTable)

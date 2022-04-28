@@ -11,7 +11,7 @@ Všechny cesty uvedené v tomto souboru jsou relativní k cestě složky, která
 Cesty k následujícím požadovaným programům a balíčkům musí být obsaženy v proměnné prostředí `PATH`.
 
 ### Windows 10
-- [CMake](https://cmake.org/download/), verze 3.0 nebo vyšší
+- [CMake](https://cmake.org/download/), verze 3.6 nebo vyšší
 - [Docker Desktop](https://www.docker.com/get-started/)
 - Překladač jazyka C++17 nebo [Visual Studio 2022](https://visualstudio.microsoft.com/cs/free-developer-offers/) s nainstalovaným doplňkem kompilátoru MSVC
 - [Python](https://www.python.org/downloads/release/python-3912/), verze 3.9
@@ -62,7 +62,7 @@ python3.9 docs/openDocs.py
 py -3.9 RUNME.py
 ```
 
-Tento skript provede následující.
+Odhadovaná doba běhu skriptu je kolem 10 minut. Tento skript provede následující.
 
 - Vytvoří virtuální prostředí interpretu Python ve složce `.venv`.
 - Vytvoří nativní C++ řešení ve složce `src/cmakeBuild`.
@@ -92,4 +92,4 @@ Dokumentaci můžete také zobrazit otevřením souboru `docs/html/index.html` v
 
 ## Podrobná dokumentace
 
-Více informací obsahuje dokument `Podrobná uživatelská dokumentace.pdf`.
+Dokument `Podrobná uživatelská dokumentace.pdf` obsahuje informace o sestavení nativní knihovny a spuštění jiné konfigurace srovnání implementací.
