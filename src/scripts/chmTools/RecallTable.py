@@ -1,7 +1,7 @@
 import chm_hnsw as h
 from dataclasses import dataclass
 from .Dataset import Dataset
-from .jsonTypeCheck import getDictValue, getRoot
+from .jsonTypeCheck import configStr, getDictValue
 import pandas
 from pathlib import Path
 from .runner import AppError
@@ -46,11 +46,8 @@ class RecallTableConfig:
 		}[self.indexTemplate]
 
 	@classmethod
-	def listFromJSON(cls, p: Path):
-		return [
-			cls.fromDict(item, p)
-			for item in getDictValue(getRoot(p, dict), "index", list, p, dict)
-		]
+	def listFromJSONArray(cls, arr: list, jsonPath: Path):
+		return [cls.fromDict(item, jsonPath) for item in arr]
 
 def getPrettyElapsedStr(elapsedNS: int):
 	return str(pandas.Timedelta(nanoseconds=elapsedNS))
@@ -88,8 +85,26 @@ class RecallTable:
 		])
 
 	@classmethod
+	def fromDict(cls, cfg: RecallTableConfig, dataDir: Path, dataset: dict, jsonPath: Path):
+		return cls(cfg, Dataset.fromDict(dataset, jsonPath
+		).generateAndWrite(cfg.dataset, dataDir))
+
+	@classmethod
 	def fromHDF(cls, cfg: RecallTableConfig, datasetPath: Path):
 		return cls(cfg, Dataset.fromHDF(datasetPath))
+
+	@classmethod
+	def getTable(cls, cfg: RecallTableConfig, dataDir: Path, datasets: list, jsonPath: Path):
+		try:
+			return cls.fromHDF(cfg, (dataDir / cfg.dataset).with_suffix(".hdf5"))
+		except FileNotFoundError:
+			try:
+				return cls.fromDict(
+					cfg, dataDir,
+					next(d for d in datasets if d["name"] == cfg.dataset), jsonPath
+				)
+			except StopIteration:
+				raise AppError(f"{configStr(jsonPath)}: Dataset '{cfg.dataset}' not found.")
 
 	def run(self):
 		self.benchmarks = []

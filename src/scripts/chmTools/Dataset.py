@@ -75,6 +75,7 @@ class Dataset:
 		if self.generated:
 			return
 
+		print("Generating dataset.")
 		self.train = generateData(self.trainCount, self.dim, self.seed)
 		self.test = generateData(self.testCount, self.dim, self.seed + 1)
 		self.neighbors = getNeighbors(self.angular, self.k, self.test, self.train).astype(np.uint32)
@@ -94,6 +95,8 @@ class Dataset:
 		with hdf.File(hdfPath, "w") as f:
 			self.writeHDF(f)
 		print(f"Wrote HDF dataset to {hdfPath}.")
+
+		return self
 
 	def getDescription(self):
 		return "\n".join([
