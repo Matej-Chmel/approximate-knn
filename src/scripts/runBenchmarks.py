@@ -91,7 +91,7 @@ class Config:
 
 		if workers > cpuCount:
 			raise AppError(
-				"Number of Docker workers larger number of available CPUs."
+				"Number of Docker workers larger than number of available CPUs.\n"
 				f"CPU count: {cpuCount}, workers: {workers}."
 			)
 
