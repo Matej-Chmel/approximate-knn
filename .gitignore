@@ -9,7 +9,6 @@ __pycache__
 /src/figures
 /src/index/build
 /src/index/chm_hnsw.egg-info
-/src/index/CMakeLists.txt
 /src/index/dist
 /src/index/LICENSE
 /src/index/tmp

@@ -6,24 +6,45 @@ Všechny cesty uvedené v tomto souboru jsou relativní k cestě složky, která
 
 ## Systémové požadavky
 - 64bitový operační systém Linux nebo Windows 10
-- CMake, verze 3.0 nebo vyšší
-- Docker
 - Internetové připojení
-- Překladač C++17
-- Python, verze 3.9
 
-Cesty k požadovaným programům musí být obsaženy v proměnné prostředí `PATH`.
+Cesty k následujícím požadovaným programům a balíčkům musí být obsaženy v proměnné prostředí `PATH`.
 
-### Další potřebné balíčky na OS Linux
- - build-essential
- - python3.9-dev
- - python3.9-venv
+### Windows 10
+- [CMake](https://cmake.org/download/), verze 3.0 nebo vyšší
+- [Docker Desktop](https://www.docker.com/get-started/)
+- Překladač jazyka C++17 nebo [Visual Studio 2022](https://visualstudio.microsoft.com/cs/free-developer-offers/) s nainstalovaným doplňkem kompilátoru MSVC
+- [Python](https://www.python.org/downloads/release/python-3912/), verze 3.9
 
-Pokud používáte APT, využijte následující kód.
+### Linux
+Následující seznam balíčků byl otestován na OS Linux Mint 20.3 Xfce. Pro jiné distribuce použijte jejich ekvivalenty.
 
-```none
-apt install build-essential cmake python3.9-dev python3.9-venv
+- build-essential
+- cmake
+- docker.io
+- python3.9-dev
+- python3.9-venv
+
+Pokud používáte APT, využijte následující příkaz.
+
+```bash
+apt -y install build-essential cmake docker.io python3.9-dev python3.9-venv
 ```
+
+Pro úspěšné spuštění služby Docker spusťte následující sadu příkazů.
+
+```bash
+sudo groupadd docker
+sudo usermod -aG docker $USER
+```
+
+Poté restartujte zařízení. Funkčnost služby Docker ověříte spuštěním následujícího příkazu.
+
+```bash
+docker run hello-world
+```
+
+Pokud příkaz neproběhl v pořádku, obraťte se na [dokumentaci služby Docker](https://docs.docker.com/engine/install/linux-postinstall/).
 
 ## Ukázka
 
@@ -31,6 +52,7 @@ apt install build-essential cmake python3.9-dev python3.9-venv
 2. Spusťte skript `RUNME.py` pomocí interpretu Python verze 3.9.
 
 *OS Linux*
+
 ```none
 python3.9 docs/openDocs.py
 ```

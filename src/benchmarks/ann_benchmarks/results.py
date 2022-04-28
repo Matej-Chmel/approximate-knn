@@ -37,6 +37,7 @@ def store_results(dataset, count, definition, efSearch, attrs, results, batch):
 			neighbors[i] = [n for n, _ in ds] + [-1] * (count - len(ds))
 			distances[i] = [d for _, d in ds] + [float('inf')] * (count - len(ds))
 
+	os.umask(0)
 	os.chmod(fn, mode=0o777)
 
 def load_all_results(dataset=None, count=None, batch_mode=False):
