@@ -6,7 +6,7 @@ Všechny cesty uvedené v tomto souboru jsou relativní k cestě složky, která
 
 ## Nativní knihovna
 
-Pokud neplánujete používat skripty v jazyce Python, můžete sestavit nativní knihovnu samostatně pomocí následujících příkazů. Vygenerované řešení nebude využívat SIMD instrukcí. Pokud těchto instrukcí chcete využít, vygenerujte řešení pomocí skriptu `src/scripts/buildProject.py`.
+Pokud neplánujete používat skripty v jazyce Python, můžete sestavit nativní knihovnu samostatně pomocí následujících příkazů. 
 
 ```bash
 mkdir src/cmakeBuild
@@ -14,6 +14,8 @@ cd src/cmakeBuild
 cmake -DCMAKE_BUILD_TYPE=Release ../index
 cmake --build . --config Release
 ```
+
+Vygenerované řešení nebude využívat SIMD instrukcí. Pokud těchto instrukcí chcete využít, vygenerujte řešení pomocí skriptu `src/scripts/buildProject.py`.
 
 Řešení bude vytvořeno ve složce `src/cmakeBuild`. V každém systému vypadají soubory řešení jinak. Např. při použití Windows s Visual Studiem je řešením `.sln` soubor a projekty jsou `.vcxproj` soubory. Pro spuštění projektů je doporučena konfigurace `Release`. Řešení obsahuje dva projekty.
 
@@ -23,11 +25,11 @@ cmake --build . --config Release
   | -------- | ------------------------------------------ | ------------------------ |
   | První    | Cesta ke konfiguračnímu souboru typu JSON. | `src/config/config.json` |
 
-- *datasetToText* - Vypíše textový popis datové kolekce do souboru. Slouží pro ověření konzistence mezi binárními a HDF5 soubory. Název datového souboru je prvním parametrem programu. Výchozí hodnotou je `angular-small`.
+- *datasetToText* - Vypíše textový popis datové kolekce ze složky `src/data` do souboru. Slouží pro ověření konzistence mezi binárními a HDF5 soubory. Název datového souboru je prvním parametrem programu. Výchozí hodnotou je `angular-small`.
 
 ## JSON Konfigurace
 
-Pro změnu sestavovaných konfigurací programy `recallTable.cpp` a `recallTable.py` upravte soubor `src/config/config.json`. V souboru je jediný JSON objekt, který obsahuje dva povinné klíče.
+Pro změnu sestavovaných konfigurací programy `recallTable.cpp` a `recallTable.py` upravte soubor s konfiguracemi. Výchozím souborem je `src/config/config.json`. V souboru je jediný JSON objekt, který obsahuje dva povinné klíče.
 
 ```json
 {
@@ -70,15 +72,15 @@ Klíč `datasets` je pole objektů, kde každý objekt popisuje jeden datový so
 
 Klíč `index` je pole objektů, kde každý objekt popisuje jednu konfiguraci indexu.
 
-| Klíč           | Typ hodnoty | Význam                                                       |
-| :------------- | :---------- | :----------------------------------------------------------- |
-| dataset        | string      | Identifikace datového souboru. Odpovídá klíči `name` v souboru `src/config/debugDatasets.json`. |
-| efConstruction | int         | Počet uvažovaných sousedů při vytváření nových hran v indexu. |
-| efSearch       | array       | Pole hodnot parametru vyhledávání ef<sub>search</sub>.       |
-| mMax           | int         | Maximální povolený počet sousedů jednoho prvku v indexu na vrstvě vyšší než vrstva 0. |
-| seed           | int         | Nastavení generátoru náhodných úrovní v indexu.              |
-| SIMD           | string      | Upřednostňovaný typ SIMD instrukcí. Možnosti jsou `avx`, `avx512`, `best`, `null`, a `sse`.* |
-| template       | string      | Šablona indexu. Možnosti jsou `Heuristic`, `Naive`, `NoBitArray` a `Prefetching`. |
+| Klíč           | Typ hodnoty   | Význam                                                       |
+| :------------- | :------------ | :----------------------------------------------------------- |
+| dataset        | string        | Identifikace datového souboru. Odpovídá klíči `name` v tabulce výše. |
+| efConstruction | int           | Počet uvažovaných sousedů při vytváření nových hran v indexu. |
+| efSearch       | array         | Pole hodnot parametru vyhledávání ef<sub>search</sub>.       |
+| mMax           | int           | Maximální povolený počet sousedů jednoho prvku v indexu na vrstvě vyšší než vrstva 0. |
+| seed           | int           | Nastavení generátoru náhodných úrovní v indexu.              |
+| SIMD           | string / null | Upřednostňovaný typ SIMD instrukcí. Možnosti jsou `"avx"`, `"avx512"`, `"best"`, `null`, a `"sse"`.* |
+| template       | string        | Šablona indexu. Možnosti jsou `Heuristic`, `Naive`, `NoBitArray` a `Prefetching`. |
 
 \* Zvolením hodnoty `best` zvolíte nejmodernější dostupné SIMD rozšíření. Hodnotou `null` zakážete použití SIMD instrukcí.
 
@@ -127,25 +129,23 @@ source ./.venv/bin/activate
 
 ## Srovnání implementací
 
-Skript `src/runBenchmarks.py` spustí srovnání implementací v jednom nebo více Docker kontejnerech, vypočítá výkonnostní metriku, vygeneruje webovou stránku s výsledky a otevře ji v nové kartě internetového prohlížeče. Kód vygenerované stránky lze poté najít ve složce `src/website` a můžete ji opětovně zobrazit otevřením souboru `index.html`.
+Skript `src/runBenchmarks.py` spustí srovnání implementací v jednom nebo více Docker kontejnerech, vypočítá výkonnostní metriky, vygeneruje webovou stránku s výsledky a otevře ji v nové kartě internetového prohlížeče. Kód vygenerované stránky lze poté najít ve složce `src/website` a můžete ji opětovně zobrazit otevřením souboru `src/website/index.html`.
 
 *Před spuštěním se ujistěte, že je služba Docker zapnutá.*
 
 | Parametr, zkratka                       | Význam                                                       |
 | --------------------------------------- | ------------------------------------------------------------ |
-| &#x2011;&#x2011;algoDefPaths, &#x2011;a | Vyžadován. Seznam cest ke konfiguračním souborům oddělených mezerami. O konfiguraci se více dočtete v kapitole `Konfigurace srovnání`. |
+| &#x2011;&#x2011;algoDefPaths, &#x2011;a | Vyžadován. Seznam cest ke konfiguračním souborům oddělených mezerami. O konfiguraci se více dočtete níže v kapitole `Konfigurace srovnání`. |
 | &#x2011;&#x2011;datasets, &#x2011;d     | Vyžadován\*. Seznam datových souborů oddělených mezerami.    |
 | &#x2011;&#x2011;datasetsPath, &#x2011;p | Vyžadován\*. Cesta k textovému souboru se seznamem datových souborů. |
-| &#x2011;&#x2011;force, &#x2011;f        | Spustí již provedená měření znovu.&#x2011;                   |
+| &#x2011;&#x2011;force, &#x2011;f        | Spustí již provedená měření znovu.                           |
 | &#x2011;&#x2011;runs, &#x2011;r         | Počet opakování měření. Výchozí hodnota je 1.                |
 | &#x2011;&#x2011;workers, &#x2011;w      | Počet paralelně spuštěných Docker kontejnerů. Výchozí hodnota je 1. |
 
-\* Pouze jeden z parametrů označených hvězdičkou by měl být uveden.
-
-Datové soubory využité ke srovnání nejsou ty samé, které jsou využívány k debugování nativní knihovny. Jejich seznam najdete v kapitole `Testované datové soubory`. Příklad spuštění:
+\* Pouze jeden z parametrů označených hvězdičkou by měl být uveden. Datové soubory využité ke srovnání nejsou ty samé, které jsou využívány k testování nativní knihovny. Jejich seznam najdete v kapitole `Porovnávané datové soubory`. Příklad spuštění:
 
 ```bash
-python runBenchmarks.py -a ..\config\noBit.yaml -f -p ..\config\datasets.txt -r 5 -w 2
+python runBenchmarks.py -a ../config/noBitVsPrefetch.yaml -f -p ../config/selectedDatasets.txt -r 5 -w 2
 ```
 
 ## Konfigurace srovnání
@@ -171,21 +171,21 @@ efSearch: [10, 12, 14, 16, 18, 20, 25, 30, 40, 80] # Povinné pole hodnot parame
 
 Definované implementace popisuje následující tabulka.
 
-| Název implementace        | Druh implementace | Šablona     | SIMD rozšíření         |
-| ------------------------- | ----------------- | ----------- | ---------------------- |
-| original                  | Původní hnswlib   |             | Nejmodernější dostupné |
-| new&#x2011;avx            | Nová              | Heuristic   | AVX                    |
-| new&#x2011;avx&#x2011;512 | Nová              | Heuristic   | AVX&#x2011;512         |
-| new&#x2011;heuristic      | Nová              | Heuristic   | Nejmodernější dostupné |
-| new&#x2011;naive          | Nová              | Naive       | Nejmodernější dostupné |
-| new&#x2011;no&#x2011;bit  | Nová              | NoBitArray  | Nejmodernější dostupné |
-| new&#x2011;no&#x2011;simd | Nová              | Heuristic   | Žádné                  |
-| new&#x2011;prefetch       | Nová              | Prefetching | Nejmodernější dostupné |
-| new&#x2011;sse            | Nová              | Heuristic   | SSE                    |
+| Název implementace        | Druh implementace                                            | Šablona     | SIMD rozšíření         |
+| ------------------------- | ------------------------------------------------------------ | ----------- | ---------------------- |
+| original                  | Původní [hnswlib](https://github.com/nmslib/hnswlib/releases/tag/v0.6.2) |             | Nejmodernější dostupné |
+| new&#x2011;avx            | Nová                                                         | Heuristic   | AVX nebo AVX2          |
+| new&#x2011;avx&#x2011;512 | Nová                                                         | Heuristic   | AVX&#x2011;512         |
+| new&#x2011;heuristic      | Nová                                                         | Heuristic   | Nejmodernější dostupné |
+| new&#x2011;naive          | Nová                                                         | Naive       | Nejmodernější dostupné |
+| new&#x2011;no&#x2011;bit  | Nová                                                         | NoBitArray  | Nejmodernější dostupné |
+| new&#x2011;no&#x2011;simd | Nová                                                         | Heuristic   | Žádné                  |
+| new&#x2011;prefetch       | Nová                                                         | Prefetching | Nejmodernější dostupné |
+| new&#x2011;sse            | Nová                                                         | Heuristic   | SSE                    |
 
-Popis šablon obsahuje kapitola `Šablony nové implementace`.
+Popis šablon obsahuje kapitola `Šablony nové implementace` výše.
 
-## Testované datové soubory
+## Porovnávané datové soubory
 
 Pro srovnání implementací je možno využít následujících datových souborů.
 
@@ -220,25 +220,25 @@ Následuje seznam dalších skriptů ve složce `src/scripts`.
 
 | Název skriptu        | Stručný popis skriptu                                        |
 | -------------------- | ------------------------------------------------------------ |
-| buildProject         | Vytvoří virtuální prostředí, nativní C++ řešení a jeho Python rozhraní. |
+| buildProject         | Vytvoří virtuální prostředí, datové soubory pro testování, nativní C++ řešení a jeho Python rozhraní. |
 | clean                | Odstraní vygenerované soubory a vrátí projekt do původního stavu. |
-| datasetGenerator     | Vygeneruje datové soubory pro debugování.                    |
+| datasetGenerator     | Vygeneruje datové soubory pro testování.                     |
 | datasetToText        | Převede datový soubor do textového formátu.                  |
-| formatCMakeTemplates | Vygeneruje CMakeLists.txt.                                   |
-| generateTables       | Vygeneruje LaTeX tabulky podobné těm, které jsou v bakalářské práci. |
+| formatCMakeTemplates | Vygeneruje `src/index/CMakeLists.txt`.                       |
+| generateTables       | Vygeneruje LaTeX tabulky podobné těm, které jsou uvedeny v bakalářské práci. |
 | latexTable           | Vygeneruje LaTeX tabulku na základě výsledků srovnání.       |
 | runRecallTable       | Postaví nový index a zobrazí tabulku závislosti přesnosti na parametru vyhledávání ef<sub>search</sub>. |
-| SIMDCapability       | Zobrazí SIMD rozšíření instrukční sady procesoru, která jsou k dispozici. |
+| SIMDCapability       | Zobrazí dostupná SIMD rozšíření instrukční sady procesoru.   |
 
 ## Podrobný popis skriptů
 
-U každého skriptu je uveden jeho účel, parametry a příklad spuštění. Pokud skript obsahuje alespoň jeden parametr, pak použitím parametru `--help` nebo `-h` zobrazíte nápovědu v anglickém jazyce.
+U každého skriptu je uveden jeho účel, parametry a příklad spuštění. Pokud skript obsahuje alespoň jeden parametr, pak použitím parametru `--help` nebo `-h` zobrazíte nápovědu v anglickém jazyce. Každý skript se nachází ve složce `src/scripts`.
 
 ### buildProject
 
-Tento skript lze spustit bez virtuálního prostředí.
+*Tento skript lze spustit bez virtuálního prostředí.*
 
-Vytvoří virtuální prostředí interpretu Python, stáhne potřebné softwarové balíčky, vygeneruje nativní C++ řešení pro knihovnu nového indexu, vytvoří rozhraní v jazyce Python pro nový index a otestuje funkčnost tohoto indexu spuštěním skriptu `runRecallTable`.
+Vytvoří virtuální prostředí interpretu Python, stáhne potřebné moduly, vygeneruje datové soubory pro testování, nativní C++ řešení pro knihovnu nového indexu, rozhraní v jazyce Python pro nový index a otestuje funkčnost tohoto indexu spuštěním skriptu `runRecallTable`.
 
 | Parametr, zkratka                              | Význam                                                       |
 | ---------------------------------------------- | ------------------------------------------------------------ |
@@ -254,9 +254,9 @@ py -3.9 buildProject.py --clean --cleanResults
 
 ### clean
 
-Tento skript lze spustit bez virtuálního prostředí.
+*Tento skript lze spustit bez virtuálního prostředí.*
 
-Odstraní datové soubory pro debugování, C++ nativní řešení a Python rozhraní. Pokud je spuštěn mimo virtuální prostředí, pak odstraní toto prostředí. Naměřené výsledky odstraněny nebudou, pokud o to uživatel nepožádá.
+Odstraní datové soubory pro testování, C++ nativní řešení a Python rozhraní. Pokud je spuštěn mimo virtuální prostředí ve složce `.venv`, pak odstraní toto prostředí. Naměřené výsledky odstraněny nebudou, pokud o to uživatel nepožádá. Skript nikdy neodstraní velké datové kolekce ve složce `src/benchmarks/data`.
 
 | Parametr, zkratka                  | Význam                                                       |
 | ---------------------------------- | ------------------------------------------------------------ |
@@ -270,7 +270,7 @@ python clean.py --results
 
 ### datasetGenerator
 
-Vygeneruje datové soubory pro debugování. O konfiguraci tohoto skriptu se více dočtete výše v kapitole `JSON Konfigurace`.
+Vygeneruje datové soubory pro testování. O konfiguraci tohoto skriptu se více dočtete výše v kapitole `JSON Konfigurace`.
 
 | Parametr, zkratka                 | Význam                                     | Výchozí hodnota          |
 | --------------------------------- | ------------------------------------------ | ------------------------ |
@@ -279,7 +279,7 @@ Vygeneruje datové soubory pro debugování. O konfiguraci tohoto skriptu se ví
 Příklad spuštění:
 
 ```bash
-python datasetGenerator.py
+python datasetGenerator.py -c ../config/dimensions.json
 ```
 
 ### datasetToText
@@ -308,12 +308,12 @@ python formatCMakeTemplates.py
 
 ### generateTables
 
-Vygeneruje LaTeX tabulky podobné těm, které jsou v bakalářské práci, ale pouze v případě, že jsou pro ně dostupné naměřené výsledky. Tyto výsledky lze získat spuštěním následujících příkazů. Avšak tato měření mohou trvat více než 12 hodin.
+Vygeneruje LaTeX tabulky podobné těm, které jsou uvedeny v bakalářské práci, ale pouze v případě, že jsou pro ně dostupné naměřené výsledky. Tyto výsledky lze získat spuštěním následujících příkazů. Avšak tato měření mohou trvat více než 12 hodin.
 
 ```bash
-python runBenchmarks.py -a ..\config\heuristic.yaml ..\config\naive.yaml -d lastfm-64-dot -r 5
-python runBenchmarks.py -a ..\config\heuristic.yaml ..\config\prefetch.yaml -d glove-50-angular -r 5
-python runBenchmarks.py -a ..\config\original.yaml ..\config\prefetch.yaml -d sift-128-euclidean -r 5
+python runBenchmarks.py -a ../config/heuristicVsNaive.yaml -d lastfm-64-dot -r 5
+python runBenchmarks.py -a ../config/heuristicVsPrefetch.yaml -d glove-50-angular -r 5
+python runBenchmarks.py -a ../config/originalVsPrefetch.yaml -d sift-128-euclidean -r 5
 python generateTables.py
 ```
 
@@ -336,22 +336,26 @@ Vygeneruje jednu LaTeX tabulku na základě výsledků srovnání implementací.
 Příklad spuštění:
 
 ```bash
-python latexTable.py -a new-prefetch original -d sift-128-euclidean -le "Nová impl." "Původní impl." -o ..\figures\table.tex -p
+python latexTable.py -a new-prefetch original -d sift-128-euclidean -le "Nová impl." "Původní impl." -o ../figures/table.tex -p
 ```
 
 ### runRecallTable
 
-Postaví index nové implementace a vyhledá v něm nejbližší sousedy s různými hodnotami parametru vyhledávání ef<sub>search</sub>. Poté vypíše tabulku závislosti přesnosti vyhledávání na tomto parametru. Konfigurace tohoto skriptu se nachází v souboru `src/config/recallTable.json` a více se o ní dočtete v kapitole `Konfigurace programů recallTable`.
+Postaví index nové implementace a vyhledá v něm nejbližší sousedy s různými hodnotami parametru vyhledávání ef<sub>search</sub>. Poté vypíše tabulku závislosti přesnosti vyhledávání na tomto parametru. O konfiguraci tohoto skriptu se více dočtete výše v kapitole `JSON Konfigurace`.
+
+| Parametr, zkratka                 | Význam                                     | Výchozí hodnota          |
+| --------------------------------- | ------------------------------------------ | ------------------------ |
+| &#x2011;&#x2011;config, &#x2011;c | Cesta ke konfiguračnímu souboru typu JSON. | `src/config/config.json` |
 
 Příklad spuštění:
 
 ```bash
-python runRecallTable.py
+python runRecallTable.py -c ../config/dimensions.json
 ```
 
 ### SIMDCapability
 
-Zobrazí SIMD rozšíření instrukční sady procesoru, která jsou k dispozici. Využívána ostatními skripty pro vygenerování správných maker v jazyce C++.
+Zobrazí dostupná SIMD rozšíření instrukční sady procesoru. Tento skript je také využíván ostatními skripty pro vygenerování správných maker pro konfiguraci programu CMake.
 
 Příklad spuštění:
 

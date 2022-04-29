@@ -1,0 +1,29 @@
+algos:
+  - new-no-bit
+  - new-prefetch
+build:
+  - efConstruction: 100
+    mMax: 4
+  - efConstruction: 100
+    mMax: 16
+  - efConstruction: 100
+    mMax: 32
+  - efConstruction: 100
+    mMax: 48
+  - efConstruction: 300
+    mMax: 4
+  - efConstruction: 300
+    mMax: 16
+  - efConstruction: 300
+    mMax: 32
+  - efConstruction: 300
+    mMax: 48
+  - efConstruction: 500
+    mMax: 4
+  - efConstruction: 500
+    mMax: 16
+  - efConstruction: 500
+    mMax: 32
+  - efConstruction: 500
+    mMax: 48
+efSearch: [10, 20, 40, 80, 120, 200, 400, 600, 800, 1000, 1500]

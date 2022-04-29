@@ -54,7 +54,7 @@ Pokud příkaz neproběhl v pořádku, obraťte se na [dokumentaci služby Docke
 *OS Linux*
 
 ```none
-python3.9 docs/openDocs.py
+python3.9 RUNME.py
 ```
 
 *OS Windows*
@@ -68,7 +68,7 @@ Odhadovaná doba běhu skriptu je kolem 10 minut. Tento skript provede následuj
 - Vytvoří nativní C++ řešení ve složce `src/cmakeBuild`.
 - Spustí porovnání původní a nové implementace indexu HNSW nad malými kolekcemi se 100 000 prvky.
 - Otevře stránku s výsledky v jedné kartě internetového prohlížeče.
-- Otevře stránku s dokumentací indexu ve druhé kartě.
+- Otevře stránku s programátorskou dokumentací indexu ve druhé kartě.
 
 ## Výsledky srovnání
 
