@@ -92,7 +92,7 @@ class Dataset:
 
 	def generateAndWrite(self, name: str, outputDir: Path):
 		if not len(name):
-			raise ValueError("Dataset name cannot be empty.")
+			raise ValueError("Dataset name must not be empty.")
 
 		self.generate()
 		outputDir.mkdir(exist_ok=True)

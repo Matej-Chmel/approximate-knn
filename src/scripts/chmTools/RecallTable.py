@@ -104,7 +104,7 @@ class RecallTable:
 					next(d for d in datasets if d["name"] == cfg.dataset), jsonPath
 				)
 			except StopIteration:
-				raise AppError(f"{configStr(jsonPath)}: Dataset '{cfg.dataset}' not found.")
+				raise AppError(f"{configStr(jsonPath)}Dataset '{cfg.dataset}' not found.")
 
 	def run(self):
 		self.benchmarks = []
