@@ -86,15 +86,15 @@ $(document).ready(function(){initNavTree('_distance_function_8hpp_source.html','
 </div><!--header-->
 <div class="contents">
 <a href="_distance_function_8hpp.html">Zobrazit dokumentaci tohoto souboru.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#pragma once</span></div>
-<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="preprocessor">#include &lt;string&gt;</span></div>
-<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &lt;vector&gt;</span></div>
-<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span> </div>
-<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#if defined(SIMD_CAPABLE)</span></div>
-<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">    #include &lt;immintrin.h&gt;</span></div>
-<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span> </div>
-<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="preprocessor">    #ifdef _MSC_VER</span></div>
-<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="preprocessor">        #include &lt;intrin.h&gt;</span></div>
-<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="preprocessor">        #include &lt;stdexcept&gt;</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="preprocessor">#include &lt;stdexcept&gt;</span></div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &lt;string&gt;</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &lt;vector&gt;</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span> </div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#if defined(SIMD_CAPABLE)</span></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="preprocessor">    #include &lt;immintrin.h&gt;</span></div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span> </div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="preprocessor">    #ifdef _MSC_VER</span></div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="preprocessor">        #include &lt;intrin.h&gt;</span></div>
 <div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="preprocessor">    #else</span></div>
 <div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="preprocessor">        #include &lt;x86intrin.h&gt;</span></div>
 <div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="preprocessor">    #endif</span></div>
@@ -140,7 +140,7 @@ $(document).ready(function(){initNavTree('_distance_function_8hpp_source.html','
 <div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span>        <a class="code hl_function" href="structchm_1_1_distance_info.html#ad3edf1187969100516c1bf7173bc2296">DistanceInfo</a>(<span class="keyword">const</span> <span class="keywordtype">size_t</span> <a class="code hl_variable" href="structchm_1_1_distance_info.html#a7cee1cf1c9b8fafe1a9885b058bf2599">dimLeft</a>, <span class="keyword">const</span> <a class="code hl_struct" href="structchm_1_1_function_info.html">FunctionInfo</a> <a class="code hl_variable" href="structchm_1_1_distance_info.html#a72a92912b69a9466f7cdd7ccc7646e54">funcInfo</a>);</div>
 <div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span>    };</div>
 <div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span>}</div>
-<div class="ttc" id="anamespacechm_html"><div class="ttname"><a href="namespacechm.html">chm</a></div><div class="ttdef"><b>Definition:</b> Configuration.cpp:5</div></div>
+<div class="ttc" id="anamespacechm_html"><div class="ttname"><a href="namespacechm.html">chm</a></div><div class="ttdef"><b>Definition:</b> Configuration.cpp:6</div></div>
 <div class="ttc" id="anamespacechm_html_a1784e09c5179b094d1f696f496c0b592"><div class="ttname"><a href="namespacechm.html#a1784e09c5179b094d1f696f496c0b592">chm::getSIMDType</a></div><div class="ttdeci">SIMDType getSIMDType(std::string s)</div><div class="ttdef"><b>Definition:</b> DistanceFunction.cpp:31</div></div>
 <div class="ttc" id="anamespacechm_html_a246c5100d95586fee906819cc1eecdae"><div class="ttname"><a href="namespacechm.html#a246c5100d95586fee906819cc1eecdae">chm::getAvailableSIMD</a></div><div class="ttdeci">std::vector&lt; SIMDType &gt; getAvailableSIMD()</div><div class="ttdef"><b>Definition:</b> DistanceFunction.cpp:7</div></div>
 <div class="ttc" id="anamespacechm_html_a32cb02ac8c02f0f27c921c284020ab51"><div class="ttname"><a href="namespacechm.html#a32cb02ac8c02f0f27c921c284020ab51">chm::SIMDType</a></div><div class="ttdeci">SIMDType</div><div class="ttdef"><b>Definition:</b> DistanceFunction.hpp:44</div></div>
