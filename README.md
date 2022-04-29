@@ -2,7 +2,7 @@
 
 Příloha bakalářské práce na téma "Aproximace KNN problému".
 
-Obsahem přílohy je nová implementace indexu HNSW ve složce [src/index/chm](src/index/chm), kód srovnání s původní implementací [hnswlib](https://github.com/nmslib/hnswlib/releases/tag/v0.6.2) a dokumentace.
+Obsahem přílohy je nová implementace indexu HNSW ve složce [src/index/chm](src/index/chm), projekt srovnání s původní implementací [hnswlib](https://github.com/nmslib/hnswlib/releases/tag/v0.6.2) a dokumentace.
 
 Návod jak spustit ukázku obsahuje soubor `Uživatelská dokumentace.pdf`. Podrobný návod ke všem programům v této příloze obsahuje soubor `Podrobná uživatelská dokumentace.pdf`. Uživatelské dokumentace můžete také zobrazit v Markdown formátu ze složky [src/userDocs](src/userDocs).
 
