@@ -1,4 +1,5 @@
 #pragma once
+#include <stdexcept>
 #include <string>
 #include <vector>
 
@@ -7,7 +8,6 @@
 
 	#ifdef _MSC_VER
 		#include <intrin.h>
-		#include <stdexcept>
 	#else
 		#include <x86intrin.h>
 	#endif

@@ -310,12 +310,25 @@ namespace chm {
 	) {
 		const bool angular = getJSONValue<bool>(obj, "angular", configPath);
 		this->space = angular ? SpaceKind::ANGULAR : SpaceKind::EUCLIDEAN;
-		this->dim = getJSONValue<size_t>(obj, "dim", configPath);
+		this->dim = size_t(getJSONValue<uint>(obj, "dim", configPath));
 		this->k = getJSONValue<uint>(obj, "k", configPath);
 		this->name = getJSONValue<std::string>(obj, "name", configPath);
 		const uint seed = getJSONValue<uint>(obj, "seed", configPath);
 		this->testCount = getJSONValue<uint>(obj, "testCount", configPath);
 		this->trainCount = getJSONValue<uint>(obj, "trainCount", configPath);
+
+		if(!this->dim)
+			throw std::invalid_argument("Number of dimensions must be greater than 0.");
+		if(!this->k)
+			throw std::invalid_argument("Parameter \"k\" must be greater than 0.");
+		if(this->name.empty())
+			throw std::invalid_argument("Dataset name must not be empty.");
+		if(!this->testCount)
+			throw std::invalid_argument("Number of queries must be greater than 0.");
+		if(!this->trainCount)
+			throw std::invalid_argument(
+				"Number of elements in training dataset must be greater than 0."
+			);
 
 		{
 			s << "Generating dataset.\n";

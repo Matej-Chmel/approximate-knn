@@ -39,6 +39,15 @@ class Dataset:
 		self.generated = False
 		self.name: str = None
 
+		if self.dim <= 0:
+			raise ValueError("Dimension must be positive.")
+		if self.k <= 0:
+			raise ValueError('Parameter "k" must be positive.')
+		if self.testCount <= 0:
+			raise ValueError("Test count must be positive.")
+		if self.trainCount <= 0:
+			raise ValueError("Train count must be positive.")
+
 	def __str__(self):
 		return (
 			f"Dataset {self.name}: {'angular' if self.angular else 'euclidean'} space, "
@@ -82,6 +91,9 @@ class Dataset:
 		self.generated = True
 
 	def generateAndWrite(self, name: str, outputDir: Path):
+		if not len(name):
+			raise ValueError("Dataset name cannot be empty.")
+
 		self.generate()
 		outputDir.mkdir(exist_ok=True)
 		path = outputDir / name

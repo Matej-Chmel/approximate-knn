@@ -88,6 +88,11 @@ namespace chm {
 		),
 		normalize(kind == SpaceKind::ANGULAR), dim(dim) {
 
+		if(!this->dim)
+			throw std::invalid_argument("Number of dimensions must be greater than 0.");
+		if(!maxCount)
+			throw std::invalid_argument("Maximum number of elements must be greater than 0.");
+
 		this->data.resize(this->dim * maxCount);
 
 		if(this->normalize)

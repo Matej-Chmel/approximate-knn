@@ -1,11 +1,22 @@
 #include <algorithm>
 #include <cmath>
+#include <stdexcept>
 #include "Configuration.hpp"
 
 namespace chm {
 	Configuration::Configuration(const uint efConstruction, const uint mMax)
 		: efSearch(DEFAULT_EF_SEARCH), efConstruction(efConstruction),
-		mMax(mMax), mMax0(this->mMax * 2) {}
+		mMax(mMax), mMax0(this->mMax * 2) {
+
+			if(!this->efConstruction)
+				throw std::invalid_argument(
+					"Parameter \"efConstruction\" must be greater than 0."
+				);
+			if(!this->mMax)
+				throw std::invalid_argument(
+					"Parameter \"mMax\" must be greater than 0."
+				);
+		}
 
 	uint Configuration::getEfSearch() const {
 		return this->efSearch;

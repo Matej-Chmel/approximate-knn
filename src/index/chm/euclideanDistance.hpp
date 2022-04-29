@@ -1,5 +1,4 @@
 #pragma once
-#include <stdexcept>
 #include "DistanceFunction.hpp"
 
 namespace chm {
