@@ -13,7 +13,7 @@ def main():
 		label="PrefetchTab", legend=["Asynchronní", "Synchronní"], output=figuresDir / "PrefetchTab.tex"
 	))
 	lt.writeTable(lt.Args(
-		algoNames=["new-prefetch", "hnswlib"], calcPercent=True, dataset="sift-128-euclidean",
+		algoNames=["new-prefetch", "original"], calcPercent=True, dataset="sift-128-euclidean",
 		label="BenchmarkTab", legend=["Nová impl.", "Původní impl."], output=figuresDir / "BenchmarkTab.tex"
 	))
 

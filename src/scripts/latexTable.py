@@ -51,7 +51,7 @@ class Args:
 	label: str
 	legend: list[str]
 	output: Path
-	recompute: bool
+	recompute: bool = False
 
 	def __post_init__(self):
 		if not self.legend:
@@ -129,7 +129,9 @@ class Table:
 				name = ENGLISH_TO_CZECH_DATASET[self.dataset]
 			except KeyError:
 				available = ", ".join([*LONG_TO_SHORT_DATASET_NAMES, *ENGLISH_TO_CZECH_DATASET])
-				raise AppError(f"Unknown dataset name. Available names: {available}")
+				raise AppError(
+					f'Unknown dataset name "{self.dataset}". Available names: {available}'
+				)
 
 		return f"Datový soubor \\textit{{{name}}}"
 
